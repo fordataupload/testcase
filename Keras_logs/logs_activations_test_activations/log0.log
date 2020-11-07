@@ -1,0 +1,160 @@
+2020-10-03 14:40:56.886884: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 15 items
+
+activations_test.py ..FFFF.........                                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_softmax_valid ______________________________
+
+    def test_softmax_valid():
+        """Test using a reference implementation of softmax.
+        """
+        def softmax(values):
+            m = np.max(values)
+            e = np.exp(values - m)
+            return e / np.sum(e)
+    
+        x = K.placeholder(ndim=2)
+>       f = K.function([x], [activations.softmax(x)])
+
+activations_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = <tf.Tensor 'Placeholder:0' shape=(?, ?) dtype=float32>, axis = -1
+
+    def softmax(x, axis=-1):
+        """Softmax activation function.
+    
+        # Arguments
+            x: Input tensor.
+            axis: Integer, axis along which the softmax normalization is applied.
+    
+        # Returns
+            Tensor, output of softmax transformation.
+    
+        # Raises
+            ValueError: In case `dim(x) == 1`.
+        """
+        ndim = None
+        if ndim == 2:
+            return K.softmax(x)
+>       elif ndim > 2:
+E       TypeError: '>' not supported between instances of 'NoneType' and 'int'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\activations.py:30: TypeError
+____________________________ test_softmax_invalid _____________________________
+
+    def test_softmax_invalid():
+        """Test for the expected exception behaviour on invalid input
+        """
+    
+        x = K.placeholder(ndim=1)
+    
+        # One dimensional arrays are supposed to raise a value error
+        with pytest.raises(ValueError):
+>           f = K.function([x], [activations.softmax(x)])
+
+activations_test.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = <tf.Tensor 'Placeholder:0' shape=(?,) dtype=float32>, axis = -1
+
+    def softmax(x, axis=-1):
+        """Softmax activation function.
+    
+        # Arguments
+            x: Input tensor.
+            axis: Integer, axis along which the softmax normalization is applied.
+    
+        # Returns
+            Tensor, output of softmax transformation.
+    
+        # Raises
+            ValueError: In case `dim(x) == 1`.
+        """
+        ndim = None
+        if ndim == 2:
+            return K.softmax(x)
+>       elif ndim > 2:
+E       TypeError: '>' not supported between instances of 'NoneType' and 'int'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\activations.py:30: TypeError
+_______________________________ test_softmax_3d _______________________________
+
+    def test_softmax_3d():
+        """Test using a reference implementation of softmax.
+        """
+        def softmax(values, axis):
+            m = np.max(values, axis=axis, keepdims=True)
+            e = np.exp(values - m)
+            return e / np.sum(e, axis=axis, keepdims=True)
+    
+        x = K.placeholder(ndim=3)
+>       f = K.function([x], [activations.softmax(x, axis=1)])
+
+activations_test.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = <tf.Tensor 'Placeholder:0' shape=(?, ?, ?) dtype=float32>, axis = 1
+
+    def softmax(x, axis=-1):
+        """Softmax activation function.
+    
+        # Arguments
+            x: Input tensor.
+            axis: Integer, axis along which the softmax normalization is applied.
+    
+        # Returns
+            Tensor, output of softmax transformation.
+    
+        # Raises
+            ValueError: In case `dim(x) == 1`.
+        """
+        ndim = None
+        if ndim == 2:
+            return K.softmax(x)
+>       elif ndim > 2:
+E       TypeError: '>' not supported between instances of 'NoneType' and 'int'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\activations.py:30: TypeError
+________________________ test_time_distributed_softmax ________________________
+
+    def test_time_distributed_softmax():
+        x = K.placeholder(shape=(1, 1, 5))
+>       f = K.function([x], [activations.softmax(x)])
+
+activations_test.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = <tf.Tensor 'Placeholder:0' shape=(1, 1, 5) dtype=float32>, axis = -1
+
+    def softmax(x, axis=-1):
+        """Softmax activation function.
+    
+        # Arguments
+            x: Input tensor.
+            axis: Integer, axis along which the softmax normalization is applied.
+    
+        # Returns
+            Tensor, output of softmax transformation.
+    
+        # Raises
+            ValueError: In case `dim(x) == 1`.
+        """
+        ndim = None
+        if ndim == 2:
+            return K.softmax(x)
+>       elif ndim > 2:
+E       TypeError: '>' not supported between instances of 'NoneType' and 'int'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\activations.py:30: TypeError
+=========================== short test summary info ===========================
+FAILED activations_test.py::test_softmax_valid - TypeError: '>' not supported...
+FAILED activations_test.py::test_softmax_invalid - TypeError: '>' not support...
+FAILED activations_test.py::test_softmax_3d - TypeError: '>' not supported be...
+FAILED activations_test.py::test_time_distributed_softmax - TypeError: '>' no...
+======================== 4 failed, 11 passed in 3.15s =========================

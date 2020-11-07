@@ -1,0 +1,154 @@
+2020-10-03 14:41:41.549621: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 15 items
+
+activations_test.py ..FFF..........                                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_softmax_valid ______________________________
+
+    def test_softmax_valid():
+        """Test using a reference implementation of softmax.
+        """
+        def softmax(values):
+            m = np.max(values)
+            e = np.exp(values - m)
+            return e / np.sum(e)
+    
+        x = K.placeholder(ndim=2)
+>       f = K.function([x], [activations.softmax(x)])
+
+activations_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = <tf.Tensor 'Placeholder:0' shape=(?, ?) dtype=float32>, axis = -1
+
+    def softmax(x, axis=-1):
+        """Softmax activation function.
+    
+        # Arguments
+            x: Input tensor.
+            axis: Integer, axis along which the softmax normalization is applied.
+    
+        # Returns
+            Tensor, output of softmax transformation.
+    
+        # Raises
+            ValueError: In case `dim(x) == 1`.
+        """
+        ndim = K.ndim(x)
+        if ndim != 2:
+            return K.softmax(x)
+        elif ndim > 2:
+            e = K.exp(x - K.max(x, axis=axis, keepdims=True))
+            s = K.sum(e, axis=axis, keepdims=True)
+            return e / s
+        else:
+            raise ValueError('Cannot apply softmax to a tensor that is 1D. '
+>                            'Received input: %s' % x)
+E           ValueError: Cannot apply softmax to a tensor that is 1D. Received input: Tensor("Placeholder:0", shape=(?, ?), dtype=float32)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\activations.py:36: ValueError
+____________________________ test_softmax_invalid _____________________________
+
+    def test_softmax_invalid():
+        """Test for the expected exception behaviour on invalid input
+        """
+    
+        x = K.placeholder(ndim=1)
+    
+        # One dimensional arrays are supposed to raise a value error
+        with pytest.raises(ValueError):
+>           f = K.function([x], [activations.softmax(x)])
+E           Failed: DID NOT RAISE <class 'ValueError'>
+
+activations_test.py:79: Failed
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:41:46.976567: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-03 14:41:47.091302: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:41:47.093057: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:41:47.101902: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:41:47.108799: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:41:47.110798: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:41:47.117752: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:41:47.122126: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:41:47.144870: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:41:47.145840: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:41:47.146540: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-03 14:41:47.161577: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:41:47.162137: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:41:47.162484: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:41:47.162830: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:41:47.163176: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:41:47.163524: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:41:47.163871: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:41:47.164224: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:41:47.165055: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:41:48.261497: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:41:48.261918: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:41:48.262154: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:41:48.262938: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+_______________________________ test_softmax_3d _______________________________
+
+    def test_softmax_3d():
+        """Test using a reference implementation of softmax.
+        """
+        def softmax(values, axis):
+            m = np.max(values, axis=axis, keepdims=True)
+            e = np.exp(values - m)
+            return e / np.sum(e, axis=axis, keepdims=True)
+    
+        x = K.placeholder(ndim=3)
+        f = K.function([x], [activations.softmax(x, axis=1)])
+        test_values = get_standard_values()[:, :, np.newaxis].copy()
+    
+        result = f([test_values])[0]
+        expected = softmax(test_values, axis=1)
+>       assert_allclose(result, expected, rtol=1e-05)
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-05, atol=0
+E       
+E       Mismatched elements: 5 / 5 (100%)
+E       Max absolute difference: 0.8880402
+E       Max relative difference: 7.9317765
+E        x: array([[[1.],
+E               [1.],
+E               [1.],...
+E        y: array([[[0.11196 ],
+E               [0.123735],
+E               [0.184591],...
+
+activations_test.py:96: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:41:48.294392: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:41:48.295090: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:41:48.295527: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:41:48.295964: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:41:48.296351: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:41:48.296722: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:41:48.297083: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:41:48.297432: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:41:48.297993: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:41:48.298302: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:41:48.298655: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:41:48.298874: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:41:48.299355: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED activations_test.py::test_softmax_valid - ValueError: Cannot apply sof...
+FAILED activations_test.py::test_softmax_invalid - Failed: DID NOT RAISE <cla...
+FAILED activations_test.py::test_softmax_3d - AssertionError: 
+======================== 3 failed, 12 passed in 3.53s =========================

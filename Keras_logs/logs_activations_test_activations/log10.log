@@ -1,0 +1,57 @@
+2020-10-03 14:42:13.624014: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 15 items
+
+activations_test.py ............F..                                      [100%]
+
+================================== FAILURES ===================================
+__________________________________ test_selu __________________________________
+
+    def test_selu():
+        x = K.placeholder(ndim=2)
+        f = K.function([x], [activations.selu(x)])
+        alpha = 1.6732632423543772848170429916717
+        scale = 1.0507009873554804934193349852946
+    
+        positive_values = get_standard_values()
+        result = f([positive_values])[0]
+        assert_allclose(result, positive_values * scale, rtol=1e-05)
+    
+        negative_values = np.array([[-1, -2]], dtype=K.floatx())
+    
+        result = f([negative_values])[0]
+        true_result = (np.exp(negative_values) - 1) * scale * alpha
+    
+>       assert_allclose(result, true_result)
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-07, atol=0
+E       
+E       Mismatched elements: 2 / 2 (100%)
+E       Max absolute difference: 0.9085041
+E       Max relative difference: 0.5976347
+E        x: array([[-1.775501, -2.428671]], dtype=float32)
+E        y: array([[-1.111331, -1.520167]], dtype=float32)
+
+activations_test.py:226: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:42:19.543285: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:42:19.543891: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:42:19.544262: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:42:19.544666: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:42:19.545090: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:42:19.545518: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:42:19.545941: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:42:19.546335: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:42:19.546932: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:42:19.547259: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:42:19.547635: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:42:19.547868: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:42:19.548369: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED activations_test.py::test_selu - AssertionError: 
+======================== 1 failed, 14 passed in 3.45s =========================

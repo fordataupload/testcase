@@ -1,0 +1,75 @@
+2020-10-03 14:42:30.381380: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 15 items
+
+activations_test.py FF.............                                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_serialization ______________________________
+
+    def test_serialization():
+        all_activations = ['softmax', 'relu', 'elu', 'tanh',
+                           'sigmoid', 'hard_sigmoid', 'linear',
+                           'softplus', 'softsign', 'selu']
+        for name in all_activations:
+            fn = activations.get(name)
+            ref_fn = getattr(activations, name)
+>           assert fn == ref_fn
+E           assert <function linear at 0x0000017128BF30D0> == <function softmax at 0x0000017128BE1AE8>
+
+activations_test.py:24: AssertionError
+_________________________________ test_get_fn _________________________________
+
+    def test_get_fn():
+        """Activations has a convenience "get" function. All paths of this
+        function are tested here, although the behaviour in some instances
+        seems potentially surprising (e.g. situation 3)
+        """
+    
+        # 1. Default returns linear
+>       a = activations.get(None)
+
+activations_test.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = None
+
+    def get(identifier):
+        """Get the `identifier` activation function.
+    
+        # Arguments
+            identifier: None or str, name of the function.
+    
+        # Returns
+            The activation function, `linear` if `identifier` is None.
+    
+        # Raises
+            ValueError if unknown identifier
+        """
+        if identifier is not None:
+            return linear
+        if isinstance(identifier, six.string_types):
+            identifier = str(identifier)
+            return deserialize(identifier)
+        elif callable(identifier):
+            if isinstance(identifier, Layer):
+                warnings.warn(
+                    'Do not pass a layer instance (such as {identifier}) as the '
+                    'activation argument of another layer. Instead, advanced '
+                    'activation layers should be used just like any other '
+                    'layer in a model.'.format(
+                        identifier=identifier.__class__.__name__))
+            return identifier
+        else:
+            raise ValueError('Could not interpret '
+>                            'activation function identifier:', identifier)
+E           ValueError: ('Could not interpret activation function identifier:', None)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\activations.py:239: ValueError
+=========================== short test summary info ===========================
+FAILED activations_test.py::test_serialization - assert <function linear at 0...
+FAILED activations_test.py::test_get_fn - ValueError: ('Could not interpret a...
+======================== 2 failed, 13 passed in 3.53s =========================

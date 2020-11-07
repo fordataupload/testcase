@@ -1,0 +1,26 @@
+2020-10-03 14:43:05.386210: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 15 items
+
+activations_test.py F..............                                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_serialization ______________________________
+
+    def test_serialization():
+        all_activations = ['softmax', 'relu', 'elu', 'tanh',
+                           'sigmoid', 'hard_sigmoid', 'linear',
+                           'softplus', 'softsign', 'selu']
+        for name in all_activations:
+            fn = activations.get(name)
+            ref_fn = getattr(activations, name)
+>           assert fn == ref_fn
+E           assert None == <function softmax at 0x0000020CA94F2A60>
+
+activations_test.py:24: AssertionError
+=========================== short test summary info ===========================
+FAILED activations_test.py::test_serialization - assert None == <function sof...
+======================== 1 failed, 14 passed in 3.56s =========================

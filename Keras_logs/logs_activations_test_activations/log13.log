@@ -1,0 +1,2431 @@
+2020-10-03 14:42:39.625556: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 15 items
+
+activations_test.py ....FF.........                                      [100%]
+
+================================== FAILURES ===================================
+_______________________________ test_softmax_3d _______________________________
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001E844415F60>
+op_type_name = 'Sum', name = 'Sum'
+keywords = {'keep_dims': True, 'reduction_indices': 1}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001E84443DC88>
+op_def = name: "Sum"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "reduction_indices"
+  type_attr: "Tidx"...ult_value {
+    type: DT_INT32
+  }
+  allowed_values {
+    list {
+      type: DT_INT32
+      type: DT_INT64
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001E849B15DD8>
+deprecation_version = 0, default_type_attr_map = {'Tidx': tf.int32}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+>                 preferred_dtype=default_dtype)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:528: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, name = 'input', as_ref = False
+preferred_dtype = None, ctx = None
+accepted_result_types = (<class 'tensorflow.python.framework.ops.Tensor'>,)
+
+    def internal_convert_to_tensor(value,
+                                   dtype=None,
+                                   name=None,
+                                   as_ref=False,
+                                   preferred_dtype=None,
+                                   ctx=None,
+                                   accepted_result_types=(Tensor,)):
+      """Implementation of the public convert_to_tensor."""
+      if isinstance(value, EagerTensor):
+        if ctx is None:
+          ctx = context.context()
+        if not ctx.executing_eagerly():
+          graph = get_default_graph()
+          if not graph.building_function:
+            raise RuntimeError("Attempting to capture an EagerTensor without "
+                               "building a function.")
+          return graph.capture(value, name=name)
+    
+      if dtype is not None:
+        dtype = dtypes.as_dtype(dtype)
+      if isinstance(value, Tensor):
+        if dtype is not None and not dtype.is_compatible_with(value.dtype):
+          raise ValueError(
+              "Tensor conversion requested dtype %s for Tensor with dtype %s: %r" %
+              (dtype.name, value.dtype.name, value))
+        return value
+    
+      if preferred_dtype is not None:
+        preferred_dtype = dtypes.as_dtype(preferred_dtype)
+      for base_type, conversion_func in tensor_conversion_registry.get(type(value)):
+        # If dtype is None but preferred_dtype is not None, we try to
+        # cast to preferred_dtype first.
+        ret = None
+        if dtype is None and preferred_dtype is not None:
+          try:
+            ret = conversion_func(
+                value, dtype=preferred_dtype, name=name, as_ref=as_ref)
+          except (TypeError, ValueError):
+            # Could not coerce the conversion to use the preferred dtype.
+            pass
+          else:
+            if (ret is not NotImplemented and
+                ret.dtype.base_dtype != preferred_dtype.base_dtype):
+              raise TypeError("convert_to_tensor did not convert to "
+                              "the preferred dtype: %s vs %s " %
+                              (ret.dtype.base_dtype, preferred_dtype.base_dtype))
+    
+        if ret is None:
+>         ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+v = None, dtype = None, name = 'input', as_ref = False
+
+    def _constant_tensor_conversion_function(v, dtype=None, name=None,
+                                             as_ref=False):
+      _ = as_ref
+>     return constant(v, dtype=dtype, name=name)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, shape = None, name = 'input'
+
+    @tf_export("constant", v1=[])
+    def constant(value, dtype=None, shape=None, name="Const"):
+      """Creates a constant tensor.
+    
+      The resulting tensor is populated with values of type `dtype`, as
+      specified by arguments `value` and (optionally) `shape` (see examples
+      below).
+    
+      The argument `value` can be a constant value, or a list of values of type
+      `dtype`. If `value` is a list, then the length of the list must be less
+      than or equal to the number of elements implied by the `shape` argument (if
+      specified). In the case where the list length is less than the number of
+      elements specified by `shape`, the last element in the list will be used
+      to fill the remaining entries.
+    
+      The argument `shape` is optional. If present, it specifies the dimensions of
+      the resulting tensor. If not present, the shape of `value` is used.
+    
+      If the argument `dtype` is not specified, then the type is inferred from
+      the type of `value`.
+    
+      For example:
+    
+      ```python
+      # Constant 1-D Tensor populated with value list.
+      tensor = tf.constant([1, 2, 3, 4, 5, 6]) => [1 2 3 4 5 6]
+    
+      # Constant 1-D Tensor populated with value list.
+      tensor = tf.constant([1, 2, 3, 4, 5, 6], shape=(2,3))
+           => [[1 2 3], [4 5 6]]
+    
+      # Constant 2-D tensor populated with scalar value -1.
+      tensor = tf.constant(-1.0, shape=[2, 3]) => [[-1. -1. -1.]
+                                                   [-1. -1. -1.]]
+      ```
+    
+      `tf.constant` differs from `tf.fill` in a few ways:
+    
+      *   `tf.constant` supports arbitrary constants, not just uniform scalar
+          Tensors like `tf.fill`.
+      *   `tf.constant` creates a `Const` node in the computation graph with the
+          exact value at graph construction time. On the other hand, `tf.fill`
+          creates an Op in the graph that is expanded at runtime.
+      *   Because `tf.constant` only embeds constant values in the graph, it does
+          not support dynamic shapes based on other runtime Tensors, whereas
+          `tf.fill` does.
+    
+      Args:
+        value:          A constant value (or list) of output type `dtype`.
+    
+        dtype:          The type of the elements of the resulting tensor.
+    
+        shape:          Optional dimensions of resulting tensor.
+    
+        name:           Optional name for the tensor.
+    
+      Returns:
+        A Constant Tensor.
+    
+      Raises:
+        TypeError: if shape is incorrectly specified or unsupported.
+      """
+      return _constant_impl(value, dtype, shape, name, verify_shape=False,
+>                           allow_broadcast=True)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, shape = None, name = 'input', verify_shape = False
+allow_broadcast = True
+
+    def _constant_impl(
+        value, dtype, shape, name, verify_shape, allow_broadcast):
+      """Implementation of constant."""
+      ctx = context.context()
+      if ctx.executing_eagerly():
+        t = convert_to_eager_tensor(value, ctx, dtype)
+        if shape is None:
+          return t
+        shape = tensor_shape.as_shape(shape)
+        if shape == t.shape:
+          return t
+        if verify_shape:
+          raise TypeError("Expected Tensor's shape: %s, got %s." % (tuple(shape),
+                                                                    tuple(t.shape)))
+        num_t = t.shape.num_elements()
+        # TODO(josh11b): Implement shape -> eager tensor conversion.
+        if num_t == shape.num_elements():
+          return _eager_reshape(t, shape.as_list(), ctx)
+        if num_t == 1:
+          if t.dtype == dtypes.bool:
+            # We don't have a Fill kernel for bool dtype on GPU. So we first run
+            # Fill on CPU and then copy to GPU if needed.
+            with ops.device("/device:CPU:0"):
+              x = _eager_fill(shape.as_list(), t.cpu(), ctx)
+            return _eager_identity(x, ctx)
+          else:
+            return _eager_fill(shape.as_list(), t, ctx)
+        raise TypeError("Eager execution of tf.constant with unsupported shape "
+                        "(value has %d elements, shape is %s with %d elements)." %
+                        (num_t, shape, shape.num_elements()))
+      g = ops.get_default_graph()
+      tensor_value = attr_value_pb2.AttrValue()
+      tensor_value.tensor.CopyFrom(
+          tensor_util.make_tensor_proto(
+              value, dtype=dtype, shape=shape, verify_shape=verify_shape,
+>             allow_broadcast=allow_broadcast))
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = None, dtype = None, shape = None, verify_shape = False
+allow_broadcast = True
+
+    @tf_export("make_tensor_proto")
+    def make_tensor_proto(values, dtype=None, shape=None, verify_shape=False,
+                          allow_broadcast=False):
+      """Create a TensorProto.
+    
+      In TensorFlow 2.0, representing tensors as protos should no longer be a
+      common workflow. That said, this utility function is still useful for
+      generating TF Serving request protos:
+    
+        request = tensorflow_serving.apis.predict_pb2.PredictRequest()
+        request.model_spec.name = "my_model"
+        request.model_spec.signature_name = "serving_default"
+        request.inputs["images"].CopyFrom(tf.make_tensor_proto(X_new))
+    
+      make_tensor_proto accepts "values" of a python scalar, a python list, a
+      numpy ndarray, or a numpy scalar.
+    
+      If "values" is a python scalar or a python list, make_tensor_proto
+      first convert it to numpy ndarray. If dtype is None, the
+      conversion tries its best to infer the right numpy data
+      type. Otherwise, the resulting numpy array has a compatible data
+      type with the given dtype.
+    
+      In either case above, the numpy ndarray (either the caller provided
+      or the auto converted) must have the compatible type with dtype.
+    
+      make_tensor_proto then converts the numpy array to a tensor proto.
+    
+      If "shape" is None, the resulting tensor proto represents the numpy
+      array precisely.
+    
+      Otherwise, "shape" specifies the tensor's shape and the numpy array
+      can not have more elements than what "shape" specifies.
+    
+      Args:
+        values:         Values to put in the TensorProto.
+        dtype:          Optional tensor_pb2 DataType value.
+        shape:          List of integers representing the dimensions of tensor.
+        verify_shape:   Boolean that enables verification of a shape of values.
+        allow_broadcast:  Boolean that enables allowing scalars and 1 length vector
+            broadcasting. Cannot be true when verify_shape is true.
+    
+      Returns:
+        A `TensorProto`. Depending on the type, it may contain data in the
+        "tensor_content" attribute, which is not directly useful to Python programs.
+        To access the values you should convert the proto back to a numpy ndarray
+        with `tf.make_ndarray(proto)`.
+    
+        If `values` is a `TensorProto`, it is immediately returned; `dtype` and
+        `shape` are ignored.
+    
+      Raises:
+        TypeError:  if unsupported types are provided.
+        ValueError: if arguments have inappropriate values or if verify_shape is
+         True and shape of values is not equals to a shape from the argument.
+    
+      """
+      if allow_broadcast and verify_shape:
+        raise ValueError("allow_broadcast and verify_shape are not both allowed.")
+      if isinstance(values, tensor_pb2.TensorProto):
+        return values
+    
+      if dtype:
+        dtype = dtypes.as_dtype(dtype)
+    
+      is_quantized = (
+          dtype in [
+              dtypes.qint8, dtypes.quint8, dtypes.qint16, dtypes.quint16,
+              dtypes.qint32
+          ])
+    
+      if _is_array_like(values):
+        values = np.asarray(values)
+    
+      # We first convert value to a numpy array or scalar.
+      if isinstance(values, (np.ndarray, np.generic)):
+        if dtype and dtype.is_numpy_compatible:
+          nparray = values.astype(dtype.as_numpy_dtype)
+        else:
+          nparray = values
+      else:
+        if values is None:
+>         raise ValueError("None values not supported.")
+E         ValueError: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001E844415F60>
+op_type_name = 'Sum', name = 'Sum'
+keywords = {'keep_dims': True, 'reduction_indices': 1}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001E84443DC88>
+op_def = name: "Sum"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "reduction_indices"
+  type_attr: "Tidx"...ult_value {
+    type: DT_INT32
+  }
+  allowed_values {
+    list {
+      type: DT_INT32
+      type: DT_INT64
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001E849B15DD8>
+deprecation_version = 0, default_type_attr_map = {'Tidx': tf.int32}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+                  preferred_dtype=default_dtype)
+            except TypeError as err:
+              if dtype is None:
+                raise err
+              else:
+                raise TypeError(
+                    "Expected %s passed to parameter '%s' of op '%s', got %s of "
+                    "type '%s' instead. Error: %s" %
+                    (dtypes.as_dtype(dtype).name, input_arg.name, op_type_name,
+                     repr(values), type(values).__name__, err))
+            except ValueError:
+              # What type does convert_to_tensor think it has?
+              try:
+                observed = ops.internal_convert_to_tensor(
+>                   values, as_ref=input_arg.is_ref).dtype.name
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:542: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, name = None, as_ref = False, preferred_dtype = None
+ctx = None
+accepted_result_types = (<class 'tensorflow.python.framework.ops.Tensor'>,)
+
+    def internal_convert_to_tensor(value,
+                                   dtype=None,
+                                   name=None,
+                                   as_ref=False,
+                                   preferred_dtype=None,
+                                   ctx=None,
+                                   accepted_result_types=(Tensor,)):
+      """Implementation of the public convert_to_tensor."""
+      if isinstance(value, EagerTensor):
+        if ctx is None:
+          ctx = context.context()
+        if not ctx.executing_eagerly():
+          graph = get_default_graph()
+          if not graph.building_function:
+            raise RuntimeError("Attempting to capture an EagerTensor without "
+                               "building a function.")
+          return graph.capture(value, name=name)
+    
+      if dtype is not None:
+        dtype = dtypes.as_dtype(dtype)
+      if isinstance(value, Tensor):
+        if dtype is not None and not dtype.is_compatible_with(value.dtype):
+          raise ValueError(
+              "Tensor conversion requested dtype %s for Tensor with dtype %s: %r" %
+              (dtype.name, value.dtype.name, value))
+        return value
+    
+      if preferred_dtype is not None:
+        preferred_dtype = dtypes.as_dtype(preferred_dtype)
+      for base_type, conversion_func in tensor_conversion_registry.get(type(value)):
+        # If dtype is None but preferred_dtype is not None, we try to
+        # cast to preferred_dtype first.
+        ret = None
+        if dtype is None and preferred_dtype is not None:
+          try:
+            ret = conversion_func(
+                value, dtype=preferred_dtype, name=name, as_ref=as_ref)
+          except (TypeError, ValueError):
+            # Could not coerce the conversion to use the preferred dtype.
+            pass
+          else:
+            if (ret is not NotImplemented and
+                ret.dtype.base_dtype != preferred_dtype.base_dtype):
+              raise TypeError("convert_to_tensor did not convert to "
+                              "the preferred dtype: %s vs %s " %
+                              (ret.dtype.base_dtype, preferred_dtype.base_dtype))
+    
+        if ret is None:
+>         ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+v = None, dtype = None, name = None, as_ref = False
+
+    def _constant_tensor_conversion_function(v, dtype=None, name=None,
+                                             as_ref=False):
+      _ = as_ref
+>     return constant(v, dtype=dtype, name=name)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, shape = None, name = None
+
+    @tf_export("constant", v1=[])
+    def constant(value, dtype=None, shape=None, name="Const"):
+      """Creates a constant tensor.
+    
+      The resulting tensor is populated with values of type `dtype`, as
+      specified by arguments `value` and (optionally) `shape` (see examples
+      below).
+    
+      The argument `value` can be a constant value, or a list of values of type
+      `dtype`. If `value` is a list, then the length of the list must be less
+      than or equal to the number of elements implied by the `shape` argument (if
+      specified). In the case where the list length is less than the number of
+      elements specified by `shape`, the last element in the list will be used
+      to fill the remaining entries.
+    
+      The argument `shape` is optional. If present, it specifies the dimensions of
+      the resulting tensor. If not present, the shape of `value` is used.
+    
+      If the argument `dtype` is not specified, then the type is inferred from
+      the type of `value`.
+    
+      For example:
+    
+      ```python
+      # Constant 1-D Tensor populated with value list.
+      tensor = tf.constant([1, 2, 3, 4, 5, 6]) => [1 2 3 4 5 6]
+    
+      # Constant 1-D Tensor populated with value list.
+      tensor = tf.constant([1, 2, 3, 4, 5, 6], shape=(2,3))
+           => [[1 2 3], [4 5 6]]
+    
+      # Constant 2-D tensor populated with scalar value -1.
+      tensor = tf.constant(-1.0, shape=[2, 3]) => [[-1. -1. -1.]
+                                                   [-1. -1. -1.]]
+      ```
+    
+      `tf.constant` differs from `tf.fill` in a few ways:
+    
+      *   `tf.constant` supports arbitrary constants, not just uniform scalar
+          Tensors like `tf.fill`.
+      *   `tf.constant` creates a `Const` node in the computation graph with the
+          exact value at graph construction time. On the other hand, `tf.fill`
+          creates an Op in the graph that is expanded at runtime.
+      *   Because `tf.constant` only embeds constant values in the graph, it does
+          not support dynamic shapes based on other runtime Tensors, whereas
+          `tf.fill` does.
+    
+      Args:
+        value:          A constant value (or list) of output type `dtype`.
+    
+        dtype:          The type of the elements of the resulting tensor.
+    
+        shape:          Optional dimensions of resulting tensor.
+    
+        name:           Optional name for the tensor.
+    
+      Returns:
+        A Constant Tensor.
+    
+      Raises:
+        TypeError: if shape is incorrectly specified or unsupported.
+      """
+      return _constant_impl(value, dtype, shape, name, verify_shape=False,
+>                           allow_broadcast=True)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, shape = None, name = None, verify_shape = False
+allow_broadcast = True
+
+    def _constant_impl(
+        value, dtype, shape, name, verify_shape, allow_broadcast):
+      """Implementation of constant."""
+      ctx = context.context()
+      if ctx.executing_eagerly():
+        t = convert_to_eager_tensor(value, ctx, dtype)
+        if shape is None:
+          return t
+        shape = tensor_shape.as_shape(shape)
+        if shape == t.shape:
+          return t
+        if verify_shape:
+          raise TypeError("Expected Tensor's shape: %s, got %s." % (tuple(shape),
+                                                                    tuple(t.shape)))
+        num_t = t.shape.num_elements()
+        # TODO(josh11b): Implement shape -> eager tensor conversion.
+        if num_t == shape.num_elements():
+          return _eager_reshape(t, shape.as_list(), ctx)
+        if num_t == 1:
+          if t.dtype == dtypes.bool:
+            # We don't have a Fill kernel for bool dtype on GPU. So we first run
+            # Fill on CPU and then copy to GPU if needed.
+            with ops.device("/device:CPU:0"):
+              x = _eager_fill(shape.as_list(), t.cpu(), ctx)
+            return _eager_identity(x, ctx)
+          else:
+            return _eager_fill(shape.as_list(), t, ctx)
+        raise TypeError("Eager execution of tf.constant with unsupported shape "
+                        "(value has %d elements, shape is %s with %d elements)." %
+                        (num_t, shape, shape.num_elements()))
+      g = ops.get_default_graph()
+      tensor_value = attr_value_pb2.AttrValue()
+      tensor_value.tensor.CopyFrom(
+          tensor_util.make_tensor_proto(
+              value, dtype=dtype, shape=shape, verify_shape=verify_shape,
+>             allow_broadcast=allow_broadcast))
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = None, dtype = None, shape = None, verify_shape = False
+allow_broadcast = True
+
+    @tf_export("make_tensor_proto")
+    def make_tensor_proto(values, dtype=None, shape=None, verify_shape=False,
+                          allow_broadcast=False):
+      """Create a TensorProto.
+    
+      In TensorFlow 2.0, representing tensors as protos should no longer be a
+      common workflow. That said, this utility function is still useful for
+      generating TF Serving request protos:
+    
+        request = tensorflow_serving.apis.predict_pb2.PredictRequest()
+        request.model_spec.name = "my_model"
+        request.model_spec.signature_name = "serving_default"
+        request.inputs["images"].CopyFrom(tf.make_tensor_proto(X_new))
+    
+      make_tensor_proto accepts "values" of a python scalar, a python list, a
+      numpy ndarray, or a numpy scalar.
+    
+      If "values" is a python scalar or a python list, make_tensor_proto
+      first convert it to numpy ndarray. If dtype is None, the
+      conversion tries its best to infer the right numpy data
+      type. Otherwise, the resulting numpy array has a compatible data
+      type with the given dtype.
+    
+      In either case above, the numpy ndarray (either the caller provided
+      or the auto converted) must have the compatible type with dtype.
+    
+      make_tensor_proto then converts the numpy array to a tensor proto.
+    
+      If "shape" is None, the resulting tensor proto represents the numpy
+      array precisely.
+    
+      Otherwise, "shape" specifies the tensor's shape and the numpy array
+      can not have more elements than what "shape" specifies.
+    
+      Args:
+        values:         Values to put in the TensorProto.
+        dtype:          Optional tensor_pb2 DataType value.
+        shape:          List of integers representing the dimensions of tensor.
+        verify_shape:   Boolean that enables verification of a shape of values.
+        allow_broadcast:  Boolean that enables allowing scalars and 1 length vector
+            broadcasting. Cannot be true when verify_shape is true.
+    
+      Returns:
+        A `TensorProto`. Depending on the type, it may contain data in the
+        "tensor_content" attribute, which is not directly useful to Python programs.
+        To access the values you should convert the proto back to a numpy ndarray
+        with `tf.make_ndarray(proto)`.
+    
+        If `values` is a `TensorProto`, it is immediately returned; `dtype` and
+        `shape` are ignored.
+    
+      Raises:
+        TypeError:  if unsupported types are provided.
+        ValueError: if arguments have inappropriate values or if verify_shape is
+         True and shape of values is not equals to a shape from the argument.
+    
+      """
+      if allow_broadcast and verify_shape:
+        raise ValueError("allow_broadcast and verify_shape are not both allowed.")
+      if isinstance(values, tensor_pb2.TensorProto):
+        return values
+    
+      if dtype:
+        dtype = dtypes.as_dtype(dtype)
+    
+      is_quantized = (
+          dtype in [
+              dtypes.qint8, dtypes.quint8, dtypes.qint16, dtypes.quint16,
+              dtypes.qint32
+          ])
+    
+      if _is_array_like(values):
+        values = np.asarray(values)
+    
+      # We first convert value to a numpy array or scalar.
+      if isinstance(values, (np.ndarray, np.generic)):
+        if dtype and dtype.is_numpy_compatible:
+          nparray = values.astype(dtype.as_numpy_dtype)
+        else:
+          nparray = values
+      else:
+        if values is None:
+>         raise ValueError("None values not supported.")
+E         ValueError: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437: ValueError
+
+During handling of the above exception, another exception occurred:
+
+    def test_softmax_3d():
+        """Test using a reference implementation of softmax.
+        """
+        def softmax(values, axis):
+            m = np.max(values, axis=axis, keepdims=True)
+            e = np.exp(values - m)
+            return e / np.sum(e, axis=axis, keepdims=True)
+    
+        x = K.placeholder(ndim=3)
+>       f = K.function([x], [activations.softmax(x, axis=1)])
+
+activations_test.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\activations.py:32: in softmax
+    s = K.sum(e, axis=axis, keepdims=True)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:1695: in sum
+    return tf.reduce_sum(x, axis, keepdims)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:1516: in reduce_sum_v1
+    return reduce_sum(input_tensor, axis, keepdims, name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\dispatch.py:180: in wrapper
+    return target(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:1564: in reduce_sum
+    name=name))
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_math_ops.py:11166: in _sum
+    name=name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001E844415F60>
+op_type_name = 'Sum', name = 'Sum'
+keywords = {'keep_dims': True, 'reduction_indices': 1}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001E84443DC88>
+op_def = name: "Sum"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "reduction_indices"
+  type_attr: "Tidx"...ult_value {
+    type: DT_INT32
+  }
+  allowed_values {
+    list {
+      type: DT_INT32
+      type: DT_INT64
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001E849B15DD8>
+deprecation_version = 0, default_type_attr_map = {'Tidx': tf.int32}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+                  preferred_dtype=default_dtype)
+            except TypeError as err:
+              if dtype is None:
+                raise err
+              else:
+                raise TypeError(
+                    "Expected %s passed to parameter '%s' of op '%s', got %s of "
+                    "type '%s' instead. Error: %s" %
+                    (dtypes.as_dtype(dtype).name, input_arg.name, op_type_name,
+                     repr(values), type(values).__name__, err))
+            except ValueError:
+              # What type does convert_to_tensor think it has?
+              try:
+                observed = ops.internal_convert_to_tensor(
+                    values, as_ref=input_arg.is_ref).dtype.name
+              except ValueError as err:
+                raise ValueError(
+                    "Tried to convert '%s' to a tensor and failed. Error: %s" %
+>                   (input_name, err))
+E               ValueError: Tried to convert 'input' to a tensor and failed. Error: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:546: ValueError
+________________________ test_time_distributed_softmax ________________________
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001E844415F60>
+op_type_name = 'Sum', name = 'Sum'
+keywords = {'keep_dims': True, 'reduction_indices': -1}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001E84443DC88>
+op_def = name: "Sum"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "reduction_indices"
+  type_attr: "Tidx"...ult_value {
+    type: DT_INT32
+  }
+  allowed_values {
+    list {
+      type: DT_INT32
+      type: DT_INT64
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001EAA136D198>
+deprecation_version = 0, default_type_attr_map = {'Tidx': tf.int32}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+>                 preferred_dtype=default_dtype)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:528: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, name = 'input', as_ref = False
+preferred_dtype = None, ctx = None
+accepted_result_types = (<class 'tensorflow.python.framework.ops.Tensor'>,)
+
+    def internal_convert_to_tensor(value,
+                                   dtype=None,
+                                   name=None,
+                                   as_ref=False,
+                                   preferred_dtype=None,
+                                   ctx=None,
+                                   accepted_result_types=(Tensor,)):
+      """Implementation of the public convert_to_tensor."""
+      if isinstance(value, EagerTensor):
+        if ctx is None:
+          ctx = context.context()
+        if not ctx.executing_eagerly():
+          graph = get_default_graph()
+          if not graph.building_function:
+            raise RuntimeError("Attempting to capture an EagerTensor without "
+                               "building a function.")
+          return graph.capture(value, name=name)
+    
+      if dtype is not None:
+        dtype = dtypes.as_dtype(dtype)
+      if isinstance(value, Tensor):
+        if dtype is not None and not dtype.is_compatible_with(value.dtype):
+          raise ValueError(
+              "Tensor conversion requested dtype %s for Tensor with dtype %s: %r" %
+              (dtype.name, value.dtype.name, value))
+        return value
+    
+      if preferred_dtype is not None:
+        preferred_dtype = dtypes.as_dtype(preferred_dtype)
+      for base_type, conversion_func in tensor_conversion_registry.get(type(value)):
+        # If dtype is None but preferred_dtype is not None, we try to
+        # cast to preferred_dtype first.
+        ret = None
+        if dtype is None and preferred_dtype is not None:
+          try:
+            ret = conversion_func(
+                value, dtype=preferred_dtype, name=name, as_ref=as_ref)
+          except (TypeError, ValueError):
+            # Could not coerce the conversion to use the preferred dtype.
+            pass
+          else:
+            if (ret is not NotImplemented and
+                ret.dtype.base_dtype != preferred_dtype.base_dtype):
+              raise TypeError("convert_to_tensor did not convert to "
+                              "the preferred dtype: %s vs %s " %
+                              (ret.dtype.base_dtype, preferred_dtype.base_dtype))
+    
+        if ret is None:
+>         ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+v = None, dtype = None, name = 'input', as_ref = False
+
+    def _constant_tensor_conversion_function(v, dtype=None, name=None,
+                                             as_ref=False):
+      _ = as_ref
+>     return constant(v, dtype=dtype, name=name)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, shape = None, name = 'input'
+
+    @tf_export("constant", v1=[])
+    def constant(value, dtype=None, shape=None, name="Const"):
+      """Creates a constant tensor.
+    
+      The resulting tensor is populated with values of type `dtype`, as
+      specified by arguments `value` and (optionally) `shape` (see examples
+      below).
+    
+      The argument `value` can be a constant value, or a list of values of type
+      `dtype`. If `value` is a list, then the length of the list must be less
+      than or equal to the number of elements implied by the `shape` argument (if
+      specified). In the case where the list length is less than the number of
+      elements specified by `shape`, the last element in the list will be used
+      to fill the remaining entries.
+    
+      The argument `shape` is optional. If present, it specifies the dimensions of
+      the resulting tensor. If not present, the shape of `value` is used.
+    
+      If the argument `dtype` is not specified, then the type is inferred from
+      the type of `value`.
+    
+      For example:
+    
+      ```python
+      # Constant 1-D Tensor populated with value list.
+      tensor = tf.constant([1, 2, 3, 4, 5, 6]) => [1 2 3 4 5 6]
+    
+      # Constant 1-D Tensor populated with value list.
+      tensor = tf.constant([1, 2, 3, 4, 5, 6], shape=(2,3))
+           => [[1 2 3], [4 5 6]]
+    
+      # Constant 2-D tensor populated with scalar value -1.
+      tensor = tf.constant(-1.0, shape=[2, 3]) => [[-1. -1. -1.]
+                                                   [-1. -1. -1.]]
+      ```
+    
+      `tf.constant` differs from `tf.fill` in a few ways:
+    
+      *   `tf.constant` supports arbitrary constants, not just uniform scalar
+          Tensors like `tf.fill`.
+      *   `tf.constant` creates a `Const` node in the computation graph with the
+          exact value at graph construction time. On the other hand, `tf.fill`
+          creates an Op in the graph that is expanded at runtime.
+      *   Because `tf.constant` only embeds constant values in the graph, it does
+          not support dynamic shapes based on other runtime Tensors, whereas
+          `tf.fill` does.
+    
+      Args:
+        value:          A constant value (or list) of output type `dtype`.
+    
+        dtype:          The type of the elements of the resulting tensor.
+    
+        shape:          Optional dimensions of resulting tensor.
+    
+        name:           Optional name for the tensor.
+    
+      Returns:
+        A Constant Tensor.
+    
+      Raises:
+        TypeError: if shape is incorrectly specified or unsupported.
+      """
+      return _constant_impl(value, dtype, shape, name, verify_shape=False,
+>                           allow_broadcast=True)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, shape = None, name = 'input', verify_shape = False
+allow_broadcast = True
+
+    def _constant_impl(
+        value, dtype, shape, name, verify_shape, allow_broadcast):
+      """Implementation of constant."""
+      ctx = context.context()
+      if ctx.executing_eagerly():
+        t = convert_to_eager_tensor(value, ctx, dtype)
+        if shape is None:
+          return t
+        shape = tensor_shape.as_shape(shape)
+        if shape == t.shape:
+          return t
+        if verify_shape:
+          raise TypeError("Expected Tensor's shape: %s, got %s." % (tuple(shape),
+                                                                    tuple(t.shape)))
+        num_t = t.shape.num_elements()
+        # TODO(josh11b): Implement shape -> eager tensor conversion.
+        if num_t == shape.num_elements():
+          return _eager_reshape(t, shape.as_list(), ctx)
+        if num_t == 1:
+          if t.dtype == dtypes.bool:
+            # We don't have a Fill kernel for bool dtype on GPU. So we first run
+            # Fill on CPU and then copy to GPU if needed.
+            with ops.device("/device:CPU:0"):
+              x = _eager_fill(shape.as_list(), t.cpu(), ctx)
+            return _eager_identity(x, ctx)
+          else:
+            return _eager_fill(shape.as_list(), t, ctx)
+        raise TypeError("Eager execution of tf.constant with unsupported shape "
+                        "(value has %d elements, shape is %s with %d elements)." %
+                        (num_t, shape, shape.num_elements()))
+      g = ops.get_default_graph()
+      tensor_value = attr_value_pb2.AttrValue()
+      tensor_value.tensor.CopyFrom(
+          tensor_util.make_tensor_proto(
+              value, dtype=dtype, shape=shape, verify_shape=verify_shape,
+>             allow_broadcast=allow_broadcast))
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = None, dtype = None, shape = None, verify_shape = False
+allow_broadcast = True
+
+    @tf_export("make_tensor_proto")
+    def make_tensor_proto(values, dtype=None, shape=None, verify_shape=False,
+                          allow_broadcast=False):
+      """Create a TensorProto.
+    
+      In TensorFlow 2.0, representing tensors as protos should no longer be a
+      common workflow. That said, this utility function is still useful for
+      generating TF Serving request protos:
+    
+        request = tensorflow_serving.apis.predict_pb2.PredictRequest()
+        request.model_spec.name = "my_model"
+        request.model_spec.signature_name = "serving_default"
+        request.inputs["images"].CopyFrom(tf.make_tensor_proto(X_new))
+    
+      make_tensor_proto accepts "values" of a python scalar, a python list, a
+      numpy ndarray, or a numpy scalar.
+    
+      If "values" is a python scalar or a python list, make_tensor_proto
+      first convert it to numpy ndarray. If dtype is None, the
+      conversion tries its best to infer the right numpy data
+      type. Otherwise, the resulting numpy array has a compatible data
+      type with the given dtype.
+    
+      In either case above, the numpy ndarray (either the caller provided
+      or the auto converted) must have the compatible type with dtype.
+    
+      make_tensor_proto then converts the numpy array to a tensor proto.
+    
+      If "shape" is None, the resulting tensor proto represents the numpy
+      array precisely.
+    
+      Otherwise, "shape" specifies the tensor's shape and the numpy array
+      can not have more elements than what "shape" specifies.
+    
+      Args:
+        values:         Values to put in the TensorProto.
+        dtype:          Optional tensor_pb2 DataType value.
+        shape:          List of integers representing the dimensions of tensor.
+        verify_shape:   Boolean that enables verification of a shape of values.
+        allow_broadcast:  Boolean that enables allowing scalars and 1 length vector
+            broadcasting. Cannot be true when verify_shape is true.
+    
+      Returns:
+        A `TensorProto`. Depending on the type, it may contain data in the
+        "tensor_content" attribute, which is not directly useful to Python programs.
+        To access the values you should convert the proto back to a numpy ndarray
+        with `tf.make_ndarray(proto)`.
+    
+        If `values` is a `TensorProto`, it is immediately returned; `dtype` and
+        `shape` are ignored.
+    
+      Raises:
+        TypeError:  if unsupported types are provided.
+        ValueError: if arguments have inappropriate values or if verify_shape is
+         True and shape of values is not equals to a shape from the argument.
+    
+      """
+      if allow_broadcast and verify_shape:
+        raise ValueError("allow_broadcast and verify_shape are not both allowed.")
+      if isinstance(values, tensor_pb2.TensorProto):
+        return values
+    
+      if dtype:
+        dtype = dtypes.as_dtype(dtype)
+    
+      is_quantized = (
+          dtype in [
+              dtypes.qint8, dtypes.quint8, dtypes.qint16, dtypes.quint16,
+              dtypes.qint32
+          ])
+    
+      if _is_array_like(values):
+        values = np.asarray(values)
+    
+      # We first convert value to a numpy array or scalar.
+      if isinstance(values, (np.ndarray, np.generic)):
+        if dtype and dtype.is_numpy_compatible:
+          nparray = values.astype(dtype.as_numpy_dtype)
+        else:
+          nparray = values
+      else:
+        if values is None:
+>         raise ValueError("None values not supported.")
+E         ValueError: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001E844415F60>
+op_type_name = 'Sum', name = 'Sum'
+keywords = {'keep_dims': True, 'reduction_indices': -1}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001E84443DC88>
+op_def = name: "Sum"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "reduction_indices"
+  type_attr: "Tidx"...ult_value {
+    type: DT_INT32
+  }
+  allowed_values {
+    list {
+      type: DT_INT32
+      type: DT_INT64
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001EAA136D198>
+deprecation_version = 0, default_type_attr_map = {'Tidx': tf.int32}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+                  preferred_dtype=default_dtype)
+            except TypeError as err:
+              if dtype is None:
+                raise err
+              else:
+                raise TypeError(
+                    "Expected %s passed to parameter '%s' of op '%s', got %s of "
+                    "type '%s' instead. Error: %s" %
+                    (dtypes.as_dtype(dtype).name, input_arg.name, op_type_name,
+                     repr(values), type(values).__name__, err))
+            except ValueError:
+              # What type does convert_to_tensor think it has?
+              try:
+                observed = ops.internal_convert_to_tensor(
+>                   values, as_ref=input_arg.is_ref).dtype.name
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:542: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, name = None, as_ref = False, preferred_dtype = None
+ctx = None
+accepted_result_types = (<class 'tensorflow.python.framework.ops.Tensor'>,)
+
+    def internal_convert_to_tensor(value,
+                                   dtype=None,
+                                   name=None,
+                                   as_ref=False,
+                                   preferred_dtype=None,
+                                   ctx=None,
+                                   accepted_result_types=(Tensor,)):
+      """Implementation of the public convert_to_tensor."""
+      if isinstance(value, EagerTensor):
+        if ctx is None:
+          ctx = context.context()
+        if not ctx.executing_eagerly():
+          graph = get_default_graph()
+          if not graph.building_function:
+            raise RuntimeError("Attempting to capture an EagerTensor without "
+                               "building a function.")
+          return graph.capture(value, name=name)
+    
+      if dtype is not None:
+        dtype = dtypes.as_dtype(dtype)
+      if isinstance(value, Tensor):
+        if dtype is not None and not dtype.is_compatible_with(value.dtype):
+          raise ValueError(
+              "Tensor conversion requested dtype %s for Tensor with dtype %s: %r" %
+              (dtype.name, value.dtype.name, value))
+        return value
+    
+      if preferred_dtype is not None:
+        preferred_dtype = dtypes.as_dtype(preferred_dtype)
+      for base_type, conversion_func in tensor_conversion_registry.get(type(value)):
+        # If dtype is None but preferred_dtype is not None, we try to
+        # cast to preferred_dtype first.
+        ret = None
+        if dtype is None and preferred_dtype is not None:
+          try:
+            ret = conversion_func(
+                value, dtype=preferred_dtype, name=name, as_ref=as_ref)
+          except (TypeError, ValueError):
+            # Could not coerce the conversion to use the preferred dtype.
+            pass
+          else:
+            if (ret is not NotImplemented and
+                ret.dtype.base_dtype != preferred_dtype.base_dtype):
+              raise TypeError("convert_to_tensor did not convert to "
+                              "the preferred dtype: %s vs %s " %
+                              (ret.dtype.base_dtype, preferred_dtype.base_dtype))
+    
+        if ret is None:
+>         ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+v = None, dtype = None, name = None, as_ref = False
+
+    def _constant_tensor_conversion_function(v, dtype=None, name=None,
+                                             as_ref=False):
+      _ = as_ref
+>     return constant(v, dtype=dtype, name=name)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, shape = None, name = None
+
+    @tf_export("constant", v1=[])
+    def constant(value, dtype=None, shape=None, name="Const"):
+      """Creates a constant tensor.
+    
+      The resulting tensor is populated with values of type `dtype`, as
+      specified by arguments `value` and (optionally) `shape` (see examples
+      below).
+    
+      The argument `value` can be a constant value, or a list of values of type
+      `dtype`. If `value` is a list, then the length of the list must be less
+      than or equal to the number of elements implied by the `shape` argument (if
+      specified). In the case where the list length is less than the number of
+      elements specified by `shape`, the last element in the list will be used
+      to fill the remaining entries.
+    
+      The argument `shape` is optional. If present, it specifies the dimensions of
+      the resulting tensor. If not present, the shape of `value` is used.
+    
+      If the argument `dtype` is not specified, then the type is inferred from
+      the type of `value`.
+    
+      For example:
+    
+      ```python
+      # Constant 1-D Tensor populated with value list.
+      tensor = tf.constant([1, 2, 3, 4, 5, 6]) => [1 2 3 4 5 6]
+    
+      # Constant 1-D Tensor populated with value list.
+      tensor = tf.constant([1, 2, 3, 4, 5, 6], shape=(2,3))
+           => [[1 2 3], [4 5 6]]
+    
+      # Constant 2-D tensor populated with scalar value -1.
+      tensor = tf.constant(-1.0, shape=[2, 3]) => [[-1. -1. -1.]
+                                                   [-1. -1. -1.]]
+      ```
+    
+      `tf.constant` differs from `tf.fill` in a few ways:
+    
+      *   `tf.constant` supports arbitrary constants, not just uniform scalar
+          Tensors like `tf.fill`.
+      *   `tf.constant` creates a `Const` node in the computation graph with the
+          exact value at graph construction time. On the other hand, `tf.fill`
+          creates an Op in the graph that is expanded at runtime.
+      *   Because `tf.constant` only embeds constant values in the graph, it does
+          not support dynamic shapes based on other runtime Tensors, whereas
+          `tf.fill` does.
+    
+      Args:
+        value:          A constant value (or list) of output type `dtype`.
+    
+        dtype:          The type of the elements of the resulting tensor.
+    
+        shape:          Optional dimensions of resulting tensor.
+    
+        name:           Optional name for the tensor.
+    
+      Returns:
+        A Constant Tensor.
+    
+      Raises:
+        TypeError: if shape is incorrectly specified or unsupported.
+      """
+      return _constant_impl(value, dtype, shape, name, verify_shape=False,
+>                           allow_broadcast=True)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = None, dtype = None, shape = None, name = None, verify_shape = False
+allow_broadcast = True
+
+    def _constant_impl(
+        value, dtype, shape, name, verify_shape, allow_broadcast):
+      """Implementation of constant."""
+      ctx = context.context()
+      if ctx.executing_eagerly():
+        t = convert_to_eager_tensor(value, ctx, dtype)
+        if shape is None:
+          return t
+        shape = tensor_shape.as_shape(shape)
+        if shape == t.shape:
+          return t
+        if verify_shape:
+          raise TypeError("Expected Tensor's shape: %s, got %s." % (tuple(shape),
+                                                                    tuple(t.shape)))
+        num_t = t.shape.num_elements()
+        # TODO(josh11b): Implement shape -> eager tensor conversion.
+        if num_t == shape.num_elements():
+          return _eager_reshape(t, shape.as_list(), ctx)
+        if num_t == 1:
+          if t.dtype == dtypes.bool:
+            # We don't have a Fill kernel for bool dtype on GPU. So we first run
+            # Fill on CPU and then copy to GPU if needed.
+            with ops.device("/device:CPU:0"):
+              x = _eager_fill(shape.as_list(), t.cpu(), ctx)
+            return _eager_identity(x, ctx)
+          else:
+            return _eager_fill(shape.as_list(), t, ctx)
+        raise TypeError("Eager execution of tf.constant with unsupported shape "
+                        "(value has %d elements, shape is %s with %d elements)." %
+                        (num_t, shape, shape.num_elements()))
+      g = ops.get_default_graph()
+      tensor_value = attr_value_pb2.AttrValue()
+      tensor_value.tensor.CopyFrom(
+          tensor_util.make_tensor_proto(
+              value, dtype=dtype, shape=shape, verify_shape=verify_shape,
+>             allow_broadcast=allow_broadcast))
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = None, dtype = None, shape = None, verify_shape = False
+allow_broadcast = True
+
+    @tf_export("make_tensor_proto")
+    def make_tensor_proto(values, dtype=None, shape=None, verify_shape=False,
+                          allow_broadcast=False):
+      """Create a TensorProto.
+    
+      In TensorFlow 2.0, representing tensors as protos should no longer be a
+      common workflow. That said, this utility function is still useful for
+      generating TF Serving request protos:
+    
+        request = tensorflow_serving.apis.predict_pb2.PredictRequest()
+        request.model_spec.name = "my_model"
+        request.model_spec.signature_name = "serving_default"
+        request.inputs["images"].CopyFrom(tf.make_tensor_proto(X_new))
+    
+      make_tensor_proto accepts "values" of a python scalar, a python list, a
+      numpy ndarray, or a numpy scalar.
+    
+      If "values" is a python scalar or a python list, make_tensor_proto
+      first convert it to numpy ndarray. If dtype is None, the
+      conversion tries its best to infer the right numpy data
+      type. Otherwise, the resulting numpy array has a compatible data
+      type with the given dtype.
+    
+      In either case above, the numpy ndarray (either the caller provided
+      or the auto converted) must have the compatible type with dtype.
+    
+      make_tensor_proto then converts the numpy array to a tensor proto.
+    
+      If "shape" is None, the resulting tensor proto represents the numpy
+      array precisely.
+    
+      Otherwise, "shape" specifies the tensor's shape and the numpy array
+      can not have more elements than what "shape" specifies.
+    
+      Args:
+        values:         Values to put in the TensorProto.
+        dtype:          Optional tensor_pb2 DataType value.
+        shape:          List of integers representing the dimensions of tensor.
+        verify_shape:   Boolean that enables verification of a shape of values.
+        allow_broadcast:  Boolean that enables allowing scalars and 1 length vector
+            broadcasting. Cannot be true when verify_shape is true.
+    
+      Returns:
+        A `TensorProto`. Depending on the type, it may contain data in the
+        "tensor_content" attribute, which is not directly useful to Python programs.
+        To access the values you should convert the proto back to a numpy ndarray
+        with `tf.make_ndarray(proto)`.
+    
+        If `values` is a `TensorProto`, it is immediately returned; `dtype` and
+        `shape` are ignored.
+    
+      Raises:
+        TypeError:  if unsupported types are provided.
+        ValueError: if arguments have inappropriate values or if verify_shape is
+         True and shape of values is not equals to a shape from the argument.
+    
+      """
+      if allow_broadcast and verify_shape:
+        raise ValueError("allow_broadcast and verify_shape are not both allowed.")
+      if isinstance(values, tensor_pb2.TensorProto):
+        return values
+    
+      if dtype:
+        dtype = dtypes.as_dtype(dtype)
+    
+      is_quantized = (
+          dtype in [
+              dtypes.qint8, dtypes.quint8, dtypes.qint16, dtypes.quint16,
+              dtypes.qint32
+          ])
+    
+      if _is_array_like(values):
+        values = np.asarray(values)
+    
+      # We first convert value to a numpy array or scalar.
+      if isinstance(values, (np.ndarray, np.generic)):
+        if dtype and dtype.is_numpy_compatible:
+          nparray = values.astype(dtype.as_numpy_dtype)
+        else:
+          nparray = values
+      else:
+        if values is None:
+>         raise ValueError("None values not supported.")
+E         ValueError: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437: ValueError
+
+During handling of the above exception, another exception occurred:
+
+    def test_time_distributed_softmax():
+        x = K.placeholder(shape=(1, 1, 5))
+>       f = K.function([x], [activations.softmax(x)])
+
+activations_test.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\activations.py:32: in softmax
+    s = K.sum(e, axis=axis, keepdims=True)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:1695: in sum
+    return tf.reduce_sum(x, axis, keepdims)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:1516: in reduce_sum_v1
+    return reduce_sum(input_tensor, axis, keepdims, name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\dispatch.py:180: in wrapper
+    return target(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:1564: in reduce_sum
+    name=name))
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_math_ops.py:11166: in _sum
+    name=name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001E844415F60>
+op_type_name = 'Sum', name = 'Sum'
+keywords = {'keep_dims': True, 'reduction_indices': -1}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001E84443DC88>
+op_def = name: "Sum"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "reduction_indices"
+  type_attr: "Tidx"...ult_value {
+    type: DT_INT32
+  }
+  allowed_values {
+    list {
+      type: DT_INT32
+      type: DT_INT64
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001EAA136D198>
+deprecation_version = 0, default_type_attr_map = {'Tidx': tf.int32}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+                  preferred_dtype=default_dtype)
+            except TypeError as err:
+              if dtype is None:
+                raise err
+              else:
+                raise TypeError(
+                    "Expected %s passed to parameter '%s' of op '%s', got %s of "
+                    "type '%s' instead. Error: %s" %
+                    (dtypes.as_dtype(dtype).name, input_arg.name, op_type_name,
+                     repr(values), type(values).__name__, err))
+            except ValueError:
+              # What type does convert_to_tensor think it has?
+              try:
+                observed = ops.internal_convert_to_tensor(
+                    values, as_ref=input_arg.is_ref).dtype.name
+              except ValueError as err:
+                raise ValueError(
+                    "Tried to convert '%s' to a tensor and failed. Error: %s" %
+>                   (input_name, err))
+E               ValueError: Tried to convert 'input' to a tensor and failed. Error: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:546: ValueError
+=========================== short test summary info ===========================
+FAILED activations_test.py::test_softmax_3d - ValueError: Tried to convert 'i...
+FAILED activations_test.py::test_time_distributed_softmax - ValueError: Tried...
+======================== 2 failed, 13 passed in 4.28s =========================

@@ -1,0 +1,86 @@
+2020-10-03 14:42:57.874480: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 15 items
+
+activations_test.py ............F..                                      [100%]
+
+================================== FAILURES ===================================
+__________________________________ test_selu __________________________________
+
+    def test_selu():
+        x = K.placeholder(ndim=2)
+        f = K.function([x], [activations.selu(x)])
+        alpha = 1.6732632423543772848170429916717
+        scale = 1.0507009873554804934193349852946
+    
+        positive_values = get_standard_values()
+        result = f([positive_values])[0]
+>       assert_allclose(result, positive_values * scale, rtol=1e-05)
+
+activations_test.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = array([[       inf, 10.50701  ,  2.101402 ,  1.1674457,  1.050701 ]],
+      dtype=float32)
+y = array([[0.        , 0.10507011, 0.5253505 , 0.9456309 , 1.050701  ]],
+      dtype=float32)
+func = <function assert_array_compare.<locals>.<lambda> at 0x000001A6BB068F28>
+hasval = '+inf'
+
+    def func_assert_same_pos(x, y, func=isnan, hasval='nan'):
+        """Handling nan/inf.
+    
+        Combine results of running func on x and y, checking that they are True
+        at the same locations.
+    
+        """
+        x_id = func(x)
+        y_id = func(y)
+        # We include work-arounds here to handle three types of slightly
+        # pathological ndarray subclasses:
+        # (1) all() on `masked` array scalars can return masked arrays, so we
+        #     use != True
+        # (2) __eq__ on some ndarray subclasses returns Python booleans
+        #     instead of element-wise comparisons, so we cast to bool_() and
+        #     use isinstance(..., bool) checks
+        # (3) subclasses with bare-bones __array_function__ implementations may
+        #     not implement np.all(), so favor using the .all() method
+        # We are not committed to supporting such subclasses, but it's nice to
+        # support them if possible.
+        if bool_(x_id == y_id).all() != True:
+            msg = build_err_msg([x, y],
+                                err_msg + '\nx and y %s location mismatch:'
+                                % (hasval), verbose=verbose, header=header,
+                                names=('x', 'y'), precision=precision)
+>           raise AssertionError(msg)
+E           AssertionError: 
+E           Not equal to tolerance rtol=1e-05, atol=0
+E           
+E           x and y +inf location mismatch:
+E            x: array([[      inf, 10.50701 ,  2.101402,  1.167446,  1.050701]],
+E                 dtype=float32)
+E            y: array([[0.      , 0.10507 , 0.525351, 0.945631, 1.050701]], dtype=float32)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py:746: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:43:02.605072: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:43:02.605647: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:43:02.605996: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:43:02.606346: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:43:02.606686: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:43:02.607028: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:43:02.607378: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:43:02.607728: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:43:02.608328: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:43:02.608634: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:43:02.608986: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:43:02.609211: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:43:02.609724: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED activations_test.py::test_selu - AssertionError: 
+======================== 1 failed, 14 passed in 2.98s =========================

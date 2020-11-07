@@ -1,0 +1,95 @@
+2020-10-03 14:42:06.010521: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 15 items
+
+activations_test.py ....FF.........                                      [100%]
+
+================================== FAILURES ===================================
+_______________________________ test_softmax_3d _______________________________
+
+    def test_softmax_3d():
+        """Test using a reference implementation of softmax.
+        """
+        def softmax(values, axis):
+            m = np.max(values, axis=axis, keepdims=True)
+            e = np.exp(values - m)
+            return e / np.sum(e, axis=axis, keepdims=True)
+    
+        x = K.placeholder(ndim=3)
+>       f = K.function([x], [activations.softmax(x, axis=1)])
+
+activations_test.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = <tf.Tensor 'Placeholder:0' shape=(?, ?, ?) dtype=float32>, axis = 1
+
+    def softmax(x, axis=-1):
+        """Softmax activation function.
+    
+        # Arguments
+            x: Input tensor.
+            axis: Integer, axis along which the softmax normalization is applied.
+    
+        # Returns
+            Tensor, output of softmax transformation.
+    
+        # Raises
+            ValueError: In case `dim(x) == 1`.
+        """
+        ndim = K.ndim(x)
+        if ndim == 2:
+            return K.softmax(x)
+        elif ndim > 3:
+            e = K.exp(x - K.max(x, axis=axis, keepdims=True))
+            s = K.sum(e, axis=axis, keepdims=True)
+            return e / s
+        else:
+            raise ValueError('Cannot apply softmax to a tensor that is 1D. '
+>                            'Received input: %s' % x)
+E           ValueError: Cannot apply softmax to a tensor that is 1D. Received input: Tensor("Placeholder:0", shape=(?, ?, ?), dtype=float32)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\activations.py:36: ValueError
+________________________ test_time_distributed_softmax ________________________
+
+    def test_time_distributed_softmax():
+        x = K.placeholder(shape=(1, 1, 5))
+>       f = K.function([x], [activations.softmax(x)])
+
+activations_test.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = <tf.Tensor 'Placeholder:0' shape=(1, 1, 5) dtype=float32>, axis = -1
+
+    def softmax(x, axis=-1):
+        """Softmax activation function.
+    
+        # Arguments
+            x: Input tensor.
+            axis: Integer, axis along which the softmax normalization is applied.
+    
+        # Returns
+            Tensor, output of softmax transformation.
+    
+        # Raises
+            ValueError: In case `dim(x) == 1`.
+        """
+        ndim = K.ndim(x)
+        if ndim == 2:
+            return K.softmax(x)
+        elif ndim > 3:
+            e = K.exp(x - K.max(x, axis=axis, keepdims=True))
+            s = K.sum(e, axis=axis, keepdims=True)
+            return e / s
+        else:
+            raise ValueError('Cannot apply softmax to a tensor that is 1D. '
+>                            'Received input: %s' % x)
+E           ValueError: Cannot apply softmax to a tensor that is 1D. Received input: Tensor("Placeholder:0", shape=(1, 1, 5), dtype=float32)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\activations.py:36: ValueError
+=========================== short test summary info ===========================
+FAILED activations_test.py::test_softmax_3d - ValueError: Cannot apply softma...
+FAILED activations_test.py::test_time_distributed_softmax - ValueError: Canno...
+======================== 2 failed, 13 passed in 2.99s =========================
