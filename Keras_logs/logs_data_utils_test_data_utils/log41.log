@@ -1,0 +1,167 @@
+2020-10-04 16:58:13.310407: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 13 items
+
+data_utils_test.py ....F.F.FF2020-10-04 16:58:52.152918: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+F..                                         [100%]
+
+================================== FAILURES ===================================
+________________________ test_ordered_enqueuer_threads ________________________
+
+    def test_ordered_enqueuer_threads():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+                                   use_multiprocessing=False)
+        enqueuer.start(3, 10)
+        gen_output = enqueuer.get()
+        acc = []
+        for i in range(100):
+            acc.append(next(gen_output)[0, 0, 0, 0])
+>       assert acc == list(range(100)), ('Order was not keep in GeneratorEnqueuer '
+                                         'with threads')
+E       AssertionError: Order was not keep in GeneratorEnqueuer with threads
+E       assert [29.0, 77.0, ....0, 49.0, ...] == [0, 1, 2, 3, 4, 5, ...]
+E         At index 0 diff: 29.0 != 0
+E         Use -v to get the full diff
+
+data_utils_test.py:279: AssertionError
+_______________________ test_ordered_enqueuer_processes _______________________
+
+    @use_spawn
+    def test_ordered_enqueuer_processes():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+                                   use_multiprocessing=True)
+        enqueuer.start(3, 10)
+        gen_output = enqueuer.get()
+        acc = []
+        for i in range(100):
+            acc.append(next(gen_output)[0, 0, 0, 0])
+>       assert acc == list(range(100)), ('Order was not keep in GeneratorEnqueuer '
+                                         'with processes')
+E       AssertionError: Order was not keep in GeneratorEnqueuer with processes
+E       assert [81.0, 9.0, 8....0, 46.0, ...] == [0, 1, 2, 3, 4, 5, ...]
+E         At index 0 diff: 81.0 != 0
+E         Use -v to get the full diff
+
+data_utils_test.py:307: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 16:58:29.009830: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:29.021468: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:29.026589: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+_________________________ test_on_epoch_end_processes _________________________
+
+    @use_spawn
+    def test_on_epoch_end_processes():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+                                   use_multiprocessing=True)
+        enqueuer.start(3, 10)
+        gen_output = enqueuer.get()
+        acc = []
+        for i in range(200):
+            acc.append(next(gen_output)[0, 0, 0, 0])
+>       assert acc[100:] == list([k * 5 for k in range(100)]), (
+            'Order was not keep in GeneratorEnqueuer with processes')
+E       AssertionError: Order was not keep in GeneratorEnqueuer with processes
+E       assert [155.0, 320.0...0, 190.0, ...] == [0, 5, 10, 15, 20, 25, ...]
+E         At index 0 diff: 155.0 != 0
+E         Use -v to get the full diff
+
+data_utils_test.py:329: AssertionError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+Using TensorFlow backend.
+Using TensorFlow backend.
+2020-10-04 16:58:34.790655: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:34.801162: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:34.811663: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:34.812110: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:34.815160: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:34.838963: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Using TensorFlow backend.
+Using TensorFlow backend.
+Using TensorFlow backend.
+2020-10-04 16:58:40.635371: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:40.650676: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:40.672320: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+_____________________________ test_context_switch _____________________________
+
+    @use_spawn
+    def test_context_switch():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+                                   use_multiprocessing=True)
+        enqueuer2 = OrderedEnqueuer(DummySequence([3, 10, 10, 3], value=15),
+                                    use_multiprocessing=True)
+        enqueuer.start(3, 10)
+        enqueuer2.start(3, 10)
+        gen_output = enqueuer.get()
+        gen_output2 = enqueuer2.get()
+        acc = []
+        for i in range(100):
+            acc.append(next(gen_output)[0, 0, 0, 0])
+>       assert acc[-1] == 99
+E       assert 16.0 == 99
+
+data_utils_test.py:347: AssertionError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+Using TensorFlow backend.
+Using TensorFlow backend.
+2020-10-04 16:58:46.297076: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:46.299996: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:46.316689: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:46.319115: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully open2020-10-04 16:58:46.ed 319450: dynI tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+amic library cudart64_100.dll
+2020-10-04 16:58:46.325749: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:46.328780: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:46.329646: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:46.335635: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+__________________________ test_on_epoch_end_threads __________________________
+
+    def test_on_epoch_end_threads():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+                                   use_multiprocessing=False)
+        enqueuer.start(3, 10)
+        gen_output = enqueuer.get()
+        acc = []
+        for i in range(100):
+            acc.append(next(gen_output)[0, 0, 0, 0])
+        acc = []
+        for i in range(100):
+            acc.append(next(gen_output)[0, 0, 0, 0])
+>       assert acc == list([k * 5 for k in range(100)]), (
+            'Order was not keep in GeneratorEnqueuer with processes')
+E       AssertionError: Order was not keep in GeneratorEnqueuer with processes
+E       assert [135.0, 100.0....0, 90.0, ...] == [0, 5, 10, 15, 20, 25, ...]
+E         At index 0 diff: 135.0 != 0
+E         Use -v to get the full diff
+
+data_utils_test.py:378: AssertionError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+Using TensorFlow backend.
+Using TensorFlow backend.
+2020-10-04 16:58:52.200240: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 16:58:52.210618: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dllUsing TensorFlow backend.
+
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_generator_enqueuer_fail_threads passed 1 out of the required 1 times. Success!
+test_finite_generator_enqueuer_threads passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED data_utils_test.py::test_ordered_enqueuer_threads - AssertionError: Or...
+FAILED data_utils_test.py::test_ordered_enqueuer_processes - AssertionError: ...
+FAILED data_utils_test.py::test_on_epoch_end_processes - AssertionError: Orde...
+FAILED data_utils_test.py::test_context_switch - assert 16.0 == 99
+FAILED data_utils_test.py::test_on_epoch_end_threads - AssertionError: Order ...
+=================== 5 failed, 8 passed, 1 warning in 49.30s ===================
+Using TensorFlow backend.

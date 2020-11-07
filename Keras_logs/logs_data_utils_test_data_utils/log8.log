@@ -1,0 +1,83 @@
+2020-10-04 16:01:19.174828: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 13 items
+
+data_utils_test.py FE............                                        [100%]Using TensorFlow backend.
+
+
+=================================== ERRORS ====================================
+____________________ ERROR at teardown of test_data_utils _____________________
+
+tmpdir = local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-290\\test_data_utils0')
+
+    @pytest.fixture
+    def in_tmpdir(tmpdir):
+        """Runs a function in a temporary directory.
+    
+        Checks that the directory is empty afterwards.
+        """
+        with tmpdir.as_cwd():
+            yield None
+>       assert not tmpdir.listdir()
+E       AssertionError: assert not [local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-290\\test_data_utils0\\test.tar.gz'), lo....txt'), local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-290\\test_data_utils0\\test.zip')]
+E        +  where [local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-290\\test_data_utils0\\test.tar.gz'), lo....txt'), local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-290\\test_data_utils0\\test.zip')] = <bound method LocalPath.listdir of local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-290\\test_data_utils0')>()
+E        +    where <bound method LocalPath.listdir of local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-290\\test_data_utils0')> = local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-290\\test_data_utils0').listdir
+
+data_utils_test.py:70: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Downloading data from file:///C:/Users/mutation/AppData/Local/Temp/pytest-of-mutation/pytest-290/test_data_utils0/test.tar.gz
+
+8192/150 [======================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================] - 0s 0us/step
+================================== FAILURES ===================================
+_______________________________ test_data_utils _______________________________
+
+in_tmpdir = None
+
+    def test_data_utils(in_tmpdir):
+        """Tests get_file from a url, plus extraction and validation.
+        """
+        dirname = 'data_utils'
+    
+        with open('test.txt', 'w') as text_file:
+            text_file.write('Float like a butterfly, sting like a bee.')
+    
+        with tarfile.open('test.tar.gz', 'w:gz') as tar_file:
+            tar_file.add('test.txt')
+    
+        with zipfile.ZipFile('test.zip', 'w') as zip_file:
+            zip_file.write('test.txt')
+    
+        origin = urljoin('file://', pathname2url(os.path.abspath('test.tar.gz')))
+    
+        path = get_file(dirname, origin, untar=True)
+        filepath = path + '.tar.gz'
+        data_keras_home = os.path.dirname(os.path.dirname(os.path.abspath(filepath)))
+>       assert data_keras_home == os.path.dirname(load_backend._config_path)
+E       AssertionError: assert 'C:\\tmp\\.keras' == 'C:\\Users\\mutation\\.keras'
+E         - C:\Users\mutation\.keras
+E         + C:\tmp\.keras
+
+C:\Users\mutation\Desktop\testcase\tests\keras\utils\data_utils_test.py:92: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Downloading data from file:///C:/Users/mutation/AppData/Local/Temp/pytest-of-mutation/pytest-290/test_data_utils0/test.tar.gz
+
+8192/150 [======================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================] - 0s 0us/step
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_generator_enqueuer_fail_threads passed 1 out of the required 1 times. Success!
+test_finite_generator_enqueuer_threads passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED data_utils_test.py::test_data_utils - AssertionError: assert 'C:\\tmp\...
+ERROR data_utils_test.py::test_data_utils - AssertionError: assert not [local...
+============== 1 failed, 12 passed, 1 warning, 1 error in 55.73s ==============

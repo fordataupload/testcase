@@ -1,0 +1,105 @@
+2020-10-04 16:03:20.247430: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 13 items
+
+data_utils_test.py FE............                                        [100%]Using TensorFlow backend.
+
+
+=================================== ERRORS ====================================
+____________________ ERROR at teardown of test_data_utils _____________________
+
+tmpdir = local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-292\\test_data_utils0')
+
+    @pytest.fixture
+    def in_tmpdir(tmpdir):
+        """Runs a function in a temporary directory.
+    
+        Checks that the directory is empty afterwards.
+        """
+        with tmpdir.as_cwd():
+            yield None
+>       assert not tmpdir.listdir()
+E       AssertionError: assert not [local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-292\\test_data_utils0\\test.tar.gz'), lo....txt'), local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-292\\test_data_utils0\\test.zip')]
+E        +  where [local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-292\\test_data_utils0\\test.tar.gz'), lo....txt'), local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-292\\test_data_utils0\\test.zip')] = <bound method LocalPath.listdir of local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-292\\test_data_utils0')>()
+E        +    where <bound method LocalPath.listdir of local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-292\\test_data_utils0')> = local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-292\\test_data_utils0').listdir
+
+data_utils_test.py:70: AssertionError
+================================== FAILURES ===================================
+_______________________________ test_data_utils _______________________________
+
+in_tmpdir = None
+
+    def test_data_utils(in_tmpdir):
+        """Tests get_file from a url, plus extraction and validation.
+        """
+        dirname = 'data_utils'
+    
+        with open('test.txt', 'w') as text_file:
+            text_file.write('Float like a butterfly, sting like a bee.')
+    
+        with tarfile.open('test.tar.gz', 'w:gz') as tar_file:
+            tar_file.add('test.txt')
+    
+        with zipfile.ZipFile('test.zip', 'w') as zip_file:
+            zip_file.write('test.txt')
+    
+        origin = urljoin('file://', pathname2url(os.path.abspath('test.tar.gz')))
+    
+>       path = get_file(dirname, origin, untar=True)
+
+C:\Users\mutation\Desktop\testcase\tests\keras\utils\data_utils_test.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:185: in get_file
+    os.makedirs(datadir)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'C:\\Users\\mutation\\.keras\\datasets', mode = 511, exist_ok = False
+
+    def makedirs(name, mode=0o777, exist_ok=False):
+        """makedirs(name [, mode=0o777][, exist_ok=False])
+    
+        Super-mkdir; create a leaf directory and all intermediate ones.  Works like
+        mkdir, except that any intermediate path segment (not just the rightmost)
+        will be created if it does not exist. If the target directory already
+        exists, raise an OSError if exist_ok is False. Otherwise no exception is
+        raised.  This is recursive.
+    
+        """
+        head, tail = path.split(name)
+        if not tail:
+            head, tail = path.split(head)
+        if head and tail and not path.exists(head):
+            try:
+                makedirs(head, mode, exist_ok)
+            except FileExistsError:
+                # Defeats race condition when another thread created the path
+                pass
+            cdir = curdir
+            if isinstance(tail, bytes):
+                cdir = bytes(curdir, 'ASCII')
+            if tail == cdir:           # xxx/newdir/. exists if xxx/newdir exists
+                return
+        try:
+>           mkdir(name, mode)
+E           FileExistsError: [WinError 183] 当文件已存在时，无法创建该文件。: 'C:\\Users\\mutation\\.keras\\datasets'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\os.py:220: FileExistsError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_generator_enqueuer_fail_threads passed 1 out of the required 1 times. Success!
+test_finite_generator_enqueuer_threads passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED data_utils_test.py::test_data_utils - FileExistsError: [WinError 183] ...
+ERROR data_utils_test.py::test_data_utils - AssertionError: assert not [local...
+============== 1 failed, 12 passed, 1 warning, 1 error in 55.98s ==============

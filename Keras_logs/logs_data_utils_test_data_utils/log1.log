@@ -1,0 +1,528 @@
+2020-10-04 15:55:17.964326: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 13 items
+
+data_utils_test.py .FFFFFFFFFFFF                                         [100%]
+
+================================== FAILURES ===================================
+_______________________ test_generator_enqueuer_threads _______________________
+
+    def test_generator_enqueuer_threads():
+        enqueuer = GeneratorEnqueuer(create_generator_from_sequence_threads(
+>           DummySequence([3, 10, 10, 3])), use_multiprocessing=False)
+
+data_utils_test.py:209: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:671: in __init__
+    super(GeneratorEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.GeneratorEnqueuer object at 0x00000246908F0A58>
+sequence = <data_utils_test.threadsafe_iter object at 0x00000246908F09B0>
+use_multiprocessing = False
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+_____________________ test_generator_enqueuer_threadsafe ______________________
+
+    def test_generator_enqueuer_threadsafe():
+        enqueuer = GeneratorEnqueuer(create_generator_from_sequence_pcs(
+>           DummySequence([3, 10, 10, 3])), use_multiprocessing=False)
+
+data_utils_test.py:241: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:671: in __init__
+    super(GeneratorEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.GeneratorEnqueuer object at 0x0000024692654AC8>
+sequence = <generator object create_generator_from_sequence_pcs at 0x0000024692661F68>
+use_multiprocessing = False
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+____________________ test_generator_enqueuer_fail_threads _____________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], StopIteration))
+    def test_generator_enqueuer_fail_threads():
+        enqueuer = GeneratorEnqueuer(create_generator_from_sequence_threads(
+>           FaultSequence()), use_multiprocessing=False)
+
+data_utils_test.py:254: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:671: in __init__
+    super(GeneratorEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.GeneratorEnqueuer object at 0x00000246924CFC50>
+sequence = <data_utils_test.threadsafe_iter object at 0x00000246924CF9B0>
+use_multiprocessing = False
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+________________________ test_ordered_enqueuer_threads ________________________
+
+    def test_ordered_enqueuer_threads():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+>                                  use_multiprocessing=False)
+
+data_utils_test.py:273: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:542: in __init__
+    super(OrderedEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.OrderedEnqueuer object at 0x00000246926E8550>
+sequence = <data_utils_test.DummySequence object at 0x00000246926E8D30>
+use_multiprocessing = False
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+__________________ test_ordered_enqueuer_threads_not_ordered __________________
+
+    def test_ordered_enqueuer_threads_not_ordered():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+                                   use_multiprocessing=False,
+>                                  shuffle=True)
+
+data_utils_test.py:287: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:542: in __init__
+    super(OrderedEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.OrderedEnqueuer object at 0x00000246924CFF60>
+sequence = <data_utils_test.DummySequence object at 0x00000246926546A0>
+use_multiprocessing = False
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+_______________________ test_ordered_enqueuer_processes _______________________
+
+    @use_spawn
+    def test_ordered_enqueuer_processes():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+>                                  use_multiprocessing=True)
+
+data_utils_test.py:301: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:542: in __init__
+    super(OrderedEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.OrderedEnqueuer object at 0x00000246926E8A20>
+sequence = <data_utils_test.DummySequence object at 0x00000246926E80F0>
+use_multiprocessing = True
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+_____________________ test_ordered_enqueuer_fail_threads ______________________
+
+    def test_ordered_enqueuer_fail_threads():
+>       enqueuer = OrderedEnqueuer(FaultSequence(), use_multiprocessing=False)
+
+data_utils_test.py:313: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:542: in __init__
+    super(OrderedEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.OrderedEnqueuer object at 0x00000246926D64E0>
+sequence = <data_utils_test.FaultSequence object at 0x00000246926D65C0>
+use_multiprocessing = False
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+_________________________ test_on_epoch_end_processes _________________________
+
+    @use_spawn
+    def test_on_epoch_end_processes():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+>                                  use_multiprocessing=True)
+
+data_utils_test.py:323: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:542: in __init__
+    super(OrderedEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.OrderedEnqueuer object at 0x00000246926ED3C8>
+sequence = <data_utils_test.DummySequence object at 0x00000246926ED320>
+use_multiprocessing = True
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+_____________________________ test_context_switch _____________________________
+
+    @use_spawn
+    def test_context_switch():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+>                                  use_multiprocessing=True)
+
+data_utils_test.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:542: in __init__
+    super(OrderedEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.OrderedEnqueuer object at 0x000002469271F8D0>
+sequence = <data_utils_test.DummySequence object at 0x000002469271F898>
+use_multiprocessing = True
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+__________________________ test_on_epoch_end_threads __________________________Using TensorFlow backend.
+
+
+    def test_on_epoch_end_threads():
+        enqueuer = OrderedEnqueuer(DummySequence([3, 10, 10, 3]),
+>                                  use_multiprocessing=False)
+
+data_utils_test.py:369: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:542: in __init__
+    super(OrderedEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.OrderedEnqueuer object at 0x0000024692684748>
+sequence = <data_utils_test.DummySequence object at 0x0000024692684710>
+use_multiprocessing = False
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+____________________ test_ordered_enqueuer_fail_processes _____________________
+
+    @use_spawn
+    def test_ordered_enqueuer_fail_processes():
+>       enqueuer = OrderedEnqueuer(FaultSequence(), use_multiprocessing=True)
+
+data_utils_test.py:385: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:542: in __init__
+    super(OrderedEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.OrderedEnqueuer object at 0x0000024690960278>
+sequence = <data_utils_test.FaultSequence object at 0x00000246909602B0>
+use_multiprocessing = True
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+___________________ test_finite_generator_enqueuer_threads ____________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_finite_generator_enqueuer_threads():
+        enqueuer = GeneratorEnqueuer(create_finite_generator_from_sequence_threads(
+>           DummySequence([3, 10, 10, 3])), use_multiprocessing=False)
+
+data_utils_test.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:671: in __init__
+    super(GeneratorEnqueuer, self).__init__(sequence, use_multiprocessing)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.utils.data_utils.GeneratorEnqueuer object at 0x00000246908BB710>
+sequence = <data_utils_test.threadsafe_iter object at 0x00000246908BB748>
+use_multiprocessing = False
+
+    def __init__(self, sequence,
+                 use_multiprocessing=False):
+        self.sequence = sequence
+        self.use_multiprocessing = use_multiprocessing
+    
+        global _SEQUENCE_COUNTER
+        if _SEQUENCE_COUNTER is None:
+            try:
+                _SEQUENCE_COUNTER = mp.Value('i', 0)
+            except OSError:
+                # In this case the OS does not allow us to use
+                # multiprocessing. We resort to an int
+                # for enqueuer indexing.
+                _SEQUENCE_COUNTER = 0
+    
+        if isinstance(_SEQUENCE_COUNTER, int):
+            self.uid = _SEQUENCE_COUNTER
+            _SEQUENCE_COUNTER += 1
+        else:
+            # Doing Multiprocessing.Value += x is not process-safe.
+>           with _SEQUENCE_COUNTER.get_lock():
+E           AttributeError: 'str' object has no attribute 'get_lock'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450: AttributeError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_generator_enqueuer_fail_threads failed and was not selected for rerun.
+	<class 'AttributeError'>
+	'str' object has no attribute 'get_lock'
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\utils\data_utils_test.py:254>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:671>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450>]
+test_finite_generator_enqueuer_threads failed and was not selected for rerun.
+	<class 'AttributeError'>
+	'str' object has no attribute 'get_lock'
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\utils\data_utils_test.py:407>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:671>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:450>]
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED data_utils_test.py::test_generator_enqueuer_threads - AttributeError: ...
+FAILED data_utils_test.py::test_generator_enqueuer_threadsafe - AttributeErro...
+FAILED data_utils_test.py::test_generator_enqueuer_fail_threads - AttributeEr...
+FAILED data_utils_test.py::test_ordered_enqueuer_threads - AttributeError: 's...
+FAILED data_utils_test.py::test_ordered_enqueuer_threads_not_ordered - Attrib...
+FAILED data_utils_test.py::test_ordered_enqueuer_processes - AttributeError: ...
+FAILED data_utils_test.py::test_ordered_enqueuer_fail_threads - AttributeErro...
+FAILED data_utils_test.py::test_on_epoch_end_processes - AttributeError: 'str...
+FAILED data_utils_test.py::test_context_switch - AttributeError: 'str' object...
+FAILED data_utils_test.py::test_on_epoch_end_threads - AttributeError: 'str' ...
+FAILED data_utils_test.py::test_ordered_enqueuer_fail_processes - AttributeEr...
+FAILED data_utils_test.py::test_finite_generator_enqueuer_threads - Attribute...
+=================== 12 failed, 1 passed, 1 warning in 1.66s ===================

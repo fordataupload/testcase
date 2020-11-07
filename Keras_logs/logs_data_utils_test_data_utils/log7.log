@@ -1,0 +1,139 @@
+2020-10-04 16:00:20.322877: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 13 items
+
+data_utils_test.py FE............                                        [100%]Using TensorFlow backend.
+
+
+=================================== ERRORS ====================================
+____________________ ERROR at teardown of test_data_utils _____________________
+
+tmpdir = local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-289\\test_data_utils0')
+
+    @pytest.fixture
+    def in_tmpdir(tmpdir):
+        """Runs a function in a temporary directory.
+    
+        Checks that the directory is empty afterwards.
+        """
+        with tmpdir.as_cwd():
+            yield None
+>       assert not tmpdir.listdir()
+E       AssertionError: assert not [local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-289\\test_data_utils0\\test.tar.gz'), lo....txt'), local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-289\\test_data_utils0\\test.zip')]
+E        +  where [local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-289\\test_data_utils0\\test.tar.gz'), lo....txt'), local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-289\\test_data_utils0\\test.zip')] = <bound method LocalPath.listdir of local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-289\\test_data_utils0')>()
+E        +    where <bound method LocalPath.listdir of local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-289\\test_data_utils0')> = local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-289\\test_data_utils0').listdir
+
+data_utils_test.py:70: AssertionError
+================================== FAILURES ===================================
+_______________________________ test_data_utils _______________________________
+
+in_tmpdir = None
+
+    def test_data_utils(in_tmpdir):
+        """Tests get_file from a url, plus extraction and validation.
+        """
+        dirname = 'data_utils'
+    
+        with open('test.txt', 'w') as text_file:
+            text_file.write('Float like a butterfly, sting like a bee.')
+    
+        with tarfile.open('test.tar.gz', 'w:gz') as tar_file:
+            tar_file.add('test.txt')
+    
+        with zipfile.ZipFile('test.zip', 'w') as zip_file:
+            zip_file.write('test.txt')
+    
+        origin = urljoin('file://', pathname2url(os.path.abspath('test.tar.gz')))
+    
+>       path = get_file(dirname, origin, untar=True)
+
+C:\Users\mutation\Desktop\testcase\tests\keras\utils\data_utils_test.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+fname = 'data_utils'
+origin = 'file:///C:/Users/mutation/AppData/Local/Temp/pytest-of-mutation/pytest-289/test_data_utils0/test.tar.gz'
+untar = True, md5_hash = None, file_hash = None, cache_subdir = 'datasets'
+hash_algorithm = 'auto', extract = False, archive_format = 'auto'
+cache_dir = 'C:\\Users\\mutation\\.keras'
+
+    def get_file(fname,
+                 origin,
+                 untar=False,
+                 md5_hash=None,
+                 file_hash=None,
+                 cache_subdir='datasets',
+                 hash_algorithm='auto',
+                 extract=False,
+                 archive_format='auto',
+                 cache_dir=None):
+        """Downloads a file from a URL if it not already in the cache.
+    
+        By default the file at the url `origin` is downloaded to the
+        cache_dir `~/.keras`, placed in the cache_subdir `datasets`,
+        and given the filename `fname`. The final location of a file
+        `example.txt` would therefore be `~/.keras/datasets/example.txt`.
+    
+        Files in tar, tar.gz, tar.bz, and zip formats can also be extracted.
+        Passing a hash will verify the file after download. The command line
+        programs `shasum` and `sha256sum` can compute the hash.
+    
+        # Arguments
+            fname: Name of the file. If an absolute path `/path/to/file.txt` is
+                specified the file will be saved at that location.
+            origin: Original URL of the file.
+            untar: Deprecated in favor of 'extract'.
+                boolean, whether the file should be decompressed
+            md5_hash: Deprecated in favor of 'file_hash'.
+                md5 hash of the file for verification
+            file_hash: The expected hash string of the file after download.
+                The sha256 and md5 hash algorithms are both supported.
+            cache_subdir: Subdirectory under the Keras cache dir where the file is
+                saved. If an absolute path `/path/to/folder` is
+                specified the file will be saved at that location.
+            hash_algorithm: Select the hash algorithm to verify the file.
+                options are 'md5', 'sha256', and 'auto'.
+                The default 'auto' detects the hash algorithm in use.
+            extract: True tries extracting the file as an Archive, like tar or zip.
+            archive_format: Archive format to try for extracting the file.
+                Options are 'auto', 'tar', 'zip', and None.
+                'tar' includes tar, tar.gz, and tar.bz files.
+                The default 'auto' is ['tar', 'zip'].
+                None or an empty list will return no matches found.
+            cache_dir: Location to store cached files, when None it
+                defaults to the [Keras Directory](/faq/#where-is-the-keras-configuration-filed-stored).
+    
+        # Returns
+            Path to the downloaded file
+        """  # noqa
+        if cache_dir is None:
+            if 'KERAS_HOME' in os.environ:
+                cache_dir = os.environ.get('KERAS_HOME')
+            else:
+                cache_dir = os.path.join(os.path.expanduser('~'), '.keras')
+        if md5_hash is not None and file_hash is None:
+            file_hash = md5_hash
+            hash_algorithm = 'md5'
+        datadir_base = None
+>       if not os.access(datadir_base, os.W_OK):
+E       TypeError: access: path should be string, bytes or os.PathLike, not NoneType
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\data_utils.py:181: TypeError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_generator_enqueuer_fail_threads passed 1 out of the required 1 times. Success!
+test_finite_generator_enqueuer_threads passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED data_utils_test.py::test_data_utils - TypeError: access: path should b...
+ERROR data_utils_test.py::test_data_utils - AssertionError: assert not [local...
+============== 1 failed, 12 passed, 1 warning, 1 error in 55.00s ==============
