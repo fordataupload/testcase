@@ -1,0 +1,62 @@
+2020-10-03 14:56:02.295794: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 111 items
+
+losses_test.py ......................................................... [ 51%]
+...............................................F......                   [100%]
+
+================================== FAILURES ===================================
+______________ TestCategoricalCrossentropy.test_label_smoothing _______________
+
+self = <losses_test.TestCategoricalCrossentropy object at 0x000001F753B0B588>
+
+    def test_label_smoothing(self):
+        logits = K.constant([[100.0, -100.0, -100.0]])
+        y_true = K.constant([[1, 0, 0]])
+        label_smoothing = 0.1
+        # Softmax Cross Entropy Loss: -\sum_i p_i \log q_i
+        # where for a softmax activation
+        # \log q_i = x_i - \log \sum_j \exp x_j
+        #          = x_i - x_max - \log \sum_j \exp (x_j - x_max)
+        # For our activations, [100, -100, -100]
+        # \log ( exp(0) + exp(-200) + exp(-200) ) = 0
+        # so our log softmaxes become: [0, -200, -200]
+        # Label smoothing: z' = z * (1 - L) + L/n
+        #                  1  = 1 - L + L/n
+        #                  0  = L/n
+        # Applying the above two fns to the given input:
+        # -0 * (1 - L + L/n) + 200 * L/n + 200 * L/n = 400 L/n
+        cce_obj = losses.CategoricalCrossentropy(
+            from_logits=True, label_smoothing=label_smoothing)
+        loss = cce_obj(y_true, logits)
+        expected_value = 400.0 * label_smoothing / 3.0
+>       assert np.isclose(K.eval(loss), expected_value, atol=1e-3)
+E       AssertionError: assert False
+E        +  where False = <function isclose at 0x000001F744EC12F0>(0.0, 13.333333333333334, atol=0.001)
+E        +    where <function isclose at 0x000001F744EC12F0> = np.isclose
+E        +    and   0.0 = <function eval at 0x000001F74CCBBBF8>(<tf.Tensor 'categorical_crossentropy/weighted_loss/truediv:0' shape=() dtype=float32>)
+E        +      where <function eval at 0x000001F74CCBBBF8> = K.eval
+
+losses_test.py:704: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:56:13.105884: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:56:13.106461: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:56:13.106807: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:56:13.107169: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:56:13.107514: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:56:13.107858: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:56:13.108201: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:56:13.108543: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:56:13.109112: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:56:13.109418: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:56:13.109772: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:56:13.109999: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:56:13.110512: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED losses_test.py::TestCategoricalCrossentropy::test_label_smoothing - As...
+======================== 1 failed, 110 passed in 9.22s ========================

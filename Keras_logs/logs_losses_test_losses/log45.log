@@ -1,0 +1,63 @@
+2020-10-03 14:56:45.624233: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 111 items
+
+losses_test.py ..........F............F................................. [ 51%]
+......................................................                   [100%]
+
+================================== FAILURES ===================================
+________ TestLossFunctions.test_objective_shapes_3d[cosine_proximity] _________
+
+self = <losses_test.TestLossFunctions object at 0x000001FAE41E2FD0>
+loss_fn = <function cosine_proximity at 0x000001FAE3BA9730>
+
+    @pytest.mark.parametrize('loss_fn', all_functions)
+    def test_objective_shapes_3d(self, loss_fn):
+        y_a = K.variable(np.random.random((5, 6, 7)))
+        y_b = K.variable(np.random.random((5, 6, 7)))
+>       objective_output = loss_fn(y_a, y_b)
+
+losses_test.py:61: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+y_true = <tf.Tensor 'l2_normalize:0' shape=(5, 6, 7) dtype=float32>
+y_pred = <tf.Tensor 'l2_normalize_1:0' shape=(5, 6, 7) dtype=float32>, axis = -1
+
+    def cosine_proximity(y_true, y_pred, axis=-1):
+        y_true = K.l2_normalize(y_true, axis=axis)
+        y_pred = K.l2_normalize(y_pred, axis=axis)
+>       return + K.sum(y_true * y_pred, axis=axis)
+E       TypeError: bad operand type for unary +: 'Tensor'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:724: TypeError
+________ TestLossFunctions.test_objective_shapes_2d[cosine_proximity] _________
+
+self = <losses_test.TestLossFunctions object at 0x000001FD20924EF0>
+loss_fn = <function cosine_proximity at 0x000001FAE3BA9730>
+
+    @pytest.mark.parametrize('loss_fn', all_functions)
+    def test_objective_shapes_2d(self, loss_fn):
+        y_a = K.variable(np.random.random((6, 7)))
+        y_b = K.variable(np.random.random((6, 7)))
+>       objective_output = loss_fn(y_a, y_b)
+
+losses_test.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+y_true = <tf.Tensor 'l2_normalize:0' shape=(6, 7) dtype=float32>
+y_pred = <tf.Tensor 'l2_normalize_1:0' shape=(6, 7) dtype=float32>, axis = -1
+
+    def cosine_proximity(y_true, y_pred, axis=-1):
+        y_true = K.l2_normalize(y_true, axis=axis)
+        y_pred = K.l2_normalize(y_pred, axis=axis)
+>       return + K.sum(y_true * y_pred, axis=axis)
+E       TypeError: bad operand type for unary +: 'Tensor'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:724: TypeError
+=========================== short test summary info ===========================
+FAILED losses_test.py::TestLossFunctions::test_objective_shapes_3d[cosine_proximity]
+FAILED losses_test.py::TestLossFunctions::test_objective_shapes_2d[cosine_proximity]
+======================== 2 failed, 109 passed in 9.22s ========================

@@ -1,0 +1,119 @@
+2020-10-03 14:45:31.292403: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 111 items
+
+losses_test.py ...............................FF........................ [ 51%]
+......................................................                   [100%]
+
+================================== FAILURES ===================================
+__________ TestLossFunctions.test_serializing_model_with_loss_class ___________
+
+self = <losses_test.TestLossFunctions object at 0x00000147498CE0F0>
+tmpdir = local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-226\\test_serializing_model_with_lo0')
+
+    def test_serializing_model_with_loss_class(self, tmpdir):
+        model_filename = str(tmpdir / 'custom_loss.hdf')
+    
+        with custom_object_scope({'MSE_MAE_loss': MSE_MAE_loss}):
+            loss = MSE_MAE_loss(0.3)
+            inputs = keras.layers.Input((2,))
+            outputs = keras.layers.Dense(1, name='model_output')(inputs)
+            model = keras.models.Model(inputs, outputs)
+>           model.compile(optimizer='sgd', loss={'model_output': loss})
+
+losses_test.py:135: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <losses_test.MSE_MAE_loss object at 0x0000014749805550>
+y_true = <tf.Tensor 'model_output_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'model_output/BiasAdd:0' shape=(?, 1) dtype=float32>
+sample_weight = <tf.Tensor 'model_output_sample_weights:0' shape=(?,) dtype=float32>
+
+    def __call__(self, y_true, y_pred, sample_weight=None):
+>       return (self.mse_fraction * losses.mse(y_true, y_pred) +
+                (1 - self.mse_fraction) * losses.mae(y_true, y_pred))
+E       TypeError: 'NoneType' object is not callable
+
+losses_test.py:48: TypeError
+_____________________ TestLossFunctions.test_loss_wrapper _____________________
+
+self = <losses_test.TestLossFunctions object at 0x00000149A12D7B38>
+
+    def test_loss_wrapper(self):
+>       loss_fn = losses.get('mse')
+
+losses_test.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:795: in get
+    return deserialize(identifier)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:776: in deserialize
+    printable_module_name='loss function')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = 'mse'
+module_objects = {'BinaryCrossentropy': <class 'keras.losses.BinaryCrossentropy'>, 'CategoricalCrossentropy': <class 'keras.losses.Cate...rossentropy'>, 'CategoricalHinge': <class 'keras.losses.CategoricalHinge'>, 'Hinge': <class 'keras.losses.Hinge'>, ...}
+custom_objects = None, printable_module_name = 'loss function'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+                                     ': ' + class_name)
+            if hasattr(cls, 'from_config'):
+                custom_objects = custom_objects or {}
+                if has_arg(cls.from_config, 'custom_objects'):
+                    return cls.from_config(
+                        config['config'],
+                        custom_objects=dict(list(_GLOBAL_CUSTOM_OBJECTS.items()) +
+                                            list(custom_objects.items())))
+                with CustomObjectScope(custom_objects):
+                    return cls.from_config(config['config'])
+            else:
+                # Then `cls` may be a function returning a class.
+                # in this case by convention `config` holds
+                # the kwargs of the function.
+                custom_objects = custom_objects or {}
+                with CustomObjectScope(custom_objects):
+                    return cls(**config['config'])
+        elif isinstance(identifier, six.string_types):
+            function_name = identifier
+            if custom_objects and function_name in custom_objects:
+                fn = custom_objects.get(function_name)
+            elif function_name in _GLOBAL_CUSTOM_OBJECTS:
+                fn = _GLOBAL_CUSTOM_OBJECTS[function_name]
+            else:
+                fn = module_objects.get(function_name)
+                if fn is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ':' + function_name)
+E                   ValueError: Unknown loss function:mse
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:167: ValueError
+=========================== short test summary info ===========================
+FAILED losses_test.py::TestLossFunctions::test_serializing_model_with_loss_class
+FAILED losses_test.py::TestLossFunctions::test_loss_wrapper - ValueError: Unk...
+======================== 2 failed, 109 passed in 9.44s ========================

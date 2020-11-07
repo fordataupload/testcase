@@ -1,0 +1,186 @@
+2020-10-03 14:54:28.870243: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 111 items
+
+losses_test.py ......................................................... [ 51%]
+......................FFFF.F..........................                   [100%]
+
+================================== FAILURES ===================================
+_______________ TestMeanAbsolutePercentageError.test_unweighted _______________
+
+self = <losses_test.TestMeanAbsolutePercentageError object at 0x000001ED1600DA90>
+
+    def test_unweighted(self):
+        mape_obj = losses.MeanAbsolutePercentageError()
+        y_true = K.constant([1, 9, 2, -5, -2, 6], shape=(2, 3))
+        y_pred = K.constant([4, 8, 12, 8, 1, 3], shape=(2, 3))
+        loss = mape_obj(y_true, y_pred)
+>       assert np.allclose(K.eval(loss), 211.8518, atol=1e-3)
+E       AssertionError: assert False
+E        +  where False = <function allclose at 0x000001ED7F774158>(213.97037, 211.8518, atol=0.001)
+E        +    where <function allclose at 0x000001ED7F774158> = np.allclose
+E        +    and   213.97037 = <function eval at 0x000001ED0F58BB70>(<tf.Tensor 'mean_absolute_percentage_error/weighted_loss/truediv:0' shape=() dtype=float32>)
+E        +      where <function eval at 0x000001ED0F58BB70> = K.eval
+
+losses_test.py:362: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:54:40.270808: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:54:40.271365: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:54:40.271714: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:54:40.272058: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:54:40.272406: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:54:40.272749: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:54:40.273096: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:54:40.273442: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:54:40.273994: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:54:40.274309: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:54:40.274655: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:54:40.274872: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:54:40.275374: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________ TestMeanAbsolutePercentageError.test_scalar_weighted _____________
+
+self = <losses_test.TestMeanAbsolutePercentageError object at 0x000001EFAB4624E0>
+
+    def test_scalar_weighted(self):
+        mape_obj = losses.MeanAbsolutePercentageError()
+        y_true = K.constant([1, 9, 2, -5, -2, 6], shape=(2, 3))
+        y_pred = K.constant([4, 8, 12, 8, 1, 3], shape=(2, 3))
+        loss = mape_obj(y_true, y_pred, sample_weight=2.3)
+>       assert np.allclose(K.eval(loss), 487.259, atol=1e-3)
+E       AssertionError: assert False
+E        +  where False = <function allclose at 0x000001ED7F774158>(492.13184, 487.259, atol=0.001)
+E        +    where <function allclose at 0x000001ED7F774158> = np.allclose
+E        +    and   492.13184 = <function eval at 0x000001ED0F58BB70>(<tf.Tensor 'mean_absolute_percentage_error/weighted_loss/truediv:0' shape=() dtype=float32>)
+E        +      where <function eval at 0x000001ED0F58BB70> = K.eval
+
+losses_test.py:369: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:54:41.731415: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:54:41.732009: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:54:41.732360: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:54:41.732717: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:54:41.733055: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:54:41.733399: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:54:41.733744: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:54:41.734088: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:54:41.734649: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:54:41.734963: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:54:41.735312: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:54:41.735566: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:54:41.736112: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________ TestMeanAbsolutePercentageError.test_sample_weighted _____________
+
+self = <losses_test.TestMeanAbsolutePercentageError object at 0x000001EFABA95BE0>
+
+    def test_sample_weighted(self):
+        mape_obj = losses.MeanAbsolutePercentageError()
+        y_true = K.constant([1, 9, 2, -5, -2, 6], shape=(2, 3))
+        y_pred = K.constant([4, 8, 12, 8, 1, 3], shape=(2, 3))
+        sample_weight = K.constant([1.2, 3.4], shape=(2, 1))
+        loss = mape_obj(y_true, y_pred, sample_weight=sample_weight)
+>       assert np.allclose(K.eval(loss), 422.8888, atol=1e-3)
+E       AssertionError: assert False
+E        +  where False = <function allclose at 0x000001ED7F774158>(427.1178, 422.8888, atol=0.001)
+E        +    where <function allclose at 0x000001ED7F774158> = np.allclose
+E        +    and   427.1178 = <function eval at 0x000001ED0F58BB70>(<tf.Tensor 'mean_absolute_percentage_error/weighted_loss/truediv:0' shape=() dtype=float32>)
+E        +      where <function eval at 0x000001ED0F58BB70> = K.eval
+
+losses_test.py:377: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:54:41.801730: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:54:41.802301: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:54:41.802653: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:54:41.802997: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:54:41.803338: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:54:41.803688: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:54:41.804038: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:54:41.804382: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:54:41.804938: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:54:41.805244: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:54:41.805591: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:54:41.805807: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:54:41.806291: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+___________ TestMeanAbsolutePercentageError.test_timestep_weighted ____________
+
+self = <losses_test.TestMeanAbsolutePercentageError object at 0x000001EFAB456470>
+
+    def test_timestep_weighted(self):
+        mape_obj = losses.MeanAbsolutePercentageError()
+        y_true = K.constant([1, 9, 2, -5, -2, 6], shape=(2, 3, 1))
+        y_pred = K.constant([4, 8, 12, 8, 1, 3], shape=(2, 3, 1))
+        sample_weight = K.constant([3, 6, 5, 0, 4, 2], shape=(2, 3))
+        loss = mape_obj(y_true, y_pred, sample_weight=sample_weight)
+>       assert np.allclose(K.eval(loss), 694.4445, atol=1e-3)
+E       AssertionError: assert False
+E        +  where False = <function allclose at 0x000001ED7F774158>(701.38885, 694.4445, atol=0.001)
+E        +    where <function allclose at 0x000001ED7F774158> = np.allclose
+E        +    and   701.38885 = <function eval at 0x000001ED0F58BB70>(<tf.Tensor 'mean_absolute_percentage_error/weighted_loss/truediv:0' shape=() dtype=float32>)
+E        +      where <function eval at 0x000001ED0F58BB70> = K.eval
+
+losses_test.py:385: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:54:41.934394: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:54:41.934987: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:54:41.935331: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:54:41.935677: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:54:41.936013: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:54:41.936361: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:54:41.936705: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:54:41.937055: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:54:41.937616: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:54:41.937931: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:54:41.938280: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:54:41.938497: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:54:41.939034: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+______________ TestMeanAbsolutePercentageError.test_no_reduction ______________
+
+self = <losses_test.TestMeanAbsolutePercentageError object at 0x000001ED0F9AC048>
+
+    def test_no_reduction(self):
+        mape_obj = losses.MeanAbsolutePercentageError(
+            reduction=losses_utils.Reduction.NONE)
+        y_true = K.constant([1, 9, 2, -5, -2, 6], shape=(2, 3))
+        y_pred = K.constant([4, 8, 12, 8, 1, 3], shape=(2, 3))
+        loss = mape_obj(y_true, y_pred, sample_weight=2.3)
+>       assert np.allclose(K.eval(loss), [621.8518, 352.6666], atol=1e-3)
+E       AssertionError: assert False
+E        +  where False = <function allclose at 0x000001ED7F774158>(array([628.0703 , 356.19333], dtype=float32), [621.8518, 352.6666], atol=0.001)
+E        +    where <function allclose at 0x000001ED7F774158> = np.allclose
+E        +    and   array([628.0703 , 356.19333], dtype=float32) = <function eval at 0x000001ED0F58BB70>(<tf.Tensor 'mean_absolute_percentage_error/weighted_loss/mul:0' shape=(2,) dtype=float32>)
+E        +      where <function eval at 0x000001ED0F58BB70> = K.eval
+
+losses_test.py:400: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:54:42.024792: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:54:42.025353: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:54:42.025698: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:54:42.026048: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:54:42.026385: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:54:42.026727: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:54:42.027074: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:54:42.027417: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:54:42.027969: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:54:42.028270: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:54:42.028620: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:54:42.028839: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:54:42.029320: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED losses_test.py::TestMeanAbsolutePercentageError::test_unweighted - Ass...
+FAILED losses_test.py::TestMeanAbsolutePercentageError::test_scalar_weighted
+FAILED losses_test.py::TestMeanAbsolutePercentageError::test_sample_weighted
+FAILED losses_test.py::TestMeanAbsolutePercentageError::test_timestep_weighted
+FAILED losses_test.py::TestMeanAbsolutePercentageError::test_no_reduction - A...
+======================= 5 failed, 106 passed in 10.56s ========================

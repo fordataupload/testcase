@@ -1,0 +1,440 @@
+2020-10-03 14:53:14.626952: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 111 items
+
+losses_test.py ..........................F.FF........................... [ 51%]
+..................................................FFFF                   [100%]
+
+================================== FAILURES ===================================
+_____________________ TestLossFunctions.test_cce_one_hot ______________________
+
+self = <losses_test.TestLossFunctions object at 0x00000279C1953F98>
+
+    def test_cce_one_hot(self):
+        y_a = K.variable(np.random.randint(0, 7, (5, 6)))
+        y_b = K.variable(np.random.random((5, 6, 7)))
+>       objective_output = losses.sparse_categorical_crossentropy(y_a, y_b)
+
+losses_test.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:696: in sparse_categorical_crossentropy
+    y_true, y_pred, from_logits=from_logits, axis=axis)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3409: in sparse_categorical_crossentropy
+    target, output, from_logits=from_logits, axis=axis)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:4442: in sparse_categorical_crossentropy
+    labels=target, logits=output)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:3477: in sparse_softmax_cross_entropy_with_logits_v2
+    labels=labels, logits=logits, name=name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+_sentinel = None, labels = <tf.Tensor 'Cast:0' shape=(5, 6) dtype=int64>
+logits = <tf.Tensor 'transpose:0' shape=(5, 7, 6) dtype=float32>, name = None
+
+    @tf_export(v1=["nn.sparse_softmax_cross_entropy_with_logits"])
+    def sparse_softmax_cross_entropy_with_logits(
+        _sentinel=None,  # pylint: disable=invalid-name
+        labels=None,
+        logits=None,
+        name=None):
+      """Computes sparse softmax cross entropy between `logits` and `labels`.
+    
+      Measures the probability error in discrete classification tasks in which the
+      classes are mutually exclusive (each entry is in exactly one class).  For
+      example, each CIFAR-10 image is labeled with one and only one label: an image
+      can be a dog or a truck, but not both.
+    
+      **NOTE:**  For this operation, the probability of a given label is considered
+      exclusive.  That is, soft classes are not allowed, and the `labels` vector
+      must provide a single specific index for the true class for each row of
+      `logits` (each minibatch entry).  For soft softmax classification with
+      a probability distribution for each entry, see
+      `softmax_cross_entropy_with_logits_v2`.
+    
+      **WARNING:** This op expects unscaled logits, since it performs a `softmax`
+      on `logits` internally for efficiency.  Do not call this op with the
+      output of `softmax`, as it will produce incorrect results.
+    
+      A common use case is to have logits of shape
+      `[batch_size, num_classes]` and have labels of shape
+      `[batch_size]`, but higher dimensions are supported, in which
+      case the `dim`-th dimension is assumed to be of size `num_classes`.
+      `logits` must have the dtype of `float16`, `float32`, or `float64`, and
+      `labels` must have the dtype of `int32` or `int64`.
+    
+      **Note that to avoid confusion, it is required to pass only named arguments to
+      this function.**
+    
+      Args:
+        _sentinel: Used to prevent positional parameters. Internal, do not use.
+        labels: `Tensor` of shape `[d_0, d_1, ..., d_{r-1}]` (where `r` is rank of
+          `labels` and result) and dtype `int32` or `int64`. Each entry in `labels`
+          must be an index in `[0, num_classes)`. Other values will raise an
+          exception when this op is run on CPU, and return `NaN` for corresponding
+          loss and gradient rows on GPU.
+        logits: Per-label activations (typically a linear output) of shape
+          `[d_0, d_1, ..., d_{r-1}, num_classes]` and dtype `float16`, `float32`, or
+          `float64`. These activation energies are interpreted as unnormalized log
+          probabilities.
+        name: A name for the operation (optional).
+    
+      Returns:
+        A `Tensor` of the same shape as `labels` and of the same type as `logits`
+        with the softmax cross entropy loss.
+    
+      Raises:
+        ValueError: If logits are scalars (need to have rank >= 1) or if the rank
+          of the labels is not equal to the rank of the logits minus one.
+      """
+      _ensure_xent_args("sparse_softmax_cross_entropy_with_logits", _sentinel,
+                        labels, logits)
+    
+      # TODO(pcmurray) Raise an error when the label is not an index in
+      # [0, num_classes). Note: This could break users who call this with bad
+      # labels, but disregard the bad results.
+    
+      # Reshape logits and labels to rank 2.
+      with ops.name_scope(name, "SparseSoftmaxCrossEntropyWithLogits",
+                          [labels, logits]):
+        labels = ops.convert_to_tensor(labels)
+        logits = ops.convert_to_tensor(logits)
+        precise_logits = math_ops.cast(logits, dtypes.float32) if (dtypes.as_dtype(
+            logits.dtype) == dtypes.float16) else logits
+    
+        # Store label shape for result later.
+        labels_static_shape = labels.get_shape()
+        labels_shape = array_ops.shape(labels)
+        static_shapes_fully_defined = (
+            labels_static_shape.is_fully_defined() and
+            logits.get_shape()[:-1].is_fully_defined())
+        if logits.get_shape().ndims is not None and logits.get_shape().ndims == 0:
+          raise ValueError(
+              "Logits cannot be scalars - received shape %s." % logits.get_shape())
+        if logits.get_shape().ndims is not None and (
+            labels_static_shape.ndims is not None and
+            labels_static_shape.ndims != logits.get_shape().ndims - 1):
+          raise ValueError("Rank mismatch: Rank of labels (received %s) should "
+                           "equal rank of logits minus 1 (received %s)." %
+                           (labels_static_shape.ndims, logits.get_shape().ndims))
+        if (static_shapes_fully_defined and
+            labels_static_shape != logits.get_shape()[:-1]):
+          raise ValueError("Shape mismatch: The shape of labels (received %s) "
+                           "should equal the shape of logits except for the last "
+                           "dimension (received %s)." % (labels_static_shape,
+>                                                        logits.get_shape()))
+E         ValueError: Shape mismatch: The shape of labels (received (5, 6)) should equal the shape of logits except for the last dimension (received (5, 7, 6)).
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:3393: ValueError
+___________ TestLossFunctions.test_sparse_categorical_crossentropy ____________
+
+self = <losses_test.TestLossFunctions object at 0x00000279FBEDF748>
+
+    def test_sparse_categorical_crossentropy(self):
+        y_pred = K.variable(np.array([[0.3, 0.6, 0.1],
+                                      [0.1, 0.2, 0.7]]))
+        y_true = K.variable(np.array([1, 2]))
+        expected_loss = - (np.log(0.6) + np.log(0.7)) / 2
+>       loss = K.eval(losses.sparse_categorical_crossentropy(y_true, y_pred))
+
+losses_test.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:696: in sparse_categorical_crossentropy
+    y_true, y_pred, from_logits=from_logits, axis=axis)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3409: in sparse_categorical_crossentropy
+    target, output, from_logits=from_logits, axis=axis)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:4442: in sparse_categorical_crossentropy
+    labels=target, logits=output)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:3477: in sparse_softmax_cross_entropy_with_logits_v2
+    labels=labels, logits=logits, name=name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+_sentinel = None, labels = <tf.Tensor 'Cast:0' shape=(2,) dtype=int64>
+logits = <tf.Tensor 'transpose:0' shape=(3, 2) dtype=float32>, name = None
+
+    @tf_export(v1=["nn.sparse_softmax_cross_entropy_with_logits"])
+    def sparse_softmax_cross_entropy_with_logits(
+        _sentinel=None,  # pylint: disable=invalid-name
+        labels=None,
+        logits=None,
+        name=None):
+      """Computes sparse softmax cross entropy between `logits` and `labels`.
+    
+      Measures the probability error in discrete classification tasks in which the
+      classes are mutually exclusive (each entry is in exactly one class).  For
+      example, each CIFAR-10 image is labeled with one and only one label: an image
+      can be a dog or a truck, but not both.
+    
+      **NOTE:**  For this operation, the probability of a given label is considered
+      exclusive.  That is, soft classes are not allowed, and the `labels` vector
+      must provide a single specific index for the true class for each row of
+      `logits` (each minibatch entry).  For soft softmax classification with
+      a probability distribution for each entry, see
+      `softmax_cross_entropy_with_logits_v2`.
+    
+      **WARNING:** This op expects unscaled logits, since it performs a `softmax`
+      on `logits` internally for efficiency.  Do not call this op with the
+      output of `softmax`, as it will produce incorrect results.
+    
+      A common use case is to have logits of shape
+      `[batch_size, num_classes]` and have labels of shape
+      `[batch_size]`, but higher dimensions are supported, in which
+      case the `dim`-th dimension is assumed to be of size `num_classes`.
+      `logits` must have the dtype of `float16`, `float32`, or `float64`, and
+      `labels` must have the dtype of `int32` or `int64`.
+    
+      **Note that to avoid confusion, it is required to pass only named arguments to
+      this function.**
+    
+      Args:
+        _sentinel: Used to prevent positional parameters. Internal, do not use.
+        labels: `Tensor` of shape `[d_0, d_1, ..., d_{r-1}]` (where `r` is rank of
+          `labels` and result) and dtype `int32` or `int64`. Each entry in `labels`
+          must be an index in `[0, num_classes)`. Other values will raise an
+          exception when this op is run on CPU, and return `NaN` for corresponding
+          loss and gradient rows on GPU.
+        logits: Per-label activations (typically a linear output) of shape
+          `[d_0, d_1, ..., d_{r-1}, num_classes]` and dtype `float16`, `float32`, or
+          `float64`. These activation energies are interpreted as unnormalized log
+          probabilities.
+        name: A name for the operation (optional).
+    
+      Returns:
+        A `Tensor` of the same shape as `labels` and of the same type as `logits`
+        with the softmax cross entropy loss.
+    
+      Raises:
+        ValueError: If logits are scalars (need to have rank >= 1) or if the rank
+          of the labels is not equal to the rank of the logits minus one.
+      """
+      _ensure_xent_args("sparse_softmax_cross_entropy_with_logits", _sentinel,
+                        labels, logits)
+    
+      # TODO(pcmurray) Raise an error when the label is not an index in
+      # [0, num_classes). Note: This could break users who call this with bad
+      # labels, but disregard the bad results.
+    
+      # Reshape logits and labels to rank 2.
+      with ops.name_scope(name, "SparseSoftmaxCrossEntropyWithLogits",
+                          [labels, logits]):
+        labels = ops.convert_to_tensor(labels)
+        logits = ops.convert_to_tensor(logits)
+        precise_logits = math_ops.cast(logits, dtypes.float32) if (dtypes.as_dtype(
+            logits.dtype) == dtypes.float16) else logits
+    
+        # Store label shape for result later.
+        labels_static_shape = labels.get_shape()
+        labels_shape = array_ops.shape(labels)
+        static_shapes_fully_defined = (
+            labels_static_shape.is_fully_defined() and
+            logits.get_shape()[:-1].is_fully_defined())
+        if logits.get_shape().ndims is not None and logits.get_shape().ndims == 0:
+          raise ValueError(
+              "Logits cannot be scalars - received shape %s." % logits.get_shape())
+        if logits.get_shape().ndims is not None and (
+            labels_static_shape.ndims is not None and
+            labels_static_shape.ndims != logits.get_shape().ndims - 1):
+          raise ValueError("Rank mismatch: Rank of labels (received %s) should "
+                           "equal rank of logits minus 1 (received %s)." %
+                           (labels_static_shape.ndims, logits.get_shape().ndims))
+        if (static_shapes_fully_defined and
+            labels_static_shape != logits.get_shape()[:-1]):
+          raise ValueError("Shape mismatch: The shape of labels (received %s) "
+                           "should equal the shape of logits except for the last "
+                           "dimension (received %s)." % (labels_static_shape,
+>                                                        logits.get_shape()))
+E         ValueError: Shape mismatch: The shape of labels (received (2,)) should equal the shape of logits except for the last dimension (received (3, 2)).
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:3393: ValueError
+__________ TestLossFunctions.test_sparse_categorical_crossentropy_4d __________
+
+self = <losses_test.TestLossFunctions object at 0x00000279FCBA9208>
+
+    def test_sparse_categorical_crossentropy_4d(self):
+        y_pred = K.variable(np.array([[[[0.7, 0.1, 0.2],
+                                        [0.0, 0.3, 0.7],
+                                        [0.1, 0.1, 0.8]],
+                                       [[0.3, 0.7, 0.0],
+                                        [0.3, 0.4, 0.3],
+                                        [0.2, 0.5, 0.3]],
+                                       [[0.8, 0.1, 0.1],
+                                        [1.0, 0.0, 0.0],
+                                        [0.4, 0.3, 0.3]]]]))
+        y_true = K.variable(np.array([[[0, 1, 0],
+                                       [2, 1, 0],
+                                       [2, 2, 1]]]))
+        expected_loss = - (np.log(0.7) + np.log(0.3) + np.log(0.1) +
+                           np.log(K.epsilon()) + np.log(0.4) + np.log(0.2) +
+                           np.log(0.1) + np.log(K.epsilon()) + np.log(0.3)) / 9
+        loss = K.eval(losses.sparse_categorical_crossentropy(y_true, y_pred))
+>       assert np.isclose(expected_loss, np.mean(loss))
+E       assert False
+E        +  where False = <function isclose at 0x00000279F3D112F0>(4.6813011872004, 4.2620573)
+E        +    where <function isclose at 0x00000279F3D112F0> = np.isclose
+E        +    and   4.2620573 = <function mean at 0x00000279F3CFB158>(array([[[ 0.13353154,  0.5108255 ,  2.1400661 ],\n        [ 1.3862944 ,  1.3862942 , 15.60727   ],\n        [ 1.7047479 ,  0.2876823 , 15.201805  ]]], dtype=float32))
+E        +      where <function mean at 0x00000279F3CFB158> = np.mean
+
+losses_test.py:115: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:53:22.156906: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:53:22.157510: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:53:22.157877: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:53:22.158224: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:53:22.158565: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:53:22.158904: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:53:22.159247: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:53:22.159597: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:53:22.160175: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:53:22.160493: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:53:22.160841: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:53:22.161068: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:53:22.161592: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+______________ TestSparseCategoricalCrossentropy.test_unweighted ______________
+
+self = <losses_test.TestSparseCategoricalCrossentropy object at 0x00000279FBF3B208>
+
+    def test_unweighted(self):
+        cce_obj = losses.SparseCategoricalCrossentropy()
+        y_true = K.constant([0, 1, 2])
+        y_pred = K.constant(
+            [[.9, .05, .05], [.5, .89, .6], [.05, .01, .94]])
+        loss = cce_obj(y_true, y_pred)
+>       assert np.isclose(K.eval(loss), .3239, atol=1e-3)
+E       AssertionError: assert False
+E        +  where False = <function isclose at 0x00000279F3D112F0>(0.3559247, 0.3239, atol=0.001)
+E        +    where <function isclose at 0x00000279F3D112F0> = np.isclose
+E        +    and   0.3559247 = <function eval at 0x00000279FBB0BB70>(<tf.Tensor 'sparse_categorical_crossentropy/weighted_loss/truediv:0' shape=() dtype=float32>)
+E        +      where <function eval at 0x00000279FBB0BB70> = K.eval
+
+losses_test.py:735: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:53:25.840864: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:53:25.841443: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:53:25.841798: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:53:25.842144: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:53:25.842484: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:53:25.842831: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:53:25.843181: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:53:25.843535: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:53:25.844126: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:53:25.844435: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:53:25.844794: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:53:25.845017: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:53:25.845518: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+___________ TestSparseCategoricalCrossentropy.test_scalar_weighted ____________
+
+self = <losses_test.TestSparseCategoricalCrossentropy object at 0x00000279C287C4E0>
+
+    def test_scalar_weighted(self):
+        cce_obj = losses.SparseCategoricalCrossentropy()
+        y_true = K.constant([[0], [1], [2]])
+        y_pred = K.constant(
+            [[.9, .05, .05], [.5, .89, .6], [.05, .01, .94]])
+        loss = cce_obj(y_true, y_pred, sample_weight=2.3)
+>       assert np.isclose(K.eval(loss), .7449, atol=1e-3)
+E       AssertionError: assert False
+E        +  where False = <function isclose at 0x00000279F3D112F0>(0.81862676, 0.7449, atol=0.001)
+E        +    where <function isclose at 0x00000279F3D112F0> = np.isclose
+E        +    and   0.81862676 = <function eval at 0x00000279FBB0BB70>(<tf.Tensor 'sparse_categorical_crossentropy/weighted_loss/truediv:0' shape=() dtype=float32>)
+E        +      where <function eval at 0x00000279FBB0BB70> = K.eval
+
+losses_test.py:749: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:53:25.894866: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:53:25.895453: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:53:25.895809: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:53:25.896164: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:53:25.896502: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:53:25.896853: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:53:25.897200: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:53:25.897545: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:53:25.898169: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:53:25.898506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:53:25.898904: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:53:25.899133: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:53:25.899649: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+___________ TestSparseCategoricalCrossentropy.test_sample_weighted ____________
+
+self = <losses_test.TestSparseCategoricalCrossentropy object at 0x00000279FCBCFE80>
+
+    def test_sample_weighted(self):
+        cce_obj = losses.SparseCategoricalCrossentropy()
+        y_true = K.constant([[0], [1], [2]])
+        y_pred = K.constant(
+            [[.9, .05, .05], [.5, .89, .6], [.05, .01, .94]])
+        sample_weight = K.constant([[1.2], [3.4], [5.6]], shape=(3, 1))
+        loss = cce_obj(y_true, y_pred, sample_weight=sample_weight)
+>       assert np.isclose(K.eval(loss), 1.0696, atol=1e-3)
+E       AssertionError: assert False
+E        +  where False = <function isclose at 0x00000279F3D112F0>(1.2458466, 1.0696, atol=0.001)
+E        +    where <function isclose at 0x00000279F3D112F0> = np.isclose
+E        +    and   1.2458466 = <function eval at 0x00000279FBB0BB70>(<tf.Tensor 'sparse_categorical_crossentropy/weighted_loss/truediv:0' shape=() dtype=float32>)
+E        +      where <function eval at 0x00000279FBB0BB70> = K.eval
+
+losses_test.py:764: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:53:25.946747: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:53:25.947331: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:53:25.947726: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:53:25.948152: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:53:25.948596: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:53:25.948999: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:53:25.949352: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:53:25.949697: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:53:25.950278: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:53:25.950590: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:53:25.950946: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:53:25.951170: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:53:25.951681: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_____________ TestSparseCategoricalCrossentropy.test_no_reduction _____________
+
+self = <losses_test.TestSparseCategoricalCrossentropy object at 0x00000279C2850C18>
+
+    def test_no_reduction(self):
+        y_true = K.constant([[0], [1], [2]])
+        logits = K.constant([[8., 1., 1.], [0., 9., 1.], [2., 3., 5.]])
+        cce_obj = losses.SparseCategoricalCrossentropy(
+            from_logits=True, reduction=losses_utils.Reduction.NONE)
+        loss = cce_obj(y_true, logits)
+>       assert np.allclose(K.eval(loss), (0.001822, 0.000459, 0.169846), atol=1e-3)
+E       AssertionError: assert False
+E        +  where False = <function allclose at 0x00000279F3D11158>(array([0.00281022, 0.00281022, 0.03597625], dtype=float32), (0.001822, 0.000459, 0.169846), atol=0.001)
+E        +    where <function allclose at 0x00000279F3D11158> = np.allclose
+E        +    and   array([0.00281022, 0.00281022, 0.03597625], dtype=float32) = <function eval at 0x00000279FBB0BB70>(<tf.Tensor 'sparse_categorical_crossentropy/weighted_loss/mul:0' shape=(3,) dtype=float32>)
+E        +      where <function eval at 0x00000279FBB0BB70> = K.eval
+
+losses_test.py:778: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:53:25.993752: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:53:25.994340: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:53:25.994772: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:53:25.995206: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:53:25.995641: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:53:25.996006: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:53:25.996373: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:53:25.996727: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:53:25.997314: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:53:25.997662: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:53:25.998047: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:53:25.998284: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:53:25.998825: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED losses_test.py::TestLossFunctions::test_cce_one_hot - ValueError: Shap...
+FAILED losses_test.py::TestLossFunctions::test_sparse_categorical_crossentropy
+FAILED losses_test.py::TestLossFunctions::test_sparse_categorical_crossentropy_4d
+FAILED losses_test.py::TestSparseCategoricalCrossentropy::test_unweighted - A...
+FAILED losses_test.py::TestSparseCategoricalCrossentropy::test_scalar_weighted
+FAILED losses_test.py::TestSparseCategoricalCrossentropy::test_sample_weighted
+FAILED losses_test.py::TestSparseCategoricalCrossentropy::test_no_reduction
+======================== 7 failed, 104 passed in 8.75s ========================

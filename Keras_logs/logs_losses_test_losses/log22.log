@@ -1,0 +1,94 @@
+2020-10-03 14:50:56.929054: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 111 items
+
+losses_test.py ............................FF........................... [ 51%]
+......................................................                   [100%]
+
+================================== FAILURES ===================================
+___________ TestLossFunctions.test_sparse_categorical_crossentropy ____________
+
+self = <losses_test.TestLossFunctions object at 0x0000024F7931E400>
+
+    def test_sparse_categorical_crossentropy(self):
+        y_pred = K.variable(np.array([[0.3, 0.6, 0.1],
+                                      [0.1, 0.2, 0.7]]))
+        y_true = K.variable(np.array([1, 2]))
+        expected_loss = - (np.log(0.6) + np.log(0.7)) / 2
+        loss = K.eval(losses.sparse_categorical_crossentropy(y_true, y_pred))
+>       assert np.isclose(expected_loss, np.mean(loss))
+E       assert False
+E        +  where False = <function isclose at 0x0000024F711532F0>(0.4337502838523616, 0.81061804)
+E        +    where <function isclose at 0x0000024F711532F0> = np.isclose
+E        +    and   0.81061804 = <function mean at 0x0000024F71144158>(array([0.8532865, 0.7679496], dtype=float32))
+E        +      where <function mean at 0x0000024F71144158> = np.mean
+
+losses_test.py:96: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:51:03.545115: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:51:03.546215: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:51:03.546901: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:51:03.547576: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:51:03.548251: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:51:03.548935: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:51:03.549368: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:51:03.549755: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:51:03.550389: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:51:03.550730: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:51:03.551123: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:51:03.551368: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:51:03.551907: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+__________ TestLossFunctions.test_sparse_categorical_crossentropy_4d __________
+
+self = <losses_test.TestLossFunctions object at 0x0000024F3F8A8A90>
+
+    def test_sparse_categorical_crossentropy_4d(self):
+        y_pred = K.variable(np.array([[[[0.7, 0.1, 0.2],
+                                        [0.0, 0.3, 0.7],
+                                        [0.1, 0.1, 0.8]],
+                                       [[0.3, 0.7, 0.0],
+                                        [0.3, 0.4, 0.3],
+                                        [0.2, 0.5, 0.3]],
+                                       [[0.8, 0.1, 0.1],
+                                        [1.0, 0.0, 0.0],
+                                        [0.4, 0.3, 0.3]]]]))
+        y_true = K.variable(np.array([[[0, 1, 0],
+                                       [2, 1, 0],
+                                       [2, 2, 1]]]))
+        expected_loss = - (np.log(0.7) + np.log(0.3) + np.log(0.1) +
+                           np.log(K.epsilon()) + np.log(0.4) + np.log(0.2) +
+                           np.log(0.1) + np.log(K.epsilon()) + np.log(0.3)) / 9
+        loss = K.eval(losses.sparse_categorical_crossentropy(y_true, y_pred))
+>       assert np.isclose(expected_loss, np.mean(loss))
+E       assert False
+E        +  where False = <function isclose at 0x0000024F711532F0>(4.6813011872004, 1.2390462)
+E        +    where <function isclose at 0x0000024F711532F0> = np.isclose
+E        +    and   1.2390462 = <function mean at 0x0000024F71144158>(array([[[0.7679496, 1.1733   , 1.3897266],\n        [1.4733   , 1.0330687, 1.239831 ],\n        [1.3897266, 1.5514446, 1.1330687]]], dtype=float32))
+E        +      where <function mean at 0x0000024F71144158> = np.mean
+
+losses_test.py:115: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:51:04.601456: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:51:04.602044: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:51:04.602391: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:51:04.602735: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:51:04.603072: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:51:04.603415: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:51:04.603761: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:51:04.604126: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:51:04.604705: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:51:04.605028: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:51:04.605385: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:51:04.605607: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:51:04.606112: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED losses_test.py::TestLossFunctions::test_sparse_categorical_crossentropy
+FAILED losses_test.py::TestLossFunctions::test_sparse_categorical_crossentropy_4d
+======================== 2 failed, 109 passed in 8.63s ========================

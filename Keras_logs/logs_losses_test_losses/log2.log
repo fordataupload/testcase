@@ -1,0 +1,48 @@
+2020-10-03 14:45:46.439722: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 111 items
+
+losses_test.py ...............................F......................... [ 51%]
+......................................................                   [100%]
+
+================================== FAILURES ===================================
+__________ TestLossFunctions.test_serializing_model_with_loss_class ___________
+
+self = <losses_test.TestLossFunctions object at 0x000001ECB9F46080>
+tmpdir = local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-227\\test_serializing_model_with_lo0')
+
+    def test_serializing_model_with_loss_class(self, tmpdir):
+        model_filename = str(tmpdir / 'custom_loss.hdf')
+    
+        with custom_object_scope({'MSE_MAE_loss': MSE_MAE_loss}):
+            loss = MSE_MAE_loss(0.3)
+            inputs = keras.layers.Input((2,))
+            outputs = keras.layers.Dense(1, name='model_output')(inputs)
+            model = keras.models.Model(inputs, outputs)
+>           model.compile(optimizer='sgd', loss={'model_output': loss})
+
+losses_test.py:135: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <losses_test.MSE_MAE_loss object at 0x000001ECB9F40AC8>
+y_true = <tf.Tensor 'model_output_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'model_output/BiasAdd:0' shape=(?, 1) dtype=float32>
+sample_weight = <tf.Tensor 'model_output_sample_weights:0' shape=(?,) dtype=float32>
+
+    def __call__(self, y_true, y_pred, sample_weight=None):
+        return (self.mse_fraction * losses.mse(y_true, y_pred) +
+>               (1 - self.mse_fraction) * losses.mae(y_true, y_pred))
+E       TypeError: 'NoneType' object is not callable
+
+losses_test.py:49: TypeError
+=========================== short test summary info ===========================
+FAILED losses_test.py::TestLossFunctions::test_serializing_model_with_loss_class
+======================== 1 failed, 110 passed in 9.37s ========================

@@ -1,0 +1,79 @@
+2020-10-03 14:53:56.610843: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 111 items
+
+losses_test.py ..........F............F................................. [ 51%]
+......................................................                   [100%]
+
+================================== FAILURES ===================================
+________ TestLossFunctions.test_objective_shapes_3d[cosine_proximity] _________
+
+self = <losses_test.TestLossFunctions object at 0x000001F3D4434DA0>
+loss_fn = <function cosine_proximity at 0x000001F3D3F18730>
+
+    @pytest.mark.parametrize('loss_fn', all_functions)
+    def test_objective_shapes_3d(self, loss_fn):
+        y_a = K.variable(np.random.random((5, 6, 7)))
+        y_b = K.variable(np.random.random((5, 6, 7)))
+        objective_output = loss_fn(y_a, y_b)
+>       assert K.eval(objective_output).shape == (5, 6)
+E       assert (5, 7) == (5, 6)
+E         At index 1 diff: 7 != 6
+E         Use -v to get the full diff
+
+losses_test.py:62: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:54:02.990324: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:54:02.990908: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:54:02.991250: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:54:02.991593: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:54:02.991928: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:54:02.992271: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:54:02.992613: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:54:02.992962: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:54:02.993542: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:54:02.993848: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:54:02.994194: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:54:02.994411: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:54:02.994918: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________ TestLossFunctions.test_objective_shapes_2d[cosine_proximity] _________
+
+self = <losses_test.TestLossFunctions object at 0x000001F3D41EF320>
+loss_fn = <function cosine_proximity at 0x000001F3D3F18730>
+
+    @pytest.mark.parametrize('loss_fn', all_functions)
+    def test_objective_shapes_2d(self, loss_fn):
+        y_a = K.variable(np.random.random((6, 7)))
+        y_b = K.variable(np.random.random((6, 7)))
+        objective_output = loss_fn(y_a, y_b)
+>       assert K.eval(objective_output).shape == (6,)
+E       assert (7,) == (6,)
+E         At index 0 diff: 7 != 6
+E         Use -v to get the full diff
+
+losses_test.py:69: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:54:05.235077: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:54:05.235641: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:54:05.235988: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:54:05.236333: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:54:05.236672: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:54:05.237039: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:54:05.237413: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:54:05.237787: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:54:05.238378: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:54:05.238707: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:54:05.239055: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:54:05.239273: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:54:05.239743: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED losses_test.py::TestLossFunctions::test_objective_shapes_3d[cosine_proximity]
+FAILED losses_test.py::TestLossFunctions::test_objective_shapes_2d[cosine_proximity]
+======================= 2 failed, 109 passed in 10.64s ========================

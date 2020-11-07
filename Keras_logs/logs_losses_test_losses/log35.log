@@ -1,0 +1,116 @@
+2020-10-03 14:54:13.077277: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 111 items
+
+losses_test.py ...............................FF........................ [ 51%]
+......................................................                   [100%]
+
+================================== FAILURES ===================================
+__________ TestLossFunctions.test_serializing_model_with_loss_class ___________
+
+self = <losses_test.TestLossFunctions object at 0x00000133E1B30470>
+tmpdir = local('C:\\Users\\mutation\\AppData\\Local\\Temp\\pytest-of-mutation\\pytest-260\\test_serializing_model_with_lo0')
+
+    def test_serializing_model_with_loss_class(self, tmpdir):
+        model_filename = str(tmpdir / 'custom_loss.hdf')
+    
+        with custom_object_scope({'MSE_MAE_loss': MSE_MAE_loss}):
+            loss = MSE_MAE_loss(0.3)
+            inputs = keras.layers.Input((2,))
+            outputs = keras.layers.Dense(1, name='model_output')(inputs)
+            model = keras.models.Model(inputs, outputs)
+            model.compile(optimizer='sgd', loss={'model_output': loss})
+            model.fit(np.random.rand(256, 2), np.random.rand(256, 1))
+            model.save(model_filename)
+    
+        with custom_object_scope({'MSE_MAE_loss': MSE_MAE_loss}):
+>           loaded_model = keras.models.load_model(model_filename)
+
+losses_test.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\saving.py:492: in load_wrapper
+    return load_function(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\saving.py:584: in load_model
+    model = _deserialize_model(h5dict, custom_objects, compile)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\saving.py:369: in _deserialize_model
+    sample_weight_mode=sample_weight_mode)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:119: in compile
+    self.loss, self.output_names)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:820: in prepare_loss_functions
+    loss_functions.append(get_loss_function(loss.get(name, None)))
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:705: in get_loss_function
+    loss_fn = losses.get(loss)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = None
+
+    def get(identifier):
+        """Get the `identifier` loss function.
+    
+        # Arguments
+            identifier: None or str, name of the function.
+    
+        # Returns
+            The loss function or None if `identifier` is None.
+    
+        # Raises
+            ValueError if unknown identifier.
+        """
+        if identifier is not None:
+            return None
+        if isinstance(identifier, six.string_types):
+            identifier = str(identifier)
+            return deserialize(identifier)
+        if isinstance(identifier, dict):
+            return deserialize(identifier)
+        elif callable(identifier):
+            return identifier
+        else:
+            raise ValueError('Could not interpret '
+>                            'loss function identifier:', identifier)
+E           ValueError: ('Could not interpret loss function identifier:', None)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:802: ValueError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/256 [==>...........................] - ETA: 3s - loss: 0.2463
+256/256 [==============================] - 1s 2ms/step - loss: 0.2862
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 14:54:20.827183: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 14:54:20.827769: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 14:54:20.828118: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 14:54:20.828464: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 14:54:20.828802: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 14:54:20.829144: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 14:54:20.829499: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 14:54:20.829843: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 14:54:20.830441: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 14:54:20.830779: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 14:54:20.831155: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 14:54:20.831388: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 14:54:20.831904: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-03 14:54:20.912722: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+_____________________ TestLossFunctions.test_loss_wrapper _____________________
+
+self = <losses_test.TestLossFunctions object at 0x0000013631C49BA8>
+
+    def test_loss_wrapper(self):
+        loss_fn = losses.get('mse')
+>       mse_obj = losses.LossFunctionWrapper(loss_fn, name=loss_fn.__name__)
+E       AttributeError: 'NoneType' object has no attribute '__name__'
+
+losses_test.py:145: AttributeError
+=========================== short test summary info ===========================
+FAILED losses_test.py::TestLossFunctions::test_serializing_model_with_loss_class
+FAILED losses_test.py::TestLossFunctions::test_loss_wrapper - AttributeError:...
+======================= 2 failed, 109 passed in 10.10s ========================
