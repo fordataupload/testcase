@@ -1,0 +1,232 @@
+2020-10-04 18:57:37.411097: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\legacy
+plugins: flaky-3.7.0
+collected 38 items
+
+interface_test.py ......................FF.F.F..........                 [100%]
+
+================================== FAILURES ===================================
+________________________ test_conv2d_legacy_interface _________________________
+
+    def test_conv2d_legacy_interface():
+        old_layer = keras.layers.Convolution2D(5, 3, 3, name='conv')
+        new_layer = keras.layers.Conv2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Convolution2D(5, 3, nb_col=3, name='conv')
+        new_layer = keras.layers.Conv2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+>       old_layer = keras.layers.Convolution2D(5, nb_row=3, nb_col=3, name='conv')
+
+interface_test.py:478: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:34: in wrapper
+    args, kwargs, converted = preprocessor(args, kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Conv2D object at 0x00000284BF60B6A0>, 5)
+kwargs = {'name': 'conv', 'nb_col': 3, 'nb_row': 3}
+
+    def conv2d_args_preprocessor(args, kwargs):
+        converted = []
+        if len(args) > 4:
+            raise TypeError('Layer can receive at most 3 positional arguments.')
+        elif len(args) == 4:
+            if isinstance(args[2], int) and isinstance(args[3], int):
+                new_keywords = ['padding', 'strides', 'data_format']
+                for kwd in new_keywords:
+                    if kwd in kwargs:
+                        raise ValueError(
+                            'It seems that you are using the Keras 2 '
+                            'and you are passing both `kernel_size` and `strides` '
+                            'as integer positional arguments. For safety reasons, '
+                            'this is disallowed. Pass `strides` '
+                            'as a keyword argument instead.')
+                kernel_size = (args[2], args[3])
+                args = [args[0], args[1], kernel_size]
+                converted.append(('kernel_size', 'nb_row/nb_col'))
+>       elif len(args) == 3 or isinstance(args[2], int):
+E       IndexError: tuple index out of range
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:287: IndexError
+_______________________ test_deconv2d_legacy_interface ________________________
+
+    def test_deconv2d_legacy_interface():
+        old_layer = keras.layers.Deconvolution2D(5, 3, 3, (6, 7, 5), name='deconv')
+        new_layer = keras.layers.Conv2DTranspose(5, (3, 3), name='deconv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Deconvolution2D(5, 3, 3, output_shape=(6, 7, 5),
+                                                 name='deconv')
+        new_layer = keras.layers.Conv2DTranspose(5, (3, 3), name='deconv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Deconvolution2D(5, 3, nb_col=3, output_shape=(6, 7, 5),
+                                                 name='deconv')
+        new_layer = keras.layers.Conv2DTranspose(5, (3, 3), name='deconv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Deconvolution2D(5, nb_row=3, nb_col=3,
+>                                                output_shape=(6, 7, 5), name='deconv')
+
+interface_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:34: in wrapper
+    args, kwargs, converted = preprocessor(args, kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:356: in deconv2d_args_preprocessor
+    args, kwargs, _converted = conv2d_args_preprocessor(args, kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Conv2DTranspose object at 0x00000284C0225F28>, 5)
+kwargs = {'name': 'deconv', 'nb_col': 3, 'nb_row': 3}
+
+    def conv2d_args_preprocessor(args, kwargs):
+        converted = []
+        if len(args) > 4:
+            raise TypeError('Layer can receive at most 3 positional arguments.')
+        elif len(args) == 4:
+            if isinstance(args[2], int) and isinstance(args[3], int):
+                new_keywords = ['padding', 'strides', 'data_format']
+                for kwd in new_keywords:
+                    if kwd in kwargs:
+                        raise ValueError(
+                            'It seems that you are using the Keras 2 '
+                            'and you are passing both `kernel_size` and `strides` '
+                            'as integer positional arguments. For safety reasons, '
+                            'this is disallowed. Pass `strides` '
+                            'as a keyword argument instead.')
+                kernel_size = (args[2], args[3])
+                args = [args[0], args[1], kernel_size]
+                converted.append(('kernel_size', 'nb_row/nb_col'))
+>       elif len(args) == 3 or isinstance(args[2], int):
+E       IndexError: tuple index out of range
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:287: IndexError
+___________________ test_separable_conv2d_legacy_interface ____________________
+
+    def test_separable_conv2d_legacy_interface():
+        old_layer = keras.layers.SeparableConv2D(5, 3, 3, name='conv')
+        new_layer = keras.layers.SeparableConv2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.SeparableConv2D(5, 3, nb_col=3, name='conv')
+        new_layer = keras.layers.SeparableConv2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+>       old_layer = keras.layers.SeparableConv2D(5, nb_row=3, nb_col=3, name='conv')
+
+interface_test.py:589: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:34: in wrapper
+    args, kwargs, converted = preprocessor(args, kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:329: in separable_conv2d_args_preprocessor
+    args, kwargs, _converted = conv2d_args_preprocessor(args, kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.SeparableConv2D object at 0x00000284C14137F0>, 5)
+kwargs = {'name': 'conv', 'nb_col': 3, 'nb_row': 3}
+
+    def conv2d_args_preprocessor(args, kwargs):
+        converted = []
+        if len(args) > 4:
+            raise TypeError('Layer can receive at most 3 positional arguments.')
+        elif len(args) == 4:
+            if isinstance(args[2], int) and isinstance(args[3], int):
+                new_keywords = ['padding', 'strides', 'data_format']
+                for kwd in new_keywords:
+                    if kwd in kwargs:
+                        raise ValueError(
+                            'It seems that you are using the Keras 2 '
+                            'and you are passing both `kernel_size` and `strides` '
+                            'as integer positional arguments. For safety reasons, '
+                            'this is disallowed. Pass `strides` '
+                            'as a keyword argument instead.')
+                kernel_size = (args[2], args[3])
+                args = [args[0], args[1], kernel_size]
+                converted.append(('kernel_size', 'nb_row/nb_col'))
+>       elif len(args) == 3 or isinstance(args[2], int):
+E       IndexError: tuple index out of range
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:287: IndexError
+______________________ test_convlstm2d_legacy_interface _______________________Using TensorFlow backend.
+
+
+    def test_convlstm2d_legacy_interface():
+        old_layer = keras.layers.ConvLSTM2D(5, 3, 3, name='conv')
+        new_layer = keras.layers.ConvLSTM2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.ConvLSTM2D(5, 3, nb_col=3, name='conv')
+        new_layer = keras.layers.ConvLSTM2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+>       old_layer = keras.layers.ConvLSTM2D(5, nb_row=3, nb_col=3, name='conv')
+
+interface_test.py:675: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:34: in wrapper
+    args, kwargs, converted = preprocessor(args, kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:469: in convlstm2d_args_preprocessor
+    args, kwargs, _converted = conv2d_args_preprocessor(args, kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional_recurrent.ConvLSTM2D object at 0x00000284C143A6A0>, 5)
+kwargs = {'name': 'conv', 'nb_col': 3, 'nb_row': 3}
+
+    def conv2d_args_preprocessor(args, kwargs):
+        converted = []
+        if len(args) > 4:
+            raise TypeError('Layer can receive at most 3 positional arguments.')
+        elif len(args) == 4:
+            if isinstance(args[2], int) and isinstance(args[3], int):
+                new_keywords = ['padding', 'strides', 'data_format']
+                for kwd in new_keywords:
+                    if kwd in kwargs:
+                        raise ValueError(
+                            'It seems that you are using the Keras 2 '
+                            'and you are passing both `kernel_size` and `strides` '
+                            'as integer positional arguments. For safety reasons, '
+                            'this is disallowed. Pass `strides` '
+                            'as a keyword argument instead.')
+                kernel_size = (args[2], args[3])
+                args = [args[0], args[1], kernel_size]
+                converted.append(('kernel_size', 'nb_row/nb_col'))
+>       elif len(args) == 3 or isinstance(args[2], int):
+E       IndexError: tuple index out of range
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:287: IndexError
+============================== warnings summary ===============================
+interface_test.py::test_embedding_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:55: UserWarning: The `dropout` argument is no longer support in `Embedding`. You can apply a `keras.layers.SpatialDropout1D` layer right after the `Embedding` layer to get the same behavior.
+    old_layer = keras.layers.Embedding(1, 1, dropout=0.0, name='d')
+
+interface_test.py::test_lstm_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:111: UserWarning: The `input_dim` and `input_length` arguments in recurrent layers are deprecated. Use `input_shape` instead.
+    output_dim=2, name='d', consume_less='mem')
+
+interface_test.py::test_lstm_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:116: UserWarning: The `input_dim` and `input_length` arguments in recurrent layers are deprecated. Use `input_shape` instead.
+    output_dim=2, name='d', consume_less='mem')
+
+interface_test.py::test_lstm_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:159: UserWarning: The `forget_bias_init` argument has been ignored. Use `unit_forget_bias=True` instead to initialize with ones.
+    name='LSTM')
+
+interface_test.py::test_atrousconv1d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:290: UserWarning: The `AtrousConvolution1D` layer  has been deprecated. Use instead the `Conv1D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution1D` layer '
+
+interface_test.py::test_atrousconv2d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:304: UserWarning: The `AtrousConvolution2D` layer  has been deprecated. Use instead the `Conv2D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution2D` layer '
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED interface_test.py::test_conv2d_legacy_interface - IndexError: tuple in...
+FAILED interface_test.py::test_deconv2d_legacy_interface - IndexError: tuple ...
+FAILED interface_test.py::test_separable_conv2d_legacy_interface - IndexError...
+FAILED interface_test.py::test_convlstm2d_legacy_interface - IndexError: tupl...
+================== 4 failed, 34 passed, 6 warnings in 1.54s ===================

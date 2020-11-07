@@ -1,0 +1,82 @@
+2020-10-04 18:58:33.372732: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\legacy
+plugins: flaky-3.7.0
+collected 38 items
+
+interface_test.py ...............................F......                 [100%]Using TensorFlow backend.
+
+
+================================== FAILURES ===================================
+_____________________ test_zeropadding2d_legacy_interface _____________________
+
+    def test_zeropadding2d_legacy_interface():
+        old_layer = keras.layers.ZeroPadding2D(padding={'right_pad': 4,
+                                                        'bottom_pad': 2,
+                                                        'top_pad': 1,
+                                                        'left_pad': 3},
+                                               dim_ordering='tf',
+                                               name='zp2d')
+        new_layer = keras.layers.ZeroPadding2D(((1, 2), (3, 4)),
+                                               data_format='channels_last',
+>                                              name='zp2d')
+
+interface_test.py:785: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:34: in wrapper
+    args, kwargs, converted = preprocessor(args, kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.ZeroPadding2D object at 0x000002539420E240>, ((1, 2), (3, 4)))
+kwargs = {'data_format': 'channels_last', 'name': 'zp2d'}
+
+    def zeropadding2d_args_preprocessor(args, kwargs):
+        converted = []
+        if 'padding' in kwargs and isinstance(kwargs['padding'], dict):
+            if set(kwargs['padding'].keys()) <= {'top_pad', 'bottom_pad',
+                                                 'left_pad', 'right_pad'}:
+                top_pad = kwargs['padding'].get('top_pad', 0)
+                bottom_pad = kwargs['padding'].get('bottom_pad', 0)
+                left_pad = kwargs['padding'].get('left_pad', 0)
+                right_pad = kwargs['padding'].get('right_pad', 0)
+                kwargs['padding'] = ((top_pad, bottom_pad), (left_pad, right_pad))
+                warnings.warn('The `padding` argument in the Keras 2 API no longer'
+                              'accepts dict types. You can now input argument as: '
+                              '`padding=(top_pad, bottom_pad, left_pad, right_pad)`.',
+                              stacklevel=3)
+        elif len(args) == 2 or isinstance(args[1], dict):
+>           if set(args[1].keys()) <= {'top_pad', 'bottom_pad',
+                                       'left_pad', 'right_pad'}:
+E                                      AttributeError: 'tuple' object has no attribute 'keys'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:514: AttributeError
+============================== warnings summary ===============================
+interface_test.py::test_embedding_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:55: UserWarning: The `dropout` argument is no longer support in `Embedding`. You can apply a `keras.layers.SpatialDropout1D` layer right after the `Embedding` layer to get the same behavior.
+    old_layer = keras.layers.Embedding(1, 1, dropout=0.0, name='d')
+
+interface_test.py::test_lstm_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:111: UserWarning: The `input_dim` and `input_length` arguments in recurrent layers are deprecated. Use `input_shape` instead.
+    output_dim=2, name='d', consume_less='mem')
+
+interface_test.py::test_lstm_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:116: UserWarning: The `input_dim` and `input_length` arguments in recurrent layers are deprecated. Use `input_shape` instead.
+    output_dim=2, name='d', consume_less='mem')
+
+interface_test.py::test_lstm_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:159: UserWarning: The `forget_bias_init` argument has been ignored. Use `unit_forget_bias=True` instead to initialize with ones.
+    name='LSTM')
+
+interface_test.py::test_atrousconv1d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:290: UserWarning: The `AtrousConvolution1D` layer  has been deprecated. Use instead the `Conv1D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution1D` layer '
+
+interface_test.py::test_atrousconv2d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:304: UserWarning: The `AtrousConvolution2D` layer  has been deprecated. Use instead the `Conv2D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution2D` layer '
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED interface_test.py::test_zeropadding2d_legacy_interface - AttributeErro...
+================== 1 failed, 37 passed, 6 warnings in 1.11s ===================

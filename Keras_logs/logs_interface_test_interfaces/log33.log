@@ -1,0 +1,230 @@
+2020-10-04 19:00:06.826843: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\legacy
+plugins: flaky-3.7.0
+collected 38 items
+
+interface_test.py ......................FF.F.F..F.......                 [100%]
+
+================================== FAILURES ===================================
+________________________ test_conv2d_legacy_interface _________________________
+
+    def test_conv2d_legacy_interface():
+>       old_layer = keras.layers.Convolution2D(5, 3, 3, name='conv')
+
+interface_test.py:470: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Conv2D object at 0x000001457F29A9B0>, 5, 3, 3)
+kwargs = {'name': 'conv'}, object_name = 'Conv2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Conv2D` can accept only 2 positional arguments ('filters', 'kernel_size'), but you passed the following positional arguments: [5, 3, 3]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_______________________ test_deconv2d_legacy_interface ________________________
+
+    def test_deconv2d_legacy_interface():
+>       old_layer = keras.layers.Deconvolution2D(5, 3, 3, (6, 7, 5), name='deconv')
+
+interface_test.py:506: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Conv2DTranspose object at 0x000001457F234A20>, 5, 3, 3)
+kwargs = {'name': 'deconv'}, object_name = 'Conv2DTranspose'
+converted = [('output_shape', None)]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Conv2DTranspose` can accept only 2 positional arguments ('filters', 'kernel_size'), but you passed the following positional arguments: [5, 3, 3]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+___________________ test_separable_conv2d_legacy_interface ____________________
+
+    def test_separable_conv2d_legacy_interface():
+>       old_layer = keras.layers.SeparableConv2D(5, 3, 3, name='conv')
+
+interface_test.py:581: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.SeparableConv2D object at 0x00000145010DB518>, 5, 3, 3)
+kwargs = {'name': 'conv'}, object_name = 'SeparableConv2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `SeparableConv2D` can accept only 2 positional arguments ('filters', 'kernel_size'), but you passed the following positional arguments: [5, 3, 3]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+______________________ test_convlstm2d_legacy_interface _______________________
+
+    def test_convlstm2d_legacy_interface():
+>       old_layer = keras.layers.ConvLSTM2D(5, 3, 3, name='conv')
+
+interface_test.py:667: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional_recurrent.ConvLSTM2D object at 0x0000014501074C88>, 5, 3, 3)
+kwargs = {'name': 'conv'}, object_name = 'ConvLSTM2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `ConvLSTM2D` can accept only 2 positional arguments ('filters', 'kernel_size'), but you passed the following positional arguments: [5, 3, 3]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_atrousconv2d_legacy_interface ______________________
+
+    def test_atrousconv2d_legacy_interface():
+        old_layer = keras.layers.AtrousConvolution2D(
+            5, 3, 3,
+            atrous_rate=(2, 2),
+            init='normal',
+            subsample=(2, 2),
+            border_mode='valid',
+            dim_ordering='th',
+            W_regularizer='l1',
+            b_regularizer='l2',
+            W_constraint='maxnorm',
+            b_constraint='unitnorm',
+>           name='conv')
+
+interface_test.py:761: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:308: in AtrousConvolution2D
+    return Conv2D(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Conv2D object at 0x00000145010B1940>, 5, 3, 3)
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'b_constraint': 'unitnorm', 'b_regularizer': 'l2', ...}
+object_name = 'Conv2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)Using TensorFlow backend.
+
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Conv2D` can accept only 2 positional arguments ('filters', 'kernel_size'), but you passed the following positional arguments: [5, 3, 3]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+============================== warnings summary ===============================
+interface_test.py::test_embedding_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:55: UserWarning: The `dropout` argument is no longer support in `Embedding`. You can apply a `keras.layers.SpatialDropout1D` layer right after the `Embedding` layer to get the same behavior.
+    old_layer = keras.layers.Embedding(1, 1, dropout=0.0, name='d')
+
+interface_test.py::test_lstm_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:111: UserWarning: The `input_dim` and `input_length` arguments in recurrent layers are deprecated. Use `input_shape` instead.
+    output_dim=2, name='d', consume_less='mem')
+
+interface_test.py::test_lstm_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:116: UserWarning: The `input_dim` and `input_length` arguments in recurrent layers are deprecated. Use `input_shape` instead.
+    output_dim=2, name='d', consume_less='mem')
+
+interface_test.py::test_lstm_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:159: UserWarning: The `forget_bias_init` argument has been ignored. Use `unit_forget_bias=True` instead to initialize with ones.
+    name='LSTM')
+
+interface_test.py::test_atrousconv1d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:290: UserWarning: The `AtrousConvolution1D` layer  has been deprecated. Use instead the `Conv1D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution1D` layer '
+
+interface_test.py::test_atrousconv2d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:304: UserWarning: The `AtrousConvolution2D` layer  has been deprecated. Use instead the `Conv2D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution2D` layer '
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED interface_test.py::test_conv2d_legacy_interface - TypeError: `Conv2D` ...
+FAILED interface_test.py::test_deconv2d_legacy_interface - TypeError: `Conv2D...
+FAILED interface_test.py::test_separable_conv2d_legacy_interface - TypeError:...
+FAILED interface_test.py::test_convlstm2d_legacy_interface - TypeError: `Conv...
+FAILED interface_test.py::test_atrousconv2d_legacy_interface - TypeError: `Co...
+================== 5 failed, 33 passed, 6 warnings in 1.28s ===================

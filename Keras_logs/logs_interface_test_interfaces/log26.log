@@ -1,0 +1,100 @@
+2020-10-04 18:59:27.751611: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\legacy
+plugins: flaky-3.7.0
+collected 38 items
+
+interface_test.py .......F..............................                 [100%]Using TensorFlow backend.
+
+
+================================== FAILURES ===================================
+_________________________ test_lstm_legacy_interface __________________________
+
+    def test_lstm_legacy_interface():
+        old_layer = keras.layers.LSTM(input_shape=[3, 5], output_dim=2, name='d')
+        new_layer = keras.layers.LSTM(2, input_shape=[3, 5], name='d')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.LSTM(input_shape=[3, 5], output_dim=2, name='d',
+                                      consume_less='mem')
+        new_layer = keras.layers.LSTM(2, input_shape=[3, 5], name='d', implementation=1)
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.LSTM(input_dim=5, input_length=3,
+>                                     output_dim=2, name='d', consume_less='mem')
+
+interface_test.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\recurrent.py:2238: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\recurrent.py:410: in __init__
+    super(RNN, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.recurrent.LSTM object at 0x0000023A80B5A9E8>
+kwargs = {'input_dim': 5, 'input_length': 3, 'name': 'd'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'input_dim'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'input_dim')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+============================== warnings summary ===============================
+interface_test.py::test_embedding_legacy_interface
+  C:\Users\mutation\Desktop\testcase\tests\keras\legacy\interface_test.py:55: UserWarning: The `dropout` argument is no longer support in `Embedding`. You can apply a `keras.layers.SpatialDropout1D` layer right after the `Embedding` layer to get the same behavior.
+    old_layer = keras.layers.Embedding(1, 1, dropout=0.0, name='d')
+
+interface_test.py::test_atrousconv1d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:290: UserWarning: The `AtrousConvolution1D` layer  has been deprecated. Use instead the `Conv1D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution1D` layer '
+
+interface_test.py::test_atrousconv2d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:304: UserWarning: The `AtrousConvolution2D` layer  has been deprecated. Use instead the `Conv2D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution2D` layer '
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED interface_test.py::test_lstm_legacy_interface - TypeError: ('Keyword a...
+================== 1 failed, 37 passed, 3 warnings in 1.14s ===================

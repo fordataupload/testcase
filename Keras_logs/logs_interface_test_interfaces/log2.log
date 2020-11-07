@@ -1,0 +1,1454 @@
+2020-10-04 19:10:11.115426: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+================================================= test session starts =================================================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\legacy
+plugins: flaky-3.7.0
+collected 38 items
+
+interface_test.py FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                                                         [100%]
+
+====================================================== FAILURES =======================================================
+_____________________________________________ test_dense_legacy_interface _____________________________________________
+
+    def test_dense_legacy_interface():
+>       old_layer = keras.layers.Dense(input_dim=3, output_dim=2, name='d')
+
+interface_test.py:10:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.Dense object at 0x000001E907B5F320>,)
+kwargs = {'input_dim': 3, 'name': 'd', 'output_dim': 2}, object_name = 'Dense', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+____________________________________________ test_dropout_legacy_interface ____________________________________________
+
+    def test_dropout_legacy_interface():
+>       old_layer = keras.layers.Dropout(p=3, name='drop')
+
+interface_test.py:33:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.Dropout object at 0x000001E9086B6EB8>,), kwargs = {'name': 'drop', 'p': 3}
+object_name = 'Dropout', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+___________________________________________ test_embedding_legacy_interface ___________________________________________
+
+    def test_embedding_legacy_interface():
+>       old_layer = keras.layers.Embedding(4, 2, name='d')
+
+interface_test.py:41:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.embeddings.Embedding object at 0x000001E9098CD128>, 4, 2), kwargs = {'name': 'd'}
+object_name = 'Embedding', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_maxpooling1d_legacy_interface __________________________________________
+
+    def test_maxpooling1d_legacy_interface():
+        old_layer = keras.layers.MaxPool1D(pool_length=2,
+                                           border_mode='valid',
+>                                          name='maxpool1d')
+
+interface_test.py:63:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.MaxPooling1D object at 0x000001E909A31128>,)
+kwargs = {'border_mode': 'valid', 'name': 'maxpool1d', 'pool_length': 2}, object_name = 'MaxPooling1D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_avgpooling1d_legacy_interface __________________________________________
+
+    def test_avgpooling1d_legacy_interface():
+        old_layer = keras.layers.AvgPool1D(pool_length=2,
+                                           border_mode='valid',
+>                                          name='d')
+
+interface_test.py:79:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.AveragePooling1D object at 0x000001E9099B3588>,)
+kwargs = {'border_mode': 'valid', 'name': 'd', 'pool_length': 2}, object_name = 'AveragePooling1D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_____________________________________________ test_prelu_legacy_interface _____________________________________________
+
+    def test_prelu_legacy_interface():
+>       old_layer = keras.layers.PReLU(init='zero', name='p')
+
+interface_test.py:89:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.advanced_activations.PReLU object at 0x000001E907BBDDD8>,), kwargs = {'init': 'zero', 'name': 'p'}
+object_name = 'PReLU', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_gaussiannoise_legacy_interface _________________________________________
+
+    def test_gaussiannoise_legacy_interface():
+>       old_layer = keras.layers.GaussianNoise(sigma=0.5, name='gn')
+
+interface_test.py:95:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.noise.GaussianNoise object at 0x000001E90997D7B8>,), kwargs = {'name': 'gn', 'sigma': 0.5}
+object_name = 'GaussianNoise', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_____________________________________________ test_lstm_legacy_interface ______________________________________________
+
+    def test_lstm_legacy_interface():
+>       old_layer = keras.layers.LSTM(input_shape=[3, 5], output_dim=2, name='d')
+
+interface_test.py:101:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.recurrent.LSTM object at 0x000001E9099EC668>,)
+kwargs = {'input_shape': [3, 5], 'name': 'd', 'output_dim': 2}, object_name = 'LSTM', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+___________________________________________ test_simplernn_legacy_interface ___________________________________________
+
+    def test_simplernn_legacy_interface():
+>       old_layer = keras.layers.SimpleRNN(input_shape=[3, 5], output_dim=2, name='d')
+
+interface_test.py:176:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.recurrent.SimpleRNN object at 0x000001E9098D7588>,)
+kwargs = {'input_shape': [3, 5], 'name': 'd', 'output_dim': 2}, object_name = 'SimpleRNN', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+______________________________________________ test_gru_legacy_interface ______________________________________________
+
+    def test_gru_legacy_interface():
+>       old_layer = keras.layers.GRU(input_shape=[3, 5], output_dim=2, name='d')
+
+interface_test.py:200:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.recurrent.GRU object at 0x000001E907B5F240>,)
+kwargs = {'input_shape': [3, 5], 'name': 'd', 'output_dim': 2}, object_name = 'GRU', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+________________________________________ test_gaussiandropout_legacy_interface ________________________________________
+
+    def test_gaussiandropout_legacy_interface():
+>       old_layer = keras.layers.GaussianDropout(p=0.6, name='drop')
+
+interface_test.py:226:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.noise.GaussianDropout object at 0x000001E909AFC390>,), kwargs = {'name': 'drop', 'p': 0.6}
+object_name = 'GaussianDropout', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_maxpooling2d_legacy_interface __________________________________________
+
+    def test_maxpooling2d_legacy_interface():
+        old_layer = keras.layers.MaxPooling2D(
+>           pool_size=(2, 2), border_mode='valid', name='maxpool2d')
+
+interface_test.py:235:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.MaxPooling2D object at 0x000001E9098CD240>,)
+kwargs = {'border_mode': 'valid', 'name': 'maxpool2d', 'pool_size': (2, 2)}, object_name = 'MaxPooling2D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_avgpooling2d_legacy_interface __________________________________________
+
+    def test_avgpooling2d_legacy_interface():
+        old_layer = keras.layers.AveragePooling2D(
+>           pool_size=(2, 2), border_mode='valid', name='avgpooling2d')
+
+interface_test.py:267:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.AveragePooling2D object at 0x000001E9099EA7F0>,)
+kwargs = {'border_mode': 'valid', 'name': 'avgpooling2d', 'pool_size': (2, 2)}, object_name = 'AveragePooling2D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_maxpooling3d_legacy_interface __________________________________________
+
+    def test_maxpooling3d_legacy_interface():
+        old_layer = keras.layers.MaxPooling3D(
+>           pool_size=(2, 2, 2), border_mode='valid', name='maxpool3d')
+
+interface_test.py:301:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.MaxPooling3D object at 0x000001E909A3FAC8>,)
+kwargs = {'border_mode': 'valid', 'name': 'maxpool3d', 'pool_size': (2, 2, 2)}, object_name = 'MaxPooling3D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_avgpooling3d_legacy_interface __________________________________________
+
+    def test_avgpooling3d_legacy_interface():
+        old_layer = keras.layers.AveragePooling3D(
+>           pool_size=(2, 2, 2), border_mode='valid', name='avgpooling3d')
+
+interface_test.py:335:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.AveragePooling3D object at 0x000001E9099BC8D0>,)
+kwargs = {'border_mode': 'valid', 'name': 'avgpooling3d', 'pool_size': (2, 2, 2)}, object_name = 'AveragePooling3D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+______________________________________ test_global_maxpooling2d_legacy_interface ______________________________________
+
+    def test_global_maxpooling2d_legacy_interface():
+        old_layer = keras.layers.GlobalMaxPooling2D(dim_ordering='tf',
+>                                                   name='global_maxpool2d')
+
+interface_test.py:370:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.GlobalMaxPooling2D object at 0x000001E90989E320>,)
+kwargs = {'dim_ordering': 'tf', 'name': 'global_maxpool2d'}, object_name = 'GlobalMaxPooling2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+______________________________________ test_global_avgpooling2d_legacy_interface ______________________________________
+
+    def test_global_avgpooling2d_legacy_interface():
+        old_layer = keras.layers.GlobalAveragePooling2D(dim_ordering='tf',
+>                                                       name='global_avgpool2d')
+
+interface_test.py:389:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.GlobalAveragePooling2D object at 0x000001E909AE0DA0>,)
+kwargs = {'dim_ordering': 'tf', 'name': 'global_avgpool2d'}, object_name = 'GlobalAveragePooling2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+______________________________________ test_global_maxpooling3d_legacy_interface ______________________________________
+
+    def test_global_maxpooling3d_legacy_interface():
+        old_layer = keras.layers.GlobalMaxPooling3D(dim_ordering='tf',
+>                                                   name='global_maxpool3d')
+
+interface_test.py:408:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.GlobalMaxPooling3D object at 0x000001E9099B6CF8>,)
+kwargs = {'dim_ordering': 'tf', 'name': 'global_maxpool3d'}, object_name = 'GlobalMaxPooling3D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+______________________________________ test_global_avgpooling3d_legacy_interface ______________________________________
+
+    def test_global_avgpooling3d_legacy_interface():
+        old_layer = keras.layers.GlobalAveragePooling3D(dim_ordering='tf',
+>                                                       name='global_avgpool3d')
+
+interface_test.py:427:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.GlobalAveragePooling3D object at 0x000001E9099EC278>,)
+kwargs = {'dim_ordering': 'tf', 'name': 'global_avgpool3d'}, object_name = 'GlobalAveragePooling3D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_upsampling1d_legacy_interface __________________________________________
+
+    def test_upsampling1d_legacy_interface():
+>       old_layer = keras.layers.UpSampling1D(length=3, name='us1d')
+
+interface_test.py:445:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.UpSampling1D object at 0x000001E909A24470>,), kwargs = {'length': 3, 'name': 'us1d'}
+object_name = 'UpSampling1D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_upsampling2d_legacy_interface __________________________________________
+
+    def test_upsampling2d_legacy_interface():
+>       old_layer = keras.layers.UpSampling2D((2, 2), dim_ordering='tf', name='us2d')
+
+interface_test.py:453:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.UpSampling2D object at 0x000001E909947668>, (2, 2))
+kwargs = {'dim_ordering': 'tf', 'name': 'us2d'}, object_name = 'UpSampling2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_upsampling3d_legacy_interface __________________________________________
+
+    def test_upsampling3d_legacy_interface():
+        old_layer = keras.layers.UpSampling3D((2, 2, 2),
+                                              dim_ordering='tf',
+>                                             name='us3d')
+
+interface_test.py:462:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.UpSampling3D object at 0x000001E9099C5BE0>, (2, 2, 2))
+kwargs = {'dim_ordering': 'tf', 'name': 'us3d'}, object_name = 'UpSampling3D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+____________________________________________ test_conv2d_legacy_interface _____________________________________________
+
+    def test_conv2d_legacy_interface():
+>       old_layer = keras.layers.Convolution2D(5, 3, 3, name='conv')
+
+interface_test.py:470:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional.Conv2D object at 0x000001E9099352B0>, 5, (3, 3)], kwargs = {'name': 'conv'}
+object_name = 'Conv2D', converted = [('kernel_size', 'nb_row/nb_col')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+___________________________________________ test_deconv2d_legacy_interface ____________________________________________
+
+    def test_deconv2d_legacy_interface():
+>       old_layer = keras.layers.Deconvolution2D(5, 3, 3, (6, 7, 5), name='deconv')
+
+interface_test.py:506:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional.Conv2DTranspose object at 0x000001E909B0D9E8>, 5, (3, 3)]
+kwargs = {'name': 'deconv'}, object_name = 'Conv2DTranspose'
+converted = [('output_shape', None), ('kernel_size', 'nb_row/nb_col')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+____________________________________________ test_conv1d_legacy_interface _____________________________________________
+
+    def test_conv1d_legacy_interface():
+        old_layer = keras.layers.Convolution1D(5,
+                                               filter_length=3,
+                                               input_dim=3,
+                                               input_length=4,
+>                                              name='conv')
+
+interface_test.py:555:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Conv1D object at 0x000001E9099B6978>, 5)
+kwargs = {'filter_length': 3, 'input_shape': (4, 3), 'name': 'conv'}, object_name = 'Conv1D'
+converted = [('input_shape', 'input_dim')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_______________________________________ test_separable_conv2d_legacy_interface ________________________________________
+
+    def test_separable_conv2d_legacy_interface():
+>       old_layer = keras.layers.SeparableConv2D(5, 3, 3, name='conv')
+
+interface_test.py:581:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional.SeparableConv2D object at 0x000001E909B1C160>, 5, (3, 3)], kwargs = {'name': 'conv'}
+object_name = 'SeparableConv2D', converted = [('kernel_size', 'nb_row/nb_col')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+____________________________________________ test_conv3d_legacy_interface _____________________________________________
+
+    def test_conv3d_legacy_interface():
+>       old_layer = keras.layers.Convolution3D(5, 3, 3, 4, name='conv')
+
+interface_test.py:620:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional.Conv3D object at 0x000001E909B08E10>, 5, (3, 3, 4)], kwargs = {'name': 'conv'}
+object_name = 'Conv3D', converted = [('kernel_size', 'kernel_dim*')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+__________________________________________ test_convlstm2d_legacy_interface ___________________________________________
+
+    def test_convlstm2d_legacy_interface():
+>       old_layer = keras.layers.ConvLSTM2D(5, 3, 3, name='conv')
+
+interface_test.py:667:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional_recurrent.ConvLSTM2D object at 0x000001E909AD29B0>, 5, (3, 3)]
+kwargs = {'name': 'conv'}, object_name = 'ConvLSTM2D', converted = [('kernel_size', 'nb_row/nb_col')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+___________________________________________ test_batchnorm_legacy_interface ___________________________________________
+
+    def test_batchnorm_legacy_interface():
+>       old_layer = keras.layers.BatchNormalization(mode=0, name='bn')
+
+interface_test.py:711:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.normalization.BatchNormalization object at 0x000001E90994A1D0>,), kwargs = {'name': 'bn'}
+object_name = 'BatchNormalization', converted = [('mode', None)]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_atrousconv1d_legacy_interface __________________________________________
+
+    def test_atrousconv1d_legacy_interface():
+        old_layer = keras.layers.AtrousConvolution1D(5, 3,
+                                                     init='normal',
+                                                     subsample_length=2,
+                                                     border_mode='valid',
+                                                     W_regularizer='l1',
+                                                     b_regularizer='l2',
+                                                     W_constraint='maxnorm',
+                                                     b_constraint='unitnorm',
+                                                     atrous_rate=2,
+>                                                    name='conv')
+
+interface_test.py:735:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:294: in AtrousConvolution1D
+    return Conv1D(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Conv1D object at 0x000001E909947898>, 5, 3)
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'b_constraint': 'unitnorm', 'b_regularizer': 'l2', ...}
+object_name = 'Conv1D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_atrousconv2d_legacy_interface __________________________________________
+
+    def test_atrousconv2d_legacy_interface():
+        old_layer = keras.layers.AtrousConvolution2D(
+            5, 3, 3,
+            atrous_rate=(2, 2),
+            init='normal',
+            subsample=(2, 2),
+            border_mode='valid',
+            dim_ordering='th',
+            W_regularizer='l1',
+            b_regularizer='l2',
+            W_constraint='maxnorm',
+            b_constraint='unitnorm',
+>           name='conv')
+
+interface_test.py:761:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:308: in AtrousConvolution2D
+    return Conv2D(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional.Conv2D object at 0x000001E909A08EF0>, 5, (3, 3)]
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'b_constraint': 'unitnorm', 'b_regularizer': 'l2', ...}
+object_name = 'Conv2D', converted = [('kernel_size', 'nb_row/nb_col')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_zeropadding2d_legacy_interface _________________________________________
+
+    def test_zeropadding2d_legacy_interface():
+        old_layer = keras.layers.ZeroPadding2D(padding={'right_pad': 4,
+                                                        'bottom_pad': 2,
+                                                        'top_pad': 1,
+                                                        'left_pad': 3},
+                                               dim_ordering='tf',
+>                                              name='zp2d')
+
+interface_test.py:782:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.ZeroPadding2D object at 0x000001E9098B9748>,)
+kwargs = {'dim_ordering': 'tf', 'name': 'zp2d', 'padding': ((1, 2), (3, 4))}, object_name = 'ZeroPadding2D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_________________________________________ test_zeropadding3d_legacy_interface _________________________________________
+
+    def test_zeropadding3d_legacy_interface():
+        old_layer = keras.layers.ZeroPadding3D((2, 2, 2),
+                                               dim_ordering='tf',
+>                                              name='zp3d')
+
+interface_test.py:792:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.ZeroPadding3D object at 0x000001E909B059B0>, (2, 2, 2))
+kwargs = {'dim_ordering': 'tf', 'name': 'zp3d'}, object_name = 'ZeroPadding3D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+__________________________________________ test_cropping2d_legacy_interface ___________________________________________
+
+    def test_cropping2d_legacy_interface():
+>       old_layer = keras.layers.Cropping2D(dim_ordering='tf', name='c2d')
+
+interface_test.py:800:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Cropping2D object at 0x000001E909B0D4A8>,)
+kwargs = {'dim_ordering': 'tf', 'name': 'c2d'}, object_name = 'Cropping2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+__________________________________________ test_cropping3d_legacy_interface ___________________________________________
+
+    def test_cropping3d_legacy_interface():
+>       old_layer = keras.layers.Cropping3D(dim_ordering='tf', name='c3d')
+
+interface_test.py:806:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Cropping3D object at 0x000001E909A53160>,)
+kwargs = {'dim_ordering': 'tf', 'name': 'c3d'}, object_name = 'Cropping3D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_______________________________________ test_spatialdropout1d_legacy_interface ________________________________________
+
+    def test_spatialdropout1d_legacy_interface():
+>       old_layer = keras.layers.SpatialDropout1D(p=0.6, name='sd1d')
+
+interface_test.py:853:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.SpatialDropout1D object at 0x000001E907BBA4E0>,), kwargs = {'name': 'sd1d', 'p': 0.6}
+object_name = 'SpatialDropout1D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_______________________________________ test_spatialdropout2d_legacy_interface ________________________________________
+
+    def test_spatialdropout2d_legacy_interface():
+        old_layer = keras.layers.SpatialDropout2D(p=0.5,
+                                                  dim_ordering='tf',
+>                                                 name='sd2d')
+
+interface_test.py:863:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.SpatialDropout2D object at 0x000001E90999EAC8>,)
+kwargs = {'dim_ordering': 'tf', 'name': 'sd2d', 'p': 0.5}, object_name = 'SpatialDropout2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+_______________________________________ test_spatialdropout3d_legacy_interface ________________________________________
+
+    def test_spatialdropout3d_legacy_interface():
+        old_layer = keras.layers.SpatialDropout3D(p=0.5,
+                                                  dim_ordering='tf',
+>                                                 name='sd3d')
+
+interface_test.py:877:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.SpatialDropout3D object at 0x000001E909B377F0>,)
+kwargs = {'dim_ordering': 'tf', 'name': 'sd3d', 'p': 0.5}, object_name = 'SpatialDropout3D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+>       for key in value_conversions:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:47: TypeError
+================================================== warnings summary ===================================================
+interface_test.py::test_atrousconv1d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:290: UserWarning: The `AtrousConvolution1D` layer  has been deprecated. Use instead the `Conv1D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution1D` layer '
+
+interface_test.py::test_atrousconv2d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:304: UserWarning: The `AtrousConvolution2D` layer  has been deprecated. Use instead the `Conv2D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution2D` layer '
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=============================================== short test summary info ===============================================
+FAILED interface_test.py::test_dense_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_dropout_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_embedding_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_maxpooling1d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_avgpooling1d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_prelu_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_gaussiannoise_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_lstm_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_simplernn_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_gru_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_gaussiandropout_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_maxpooling2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_avgpooling2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_maxpooling3d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_avgpooling3d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_global_maxpooling2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_global_avgpooling2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_global_maxpooling3d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_global_avgpooling3d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_upsampling1d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_upsampling2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_upsampling3d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_conv2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_deconv2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_conv1d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_separable_conv2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_conv3d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_convlstm2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_batchnorm_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_atrousconv1d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_atrousconv2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_zeropadding2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_zeropadding3d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_cropping2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_cropping3d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_spatialdropout1d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_spatialdropout2d_legacy_interface - TypeError: 'NoneType' object is not iterable
+FAILED interface_test.py::test_spatialdropout3d_legacy_interface - TypeError: 'NoneType' object is not iterable
+=========================================== 38 failed, 2 warnings in 4.22s ============================================

@@ -1,0 +1,1206 @@
+2020-10-04 18:58:42.298577: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\legacy
+plugins: flaky-3.7.0
+collected 38 items
+
+interface_test.py FFFFFF.FFFFFFFF....FFFFFFFFF.FFFF..FFF                 [100%]
+
+================================== FAILURES ===================================
+_________________________ test_dense_legacy_interface _________________________
+
+    def test_dense_legacy_interface():
+        old_layer = keras.layers.Dense(input_dim=3, output_dim=2, name='d')
+>       new_layer = keras.layers.Dense(2, input_shape=(3,), name='d')
+
+interface_test.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.Dense object at 0x00000279A48F6EF0>, 2)
+kwargs = {'input_shape': (3,), 'name': 'd'}, object_name = 'Dense'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Dense` can accept only 0 positional arguments (), but you passed the following positional arguments: [2]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+________________________ test_dropout_legacy_interface ________________________
+
+    def test_dropout_legacy_interface():
+        old_layer = keras.layers.Dropout(p=3, name='drop')
+        new_layer1 = keras.layers.Dropout(rate=3, name='drop')
+>       new_layer2 = keras.layers.Dropout(3, name='drop')
+
+interface_test.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.Dropout object at 0x00000279A54F5A90>, 3)
+kwargs = {'name': 'drop'}, object_name = 'Dropout', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Dropout` can accept only 0 positional arguments (), but you passed the following positional arguments: [3]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_______________________ test_embedding_legacy_interface _______________________
+
+    def test_embedding_legacy_interface():
+>       old_layer = keras.layers.Embedding(4, 2, name='d')
+
+interface_test.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.embeddings.Embedding object at 0x00000279A6901198>, 4, 2)
+kwargs = {'name': 'd'}, object_name = 'Embedding', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Embedding` can accept only 0 positional arguments (), but you passed the following positional arguments: [4, 2]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_maxpooling1d_legacy_interface ______________________
+
+    def test_maxpooling1d_legacy_interface():
+        old_layer = keras.layers.MaxPool1D(pool_length=2,
+                                           border_mode='valid',
+                                           name='maxpool1d')
+        new_layer = keras.layers.MaxPool1D(pool_size=2,
+                                           padding='valid',
+                                           name='maxpool1d')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+>       old_layer = keras.layers.MaxPool1D(2, padding='valid', name='maxpool1d')
+
+interface_test.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.MaxPooling1D object at 0x00000279A66D6E10>, 2)
+kwargs = {'name': 'maxpool1d', 'padding': 'valid'}, object_name = 'MaxPooling1D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `MaxPooling1D` can accept only 0 positional arguments (), but you passed the following positional arguments: [2]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_avgpooling1d_legacy_interface ______________________
+
+    def test_avgpooling1d_legacy_interface():
+        old_layer = keras.layers.AvgPool1D(pool_length=2,
+                                           border_mode='valid',
+                                           name='d')
+        new_layer = keras.layers.AvgPool1D(pool_size=2, padding='valid', name='d')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+>       old_layer = keras.layers.AvgPool1D(2, padding='valid', name='d')
+
+interface_test.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.AveragePooling1D object at 0x00000279A69016D8>, 2)
+kwargs = {'name': 'd', 'padding': 'valid'}, object_name = 'AveragePooling1D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `AveragePooling1D` can accept only 0 positional arguments (), but you passed the following positional arguments: [2]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_________________________ test_prelu_legacy_interface _________________________
+
+    def test_prelu_legacy_interface():
+        old_layer = keras.layers.PReLU(init='zero', name='p')
+>       new_layer = keras.layers.PReLU('zero', name='p')
+
+interface_test.py:90: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.advanced_activations.PReLU object at 0x00000279A66D6F28>, 'zero')
+kwargs = {'name': 'p'}, object_name = 'PReLU', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `PReLU` can accept only 0 positional arguments (), but you passed the following positional arguments: ['zero']
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_________________________ test_lstm_legacy_interface __________________________
+
+    def test_lstm_legacy_interface():
+        old_layer = keras.layers.LSTM(input_shape=[3, 5], output_dim=2, name='d')
+>       new_layer = keras.layers.LSTM(2, input_shape=[3, 5], name='d')
+
+interface_test.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.recurrent.LSTM object at 0x00000279A680B0F0>, 2)
+kwargs = {'input_shape': [3, 5], 'name': 'd'}, object_name = 'LSTM'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `LSTM` can accept only 0 positional arguments (), but you passed the following positional arguments: [2]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_______________________ test_simplernn_legacy_interface _______________________
+
+    def test_simplernn_legacy_interface():
+        old_layer = keras.layers.SimpleRNN(input_shape=[3, 5], output_dim=2, name='d')
+>       new_layer = keras.layers.SimpleRNN(2, input_shape=[3, 5], name='d')
+
+interface_test.py:177: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.recurrent.SimpleRNN object at 0x00000279A494B550>, 2)
+kwargs = {'input_shape': [3, 5], 'name': 'd'}, object_name = 'SimpleRNN'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `SimpleRNN` can accept only 0 positional arguments (), but you passed the following positional arguments: [2]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+__________________________ test_gru_legacy_interface __________________________
+
+    def test_gru_legacy_interface():
+        old_layer = keras.layers.GRU(input_shape=[3, 5], output_dim=2, name='d')
+>       new_layer = keras.layers.GRU(2, input_shape=[3, 5], name='d')
+
+interface_test.py:201: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.recurrent.GRU object at 0x00000279A67FB668>, 2)
+kwargs = {'input_shape': [3, 5], 'name': 'd'}, object_name = 'GRU'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `GRU` can accept only 0 positional arguments (), but you passed the following positional arguments: [2]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+____________________ test_gaussiandropout_legacy_interface ____________________
+
+    def test_gaussiandropout_legacy_interface():
+        old_layer = keras.layers.GaussianDropout(p=0.6, name='drop')
+        new_layer1 = keras.layers.GaussianDropout(rate=0.6, name='drop')
+>       new_layer2 = keras.layers.GaussianDropout(0.6, name='drop')
+
+interface_test.py:228: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.noise.GaussianDropout object at 0x00000279A6901EF0>, 0.6)
+kwargs = {'name': 'drop'}, object_name = 'GaussianDropout', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `GaussianDropout` can accept only 0 positional arguments (), but you passed the following positional arguments: [0.6]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_maxpooling2d_legacy_interface ______________________
+
+    def test_maxpooling2d_legacy_interface():
+        old_layer = keras.layers.MaxPooling2D(
+            pool_size=(2, 2), border_mode='valid', name='maxpool2d')
+        new_layer = keras.layers.MaxPool2D(
+            pool_size=2, padding='valid', name='maxpool2d')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+>       old_layer = keras.layers.MaxPooling2D((2, 2), 2, 'valid', name='maxpool2d')
+
+interface_test.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.MaxPooling2D object at 0x00000279A6897550>, (2, 2), 2, 'valid')
+kwargs = {'name': 'maxpool2d'}, object_name = 'MaxPooling2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `MaxPooling2D` can accept only 0 positional arguments (), but you passed the following positional arguments: [(2, 2), 2, 'valid']
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_avgpooling2d_legacy_interface ______________________
+
+    def test_avgpooling2d_legacy_interface():
+        old_layer = keras.layers.AveragePooling2D(
+            pool_size=(2, 2), border_mode='valid', name='avgpooling2d')
+        new_layer = keras.layers.AvgPool2D(
+            pool_size=(2, 2), padding='valid', name='avgpooling2d')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.AveragePooling2D(
+>           (2, 2), (2, 2), 'valid', name='avgpooling2d')
+
+interface_test.py:273: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.AveragePooling2D object at 0x00000279A671A128>, (2, 2), (2, 2), 'valid')
+kwargs = {'name': 'avgpooling2d'}, object_name = 'AveragePooling2D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `AveragePooling2D` can accept only 0 positional arguments (), but you passed the following positional arguments: [(2, 2), (2, 2), 'valid']
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_maxpooling3d_legacy_interface ______________________
+
+    def test_maxpooling3d_legacy_interface():
+        old_layer = keras.layers.MaxPooling3D(
+            pool_size=(2, 2, 2), border_mode='valid', name='maxpool3d')
+        new_layer = keras.layers.MaxPool3D(
+            pool_size=(2, 2, 2), padding='valid', name='maxpool3d')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.MaxPooling3D(
+>           (2, 2, 2), (2, 2, 2), 'valid', name='maxpool3d')
+
+interface_test.py:307: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.MaxPooling3D object at 0x00000279A68D3898>, (2, 2, 2), (2, 2, 2), 'valid')
+kwargs = {'name': 'maxpool3d'}, object_name = 'MaxPooling3D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `MaxPooling3D` can accept only 0 positional arguments (), but you passed the following positional arguments: [(2, 2, 2), (2, 2, 2), 'valid']
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_avgpooling3d_legacy_interface ______________________
+
+    def test_avgpooling3d_legacy_interface():
+        old_layer = keras.layers.AveragePooling3D(
+            pool_size=(2, 2, 2), border_mode='valid', name='avgpooling3d')
+        new_layer = keras.layers.AvgPool3D(
+            pool_size=(2, 2, 2), padding='valid', name='avgpooling3d')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.AveragePooling3D(
+>           (2, 2, 2), (2, 2, 2), 'valid', name='avgpooling3d')
+
+interface_test.py:341: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.pooling.AveragePooling3D object at 0x00000279A680BC50>, (2, 2, 2), (2, 2, 2), 'valid')
+kwargs = {'name': 'avgpooling3d'}, object_name = 'AveragePooling3D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `AveragePooling3D` can accept only 0 positional arguments (), but you passed the following positional arguments: [(2, 2, 2), (2, 2, 2), 'valid']
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_upsampling1d_legacy_interface ______________________
+
+    def test_upsampling1d_legacy_interface():
+        old_layer = keras.layers.UpSampling1D(length=3, name='us1d')
+        new_layer_1 = keras.layers.UpSampling1D(size=3, name='us1d')
+>       new_layer_2 = keras.layers.UpSampling1D(3, name='us1d')
+
+interface_test.py:447: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.UpSampling1D object at 0x00000279A66B8C18>, 3)
+kwargs = {'name': 'us1d'}, object_name = 'UpSampling1D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `UpSampling1D` can accept only 0 positional arguments (), but you passed the following positional arguments: [3]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_upsampling2d_legacy_interface ______________________
+
+    def test_upsampling2d_legacy_interface():
+>       old_layer = keras.layers.UpSampling2D((2, 2), dim_ordering='tf', name='us2d')
+
+interface_test.py:453: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.UpSampling2D object at 0x00000279A66AA6A0>, (2, 2))
+kwargs = {'dim_ordering': 'tf', 'name': 'us2d'}, object_name = 'UpSampling2D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `UpSampling2D` can accept only 0 positional arguments (), but you passed the following positional arguments: [(2, 2)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_upsampling3d_legacy_interface ______________________
+
+    def test_upsampling3d_legacy_interface():
+        old_layer = keras.layers.UpSampling3D((2, 2, 2),
+                                              dim_ordering='tf',
+>                                             name='us3d')
+
+interface_test.py:462: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.UpSampling3D object at 0x00000279A679DB38>, (2, 2, 2))
+kwargs = {'dim_ordering': 'tf', 'name': 'us3d'}, object_name = 'UpSampling3D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `UpSampling3D` can accept only 0 positional arguments (), but you passed the following positional arguments: [(2, 2, 2)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+________________________ test_conv2d_legacy_interface _________________________
+
+    def test_conv2d_legacy_interface():
+>       old_layer = keras.layers.Convolution2D(5, 3, 3, name='conv')
+
+interface_test.py:470: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional.Conv2D object at 0x00000279A68AE588>, 5, (3, 3)]
+kwargs = {'name': 'conv'}, object_name = 'Conv2D'
+converted = [('kernel_size', 'nb_row/nb_col')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Conv2D` can accept only 0 positional arguments (), but you passed the following positional arguments: [5, (3, 3)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_______________________ test_deconv2d_legacy_interface ________________________
+
+    def test_deconv2d_legacy_interface():
+>       old_layer = keras.layers.Deconvolution2D(5, 3, 3, (6, 7, 5), name='deconv')
+
+interface_test.py:506: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional.Conv2DTranspose object at 0x00000279A66A3048>, 5, (3, 3)]
+kwargs = {'name': 'deconv'}, object_name = 'Conv2DTranspose'
+converted = [('output_shape', None), ('kernel_size', 'nb_row/nb_col')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Conv2DTranspose` can accept only 0 positional arguments (), but you passed the following positional arguments: [5, (3, 3)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+________________________ test_conv1d_legacy_interface _________________________
+
+    def test_conv1d_legacy_interface():
+        old_layer = keras.layers.Convolution1D(5,
+                                               filter_length=3,
+                                               input_dim=3,
+                                               input_length=4,
+>                                              name='conv')
+
+interface_test.py:555: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Conv1D object at 0x00000279A48E1898>, 5)
+kwargs = {'filter_length': 3, 'input_shape': (4, 3), 'name': 'conv'}
+object_name = 'Conv1D', converted = [('input_shape', 'input_dim')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Conv1D` can accept only 0 positional arguments (), but you passed the following positional arguments: [5]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+___________________ test_separable_conv2d_legacy_interface ____________________
+
+    def test_separable_conv2d_legacy_interface():
+>       old_layer = keras.layers.SeparableConv2D(5, 3, 3, name='conv')
+
+interface_test.py:581: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional.SeparableConv2D object at 0x00000279A66927B8>, 5, (3, 3)]
+kwargs = {'name': 'conv'}, object_name = 'SeparableConv2D'
+converted = [('kernel_size', 'nb_row/nb_col')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `SeparableConv2D` can accept only 0 positional arguments (), but you passed the following positional arguments: [5, (3, 3)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+________________________ test_conv3d_legacy_interface _________________________
+
+    def test_conv3d_legacy_interface():
+>       old_layer = keras.layers.Convolution3D(5, 3, 3, 4, name='conv')
+
+interface_test.py:620: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional.Conv3D object at 0x00000279A67FB438>, 5, (3, 3, 4)]
+kwargs = {'name': 'conv'}, object_name = 'Conv3D'
+converted = [('kernel_size', 'kernel_dim*')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Conv3D` can accept only 0 positional arguments (), but you passed the following positional arguments: [5, (3, 3, 4)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+______________________ test_convlstm2d_legacy_interface _______________________
+
+    def test_convlstm2d_legacy_interface():
+>       old_layer = keras.layers.ConvLSTM2D(5, 3, 3, name='conv')
+
+interface_test.py:667: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional_recurrent.ConvLSTM2D object at 0x00000279A670B320>, 5, (3, 3)]
+kwargs = {'name': 'conv'}, object_name = 'ConvLSTM2D'
+converted = [('kernel_size', 'nb_row/nb_col')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `ConvLSTM2D` can accept only 0 positional arguments (), but you passed the following positional arguments: [5, (3, 3)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_atrousconv1d_legacy_interface ______________________
+
+    def test_atrousconv1d_legacy_interface():
+        old_layer = keras.layers.AtrousConvolution1D(5, 3,
+                                                     init='normal',
+                                                     subsample_length=2,
+                                                     border_mode='valid',
+                                                     W_regularizer='l1',
+                                                     b_regularizer='l2',
+                                                     W_constraint='maxnorm',
+                                                     b_constraint='unitnorm',
+                                                     atrous_rate=2,
+>                                                    name='conv')
+
+interface_test.py:735: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:294: in AtrousConvolution1D
+    return Conv1D(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Conv1D object at 0x00000279A6677DD8>, 5, 3)
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'b_constraint': 'unitnorm', 'b_regularizer': 'l2', ...}
+object_name = 'Conv1D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Conv1D` can accept only 0 positional arguments (), but you passed the following positional arguments: [5, 3]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_atrousconv2d_legacy_interface ______________________
+
+    def test_atrousconv2d_legacy_interface():
+        old_layer = keras.layers.AtrousConvolution2D(
+            5, 3, 3,
+            atrous_rate=(2, 2),
+            init='normal',
+            subsample=(2, 2),
+            border_mode='valid',
+            dim_ordering='th',
+            W_regularizer='l1',
+            b_regularizer='l2',
+            W_constraint='maxnorm',
+            b_constraint='unitnorm',
+>           name='conv')
+
+interface_test.py:761: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:308: in AtrousConvolution2D
+    return Conv2D(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = [<keras.layers.convolutional.Conv2D object at 0x00000279A67D8198>, 5, (3, 3)]
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'b_constraint': 'unitnorm', 'b_regularizer': 'l2', ...}
+object_name = 'Conv2D', converted = [('kernel_size', 'nb_row/nb_col')]
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `Conv2D` can accept only 0 positional arguments (), but you passed the following positional arguments: [5, (3, 3)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_zeropadding2d_legacy_interface _____________________
+
+    def test_zeropadding2d_legacy_interface():
+        old_layer = keras.layers.ZeroPadding2D(padding={'right_pad': 4,
+                                                        'bottom_pad': 2,
+                                                        'top_pad': 1,
+                                                        'left_pad': 3},
+                                               dim_ordering='tf',
+                                               name='zp2d')
+        new_layer = keras.layers.ZeroPadding2D(((1, 2), (3, 4)),
+                                               data_format='channels_last',
+>                                              name='zp2d')
+
+interface_test.py:785: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.ZeroPadding2D object at 0x00000279A67E7860>, ((1, 2), (3, 4)))
+kwargs = {'data_format': 'channels_last', 'name': 'zp2d'}
+object_name = 'ZeroPadding2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `ZeroPadding2D` can accept only 0 positional arguments (), but you passed the following positional arguments: [((1, 2), (3, 4))]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+_____________________ test_zeropadding3d_legacy_interface _____________________
+
+    def test_zeropadding3d_legacy_interface():
+        old_layer = keras.layers.ZeroPadding3D((2, 2, 2),
+                                               dim_ordering='tf',
+>                                              name='zp3d')
+
+interface_test.py:792: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.ZeroPadding3D object at 0x00000279A494BB00>, (2, 2, 2))
+kwargs = {'dim_ordering': 'tf', 'name': 'zp3d'}, object_name = 'ZeroPadding3D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `ZeroPadding3D` can accept only 0 positional arguments (), but you passed the following positional arguments: [(2, 2, 2)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+___________________ test_spatialdropout1d_legacy_interface ____________________
+
+    def test_spatialdropout1d_legacy_interface():
+>       old_layer = keras.layers.SpatialDropout1D(p=0.6, name='sd1d')
+
+interface_test.py:853: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:169: in __init__
+    super(SpatialDropout1D, self).__init__(rate, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.SpatialDropout1D object at 0x00000279A4919C88>, 0.6)
+kwargs = {'name': 'sd1d'}, object_name = 'SpatialDropout1D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `SpatialDropout1D` can accept only 0 positional arguments (), but you passed the following positional arguments: [0.6]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+___________________ test_spatialdropout2d_legacy_interface ____________________
+
+    def test_spatialdropout2d_legacy_interface():
+        old_layer = keras.layers.SpatialDropout2D(p=0.5,
+                                                  dim_ordering='tf',
+>                                                 name='sd2d')
+
+interface_test.py:863: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:215: in __init__
+    super(SpatialDropout2D, self).__init__(rate, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.SpatialDropout2D object at 0x00000279A6673748>, 0.5)
+kwargs = {'name': 'sd2d'}, object_name = 'SpatialDropout2D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `SpatialDropout2D` can accept only 0 positional arguments (), but you passed the following positional arguments: [0.5]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+___________________ test_spatialdropout3d_legacy_interface ____________________
+
+    def test_spatialdropout3d_legacy_interface():
+        old_layer = keras.layers.SpatialDropout3D(p=0.5,
+                                                  dim_ordering='tf',
+>                                                 name='sd3d')
+
+interface_test.py:877: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:264: in __init__
+    super(SpatialDropout3D, self).__init__(rate, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.SpatialDropout3D object at 0x00000279A68886D8>, 0.5)
+kwargs = {'name': 'sd3d'}, object_name = 'SpatialDropout3D', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+>                               str(list(args[1:])))
+E               TypeError: `SpatialDropout3D` can accept only 0 positional arguments (), but you passed the following positional arguments: [0.5]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:46: TypeError
+============================== warnings summary ===============================
+interface_test.py::test_atrousconv1d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:290: UserWarning: The `AtrousConvolution1D` layer  has been deprecated. Use instead the `Conv1D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution1D` layer '
+
+interface_test.py::test_atrousconv2d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:304: UserWarning: The `AtrousConvolution2D` layer  has been deprecated. Use instead the `Conv2D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution2D` layer 'Using TensorFlow backend.
+
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED interface_test.py::test_dense_legacy_interface - TypeError: `Dense` ca...
+FAILED interface_test.py::test_dropout_legacy_interface - TypeError: `Dropout...
+FAILED interface_test.py::test_embedding_legacy_interface - TypeError: `Embed...
+FAILED interface_test.py::test_maxpooling1d_legacy_interface - TypeError: `Ma...
+FAILED interface_test.py::test_avgpooling1d_legacy_interface - TypeError: `Av...
+FAILED interface_test.py::test_prelu_legacy_interface - TypeError: `PReLU` ca...
+FAILED interface_test.py::test_lstm_legacy_interface - TypeError: `LSTM` can ...
+FAILED interface_test.py::test_simplernn_legacy_interface - TypeError: `Simpl...
+FAILED interface_test.py::test_gru_legacy_interface - TypeError: `GRU` can ac...
+FAILED interface_test.py::test_gaussiandropout_legacy_interface - TypeError: ...
+FAILED interface_test.py::test_maxpooling2d_legacy_interface - TypeError: `Ma...
+FAILED interface_test.py::test_avgpooling2d_legacy_interface - TypeError: `Av...
+FAILED interface_test.py::test_maxpooling3d_legacy_interface - TypeError: `Ma...
+FAILED interface_test.py::test_avgpooling3d_legacy_interface - TypeError: `Av...
+FAILED interface_test.py::test_upsampling1d_legacy_interface - TypeError: `Up...
+FAILED interface_test.py::test_upsampling2d_legacy_interface - TypeError: `Up...
+FAILED interface_test.py::test_upsampling3d_legacy_interface - TypeError: `Up...
+FAILED interface_test.py::test_conv2d_legacy_interface - TypeError: `Conv2D` ...
+FAILED interface_test.py::test_deconv2d_legacy_interface - TypeError: `Conv2D...
+FAILED interface_test.py::test_conv1d_legacy_interface - TypeError: `Conv1D` ...
+FAILED interface_test.py::test_separable_conv2d_legacy_interface - TypeError:...
+FAILED interface_test.py::test_conv3d_legacy_interface - TypeError: `Conv3D` ...
+FAILED interface_test.py::test_convlstm2d_legacy_interface - TypeError: `Conv...
+FAILED interface_test.py::test_atrousconv1d_legacy_interface - TypeError: `Co...
+FAILED interface_test.py::test_atrousconv2d_legacy_interface - TypeError: `Co...
+FAILED interface_test.py::test_zeropadding2d_legacy_interface - TypeError: `Z...
+FAILED interface_test.py::test_zeropadding3d_legacy_interface - TypeError: `Z...
+FAILED interface_test.py::test_spatialdropout1d_legacy_interface - TypeError:...
+FAILED interface_test.py::test_spatialdropout2d_legacy_interface - TypeError:...
+FAILED interface_test.py::test_spatialdropout3d_legacy_interface - TypeError:...
+================== 30 failed, 8 passed, 2 warnings in 2.92s ===================

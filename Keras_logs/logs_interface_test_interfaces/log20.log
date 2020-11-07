@@ -1,0 +1,2808 @@
+2020-10-04 18:58:50.173300: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\legacy
+plugins: flaky-3.7.0
+collected 38 items
+
+interface_test.py FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                 [100%]
+
+================================== FAILURES ===================================
+_________________________ test_dense_legacy_interface _________________________
+
+    def test_dense_legacy_interface():
+>       old_layer = keras.layers.Dense(input_dim=3, output_dim=2, name='d')
+
+interface_test.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.Dense object at 0x0000017C1EFA6048>,)
+kwargs = {'input_dim': 3, 'name': 'd', 'output_dim': 2}, object_name = 'Dense'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'units'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+________________________ test_dropout_legacy_interface ________________________
+
+    def test_dropout_legacy_interface():
+>       old_layer = keras.layers.Dropout(p=3, name='drop')
+
+interface_test.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.Dropout object at 0x0000017C20DC96D8>,)
+kwargs = {'name': 'drop', 'p': 3}, object_name = 'Dropout', converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'rate'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+_______________________ test_embedding_legacy_interface _______________________
+
+    def test_embedding_legacy_interface():
+        old_layer = keras.layers.Embedding(4, 2, name='d')
+        new_layer = keras.layers.Embedding(output_dim=2, input_dim=4, name='d')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Embedding(input_dim=4, output_dim=2, name='d',
+                                           init='normal',
+                                           W_regularizer='l1',
+>                                          W_constraint='maxnorm')
+
+interface_test.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\embeddings.py:93: in __init__
+    super(Embedding, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.embeddings.Embedding object at 0x0000017C1FBA4A58>
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'init': 'normal', 'input_shape': (None,), ...}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'init'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'init')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_maxpooling1d_legacy_interface ______________________
+
+    def test_maxpooling1d_legacy_interface():
+        old_layer = keras.layers.MaxPool1D(pool_length=2,
+                                           border_mode='valid',
+>                                          name='maxpool1d')
+
+interface_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:108: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:21: in __init__
+    super(_Pooling1D, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.pooling.MaxPooling1D object at 0x0000017C20DF4DA0>
+kwargs = {'border_mode': 'valid', 'name': 'maxpool1d', 'pool_length': 2}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'pool_length'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'pool_length')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_avgpooling1d_legacy_interface ______________________
+
+    def test_avgpooling1d_legacy_interface():
+        old_layer = keras.layers.AvgPool1D(pool_length=2,
+                                           border_mode='valid',
+>                                          name='d')
+
+interface_test.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:156: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:21: in __init__
+    super(_Pooling1D, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.pooling.AveragePooling1D object at 0x0000017C1F00F2E8>
+kwargs = {'border_mode': 'valid', 'name': 'd', 'pool_length': 2}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'pool_length'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'pool_length')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_________________________ test_prelu_legacy_interface _________________________
+
+    def test_prelu_legacy_interface():
+>       old_layer = keras.layers.PReLU(init='zero', name='p')
+
+interface_test.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\advanced_activations.py:99: in __init__
+    super(PReLU, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.advanced_activations.PReLU object at 0x0000017C20D66B70>
+kwargs = {'init': 'zero', 'name': 'p'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'init'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'init')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_gaussiannoise_legacy_interface _____________________
+
+    def test_gaussiannoise_legacy_interface():
+>       old_layer = keras.layers.GaussianNoise(sigma=0.5, name='gn')
+
+interface_test.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.noise.GaussianNoise object at 0x0000017C20FABF60>,)
+kwargs = {'name': 'gn', 'sigma': 0.5}, object_name = 'GaussianNoise'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'stddev'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+_________________________ test_lstm_legacy_interface __________________________
+
+    def test_lstm_legacy_interface():
+>       old_layer = keras.layers.LSTM(input_shape=[3, 5], output_dim=2, name='d')
+
+interface_test.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.recurrent.LSTM object at 0x0000017C20F51240>,)
+kwargs = {'input_shape': [3, 5], 'name': 'd', 'output_dim': 2}
+object_name = 'LSTM', converted = [], key = 'consume_less'
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'units'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+_______________________ test_simplernn_legacy_interface _______________________
+
+    def test_simplernn_legacy_interface():
+>       old_layer = keras.layers.SimpleRNN(input_shape=[3, 5], output_dim=2, name='d')
+
+interface_test.py:176: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.recurrent.SimpleRNN object at 0x0000017C20E888D0>,)
+kwargs = {'input_shape': [3, 5], 'name': 'd', 'output_dim': 2}
+object_name = 'SimpleRNN', converted = [], key = 'consume_less'
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'units'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+__________________________ test_gru_legacy_interface __________________________
+
+    def test_gru_legacy_interface():
+>       old_layer = keras.layers.GRU(input_shape=[3, 5], output_dim=2, name='d')
+
+interface_test.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.recurrent.GRU object at 0x0000017C20EA47F0>,)
+kwargs = {'input_shape': [3, 5], 'name': 'd', 'output_dim': 2}
+object_name = 'GRU', converted = [], key = 'consume_less'
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'units'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+____________________ test_gaussiandropout_legacy_interface ____________________
+
+    def test_gaussiandropout_legacy_interface():
+>       old_layer = keras.layers.GaussianDropout(p=0.6, name='drop')
+
+interface_test.py:226: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.noise.GaussianDropout object at 0x0000017C20F81080>,)
+kwargs = {'name': 'drop', 'p': 0.6}, object_name = 'GaussianDropout'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'rate'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+_____________________ test_maxpooling2d_legacy_interface ______________________
+
+    def test_maxpooling2d_legacy_interface():
+        old_layer = keras.layers.MaxPooling2D(
+>           pool_size=(2, 2), border_mode='valid', name='maxpool2d')
+
+interface_test.py:235: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:262: in __init__
+    data_format, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:171: in __init__
+    super(_Pooling2D, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.pooling.MaxPooling2D object at 0x0000017C20E2C320>
+kwargs = {'border_mode': 'valid', 'name': 'maxpool2d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'border_mode'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'border_mode')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_avgpooling2d_legacy_interface ______________________
+
+    def test_avgpooling2d_legacy_interface():
+        old_layer = keras.layers.AveragePooling2D(
+>           pool_size=(2, 2), border_mode='valid', name='avgpooling2d')
+
+interface_test.py:267: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:317: in __init__
+    data_format, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:171: in __init__
+    super(_Pooling2D, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.pooling.AveragePooling2D object at 0x0000017C20FE0710>
+kwargs = {'border_mode': 'valid', 'name': 'avgpooling2d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'border_mode'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'border_mode')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_maxpooling3d_legacy_interface ______________________
+
+    def test_maxpooling3d_legacy_interface():
+        old_layer = keras.layers.MaxPooling3D(
+>           pool_size=(2, 2, 2), border_mode='valid', name='maxpool3d')
+
+interface_test.py:301: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:427: in __init__
+    data_format, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:332: in __init__
+    super(_Pooling3D, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.pooling.MaxPooling3D object at 0x0000017C20E4D9B0>
+kwargs = {'border_mode': 'valid', 'name': 'maxpool3d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'border_mode'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'border_mode')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_avgpooling3d_legacy_interface ______________________
+
+    def test_avgpooling3d_legacy_interface():
+        old_layer = keras.layers.AveragePooling3D(
+>           pool_size=(2, 2, 2), border_mode='valid', name='avgpooling3d')
+
+interface_test.py:335: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:477: in __init__
+    data_format, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:332: in __init__
+    super(_Pooling3D, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.pooling.AveragePooling3D object at 0x0000017C20EF9E10>
+kwargs = {'border_mode': 'valid', 'name': 'avgpooling3d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'border_mode'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'border_mode')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+__________________ test_global_maxpooling2d_legacy_interface __________________
+
+    def test_global_maxpooling2d_legacy_interface():
+        old_layer = keras.layers.GlobalMaxPooling2D(dim_ordering='tf',
+>                                                   name='global_maxpool2d')
+
+interface_test.py:370: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:593: in __init__
+    super(_GlobalPooling2D, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.pooling.GlobalMaxPooling2D object at 0x0000017C20CF95F8>
+kwargs = {'dim_ordering': 'channels_last', 'name': 'global_maxpool2d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'dim_ordering'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'dim_ordering')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+__________________ test_global_avgpooling2d_legacy_interface __________________
+
+    def test_global_avgpooling2d_legacy_interface():
+        old_layer = keras.layers.GlobalAveragePooling2D(dim_ordering='tf',
+>                                                       name='global_avgpool2d')
+
+interface_test.py:389: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:593: in __init__
+    super(_GlobalPooling2D, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.pooling.GlobalAveragePooling2D object at 0x0000017C21050278>
+kwargs = {'dim_ordering': 'channels_last', 'name': 'global_avgpool2d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'dim_ordering'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'dim_ordering')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+__________________ test_global_maxpooling3d_legacy_interface __________________
+
+    def test_global_maxpooling3d_legacy_interface():
+        old_layer = keras.layers.GlobalMaxPooling3D(dim_ordering='tf',
+>                                                   name='global_maxpool3d')
+
+interface_test.py:408: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:688: in __init__
+    super(_GlobalPooling3D, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.pooling.GlobalMaxPooling3D object at 0x0000017C20FE16D8>
+kwargs = {'dim_ordering': 'channels_last', 'name': 'global_maxpool3d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'dim_ordering'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'dim_ordering')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+__________________ test_global_avgpooling3d_legacy_interface __________________
+
+    def test_global_avgpooling3d_legacy_interface():
+        old_layer = keras.layers.GlobalAveragePooling3D(dim_ordering='tf',
+>                                                       name='global_avgpool3d')
+
+interface_test.py:427: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\pooling.py:688: in __init__
+    super(_GlobalPooling3D, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.pooling.GlobalAveragePooling3D object at 0x0000017C20E05F98>
+kwargs = {'dim_ordering': 'channels_last', 'name': 'global_avgpool3d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'dim_ordering'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'dim_ordering')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_upsampling1d_legacy_interface ______________________
+
+    def test_upsampling1d_legacy_interface():
+>       old_layer = keras.layers.UpSampling1D(length=3, name='us1d')
+
+interface_test.py:445: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:1962: in __init__
+    super(UpSampling1D, self).__init__((int(size),), 'channels_last', **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:1921: in __init__
+    super(_UpSampling, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.UpSampling1D object at 0x0000017C20DFD6A0>
+kwargs = {'length': 3, 'name': 'us1d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'length'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'length')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_upsampling2d_legacy_interface ______________________
+
+    def test_upsampling2d_legacy_interface():
+>       old_layer = keras.layers.UpSampling2D((2, 2), dim_ordering='tf', name='us2d')
+
+interface_test.py:453: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:2017: in __init__
+    super(UpSampling2D, self).__init__(normalized_size, data_format, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:1921: in __init__
+    super(_UpSampling, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.UpSampling2D object at 0x0000017C20F98588>
+kwargs = {'dim_ordering': 'channels_last', 'name': 'us2d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'dim_ordering'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'dim_ordering')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_upsampling3d_legacy_interface ______________________
+
+    def test_upsampling3d_legacy_interface():
+        old_layer = keras.layers.UpSampling3D((2, 2, 2),
+                                              dim_ordering='tf',
+>                                             name='us3d')
+
+interface_test.py:462: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:2071: in __init__
+    super(UpSampling3D, self).__init__(normalized_size, data_format, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:1921: in __init__
+    super(_UpSampling, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.UpSampling3D object at 0x0000017C20DC97F0>
+kwargs = {'dim_ordering': 'channels_last', 'name': 'us3d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'dim_ordering'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'dim_ordering')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+________________________ test_conv2d_legacy_interface _________________________
+
+    def test_conv2d_legacy_interface():
+        old_layer = keras.layers.Convolution2D(5, 3, 3, name='conv')
+        new_layer = keras.layers.Conv2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Convolution2D(5, 3, nb_col=3, name='conv')
+        new_layer = keras.layers.Conv2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Convolution2D(5, nb_row=3, nb_col=3, name='conv')
+        new_layer = keras.layers.Conv2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Convolution2D(5, 3, 3,
+                                               init='normal',
+                                               subsample=(2, 2),
+                                               border_mode='valid',
+                                               dim_ordering='th',
+                                               W_regularizer='l1',
+                                               b_regularizer='l2',
+                                               W_constraint='maxnorm',
+                                               b_constraint='unitnorm',
+>                                              name='conv')
+
+interface_test.py:491: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:484: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:105: in __init__
+    super(_Conv, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2D object at 0x0000017C20EA4B38>
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'b_constraint': 'unitnorm', 'b_regularizer': 'l2', ...}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'init'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'init')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_______________________ test_deconv2d_legacy_interface ________________________
+
+    def test_deconv2d_legacy_interface():
+        old_layer = keras.layers.Deconvolution2D(5, 3, 3, (6, 7, 5), name='deconv')
+        new_layer = keras.layers.Conv2DTranspose(5, (3, 3), name='deconv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Deconvolution2D(5, 3, 3, output_shape=(6, 7, 5),
+                                                 name='deconv')
+        new_layer = keras.layers.Conv2DTranspose(5, (3, 3), name='deconv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Deconvolution2D(5, 3, nb_col=3, output_shape=(6, 7, 5),
+                                                 name='deconv')
+        new_layer = keras.layers.Conv2DTranspose(5, (3, 3), name='deconv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Deconvolution2D(5, nb_row=3, nb_col=3,
+                                                 output_shape=(6, 7, 5), name='deconv')
+        new_layer = keras.layers.Conv2DTranspose(5, (3, 3), name='deconv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Deconvolution2D(5, 3, 3,
+                                                 output_shape=(6, 7, 5),
+                                                 init='normal',
+                                                 subsample=(2, 2),
+                                                 border_mode='valid',
+                                                 dim_ordering='th',
+                                                 W_regularizer='l1',
+                                                 b_regularizer='l2',
+                                                 W_constraint='maxnorm',
+                                                 b_constraint='unitnorm',
+>                                                name='conv')
+
+interface_test.py:535: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:764: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:484: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:105: in __init__
+    super(_Conv, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x0000017C20FC3198>
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'b_constraint': 'unitnorm', 'b_regularizer': 'l2', ...}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'init'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'init')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+________________________ test_conv1d_legacy_interface _________________________
+
+    def test_conv1d_legacy_interface():
+        old_layer = keras.layers.Convolution1D(5,
+                                               filter_length=3,
+                                               input_dim=3,
+                                               input_length=4,
+>                                              name='conv')
+
+interface_test.py:555: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.convolutional.Conv1D object at 0x0000017C20DAC4E0>, 5)
+kwargs = {'filter_length': 3, 'input_shape': (4, 3), 'name': 'conv'}
+object_name = 'Conv1D', converted = [('input_shape', 'input_dim')]
+value = (4, 3)
+signature = '`Conv1D(5, filter_length=3, name="conv", input_shape=(4, 3))`'
+i = 2, str_val = '(4, 3)'
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'kernel_size'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+___________________ test_separable_conv2d_legacy_interface ____________________
+
+    def test_separable_conv2d_legacy_interface():
+        old_layer = keras.layers.SeparableConv2D(5, 3, 3, name='conv')
+        new_layer = keras.layers.SeparableConv2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.SeparableConv2D(5, 3, nb_col=3, name='conv')
+        new_layer = keras.layers.SeparableConv2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.SeparableConv2D(5, nb_row=3, nb_col=3, name='conv')
+        new_layer = keras.layers.SeparableConv2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.SeparableConv2D(5, 3, 3,
+                                                 init='normal',
+                                                 subsample=(2, 2),
+                                                 border_mode='valid',
+                                                 dim_ordering='th',
+                                                 depthwise_regularizer='l1',
+                                                 b_regularizer='l2',
+                                                 depthwise_constraint='maxnorm',
+                                                 b_constraint='unitnorm',
+>                                                name='conv')
+
+interface_test.py:602: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:1684: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:1312: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:105: in __init__
+    super(_Conv, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x0000017C20DBA080>
+kwargs = {'b_constraint': 'unitnorm', 'b_regularizer': 'l2', 'border_mode': 'valid', 'dim_ordering': 'channels_first', ...}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'subsample'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'subsample')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+________________________ test_conv3d_legacy_interface _________________________
+
+    def test_conv3d_legacy_interface():
+        old_layer = keras.layers.Convolution3D(5, 3, 3, 4, name='conv')
+        new_layer = keras.layers.Conv3D(5, (3, 3, 4), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Convolution3D(5, 3, 3, kernel_dim3=4, name='conv')
+        new_layer = keras.layers.Conv3D(5, (3, 3, 4), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Convolution3D(5, 3,
+                                               kernel_dim2=3,
+                                               kernel_dim3=4,
+                                               name='conv')
+        new_layer = keras.layers.Conv3D(5, (3, 3, 4), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Convolution3D(5,
+                                               kernel_dim1=3,
+                                               kernel_dim2=3,
+                                               kernel_dim3=4,
+                                               name='conv')
+        new_layer = keras.layers.Conv3D(5, (3, 3, 4), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.Convolution3D(5, 3, 3, 4,
+                                               init='normal',
+                                               subsample=(2, 2, 2),
+                                               border_mode='valid',
+                                               dim_ordering='th',
+                                               W_regularizer='l1',
+                                               b_regularizer='l2',
+                                               W_constraint='maxnorm',
+                                               b_constraint='unitnorm',
+>                                              name='conv')
+
+interface_test.py:652: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:613: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:105: in __init__
+    super(_Conv, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x0000017C21050C18>
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'b_constraint': 'unitnorm', 'b_regularizer': 'l2', ...}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'init'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'init')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+______________________ test_convlstm2d_legacy_interface _______________________
+
+    def test_convlstm2d_legacy_interface():
+        old_layer = keras.layers.ConvLSTM2D(5, 3, 3, name='conv')
+        new_layer = keras.layers.ConvLSTM2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.ConvLSTM2D(5, 3, nb_col=3, name='conv')
+        new_layer = keras.layers.ConvLSTM2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.ConvLSTM2D(5, nb_row=3, nb_col=3, name='conv')
+        new_layer = keras.layers.ConvLSTM2D(5, (3, 3), name='conv')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.ConvLSTM2D(5, 3, 3,
+                                            init='normal',
+                                            inner_init='uniform',
+                                            forget_bias_init='one',
+                                            inner_activation='relu',
+                                            subsample=(2, 2),
+                                            border_mode='valid',
+                                            dim_ordering='th',
+                                            W_regularizer='l1',
+                                            U_regularizer='l2',
+                                            b_regularizer='l2',
+                                            dropout_W=0.2,
+                                            dropout_U=0.1,
+>                                           name='conv')
+
+interface_test.py:692: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional_recurrent.py:966: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional_recurrent.py:151: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\recurrent.py:410: in __init__
+    super(RNN, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional_recurrent.ConvLSTM2D object at 0x0000017C20D2DE10>
+kwargs = {'U_regularizer': 'l2', 'W_regularizer': 'l1', 'b_regularizer': 'l2', 'border_mode': 'valid', ...}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'init'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'init')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_______________________ test_batchnorm_legacy_interface _______________________
+
+    def test_batchnorm_legacy_interface():
+        old_layer = keras.layers.BatchNormalization(mode=0, name='bn')
+        new_layer = keras.layers.BatchNormalization(name='bn')
+        assert json.dumps(old_layer.get_config()) == json.dumps(new_layer.get_config())
+    
+        old_layer = keras.layers.BatchNormalization(mode=0,
+                                                    beta_init='one',
+                                                    gamma_init='uniform',
+>                                                   name='bn')
+
+interface_test.py:718: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\normalization.py:76: in __init__
+    super(BatchNormalization, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.normalization.BatchNormalization object at 0x0000017C20D85278>
+kwargs = {'beta_init': 'one', 'gamma_init': 'uniform', 'name': 'bn'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'beta_init'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'beta_init')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_atrousconv1d_legacy_interface ______________________
+
+    def test_atrousconv1d_legacy_interface():
+        old_layer = keras.layers.AtrousConvolution1D(5, 3,
+                                                     init='normal',
+                                                     subsample_length=2,
+                                                     border_mode='valid',
+                                                     W_regularizer='l1',
+                                                     b_regularizer='l2',
+                                                     W_constraint='maxnorm',
+                                                     b_constraint='unitnorm',
+                                                     atrous_rate=2,
+>                                                    name='conv')
+
+interface_test.py:735: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:294: in AtrousConvolution1D
+    return Conv1D(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:353: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:105: in __init__
+    super(_Conv, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv1D object at 0x0000017C2100B400>
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'b_constraint': 'unitnorm', 'b_regularizer': 'l2', ...}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'init'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'init')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_atrousconv2d_legacy_interface ______________________
+
+    def test_atrousconv2d_legacy_interface():
+        old_layer = keras.layers.AtrousConvolution2D(
+            5, 3, 3,
+            atrous_rate=(2, 2),
+            init='normal',
+            subsample=(2, 2),
+            border_mode='valid',
+            dim_ordering='th',
+            W_regularizer='l1',
+            b_regularizer='l2',
+            W_constraint='maxnorm',
+            b_constraint='unitnorm',
+>           name='conv')
+
+interface_test.py:761: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:308: in AtrousConvolution2D
+    return Conv2D(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:484: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:105: in __init__
+    super(_Conv, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2D object at 0x0000017C20DB1DD8>
+kwargs = {'W_constraint': 'maxnorm', 'W_regularizer': 'l1', 'b_constraint': 'unitnorm', 'b_regularizer': 'l2', ...}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'init'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'init')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_zeropadding2d_legacy_interface _____________________
+
+    def test_zeropadding2d_legacy_interface():
+        old_layer = keras.layers.ZeroPadding2D(padding={'right_pad': 4,
+                                                        'bottom_pad': 2,
+                                                        'top_pad': 1,
+                                                        'left_pad': 3},
+                                               dim_ordering='tf',
+>                                              name='zp2d')
+
+interface_test.py:782: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:2228: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:2101: in __init__
+    super(_ZeroPadding, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.ZeroPadding2D object at 0x0000017C20DAC358>
+kwargs = {'dim_ordering': 'channels_last', 'name': 'zp2d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'dim_ordering'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'dim_ordering')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+_____________________ test_zeropadding3d_legacy_interface _____________________
+
+    def test_zeropadding3d_legacy_interface():
+        old_layer = keras.layers.ZeroPadding3D((2, 2, 2),
+                                               dim_ordering='tf',
+>                                              name='zp3d')
+
+interface_test.py:792: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:2308: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:2101: in __init__
+    super(_ZeroPadding, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.ZeroPadding3D object at 0x0000017C20FBD198>
+kwargs = {'dim_ordering': 'channels_last', 'name': 'zp3d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'dim_ordering'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'dim_ordering')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+______________________ test_cropping2d_legacy_interface _______________________
+
+    def test_cropping2d_legacy_interface():
+>       old_layer = keras.layers.Cropping2D(dim_ordering='tf', name='c2d')
+
+interface_test.py:800: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:2489: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:2336: in __init__
+    super(_Cropping, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Cropping2D object at 0x0000017C20F51DD8>
+kwargs = {'dim_ordering': 'channels_last', 'name': 'c2d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'dim_ordering'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'dim_ordering')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+______________________ test_cropping3d_legacy_interface _______________________
+
+    def test_cropping3d_legacy_interface():
+>       old_layer = keras.layers.Cropping3D(dim_ordering='tf', name='c3d')
+
+interface_test.py:806: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:2568: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:2336: in __init__
+    super(_Cropping, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Cropping3D object at 0x0000017C20DDB780>
+kwargs = {'dim_ordering': 'channels_last', 'name': 'c3d'}
+allowed_kwargs = {'batch_input_shape', 'batch_size', 'dtype', 'input_dtype', 'input_shape', 'name', ...}
+kwarg = 'dim_ordering'
+
+    def __init__(self, **kwargs):
+        self.input_spec = None
+        self.supports_masking = False
+        self.stateful = False
+    
+        # These properties will be set upon call of self.build()
+        self._trainable_weights = []
+        self._non_trainable_weights = []
+        self._losses = []
+        self._updates = []
+        self._per_input_losses = {}
+        self._per_input_updates = {}
+        self._built = False
+    
+        # A list of metric instances corresponding to the metric tensors added using
+        # the `add_metric` API.
+        self._metrics = []
+    
+        # These lists will be filled via successive calls
+        # to self._add_inbound_node().
+        self._inbound_nodes = []
+        self._outbound_nodes = []
+    
+        # These properties should be set by the user via keyword arguments.
+        # note that 'dtype', 'input_shape' and 'batch_input_shape'
+        # are only applicable to input layers: do not pass these keywords
+        # to non-input layers.
+        allowed_kwargs = {'input_shape',
+                          'batch_input_shape',
+                          'batch_size',
+                          'dtype',
+                          'name',
+                          'trainable',
+                          'weights',
+                          'input_dtype',  # legacy
+                          }
+        for kwarg in kwargs:
+            if kwarg not in allowed_kwargs:
+>               raise TypeError('Keyword argument not understood:', kwarg)
+E               TypeError: ('Keyword argument not understood:', 'dim_ordering')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:147: TypeError
+___________________ test_spatialdropout1d_legacy_interface ____________________
+
+    def test_spatialdropout1d_legacy_interface():
+>       old_layer = keras.layers.SpatialDropout1D(p=0.6, name='sd1d')
+
+interface_test.py:853: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.SpatialDropout1D object at 0x0000017C20EA4438>,)
+kwargs = {'name': 'sd1d', 'p': 0.6}, object_name = 'SpatialDropout1D'
+converted = []
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'rate'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+___________________ test_spatialdropout2d_legacy_interface ____________________
+
+    def test_spatialdropout2d_legacy_interface():
+        old_layer = keras.layers.SpatialDropout2D(p=0.5,
+                                                  dim_ordering='tf',
+>                                                 name='sd2d')
+
+interface_test.py:863: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.SpatialDropout2D object at 0x0000017C20DC9F28>,)
+kwargs = {'dim_ordering': 'channels_last', 'name': 'sd2d', 'p': 0.5}
+object_name = 'SpatialDropout2D', converted = [], key = 'dim_ordering'
+old_value = 'tf'
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'rate'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+___________________ test_spatialdropout3d_legacy_interface ____________________
+
+    def test_spatialdropout3d_legacy_interface():
+        old_layer = keras.layers.SpatialDropout3D(p=0.5,
+                                                  dim_ordering='tf',
+>                                                 name='sd3d')
+
+interface_test.py:877: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<keras.layers.core.SpatialDropout3D object at 0x0000017C20E4D278>,)
+kwargs = {'dim_ordering': 'channels_last', 'name': 'sd3d', 'p': 0.5}
+object_name = 'SpatialDropout3D', converted = [], key = 'dim_ordering'
+old_value = 'tf'
+
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        if object_type == 'class':
+            object_name = args[0].__class__.__name__
+        else:
+            object_name = func.__name__
+        if preprocessor:
+            args, kwargs, converted = preprocessor(args, kwargs)
+        else:
+            converted = []
+        if check_positional_args:
+            if len(args) > len(allowed_positional_args) + 1:
+                raise TypeError('`' + object_name +
+                                '` can accept only ' +
+                                str(len(allowed_positional_args)) +
+                                ' positional arguments ' +
+                                str(tuple(allowed_positional_args)) +
+                                ', but you passed the following '
+                                'positional arguments: ' +
+                                str(list(args[1:])))
+        for key in value_conversions:
+            if key in kwargs:
+                old_value = kwargs[key]
+                if old_value in value_conversions[key]:
+                    kwargs[key] = value_conversions[key][old_value]
+        for old_name, new_name in conversions:
+            if old_name in kwargs:
+                value = kwargs.pop(old_name)
+                if new_name in kwargs:
+                    raise_duplicate_arg_error(old_name, new_name)
+                kwargs[new_name] = value
+                converted.append((new_name, old_name))
+        if converted:
+            signature = '`' + object_name + '('
+            for i, value in enumerate(args[1:]):
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(args[1:]) - 1 or kwargs:
+                    signature += ', '
+            for i, (name, value) in enumerate(kwargs.items()):
+                signature += name + '='
+                if isinstance(value, six.string_types):
+                    signature += '"' + value + '"'
+                else:
+                    if isinstance(value, np.ndarray):
+                        str_val = 'array'
+                    else:
+                        str_val = str(value)
+                    if len(str_val) > 10:
+                        str_val = str_val[:10] + '...'
+                    signature += str_val
+                if i < len(kwargs) - 1:
+                    signature += ', '
+            signature += ')`'
+            warnings.warn('Update your `' + object_name + '` call to the ' +
+                          'Keras 2 API: ' + signature, stacklevel=2)
+>       return func(*args, **kwargs)
+E       TypeError: __init__() missing 1 required positional argument: 'rate'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: TypeError
+============================== warnings summary ===============================
+interface_test.py::test_atrousconv1d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:290: UserWarning: The `AtrousConvolution1D` layer  has been deprecated. Use instead the `Conv1D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution1D` layer '
+
+interface_test.py::test_atrousconv2d_legacy_interface
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\layers.py:304: UserWarning: The `AtrousConvolution2D` layer  has been deprecated. Use instead the `Conv2D` layer with the `dilation_rate` argument.
+    warnings.warn('The `AtrousConvolution2D` layer '
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED interface_test.py::test_dense_legacy_interface - TypeError: __init__()...
+FAILED interface_test.py::test_dropout_legacy_interface - TypeError: __init__...
+FAILED interface_test.py::test_embedding_legacy_interface - TypeError: ('Keyw...
+FAILED interface_test.py::test_maxpooling1d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_avgpooling1d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_prelu_legacy_interface - TypeError: ('Keyword ...
+FAILED interface_test.py::test_gaussiannoise_legacy_interface - TypeError: __...
+FAILED interface_test.py::test_lstm_legacy_interface - TypeError: __init__() ...
+FAILED interface_test.py::test_simplernn_legacy_interface - TypeError: __init...
+FAILED interface_test.py::test_gru_legacy_interface - TypeError: __init__() m...
+FAILED interface_test.py::test_gaussiandropout_legacy_interface - TypeError: ...
+FAILED interface_test.py::test_maxpooling2d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_avgpooling2d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_maxpooling3d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_avgpooling3d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_global_maxpooling2d_legacy_interface - TypeErr...
+FAILED interface_test.py::test_global_avgpooling2d_legacy_interface - TypeErr...
+FAILED interface_test.py::test_global_maxpooling3d_legacy_interface - TypeErr...
+FAILED interface_test.py::test_global_avgpooling3d_legacy_interface - TypeErr...
+FAILED interface_test.py::test_upsampling1d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_upsampling2d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_upsampling3d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_conv2d_legacy_interface - TypeError: ('Keyword...
+FAILED interface_test.py::test_deconv2d_legacy_interface - TypeError: ('Keywo...
+FAILED interface_test.py::test_conv1d_legacy_interface - TypeError: __init__(...
+FAILED interface_test.py::test_separable_conv2d_legacy_interface - TypeError:...
+FAILED interface_test.py::test_conv3d_legacy_interface - TypeError: ('Keyword...
+FAILED interface_test.py::test_convlstm2d_legacy_interface - TypeError: ('Key...
+FAILED interface_test.py::test_batchnorm_legacy_interface - TypeError: ('Keyw...
+FAILED interface_test.py::test_atrousconv1d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_atrousconv2d_legacy_interface - TypeError: ('K...
+FAILED interface_test.py::test_zeropadding2d_legacy_interface - TypeError: ('...
+FAILED interface_test.py::test_zeropadding3d_legacy_interface - TypeError: ('...Using TensorFlow backend.
+
+FAILED interface_test.py::test_cropping2d_legacy_interface - TypeError: ('Key...
+FAILED interface_test.py::test_cropping3d_legacy_interface - TypeError: ('Key...
+FAILED interface_test.py::test_spatialdropout1d_legacy_interface - TypeError:...
+FAILED interface_test.py::test_spatialdropout2d_legacy_interface - TypeError:...
+FAILED interface_test.py::test_spatialdropout3d_legacy_interface - TypeError:...
+======================= 38 failed, 2 warnings in 4.11s ========================
