@@ -1,0 +1,370 @@
+2020-10-03 15:54:53.061009: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 12 items
+
+optimizers_test.py FFFFFFFFFFF.                                          [100%]
+
+================================== FAILURES ===================================
+________________________________ test_no_grad _________________________________
+
+    @pytest.mark.skipif((K.backend() != 'tensorflow'),
+                        reason='Only Tensorflow raises a '
+                               'ValueError if the gradient is null.')
+    def test_no_grad():
+        inp = Input([3])
+        x = Dense(10)(inp)
+        x = Lambda(
+            lambda l: 1.0 * K.reshape(K.cast(K.argmax(l), 'float32'), [-1, 1]),
+            output_shape=lambda x: [x[0], 1])(x)
+        mod = Model(inp, x)
+        mod.compile('sgd', 'mse')
+        with pytest.raises(ValueError):
+            mod.fit(np.zeros([10, 3]), np.zeros([10, 1], np.float32),
+>                   batch_size=10, epochs=10)
+
+optimizers_test.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:192: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.SGD object at 0x0000025244D3CDA0>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(3, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+__________________________________ test_sgd ___________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_sgd():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, nesterov=True)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:192: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.SGD object at 0x0000025246B032E8>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(10, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>, <tf.Variable 'dense_2/kernel:0' shape=(10, 2) dtype=float32>, <tf.Variable 'dense_2/bias:0' shape=(2,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+________________________________ test_rmsprop _________________________________
+
+    def test_rmsprop():
+>       _test_optimizer(optimizers.RMSprop())
+
+optimizers_test.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:259: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.RMSprop object at 0x0000025246AA02B0>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(10, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>, <tf.Variable 'dense_2/kernel:0' shape=(10, 2) dtype=float32>, <tf.Variable 'dense_2/bias:0' shape=(2,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+________________________________ test_adagrad _________________________________
+
+    def test_adagrad():
+>       _test_optimizer(optimizers.Adagrad())
+
+optimizers_test.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:335: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.Adagrad object at 0x00000252468934A8>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(10, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>, <tf.Variable 'dense_2/kernel:0' shape=(10, 2) dtype=float32>, <tf.Variable 'dense_2/bias:0' shape=(2,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+________________________________ test_adadelta ________________________________
+
+    def test_adadelta():
+>       _test_optimizer(optimizers.Adadelta(), target=0.6)
+
+optimizers_test.py:115: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:415: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.Adadelta object at 0x0000025246BA92E8>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(10, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>, <tf.Variable 'dense_2/kernel:0' shape=(10, 2) dtype=float32>, <tf.Variable 'dense_2/bias:0' shape=(2,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+__________________________________ test_adam __________________________________
+
+    def test_adam():
+>       _test_optimizer(optimizers.Adam())
+
+optimizers_test.py:120: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:504: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.Adam object at 0x0000025246D7B2E8>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(10, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>, <tf.Variable 'dense_2/kernel:0' shape=(10, 2) dtype=float32>, <tf.Variable 'dense_2/bias:0' shape=(2,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+_________________________________ test_adamax _________________________________
+
+    def test_adamax():
+>       _test_optimizer(optimizers.Adamax())
+
+optimizers_test.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:598: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.Adamax object at 0x0000025246BD36D8>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(10, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>, <tf.Variable 'dense_2/kernel:0' shape=(10, 2) dtype=float32>, <tf.Variable 'dense_2/bias:0' shape=(2,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+_________________________________ test_nadam __________________________________
+
+    def test_nadam():
+>       _test_optimizer(optimizers.Nadam())
+
+optimizers_test.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:681: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.Nadam object at 0x0000025246DE3780>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(10, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>, <tf.Variable 'dense_2/kernel:0' shape=(10, 2) dtype=float32>, <tf.Variable 'dense_2/bias:0' shape=(2,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+______________________________ test_adam_amsgrad ______________________________
+
+    def test_adam_amsgrad():
+>       _test_optimizer(optimizers.Adam(amsgrad=True))
+
+optimizers_test.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:504: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.Adam object at 0x0000025246AFFE10>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(10, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>, <tf.Variable 'dense_2/kernel:0' shape=(10, 2) dtype=float32>, <tf.Variable 'dense_2/bias:0' shape=(2,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+________________________________ test_clipnorm ________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_clipnorm():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, clipnorm=0.5)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:192: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.SGD object at 0x0000025246ED20B8>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(10, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>, <tf.Variable 'dense_2/kernel:0' shape=(10, 2) dtype=float32>, <tf.Variable 'dense_2/bias:0' shape=(2,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+_______________________________ test_clipvalue ________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_clipvalue():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, clipvalue=0.5)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:192: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.SGD object at 0x0000025246EFF748>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(10, 10) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(10,) dtype=float32>, <tf.Variable 'dense_2/kernel:0' shape=(10, 2) dtype=float32>, <tf.Variable 'dense_2/bias:0' shape=(2,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = None
+>       if any(x is None for x in grads):
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:92: TypeError
+=========================== short test summary info ===========================
+FAILED optimizers_test.py::test_no_grad - TypeError: 'NoneType' object is not...
+FAILED optimizers_test.py::test_sgd - TypeError: 'NoneType' object is not ite...
+FAILED optimizers_test.py::test_rmsprop - TypeError: 'NoneType' object is not...
+FAILED optimizers_test.py::test_adagrad - TypeError: 'NoneType' object is not...
+FAILED optimizers_test.py::test_adadelta - TypeError: 'NoneType' object is no...
+FAILED optimizers_test.py::test_adam - TypeError: 'NoneType' object is not it...
+FAILED optimizers_test.py::test_adamax - TypeError: 'NoneType' object is not ...
+FAILED optimizers_test.py::test_nadam - TypeError: 'NoneType' object is not i...
+FAILED optimizers_test.py::test_adam_amsgrad - TypeError: 'NoneType' object i...
+FAILED optimizers_test.py::test_clipnorm - TypeError: 'NoneType' object is no...
+FAILED optimizers_test.py::test_clipvalue - TypeError: 'NoneType' object is n...
+======================== 11 failed, 1 passed in 5.69s =========================

@@ -1,0 +1,72 @@
+2020-10-03 15:49:01.822669: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 12 items
+
+optimizers_test.py .........F..                                          [100%]
+
+================================== FAILURES ===================================
+________________________________ test_clipnorm ________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_clipnorm():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, clipnorm=0.5)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:192: in get_updates
+    grads = self.get_gradients(loss, params)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:100: in get_gradients
+    grads = [clip_norm(g, self.clipnorm, norm) for g in grads]
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:100: in <listcomp>
+    grads = [clip_norm(g, self.clipnorm, norm) for g in grads]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+g = <tf.Tensor 'training/SGD/gradients/dense_1/MatMul_grad/MatMul_1:0' shape=(10, 10) dtype=float32>
+c = 0.5, n = <tf.Tensor 'training/SGD/Sqrt:0' shape=() dtype=float32>
+
+    def clip_norm(g, c, n):
+        """Clip the gradient `g` if the L2 norm `n` exceeds `c`.
+    
+        # Arguments
+            g: Tensor, the gradient tensor
+            c: float >= 0. Gradients will be clipped
+                when their L2 norm exceeds this value.
+            n: Tensor, actual norm of `g`.
+    
+        # Returns
+            Tensor, the gradient clipped if required.
+        """
+        if c <= 0:  # if clipnorm == 0 no need to add ops to the graph
+            return g
+    
+        # tf require using a special op to multiply IndexedSliced by scalar
+        if K.backend() == 'tensorflow':
+            condition = None
+            then_expression = tf.scalar_mul(c / n, g)
+            else_expression = g
+    
+            # saving the shape to avoid converting sparse tensor to dense
+            if isinstance(then_expression, tf.Tensor):
+                g_shape = copy.copy(then_expression.get_shape())
+            elif isinstance(then_expression, tf.IndexedSlices):
+                g_shape = copy.copy(then_expression.dense_shape)
+>           if condition.dtype != tf.bool:
+E           AttributeError: 'NoneType' object has no attribute 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:47: AttributeError
+=========================== short test summary info ===========================
+FAILED optimizers_test.py::test_clipnorm - AttributeError: 'NoneType' object ...
+======================== 1 failed, 11 passed in 53.08s ========================

@@ -1,0 +1,520 @@
+2020-10-03 15:33:39.794821: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 12 items
+
+optimizers_test.py FFFFFFFFFFFF                                          [100%]
+
+================================== FAILURES ===================================
+________________________________ test_no_grad _________________________________
+
+    @pytest.mark.skipif((K.backend() != 'tensorflow'),
+                        reason='Only Tensorflow raises a '
+                               'ValueError if the gradient is null.')
+    def test_no_grad():
+        inp = Input([3])
+        x = Dense(10)(inp)
+        x = Lambda(
+            lambda l: 1.0 * K.reshape(K.cast(K.argmax(l), 'float32'), [-1, 1]),
+            output_shape=lambda x: [x[0], 1])(x)
+        mod = Model(inp, x)
+>       mod.compile('sgd', 'mse')
+
+optimizers_test.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = 'sgd'
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+__________________________________ test_sgd ___________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_sgd():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, nesterov=True)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:39: in _test_optimizer
+    metrics=['accuracy'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.SGD object at 0x00000224CE56BA90>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+________________________________ test_rmsprop _________________________________
+
+    def test_rmsprop():
+>       _test_optimizer(optimizers.RMSprop())
+
+optimizers_test.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:39: in _test_optimizer
+    metrics=['accuracy'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.RMSprop object at 0x00000224CF717F60>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+________________________________ test_adagrad _________________________________
+
+    def test_adagrad():
+>       _test_optimizer(optimizers.Adagrad())
+
+optimizers_test.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:39: in _test_optimizer
+    metrics=['accuracy'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.Adagrad object at 0x00000224CF871F28>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+________________________________ test_adadelta ________________________________
+
+    def test_adadelta():
+>       _test_optimizer(optimizers.Adadelta(), target=0.6)
+
+optimizers_test.py:115: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:39: in _test_optimizer
+    metrics=['accuracy'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.Adadelta object at 0x00000224CD9FC2B0>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+__________________________________ test_adam __________________________________
+
+    def test_adam():
+>       _test_optimizer(optimizers.Adam())
+
+optimizers_test.py:120: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:39: in _test_optimizer
+    metrics=['accuracy'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.Adam object at 0x00000224CD9D46A0>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+_________________________________ test_adamax _________________________________
+
+    def test_adamax():
+>       _test_optimizer(optimizers.Adamax())
+
+optimizers_test.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:39: in _test_optimizer
+    metrics=['accuracy'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.Adamax object at 0x00000224CF7A4630>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+_________________________________ test_nadam __________________________________
+
+    def test_nadam():
+>       _test_optimizer(optimizers.Nadam())
+
+optimizers_test.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:39: in _test_optimizer
+    metrics=['accuracy'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.Nadam object at 0x00000224CF7FC8D0>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+______________________________ test_adam_amsgrad ______________________________
+
+    def test_adam_amsgrad():
+>       _test_optimizer(optimizers.Adam(amsgrad=True))
+
+optimizers_test.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:39: in _test_optimizer
+    metrics=['accuracy'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.Adam object at 0x00000224CF9AC128>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+________________________________ test_clipnorm ________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_clipnorm():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, clipnorm=0.5)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:39: in _test_optimizer
+    metrics=['accuracy'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.SGD object at 0x00000224CF75EEB8>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+_______________________________ test_clipvalue ________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_clipvalue():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, clipvalue=0.5)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:39: in _test_optimizer
+    metrics=['accuracy'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.SGD object at 0x00000224CF908F28>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+______________________________ test_tfoptimizer _______________________________
+
+    @pytest.mark.skipif((K.backend() != 'tensorflow'),
+                        reason='Requires TensorFlow backend')
+    def test_tfoptimizer():
+        from keras import constraints
+        import tensorflow as tf
+        if tf.__version__.startswith('1.'):
+            optimizer = optimizers.TFOptimizer(tf.train.AdamOptimizer())
+        else:
+            optimizer = tf.keras.optimizers.Adam()
+    
+        model = Sequential()
+        model.add(Dense(num_classes, input_shape=(3,),
+                        kernel_constraint=constraints.MaxNorm(1)))
+>       model.compile(loss='mean_squared_error', optimizer=optimizer)
+
+optimizers_test.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:95: in compile
+    self.optimizer = optimizers.get(optimizer)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = <keras.optimizers.TFOptimizer object at 0x00000224CF925DA0>
+
+    def get(identifier):
+        """Retrieves a Keras Optimizer instance.
+    
+        # Arguments
+            identifier: Optimizer identifier, one of
+                - String: name of an optimizer
+                - Dictionary: configuration dictionary.
+                - Keras Optimizer instance (it will be returned unchanged).
+                - TensorFlow Optimizer instance
+                    (it will be wrapped as a Keras Optimizer).
+    
+        # Returns
+            A Keras Optimizer instance.
+    
+        # Raises
+            ValueError: If `identifier` cannot be interpreted.
+        """
+        if K.backend() == 'tensorflow':
+            # Wrap TF optimizer instances
+>           if tf.__version__.startswith('1.'):
+E           NameError: name 'tf' is not defined
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:855: NameError
+---------------------------- Captured stderr call -----------------------------
+WARNING:tensorflow:From C:\Users\mutation\Desktop\testcase\tests\keras\optimizers_test.py:158: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimizer instead.
+
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:module_wrapper.py:139 From C:\Users\mutation\Desktop\testcase\tests\keras\optimizers_test.py:158: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimizer instead.
+=========================== short test summary info ===========================
+FAILED optimizers_test.py::test_no_grad - NameError: name 'tf' is not defined
+FAILED optimizers_test.py::test_sgd - NameError: name 'tf' is not defined
+FAILED optimizers_test.py::test_rmsprop - NameError: name 'tf' is not defined
+FAILED optimizers_test.py::test_adagrad - NameError: name 'tf' is not defined
+FAILED optimizers_test.py::test_adadelta - NameError: name 'tf' is not defined
+FAILED optimizers_test.py::test_adam - NameError: name 'tf' is not defined
+FAILED optimizers_test.py::test_adamax - NameError: name 'tf' is not defined
+FAILED optimizers_test.py::test_nadam - NameError: name 'tf' is not defined
+FAILED optimizers_test.py::test_adam_amsgrad - NameError: name 'tf' is not de...
+FAILED optimizers_test.py::test_clipnorm - NameError: name 'tf' is not defined
+FAILED optimizers_test.py::test_clipvalue - NameError: name 'tf' is not defined
+FAILED optimizers_test.py::test_tfoptimizer - NameError: name 'tf' is not def...
+============================= 12 failed in 2.05s ==============================

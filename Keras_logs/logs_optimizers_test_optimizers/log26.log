@@ -1,0 +1,183 @@
+2020-10-03 15:50:00.431101: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 12 items
+
+optimizers_test.py .........F..                                          [100%]
+
+================================== FAILURES ===================================
+________________________________ test_clipnorm ________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_clipnorm():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, clipnorm=0.5)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:41: in _test_optimizer
+    history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1213: in fit
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:192: in get_updates
+    grads = self.get_gradients(loss, params)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:100: in get_gradients
+    grads = [clip_norm(g, self.clipnorm, norm) for g in grads]
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:100: in <listcomp>
+    grads = [clip_norm(g, self.clipnorm, norm) for g in grads]
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:51: in clip_norm
+    lambda: else_expression)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pred = <tf.Tensor 'training/SGD/cond/pred_id:0' shape=() dtype=bool>
+true_fn = <function clip_norm.<locals>.<lambda> at 0x000002794F1D0E18>
+false_fn = <function clip_norm.<locals>.<lambda> at 0x000002797FB86620>
+strict = False, name = None, fn1 = None, fn2 = None
+
+    @tf_export(v1=["cond"])
+    @deprecation.deprecated_args(
+        None, "fn1/fn2 are deprecated in favor of the true_fn/false_fn arguments.",
+        "fn1", "fn2")
+    def cond(pred,
+             true_fn=None,
+             false_fn=None,
+             strict=False,
+             name=None,
+             fn1=None,
+             fn2=None):
+      """Return `true_fn()` if the predicate `pred` is true else `false_fn()`.
+    
+      `true_fn` and `false_fn` both return lists of output tensors. `true_fn` and
+      `false_fn` must have the same non-zero number and type of outputs.
+    
+      **WARNING**: Any Tensors or Operations created outside of `true_fn` and
+      `false_fn` will be executed regardless of which branch is selected at runtime.
+    
+      Although this behavior is consistent with the dataflow model of TensorFlow,
+      it has frequently surprised users who expected a lazier semantics.
+      Consider the following simple program:
+    
+      ```python
+      z = tf.multiply(a, b)
+      result = tf.cond(x < y, lambda: tf.add(x, z), lambda: tf.square(y))
+      ```
+    
+      If `x < y`, the `tf.add` operation will be executed and `tf.square`
+      operation will not be executed. Since `z` is needed for at least one
+      branch of the `cond`, the `tf.multiply` operation is always executed,
+      unconditionally.
+    
+      Note that `cond` calls `true_fn` and `false_fn` *exactly once* (inside the
+      call to `cond`, and not at all during `Session.run()`). `cond`
+      stitches together the graph fragments created during the `true_fn` and
+      `false_fn` calls with some additional graph nodes to ensure that the right
+      branch gets executed depending on the value of `pred`.
+    
+      `tf.cond` supports nested structures as implemented in
+      `tensorflow.python.util.nest`. Both `true_fn` and `false_fn` must return the
+      same (possibly nested) value structure of lists, tuples, and/or named tuples.
+      Singleton lists and tuples form the only exceptions to this: when returned by
+      `true_fn` and/or `false_fn`, they are implicitly unpacked to single values.
+      This behavior is disabled by passing `strict=True`.
+    
+      Args:
+        pred: A scalar determining whether to return the result of `true_fn` or
+          `false_fn`.
+        true_fn: The callable to be performed if pred is true.
+        false_fn: The callable to be performed if pred is false.
+        strict: A boolean that enables/disables 'strict' mode; see above.
+        name: Optional name prefix for the returned tensors.
+    
+      Returns:
+        Tensors returned by the call to either `true_fn` or `false_fn`. If the
+        callables return a singleton list, the element is extracted from the list.
+    
+      Raises:
+        TypeError: if `true_fn` or `false_fn` is not callable.
+        ValueError: if `true_fn` and `false_fn` do not return the same number of
+          tensors, or return tensors of different types.
+    
+      Example:
+    
+      ```python
+      x = tf.constant(2)
+      y = tf.constant(5)
+      def f1(): return tf.multiply(x, 17)
+      def f2(): return tf.add(y, 23)
+      r = tf.cond(tf.less(x, y), f1, f2)
+      # r is set to f1().
+      # Operations in f2 (e.g., tf.add) are not executed.
+      ```
+    
+      """
+      # Always enable control flow v2 if building a function, regardless of toggle.
+      if (util.EnableControlFlowV2(ops.get_default_graph()) and
+          not context.executing_eagerly()):
+        return cond_v2.cond_v2(pred, true_fn, false_fn, name)
+    
+      # We needed to make true_fn/false_fn keyword arguments for
+      # backwards-compatibility. This check exists so that we can convert back to
+      # having them be positional arguments.
+      # TODO(josh11b): Make `true_fn` and `false_fn` positional arguments after
+      # `fn1` and `fn2` are deleted.
+      if fn1 is not None:
+        if true_fn is not None:
+          raise TypeError("cond(): true_fn and fn1 may not be set simultaneously.")
+        true_fn = fn1
+      elif true_fn is None:
+        raise TypeError("cond(): true_fn argument required")
+      if fn2 is not None:
+        if false_fn is not None:
+          raise TypeError("cond(): false_fn and fn2 may not be set simultaneously.")
+        false_fn = fn2
+      elif false_fn is None:
+        raise TypeError("cond(): false_fn argument required")
+    
+      if not callable(true_fn):
+        raise TypeError("true_fn must be callable.")
+      if not callable(false_fn):
+        raise TypeError("false_fn must be callable.")
+    
+      with ops.name_scope(name, "cond", [pred]):
+        if context.executing_eagerly():
+          if pred:
+            result = true_fn()
+          else:
+            result = false_fn()
+          if not strict:
+            result = _UnpackIfSingleton(result)
+          return result
+    
+        # Add the Switch to the graph.
+        if isinstance(pred, bool):
+          raise TypeError("pred must not be a Python bool")
+        p_2, p_1 = switch(pred, pred)
+        pivot_1 = array_ops.identity(p_1, name="switch_t")
+        pivot_2 = array_ops.identity(p_2, name="switch_f")
+        pred = array_ops.identity(pred, name="pred_id")
+        # Disable the fetching of tensors that are only on one branch of cond.
+        for tensor in [p_1, p_2, pivot_1, pivot_2, pred]:
+          tensor.op.graph.prevent_fetching(tensor.op)
+    
+        # Build the graph for the true branch in a new context.
+        context_t = CondContext(pred, pivot_1, branch=1)
+        try:
+          context_t.Enter()
+          orig_res_t, res_t = context_t.BuildCondBranch(true_fn)
+          if orig_res_t is None:
+>           raise ValueError("true_fn must have a return value.")
+E           ValueError: true_fn must have a return value.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\control_flow_ops.py:1226: ValueError
+=========================== short test summary info ===========================
+FAILED optimizers_test.py::test_clipnorm - ValueError: true_fn must have a re...
+======================== 1 failed, 11 passed in 53.31s ========================

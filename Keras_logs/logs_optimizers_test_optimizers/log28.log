@@ -1,0 +1,60 @@
+2020-10-03 15:51:57.353598: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 12 items
+
+optimizers_test.py .........FF.                                          [100%]
+
+================================== FAILURES ===================================
+________________________________ test_clipnorm ________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_clipnorm():
+>       sgd = optimizers.SGD(lr=0.01, momentum=0.9, clipnorm=0.5)
+
+optimizers_test.py:141: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:181: in __init__
+    super(SGD, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.SGD object at 0x000002BD1FC8AE80>
+kwargs = {'clipnorm': 0.5}, allowed_kwargs = None, k = 'clipnorm'
+
+    def __init__(self, **kwargs):
+        allowed_kwargs = None
+        for k in kwargs:
+>           if k not in allowed_kwargs:
+E           TypeError: argument of type 'NoneType' is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:78: TypeError
+_______________________________ test_clipvalue ________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_clipvalue():
+>       sgd = optimizers.SGD(lr=0.01, momentum=0.9, clipvalue=0.5)
+
+optimizers_test.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:181: in __init__
+    super(SGD, self).__init__(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.SGD object at 0x000002BD1FF22FD0>
+kwargs = {'clipvalue': 0.5}, allowed_kwargs = None, k = 'clipvalue'
+
+    def __init__(self, **kwargs):
+        allowed_kwargs = None
+        for k in kwargs:
+>           if k not in allowed_kwargs:
+E           TypeError: argument of type 'NoneType' is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:78: TypeError
+=========================== short test summary info ===========================
+FAILED optimizers_test.py::test_clipnorm - TypeError: argument of type 'NoneT...
+FAILED optimizers_test.py::test_clipvalue - TypeError: argument of type 'None...
+======================== 2 failed, 10 passed in 50.42s ========================

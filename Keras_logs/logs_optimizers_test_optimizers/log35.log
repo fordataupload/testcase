@@ -1,0 +1,57 @@
+2020-10-03 15:58:02.214988: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 12 items
+
+optimizers_test.py ..F.........                                          [100%]
+
+================================== FAILURES ===================================
+________________________________ test_rmsprop _________________________________
+
+    def test_rmsprop():
+>       _test_optimizer(optimizers.RMSprop())
+
+optimizers_test.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+optimizer = <keras.optimizers.RMSprop object at 0x00000250AF23B6A0>
+target = 0.75
+
+    def _test_optimizer(optimizer, target=0.75):
+        x_train, y_train = get_test_data()
+    
+        model = Sequential()
+        model.add(Dense(10, input_shape=(x_train.shape[1],)))
+        model.add(Activation('relu'))
+        model.add(Dense(y_train.shape[1]))
+        model.add(Activation('softmax'))
+        model.compile(loss='categorical_crossentropy',
+                      optimizer=optimizer,
+                      metrics=['accuracy'])
+    
+        history = model.fit(x_train, y_train, epochs=3, batch_size=16, verbose=0)
+>       assert history.history['accuracy'][-1] >= target
+E       assert 0.513 >= 0.75
+
+optimizers_test.py:42: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:58:10.319282: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:58:10.319888: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:58:10.320235: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:58:10.320577: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:58:10.320915: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:58:10.321260: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:58:10.321606: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:58:10.321971: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:58:10.322558: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:58:10.322880: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:58:10.323236: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:58:10.323455: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:58:10.323969: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED optimizers_test.py::test_rmsprop - assert 0.513 >= 0.75
+======================== 1 failed, 11 passed in 50.13s ========================

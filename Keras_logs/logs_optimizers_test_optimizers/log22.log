@@ -1,0 +1,619 @@
+2020-10-03 15:46:38.482468: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 12 items
+
+optimizers_test.py .FFFFFFFFFF.                                          [100%]
+
+================================== FAILURES ===================================
+__________________________________ test_sgd ___________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_sgd():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, nesterov=True)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:44: in _test_optimizer
+    optim = optimizers.deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:833: in deserialize
+    printable_module_name='optimizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'SGD', 'config': {'decay': 0.0, 'learning_rate': 0.009999999776482582, 'momentum': 0.8999999761581421, 'nesterov': True}}
+module_objects = {'adadelta': <class 'keras.optimizers.Adadelta'>, 'adagrad': <class 'keras.optimizers.Adagrad'>, 'adam': <class 'keras.optimizers.Adam'>, 'adamax': <class 'keras.optimizers.Adamax'>, ...}
+custom_objects = None, printable_module_name = 'optimizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ': ' + class_name)
+E                   ValueError: Unknown optimizer: SGD
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:140: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:46:42.705243: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-03 15:46:42.831957: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:46:42.835591: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:46:42.843177: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:46:42.849290: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:46:42.851185: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:46:42.857627: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:46:42.861836: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:46:42.874124: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:46:42.875094: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:46:42.875791: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-03 15:46:42.889545: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:46:42.890121: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:46:42.890464: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:46:42.890813: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:46:42.891197: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:46:42.891570: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:46:42.891941: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:46:42.892312: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:46:42.893146: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:46:43.959349: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:46:43.959772: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:46:43.960009: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:46:43.960815: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-03 15:46:44.560155: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+________________________________ test_rmsprop _________________________________
+
+    def test_rmsprop():
+>       _test_optimizer(optimizers.RMSprop())
+
+optimizers_test.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:44: in _test_optimizer
+    optim = optimizers.deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:833: in deserialize
+    printable_module_name='optimizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'RMSprop', 'config': {'decay': 0.0, 'epsilon': 1e-07, 'learning_rate': 0.0010000000474974513, 'rho': 0.8999999761581421}}
+module_objects = {'adadelta': <class 'keras.optimizers.Adadelta'>, 'adagrad': <class 'keras.optimizers.Adagrad'>, 'adam': <class 'keras.optimizers.Adam'>, 'adamax': <class 'keras.optimizers.Adamax'>, ...}
+custom_objects = None, printable_module_name = 'optimizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ': ' + class_name)
+E                   ValueError: Unknown optimizer: RMSprop
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:140: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:46:47.587390: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:46:47.587998: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:46:47.588350: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:46:47.588702: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:46:47.589043: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:46:47.589392: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:46:47.589740: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:46:47.590097: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:46:47.590693: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:46:47.591012: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:46:47.591363: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:46:47.591582: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:46:47.592074: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________________ test_adagrad _________________________________
+
+    def test_adagrad():
+>       _test_optimizer(optimizers.Adagrad())
+
+optimizers_test.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:44: in _test_optimizer
+    optim = optimizers.deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:833: in deserialize
+    printable_module_name='optimizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'Adagrad', 'config': {'decay': 0.0, 'epsilon': 1e-07, 'learning_rate': 0.009999999776482582}}
+module_objects = {'adadelta': <class 'keras.optimizers.Adadelta'>, 'adagrad': <class 'keras.optimizers.Adagrad'>, 'adam': <class 'keras.optimizers.Adam'>, 'adamax': <class 'keras.optimizers.Adamax'>, ...}
+custom_objects = None, printable_module_name = 'optimizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ': ' + class_name)
+E                   ValueError: Unknown optimizer: Adagrad
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:140: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:46:48.926055: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:46:48.926658: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:46:48.927008: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:46:48.927360: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:46:48.927700: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:46:48.928050: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:46:48.928397: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:46:48.928750: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:46:48.929324: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:46:48.929641: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:46:48.929993: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:46:48.930211: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:46:48.930703: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________________ test_adadelta ________________________________
+
+    def test_adadelta():
+>       _test_optimizer(optimizers.Adadelta(), target=0.6)
+
+optimizers_test.py:115: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:44: in _test_optimizer
+    optim = optimizers.deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:833: in deserialize
+    printable_module_name='optimizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'Adadelta', 'config': {'decay': 0.0, 'epsilon': 1e-07, 'learning_rate': 1.0, 'rho': 0.95}}
+module_objects = {'adadelta': <class 'keras.optimizers.Adadelta'>, 'adagrad': <class 'keras.optimizers.Adagrad'>, 'adam': <class 'keras.optimizers.Adam'>, 'adamax': <class 'keras.optimizers.Adamax'>, ...}
+custom_objects = None, printable_module_name = 'optimizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ': ' + class_name)
+E                   ValueError: Unknown optimizer: Adadelta
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:140: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:46:50.242579: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:46:50.243182: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:46:50.243538: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:46:50.243887: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:46:50.244229: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:46:50.244571: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:46:50.244918: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:46:50.245269: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:46:50.245845: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:46:50.246160: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:46:50.246512: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:46:50.246730: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:46:50.247222: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+__________________________________ test_adam __________________________________
+
+    def test_adam():
+>       _test_optimizer(optimizers.Adam())
+
+optimizers_test.py:120: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:44: in _test_optimizer
+    optim = optimizers.deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:833: in deserialize
+    printable_module_name='optimizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'Adam', 'config': {'amsgrad': False, 'beta_1': 0.8999999761581421, 'beta_2': 0.9990000128746033, 'decay': 0.0, ...}}
+module_objects = {'adadelta': <class 'keras.optimizers.Adadelta'>, 'adagrad': <class 'keras.optimizers.Adagrad'>, 'adam': <class 'keras.optimizers.Adam'>, 'adamax': <class 'keras.optimizers.Adamax'>, ...}
+custom_objects = None, printable_module_name = 'optimizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ': ' + class_name)
+E                   ValueError: Unknown optimizer: Adam
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:140: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:46:52.013234: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:46:52.013843: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:46:52.014196: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:46:52.014542: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:46:52.014885: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:46:52.015228: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:46:52.015574: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:46:52.015926: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:46:52.016495: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:46:52.016811: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:46:52.017162: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:46:52.017380: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:46:52.017868: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_________________________________ test_adamax _________________________________
+
+    def test_adamax():
+>       _test_optimizer(optimizers.Adamax())
+
+optimizers_test.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:44: in _test_optimizer
+    optim = optimizers.deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:833: in deserialize
+    printable_module_name='optimizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'Adamax', 'config': {'beta_1': 0.8999999761581421, 'beta_2': 0.9990000128746033, 'decay': 0.0, 'epsilon': 1e-07, ...}}
+module_objects = {'adadelta': <class 'keras.optimizers.Adadelta'>, 'adagrad': <class 'keras.optimizers.Adagrad'>, 'adam': <class 'keras.optimizers.Adam'>, 'adamax': <class 'keras.optimizers.Adamax'>, ...}
+custom_objects = None, printable_module_name = 'optimizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ': ' + class_name)
+E                   ValueError: Unknown optimizer: Adamax
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:140: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:46:53.580812: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:46:53.581419: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:46:53.581771: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:46:53.582119: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:46:53.582462: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:46:53.582805: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:46:53.583152: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:46:53.583503: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:46:53.584072: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:46:53.584390: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:46:53.584742: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:46:53.584960: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:46:53.585507: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_________________________________ test_nadam __________________________________
+
+    def test_nadam():
+>       _test_optimizer(optimizers.Nadam())
+
+optimizers_test.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:44: in _test_optimizer
+    optim = optimizers.deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:833: in deserialize
+    printable_module_name='optimizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'Nadam', 'config': {'beta_1': 0.8999999761581421, 'beta_2': 0.9990000128746033, 'epsilon': 1e-07, 'learning_rate': 0.0020000000949949026, ...}}
+module_objects = {'adadelta': <class 'keras.optimizers.Adadelta'>, 'adagrad': <class 'keras.optimizers.Adagrad'>, 'adam': <class 'keras.optimizers.Adam'>, 'adamax': <class 'keras.optimizers.Adamax'>, ...}
+custom_objects = None, printable_module_name = 'optimizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ': ' + class_name)
+E                   ValueError: Unknown optimizer: Nadam
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:140: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:46:55.186884: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:46:55.187492: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:46:55.187844: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:46:55.188192: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:46:55.188532: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:46:55.188876: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:46:55.189224: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:46:55.189596: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:46:55.190211: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:46:55.190527: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:46:55.190877: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:46:55.191095: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:46:55.191588: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+______________________________ test_adam_amsgrad ______________________________
+
+    def test_adam_amsgrad():
+>       _test_optimizer(optimizers.Adam(amsgrad=True))
+
+optimizers_test.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:44: in _test_optimizer
+    optim = optimizers.deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:833: in deserialize
+    printable_module_name='optimizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'Adam', 'config': {'amsgrad': True, 'beta_1': 0.8999999761581421, 'beta_2': 0.9990000128746033, 'decay': 0.0, ...}}
+module_objects = {'adadelta': <class 'keras.optimizers.Adadelta'>, 'adagrad': <class 'keras.optimizers.Adagrad'>, 'adam': <class 'keras.optimizers.Adam'>, 'adamax': <class 'keras.optimizers.Adamax'>, ...}
+custom_objects = None, printable_module_name = 'optimizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ': ' + class_name)
+E                   ValueError: Unknown optimizer: Adam
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:140: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:46:56.926176: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:46:56.926782: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:46:56.927136: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:46:56.927487: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:46:56.927827: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:46:56.928173: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:46:56.928523: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:46:56.928874: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:46:56.929448: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:46:56.929764: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:46:56.930116: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:46:56.930334: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:46:56.930824: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________________ test_clipnorm ________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_clipnorm():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, clipnorm=0.5)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:44: in _test_optimizer
+    optim = optimizers.deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:833: in deserialize
+    printable_module_name='optimizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'SGD', 'config': {'clipnorm': 0.5, 'decay': 0.0, 'learning_rate': 0.009999999776482582, 'momentum': 0.8999999761581421, ...}}
+module_objects = {'adadelta': <class 'keras.optimizers.Adadelta'>, 'adagrad': <class 'keras.optimizers.Adagrad'>, 'adam': <class 'keras.optimizers.Adam'>, 'adamax': <class 'keras.optimizers.Adamax'>, ...}
+custom_objects = None, printable_module_name = 'optimizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ': ' + class_name)
+E                   ValueError: Unknown optimizer: SGD
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:140: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:46:58.601032: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:46:58.601650: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:46:58.602005: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:46:58.602358: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:46:58.602702: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:46:58.603052: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:46:58.603404: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:46:58.603762: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:46:58.604339: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:46:58.604658: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:46:58.605015: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:46:58.605235: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:46:58.605733: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_______________________________ test_clipvalue ________________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='Flaky with CNTK')
+    def test_clipvalue():
+        sgd = optimizers.SGD(lr=0.01, momentum=0.9, clipvalue=0.5)
+>       _test_optimizer(sgd)
+
+optimizers_test.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+optimizers_test.py:44: in _test_optimizer
+    optim = optimizers.deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:833: in deserialize
+    printable_module_name='optimizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'SGD', 'config': {'clipvalue': 0.5, 'decay': 0.0, 'learning_rate': 0.009999999776482582, 'momentum': 0.8999999761581421, ...}}
+module_objects = {'adadelta': <class 'keras.optimizers.Adadelta'>, 'adagrad': <class 'keras.optimizers.Adagrad'>, 'adam': <class 'keras.optimizers.Adam'>, 'adamax': <class 'keras.optimizers.Adamax'>, ...}
+custom_objects = None, printable_module_name = 'optimizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+>                                    ': ' + class_name)
+E                   ValueError: Unknown optimizer: SGD
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:140: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:47:00.046271: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:47:00.046886: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:47:00.047239: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:47:00.047588: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:47:00.047929: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:47:00.048277: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:47:00.048625: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:47:00.048999: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:47:00.049646: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:47:00.049988: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:47:00.050357: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:47:00.050575: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:47:00.051109: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED optimizers_test.py::test_sgd - ValueError: Unknown optimizer: SGD
+FAILED optimizers_test.py::test_rmsprop - ValueError: Unknown optimizer: RMSprop
+FAILED optimizers_test.py::test_adagrad - ValueError: Unknown optimizer: Adagrad
+FAILED optimizers_test.py::test_adadelta - ValueError: Unknown optimizer: Ada...
+FAILED optimizers_test.py::test_adam - ValueError: Unknown optimizer: Adam
+FAILED optimizers_test.py::test_adamax - ValueError: Unknown optimizer: Adamax
+FAILED optimizers_test.py::test_nadam - ValueError: Unknown optimizer: Nadam
+FAILED optimizers_test.py::test_adam_amsgrad - ValueError: Unknown optimizer:...
+FAILED optimizers_test.py::test_clipnorm - ValueError: Unknown optimizer: SGD
+FAILED optimizers_test.py::test_clipvalue - ValueError: Unknown optimizer: SGD
+======================== 10 failed, 2 passed in 18.95s ========================
