@@ -1,0 +1,1089 @@
+2020-10-04 20:05:58.210089: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ...FFFFsFF...FFFFFFFFFFF.FFFFFFFFF                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_model_methods ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_model_methods():
+>       model = get_model(num_outputs=2)
+
+test_training.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:135: in get_model
+    a_2 = Dense(4, name='dense_1')(a)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+_____________________________ test_fit_generator ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_fit_generator():
+>       model = get_model(num_outputs=2)
+
+test_training.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:135: in get_model
+    a_2 = Dense(4, name='dense_1')(a)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+__________________________ test_fit_generator_shape ___________________________
+
+    def test_fit_generator_shape():
+        # predict_generator output shape behavior should be consistent
+        def expected_shape(batch_size, n_batches):
+            return (batch_size * n_batches, 4), (batch_size * n_batches, 3)
+    
+>       model = get_model(num_outputs=2)
+
+test_training.py:614: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:135: in get_model
+    a_2 = Dense(4, name='dense_1')(a)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+______________________ test_training_with_loss_instance _______________________
+
+    def test_training_with_loss_instance():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+>       dense = Dense(4, name='dense')
+
+test_training.py:676: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+___________________________ test_trainable_argument ___________________________
+
+    def test_trainable_argument():
+        x = np.random.random((5, 3))
+        y = np.random.random((5, 2))
+    
+        model = Sequential()
+>       model.add(Dense(2, input_dim=3, trainable=False))
+
+test_training.py:784: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+__________________________ test_with_list_as_targets __________________________
+
+    def test_with_list_as_targets():
+        model = Sequential()
+>       model.add(Dense(1, input_dim=3, trainable=False))
+
+test_training.py:804: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+______________________ test_model_with_input_feed_tensor ______________________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow',
+                        reason='Requires TensorFlow backend')
+    def test_model_with_input_feed_tensor():
+        """We test building a model with a TF variable as input.
+        We should be able to call fit, evaluate, predict,
+        by only passing them data for the placeholder inputs
+        in the model.
+        """
+        import tensorflow as tf
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+        b = Input(shape=(3,), name='input_b')
+    
+>       a_2 = Dense(4, name='dense_1')(a)
+
+test_training.py:855: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+________________________ test_model_with_partial_loss _________________________
+
+    def test_model_with_partial_loss():
+        a = Input(shape=(3,), name='input_a')
+>       a_2 = Dense(4, name='dense_1')(a)
+
+test_training.py:981: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+>                   bias_regularizer='l2')(a)
+
+test_training.py:1027: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+_____________________________ test_target_tensors _____________________________
+
+    def test_target_tensors():
+        # single-output, as list
+        model = keras.models.Sequential()
+>       model.add(keras.layers.Dense(4, input_shape=(4,), name='dense'))
+
+test_training.py:1177: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+______________________ test_model_custom_target_tensors _______________________
+
+    @pytest.mark.skipif(K.backend() == 'tensorflow' and
+                        tf.__version__.startswith('2'),
+                        reason='Cannot have tensors as dict keys in TF2')
+    def test_model_custom_target_tensors():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+>       a_2 = Dense(4, name='dense_1')(a)
+
+test_training.py:1258: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+__________________ test_trainable_weights_count_consistency ___________________
+
+    @pytest.mark.skipif(sys.version_info < (3,),
+                        reason='Cannot catch warnings in python 2')
+    def test_trainable_weights_count_consistency():
+        """Tests the trainable weights consistency check of Model.
+    
+        This verifies that a warning is shown if model.trainable is modified
+        and the model is summarized/run without a new call to .compile()
+    
+        Reproduce issue #8121
+        """
+        a = Input(shape=(3,), name='input_a')
+>       model1 = Model(inputs=a, outputs=Dense(1)(a))
+
+test_training.py:1324: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+____________________________ test_pandas_dataframe ____________________________
+
+    def test_pandas_dataframe():
+        input_a = Input(shape=(3,), name='input_a')
+        input_b = Input(shape=(3,), name='input_b')
+    
+>       x = Dense(4, name='dense_1')(input_a)
+
+test_training.py:1361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+________ test_training_and_eval_methods_on_symbolic_tensors_single_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_single_io():
+        x = keras.layers.Input(shape=(3,), name='input')
+>       y = keras.layers.Dense(4, name='dense')(x)
+
+test_training.py:1439: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+_________ test_training_and_eval_methods_on_symbolic_tensors_multi_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_multi_io():
+        a = keras.layers.Input(shape=(3,), name='input_a')
+        b = keras.layers.Input(shape=(3,), name='input_b')
+    
+>       dense = keras.layers.Dense(4, name='dense')
+
+test_training.py:1465: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+_____________ test_model_with_crossentropy_losses_channels_first ______________
+
+    def test_model_with_crossentropy_losses_channels_first():
+        """Tests use of all crossentropy losses with `channels_first`.
+    
+        Tests `sparse_categorical_crossentropy`, `categorical_crossentropy`,
+        and `binary_crossentropy`.
+        Verifies that evaluate gives the same result with either
+        `channels_first` or `channels_last` image_data_format.
+        Tests PR #9715.
+        """
+    
+        def prepare_simple_model(input_tensor, loss_name, target):
+            axis = 1 if K.image_data_format() == 'channels_first' else -1
+            if loss_name == 'sparse_categorical_crossentropy':
+                loss = lambda y_true, y_pred: K.sparse_categorical_crossentropy(
+                    y_true, y_pred, axis=axis)
+                num_channels = np.amax(target) + 1
+                activation = 'softmax'
+            elif loss_name == 'categorical_crossentropy':
+                loss = lambda y_true, y_pred: K.categorical_crossentropy(
+                    y_true, y_pred, axis=axis)
+                num_channels = target.shape[axis]
+                activation = 'softmax'
+            elif loss_name == 'binary_crossentropy':
+                loss = lambda y_true, y_pred: K.binary_crossentropy(y_true, y_pred)
+                num_channels = target.shape[axis]
+                activation = 'sigmoid'
+            predictions = Conv2D(num_channels, 1, activation=activation,
+                                 kernel_initializer='ones',
+                                 bias_initializer='ones')(input_tensor)
+            simple_model = Model(inputs=input_tensor, outputs=predictions)
+            simple_model.compile(optimizer='rmsprop', loss=loss)
+            return simple_model
+    
+        losses_to_test = ['sparse_categorical_crossentropy',
+                          'categorical_crossentropy', 'binary_crossentropy']
+    
+        data_channels_first = np.array([[[[8., 7.1, 0.], [4.5, 2.6, 0.55],
+                                          [0.9, 4.2, 11.2]]]], dtype=np.float32)
+        # Labels for testing 4-class sparse_categorical_crossentropy, 4-class
+        # categorical_crossentropy, and 2-class binary_crossentropy:
+        labels_channels_first = [np.array([[[[0, 1, 3], [2, 1, 0], [2, 2, 1]]]]),
+                                 np.array([[[[0, 1, 0], [0, 1, 0], [0, 0, 0]],
+                                            [[1, 0, 0], [0, 0, 1], [0, 1, 0]],
+                                            [[0, 0, 0], [1, 0, 0], [0, 0, 1]],
+                                            [[0, 0, 1], [0, 0, 0], [1, 0, 0]]]]),
+                                 np.array([[[[0, 1, 0], [0, 1, 0], [0, 0, 1]],
+                                            [[1, 0, 1], [1, 0, 1], [1, 1, 0]]]])]
+        # Compute one loss for each loss function in the list `losses_to_test`:
+        loss_channels_last = [0., 0., 0.]
+        loss_channels_first = [0., 0., 0.]
+    
+        old_data_format = K.image_data_format()
+    
+        # Evaluate a simple network with channels last, with all three loss
+        # functions:
+        K.set_image_data_format('channels_last')
+        data = np.moveaxis(data_channels_first, 1, -1)
+        for index, loss_function in enumerate(losses_to_test):
+            labels = np.moveaxis(labels_channels_first[index], 1, -1)
+            inputs = Input(shape=(3, 3, 1))
+>           model = prepare_simple_model(inputs, loss_function, labels)
+
+test_training.py:1614: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:1582: in prepare_simple_model
+    bias_initializer='ones')(input_tensor)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:484: in __init__
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:117: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Ones'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+___________________________ test_dynamic_set_inputs ___________________________
+
+    def test_dynamic_set_inputs():
+        model = Sequential()
+>       model.add(Dense(16, input_dim=32))
+
+test_training.py:1639: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+____________________________ test_validation_freq _____________________________
+
+    def test_validation_freq():
+>       model = Sequential([Dense(1)])
+
+test_training.py:1694: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+____________________________ test_loss_correctness ____________________________
+
+    def test_loss_correctness():
+        class Bias(Layer):
+    
+            def build(self, input_shape):
+                self.bias = self.add_weight('bias', (1,), initializer='zeros')
+    
+            def call(self, inputs):
+                return inputs + self.bias
+    
+        inp = Input(shape=(1,))
+>       out = Bias()(inp)
+
+test_training.py:1745: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+test_training.py:1739: in build
+    self.bias = self.add_weight('bias', (1,), initializer='zeros')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:276: in add_weight
+    initializer = initializers.get(initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+___________________________ test_model_metrics_list ___________________________
+
+    def test_model_metrics_list():
+    
+        class LayerWithAddMetric(Layer):
+    
+            def __init__(self):
+                super(LayerWithAddMetric, self).__init__()
+                self.dense = keras.layers.Dense(1, kernel_initializer='ones')
+    
+            def __call__(self, inputs):
+                outputs = self.dense(inputs)
+                return outputs
+    
+        class LayerWithNestedAddMetricLayer(Layer):
+    
+            def __init__(self):
+                super(LayerWithNestedAddMetricLayer, self).__init__()
+                self.layer = LayerWithAddMetric()
+    
+            def call(self, inputs):
+                outputs = self.layer(inputs)
+                self.add_metric(K.sum(outputs), name='metric_4')
+                return outputs
+    
+        x = Input(shape=(1,))
+>       y = LayerWithNestedAddMetricLayer()(x)
+
+test_training.py:1781: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:1773: in __init__
+    self.layer = LayerWithAddMetric()
+test_training.py:1763: in __init__
+    self.dense = keras.layers.Dense(1, kernel_initializer='ones')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Ones'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+_______________________ test_model_metrics_list_in_call _______________________
+
+    def test_model_metrics_list_in_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2)
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                return self.dense1(x)
+    
+>       model = TestModel()
+
+test_training.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:1809: in __init__
+    self.dense1 = keras.layers.Dense(2)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878: in __init__
+    self.bias_initializer = initializers.get(bias_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Zeros'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+__________________ test_duplicate_metric_name_in_add_metric ___________________
+
+    def test_duplicate_metric_name_in_add_metric():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+>       model = TestModel()
+
+test_training.py:1849: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:1841: in __init__
+    self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Ones'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+__________________________ test_add_metric_on_model ___________________________
+
+    def test_add_metric_on_model():
+        x = Input(shape=(1,))
+>       y = Dense(1, kernel_initializer='ones', trainable=False)(x)
+
+test_training.py:1860: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Ones'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+________________________ test_add_metric_in_model_call ________________________
+
+    def test_add_metric_in_model_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                # Provide same name as in the instance created in __init__
+                # for eager mode
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+>       model = TestModel()
+
+test_training.py:1905: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:1895: in __init__
+    self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Ones'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+_______________________ test_multiple_add_metric_calls ________________________
+
+    def test_multiple_add_metric_calls():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean1 = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_2')
+    
+            def call(self, x):
+                self.add_metric(self.mean2(x), name='metric_2')
+                self.add_metric(self.mean1(x), name='metric_1')
+                self.add_metric(K.sum(x), name='metric_3')
+                return self.dense1(x)
+    
+>       model = TestModel()
+
+test_training.py:1941: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:1931: in __init__
+    self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Ones'>, config = {}
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+________________________ test_add_metric_in_layer_call ________________________
+
+    def test_add_metric_in_layer_call():
+    
+        class TestLayer(Layer):
+    
+            def build(self, input_shape):
+                self.a = self.add_weight(
+                    'a', (1, 1), initializer='ones', trainable=False)
+                self.built = True
+    
+            def call(self, inputs):
+                self.add_metric(K.sum(inputs), name='metric_1')
+                return inputs + 1
+    
+        inp = Input(shape=(1,))
+>       x = TestLayer(input_shape=(1,))(inp)
+
+test_training.py:1973: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+test_training.py:1965: in build
+    'a', (1, 1), initializer='ones', trainable=False)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:276: in add_weight
+    initializer = initializers.get(initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149: in deserialize_keras_object
+    return cls.from_config(config['config'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = <class 'keras.initializers.Ones'>, config = {}Using TensorFlow backend.
+
+
+    @classmethod
+    def from_config(cls, config):
+        if 'dtype' not in config:
+            # Initializers saved from `tf.keras`
+            # may contain an unused `dtype` argument.
+>           config.pop('dtype')
+E           KeyError: 'dtype'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29: KeyError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods failed and was not selected for rerun.
+	<class 'KeyError'>
+	'dtype'
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:165>, <TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:135>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29>]
+test_fit_generator failed and was not selected for rerun.
+	<class 'KeyError'>
+	'dtype'
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:474>, <TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:135>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:878>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:149>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:29>]
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_methods - KeyError: 'dtype'
+FAILED test_training.py::test_fit_generator - KeyError: 'dtype'
+FAILED test_training.py::test_fit_generator_shape - KeyError: 'dtype'
+FAILED test_training.py::test_training_with_loss_instance - KeyError: 'dtype'
+FAILED test_training.py::test_trainable_argument - KeyError: 'dtype'
+FAILED test_training.py::test_with_list_as_targets - KeyError: 'dtype'
+FAILED test_training.py::test_model_with_input_feed_tensor - KeyError: 'dtype'
+FAILED test_training.py::test_model_with_partial_loss - KeyError: 'dtype'
+FAILED test_training.py::test_model_with_external_loss - KeyError: 'dtype'
+FAILED test_training.py::test_target_tensors - KeyError: 'dtype'
+FAILED test_training.py::test_model_custom_target_tensors - KeyError: 'dtype'
+FAILED test_training.py::test_trainable_weights_count_consistency - KeyError:...
+FAILED test_training.py::test_pandas_dataframe - KeyError: 'dtype'
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_single_io
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_multi_io
+FAILED test_training.py::test_model_with_crossentropy_losses_channels_first
+FAILED test_training.py::test_dynamic_set_inputs - KeyError: 'dtype'
+FAILED test_training.py::test_validation_freq - KeyError: 'dtype'
+FAILED test_training.py::test_loss_correctness - KeyError: 'dtype'
+FAILED test_training.py::test_model_metrics_list - KeyError: 'dtype'
+FAILED test_training.py::test_model_metrics_list_in_call - KeyError: 'dtype'
+FAILED test_training.py::test_duplicate_metric_name_in_add_metric - KeyError:...
+FAILED test_training.py::test_add_metric_on_model - KeyError: 'dtype'
+FAILED test_training.py::test_add_metric_in_model_call - KeyError: 'dtype'
+FAILED test_training.py::test_multiple_add_metric_calls - KeyError: 'dtype'
+FAILED test_training.py::test_add_metric_in_layer_call - KeyError: 'dtype'
+============= 26 failed, 7 passed, 1 skipped, 1 warning in 4.61s ==============

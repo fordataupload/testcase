@@ -1,0 +1,818 @@
+2020-10-04 20:08:07.300582: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ...FFFFsFF...FFFFFFFFF.F.F..F.....                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_model_methods ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_model_methods():
+>       model = get_model(num_outputs=2)
+
+test_training.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:135: in get_model
+    a_2 = Dense(4, name='dense_1')(a)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B79EE898>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+_____________________________ test_fit_generator ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_fit_generator():
+>       model = get_model(num_outputs=2)
+
+test_training.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:135: in get_model
+    a_2 = Dense(4, name='dense_1')(a)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B99D8128>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+__________________________ test_fit_generator_shape ___________________________
+
+    def test_fit_generator_shape():
+        # predict_generator output shape behavior should be consistent
+        def expected_shape(batch_size, n_batches):
+            return (batch_size * n_batches, 4), (batch_size * n_batches, 3)
+    
+>       model = get_model(num_outputs=2)
+
+test_training.py:614: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:135: in get_model
+    a_2 = Dense(4, name='dense_1')(a)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B82E5208>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+______________________ test_training_with_loss_instance _______________________
+
+    def test_training_with_loss_instance():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+>       dense = Dense(4, name='dense')
+
+test_training.py:676: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B97274E0>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+___________________________ test_trainable_argument ___________________________
+
+    def test_trainable_argument():
+        x = np.random.random((5, 3))
+        y = np.random.random((5, 2))
+    
+        model = Sequential()
+>       model.add(Dense(2, input_dim=3, trainable=False))
+
+test_training.py:784: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B9A9A5C0>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+__________________________ test_with_list_as_targets __________________________
+
+    def test_with_list_as_targets():
+        model = Sequential()
+>       model.add(Dense(1, input_dim=3, trainable=False))
+
+test_training.py:804: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B98C7F60>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+______________________ test_model_with_input_feed_tensor ______________________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow',
+                        reason='Requires TensorFlow backend')
+    def test_model_with_input_feed_tensor():
+        """We test building a model with a TF variable as input.
+        We should be able to call fit, evaluate, predict,
+        by only passing them data for the placeholder inputs
+        in the model.
+        """
+        import tensorflow as tf
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+        b = Input(shape=(3,), name='input_b')
+    
+>       a_2 = Dense(4, name='dense_1')(a)
+
+test_training.py:855: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B9ACB898>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+________________________ test_model_with_partial_loss _________________________
+
+    def test_model_with_partial_loss():
+        a = Input(shape=(3,), name='input_a')
+>       a_2 = Dense(4, name='dense_1')(a)
+
+test_training.py:981: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B99F0BE0>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+>                   bias_regularizer='l2')(a)
+
+test_training.py:1027: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B9886B00>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+_____________________________ test_target_tensors _____________________________
+
+    def test_target_tensors():
+        # single-output, as list
+        model = keras.models.Sequential()
+>       model.add(keras.layers.Dense(4, input_shape=(4,), name='dense'))
+
+test_training.py:1177: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B98EE748>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+______________________ test_model_custom_target_tensors _______________________
+
+    @pytest.mark.skipif(K.backend() == 'tensorflow' and
+                        tf.__version__.startswith('2'),
+                        reason='Cannot have tensors as dict keys in TF2')
+    def test_model_custom_target_tensors():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+>       a_2 = Dense(4, name='dense_1')(a)
+
+test_training.py:1258: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B9C09F28>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+__________________ test_trainable_weights_count_consistency ___________________
+
+    @pytest.mark.skipif(sys.version_info < (3,),
+                        reason='Cannot catch warnings in python 2')
+    def test_trainable_weights_count_consistency():
+        """Tests the trainable weights consistency check of Model.
+    
+        This verifies that a warning is shown if model.trainable is modified
+        and the model is summarized/run without a new call to .compile()
+    
+        Reproduce issue #8121
+        """
+        a = Input(shape=(3,), name='input_a')
+>       model1 = Model(inputs=a, outputs=Dense(1)(a))
+
+test_training.py:1324: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B97F7AC8>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+____________________________ test_pandas_dataframe ____________________________
+
+    def test_pandas_dataframe():
+        input_a = Input(shape=(3,), name='input_a')
+        input_b = Input(shape=(3,), name='input_b')
+    
+>       x = Dense(4, name='dense_1')(input_a)
+
+test_training.py:1361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B9AF60B8>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+________ test_training_and_eval_methods_on_symbolic_tensors_single_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_single_io():
+        x = keras.layers.Input(shape=(3,), name='input')
+>       y = keras.layers.Dense(4, name='dense')(x)
+
+test_training.py:1439: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B988BF98>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+_________ test_training_and_eval_methods_on_symbolic_tensors_multi_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_multi_io():
+        a = keras.layers.Input(shape=(3,), name='input_a')
+        b = keras.layers.Input(shape=(3,), name='input_b')
+    
+>       dense = keras.layers.Dense(4, name='dense')
+
+test_training.py:1465: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B97452E8>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+___________________________ test_dynamic_set_inputs ___________________________
+
+    def test_dynamic_set_inputs():
+        model = Sequential()
+>       model.add(Dense(16, input_dim=32))
+
+test_training.py:1639: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B970B278>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+____________________________ test_validation_freq _____________________________
+
+    def test_validation_freq():
+>       model = Sequential([Dense(1)])
+
+test_training.py:1694: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119C015DBA8>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+_______________________ test_model_metrics_list_in_call _______________________
+
+    def test_model_metrics_list_in_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2)
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                return self.dense1(x)
+    
+>       model = TestModel()
+
+test_training.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:1809: in __init__
+    self.dense1 = keras.layers.Dense(2)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877: in __init__
+    self.kernel_initializer = initializers.get(kernel_initializer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510: in deserialize
+    printable_module_name='initializer')
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156: in deserialize_keras_object
+    return cls(**config['config'])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x00000119B97A1DA0>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode not in {'fan_in', 'fan_out', 'XXfan_avgXX'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods failed and was not selected for rerun.
+	<class 'ValueError'>
+	('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:165>, <TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:135>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199>]
+test_fit_generator failed and was not selected for rerun.
+	<class 'ValueError'>
+	('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:474>, <TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:135>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:877>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:518>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:510>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:156>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199>]
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_methods - ValueError: ('Invalid `mode` ar...
+FAILED test_training.py::test_fit_generator - ValueError: ('Invalid `mode` ar...
+FAILED test_training.py::test_fit_generator_shape - ValueError: ('Invalid `mo...
+FAILED test_training.py::test_training_with_loss_instance - ValueError: ('Inv...
+FAILED test_training.py::test_trainable_argument - ValueError: ('Invalid `mod...
+FAILED test_training.py::test_with_list_as_targets - ValueError: ('Invalid `m...
+FAILED test_training.py::test_model_with_input_feed_tensor - ValueError: ('In...
+FAILED test_training.py::test_model_with_partial_loss - ValueError: ('Invalid...
+FAILED test_training.py::test_model_with_external_loss - ValueError: ('Invali...
+FAILED test_training.py::test_target_tensors - ValueError: ('Invalid `mode` a...
+FAILED test_training.py::test_model_custom_target_tensors - ValueError: ('Inv...
+FAILED test_training.py::test_trainable_weights_count_consistency - ValueErro...
+FAILED test_training.py::test_pandas_dataframe - ValueError: ('Invalid `mode`...
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_single_io
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_multi_io
+FAILED test_training.py::test_dynamic_set_inputs - ValueError: ('Invalid `mod...
+FAILED test_training.py::test_validation_freq - ValueError: ('Invalid `mode` ...
+FAILED test_training.py::test_model_metrics_list_in_call - ValueError: ('Inva...
+============ 18 failed, 15 passed, 1 skipped, 1 warning in 10.08s =============
