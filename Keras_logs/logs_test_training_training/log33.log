@@ -1,0 +1,154 @@
+2020-10-03 19:04:24.247717: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py .......s.....F....F...............                      [100%]
+
+================================== FAILURES ===================================
+______________________ test_model_with_input_feed_tensor ______________________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow',
+                        reason='Requires TensorFlow backend')
+    def test_model_with_input_feed_tensor():
+        """We test building a model with a TF variable as input.
+        We should be able to call fit, evaluate, predict,
+        by only passing them data for the placeholder inputs
+        in the model.
+        """
+        import tensorflow as tf
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+        b = Input(shape=(3,), name='input_b')
+    
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        b_2 = dp(b)
+    
+        model = Model([a, b], [a_2, b_2])
+>       model.summary()
+
+test_training.py:860: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:1328: in summary
+    print_fn=print_fn)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\layer_utils.py:179: in print_summary
+    model._check_trainable_weights_consistency()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x00000210DB4E56D8>
+
+    def _check_trainable_weights_consistency(self):
+        """Check trainable weights count consistency.
+    
+        This will raise a warning if `trainable_weights` and
+        `_collected_trainable_weights` are inconsistent (i.e. have different
+        number of parameters).
+        Inconsistency will typically arise when one modifies `model.trainable`
+        without calling `model.compile` again.
+        """
+        if  hasattr(self, '_collected_trainable_weights'):
+            return
+    
+        if (len(self.trainable_weights) !=
+>               len(self._collected_trainable_weights)):
+E               AttributeError: 'Model' object has no attribute '_collected_trainable_weights'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:295: AttributeError
+---------------------------- Captured stdout call -----------------------------
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (10, 3)              0                                            
+__________________________________________________________________________________________________
+input_b (InputLayer)            (None, 3)            0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (10, 4)              16          input_1[0][0]                    
+__________________________________________________________________________________________________
+dropout (Dropout)               (None, 3)            0           input_b[0][0]                    
+==================================================================================================
+__________________ test_trainable_weights_count_consistency ___________________
+
+    @pytest.mark.skipif(sys.version_info < (3,),
+                        reason='Cannot catch warnings in python 2')
+    def test_trainable_weights_count_consistency():
+        """Tests the trainable weights consistency check of Model.
+    
+        This verifies that a warning is shown if model.trainable is modified
+        and the model is summarized/run without a new call to .compile()
+    
+        Reproduce issue #8121
+        """
+        a = Input(shape=(3,), name='input_a')
+        model1 = Model(inputs=a, outputs=Dense(1)(a))
+    
+        model1.trainable = False
+        b = Input(shape=(3,), name='input_b')
+        y = model1(b)
+        model2 = Model(inputs=b, outputs=Dense(1)(y))
+    
+        model2.compile(optimizer='adam', loss='mse')
+    
+        model1.trainable = True
+    
+        # Should warn on .summary()
+        with pytest.warns(UserWarning) as w:
+>           model2.summary()
+E           Failed: DID NOT WARN. No warnings of type (<class 'UserWarning'>,) was emitted. The list of emitted warnings is: [].
+
+test_training.py:1337: Failed
+---------------------------- Captured stdout call -----------------------------
+Model: "model_2"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_b (InputLayer)         (None, 3)                 0         
+_________________________________________________________________
+model_1 (Model)              (None, 1)                 4         
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 2         
+=================================================================
+Total params: 2
+Trainable params: 2
+Non-trainable params: 0
+_________________________________________________________________
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_with_input_feed_tensor - AttributeError: ...
+FAILED test_training.py::test_trainable_weights_count_consistency - Failed: D...
+============ 2 failed, 31 passed, 1 skipped, 7 warnings in 28.32s =============

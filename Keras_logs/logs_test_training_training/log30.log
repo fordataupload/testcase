@@ -1,0 +1,1595 @@
+2020-10-03 19:03:03.836489: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ...F...sF....F.F...F...F......FFF.                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_model_methods ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_model_methods():
+        model = get_model(num_outputs=2)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        # training/testing doesn't work before compiling.
+        with pytest.raises(RuntimeError):
+            model.train_on_batch([input_a_np, input_b_np],
+                                 [output_a_np, output_b_np])
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                   {'dense_1': output_a_np, 'dropout': output_b_np})
+    
+        # test fit
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np], epochs=1, batch_size=4)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np], epochs=1, batch_size=4)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        {'dense_1': output_a_np, 'dropout': output_b_np},
+                        epochs=1, batch_size=4)
+    
+        # test validation_split
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5)
+    
+        # test validation data
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4,
+                        validation_data=([input_a_np, input_b_np],
+                                         [output_a_np, output_b_np]))
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5,
+                        validation_data=({'input_a': input_a_np,
+                                          'input_b': input_b_np},
+                                         [output_a_np, output_b_np]))
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        {'dense_1': output_a_np, 'dropout': output_b_np},
+                        epochs=1, batch_size=4, validation_split=0.5,
+                        validation_data=(
+                            {'input_a': input_a_np, 'input_b': input_b_np},
+                            {'dense_1': output_a_np, 'dropout': output_b_np}))
+    
+        # test_on_batch
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                  [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                  {'dense_1': output_a_np, 'dropout': output_b_np})
+    
+        # predict_on_batch
+        out = model.predict_on_batch([input_a_np, input_b_np])
+        out = model.predict_on_batch({'input_a': input_a_np,
+                                      'input_b': input_b_np})
+    
+        # predict, evaluate
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        out = model.evaluate([input_a_np, input_b_np],
+                             [output_a_np, output_b_np],
+                             batch_size=4)
+>       out = model.predict([input_a_np, input_b_np], batch_size=4)
+
+test_training.py:252: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001DD641DC2E8>
+x = [array([[0.12967202, 0.61372907, 0.79715068],
+       [0.89507304, 0.59101587, 0.28505963],
+       [0.34752119, 0.20365...4, 0.3482746 , 0.46986176],
+       [0.77294316, 0.64995137, 0.79493403],
+       [0.93993758, 0.71219441, 0.56235368]])]
+batch_size = 4, verbose = 0, steps = None, callbacks = None, max_queue_size = 10
+workers = 1, use_multiprocessing = False
+
+    def predict(self, x,
+                batch_size=None,
+                verbose=0,
+                steps=None,
+                callbacks=None,
+                max_queue_size=10,
+                workers=1,
+                use_multiprocessing=False):
+        """Generates output predictions for the input samples.
+    
+        Computation is done in batches.
+    
+        # Arguments
+            x: Input data. It could be:
+                - A Numpy array (or array-like), or a list of arrays
+                  (in case the model has multiple inputs).
+                - A dict mapping input names to the corresponding
+                  array/tensors, if the model has named inputs.
+                - A generator or `keras.utils.Sequence` returning
+                  `(inputs, targets)` or `(inputs, targets, sample weights)`.
+                - None (default) if feeding from framework-native
+                  tensors (e.g. TensorFlow data tensors).
+            batch_size: Integer or `None`.
+                Number of samples per gradient update.
+                If unspecified, `batch_size` will default to 32.
+                Do not specify the `batch_size` if your data is in the
+                form of symbolic tensors, generators, or
+                `keras.utils.Sequence` instances (since they generate batches).
+            verbose: Verbosity mode, 0 or 1.
+            steps: Total number of steps (batches of samples)
+                before declaring the prediction round finished.
+                Ignored with the default value of `None`.
+            callbacks: List of `keras.callbacks.Callback` instances.
+                List of callbacks to apply during prediction.
+                See [callbacks](/callbacks).
+            max_queue_size: Integer. Used for generator or `keras.utils.Sequence`
+                input only. Maximum size for the generator queue.
+                If unspecified, `max_queue_size` will default to 10.
+            workers: Integer. Used for generator or `keras.utils.Sequence` input
+                only. Maximum number of processes to spin up when using
+                process-based threading. If unspecified, `workers` will default
+                to 1. If 0, will execute the generator on the main thread.
+            use_multiprocessing: Boolean. Used for generator or
+                `keras.utils.Sequence` input only. If `True`, use process-based
+                threading. If unspecified, `use_multiprocessing` will default to
+                `False`. Note that because this implementation relies on
+                multiprocessing, you should not pass non-picklable arguments to
+                the generator as they can't be passed easily to children processes.
+    
+        # Returns
+            Numpy array(s) of predictions.
+    
+        # Raises
+            ValueError: In case of mismatch between the provided
+                input data and the model's expectations,
+                or in case a stateful model receives a number of samples
+                that is not a multiple of the batch size.
+        """
+    
+        batch_size = self._validate_or_infer_batch_size(batch_size, steps, x)
+    
+        # Case 1: generator-like. Input is Python generator, or Sequence object.
+        if training_utils.is_generator_or_sequence(x):
+            return self.predict_generator(
+                x,
+                steps=steps,
+                verbose=verbose,
+                callbacks=callbacks,
+                max_queue_size=max_queue_size,
+                workers=workers,
+                use_multiprocessing=use_multiprocessing)
+    
+        if x is None or steps is None:
+>           raise ValueError('If predicting from data tensors, '
+                             'you should specify the `steps` '
+                             'argument.')
+E           ValueError: If predicting from data tensors, you should specify the `steps` argument.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1436: ValueError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.6846 - dense_1_loss: 0.4824 - dropout_loss: 0.4043
+10/10 [==============================] - 0s 2ms/step - loss: 1.2647 - dense_1_loss: 1.0786 - dropout_loss: 0.4138
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.7805 - dense_1_loss: 0.4717 - dropout_loss: 0.6175
+10/10 [==============================] - 0s 2ms/step - loss: 1.3038 - dense_1_loss: 1.0309 - dropout_loss: 0.6308
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.2172 - dense_1_loss: 1.0996 - dropout_loss: 0.2352
+10/10 [==============================] - 0s 0us/step - loss: 1.2102 - dense_1_loss: 0.9283 - dropout_loss: 0.4376
+Train on 5 samples, validate on 5 samples
+Epoch 1/1
+
+4/5 [=======================>......] - ETA: 0s - loss: 1.3222 - dense_1_loss: 1.0749 - dropout_loss: 0.4946
+5/5 [==============================] - 0s 16ms/step - loss: 1.3528 - dense_1_loss: 1.1513 - dropout_loss: 0.4949 - val_loss: 0.9575 - val_dense_1_loss: 0.8929 - val_dropout_loss: 0.1803
+Train on 5 samples, validate on 5 samples
+Epoch 1/1
+
+4/5 [=======================>......] - ETA: 0s - loss: 1.2369 - dense_1_loss: 0.9856 - dropout_loss: 0.5027
+5/5 [==============================] - 0s 6ms/step - loss: 1.3161 - dense_1_loss: 1.2551 - dropout_loss: 0.3598 - val_loss: 0.9493 - val_dense_1_loss: 0.8837 - val_dropout_loss: 0.1803
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.1961 - dense_1_loss: 1.0726 - dropout_loss: 0.2471
+10/10 [==============================] - 0s 3ms/step - loss: 1.1129 - dense_1_loss: 0.9087 - dropout_loss: 0.2989 - val_loss: 1.0428 - val_dense_1_loss: 0.9029 - val_dropout_loss: 0.1784
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.9559 - dense_1_loss: 0.6420 - dropout_loss: 0.6278
+10/10 [==============================] - 0s 3ms/step - loss: 1.1909 - dense_1_loss: 0.9488 - dropout_loss: 0.4798 - val_loss: 1.0313 - val_dense_1_loss: 0.8920 - val_dropout_loss: 0.1784
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.8652 - dense_1_loss: 0.7342 - dropout_loss: 0.2619
+10/10 [==============================] - 0s 3ms/step - loss: 1.1705 - dense_1_loss: 0.9797 - dropout_loss: 0.4513 - val_loss: 1.0195 - val_dense_1_loss: 0.8808 - val_dropout_loss: 0.1784
+
+ 4/10 [===========>..................] - ETA: 0s
+10/10 [==============================] - 0s 0us/step
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-03 19:03:07.253221: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-03 19:03:07.374791: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:03:07.376882: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:03:07.380483: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:03:07.383999: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:03:07.385621: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:03:07.390258: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:03:07.393374: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:03:07.402724: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:03:07.403653: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:03:07.404248: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-03 19:03:07.417885: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:03:07.418433: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:03:07.418775: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:03:07.419118: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:03:07.419459: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:03:07.419806: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:03:07.420150: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:03:07.420495: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:03:07.421355: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:03:08.370896: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:03:08.371312: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:03:08.371548: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:03:08.372265: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-03 19:03:08.937691: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+___________________________ test_trainable_argument ___________________________
+
+    def test_trainable_argument():
+        x = np.random.random((5, 3))
+        y = np.random.random((5, 2))
+    
+        model = Sequential()
+        model.add(Dense(2, input_dim=3, trainable=False))
+        model.compile('rmsprop', 'mse')
+>       out = model.predict(x)
+
+test_training.py:786: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x000001DFB3613AC8>
+x = array([[0.43010939, 0.75664501, 0.60515245],
+       [0.91981041, 0.23635707, 0.06269572],
+       [0.97588991, 0.70617302, 0.61174403],
+       [0.90271844, 0.85072822, 0.91540852],
+       [0.87839736, 0.70286116, 0.57481336]])
+batch_size = 32, verbose = 0, steps = None, callbacks = None
+max_queue_size = 10, workers = 1, use_multiprocessing = False
+
+    def predict(self, x,
+                batch_size=None,
+                verbose=0,
+                steps=None,
+                callbacks=None,
+                max_queue_size=10,
+                workers=1,
+                use_multiprocessing=False):
+        """Generates output predictions for the input samples.
+    
+        Computation is done in batches.
+    
+        # Arguments
+            x: Input data. It could be:
+                - A Numpy array (or array-like), or a list of arrays
+                  (in case the model has multiple inputs).
+                - A dict mapping input names to the corresponding
+                  array/tensors, if the model has named inputs.
+                - A generator or `keras.utils.Sequence` returning
+                  `(inputs, targets)` or `(inputs, targets, sample weights)`.
+                - None (default) if feeding from framework-native
+                  tensors (e.g. TensorFlow data tensors).
+            batch_size: Integer or `None`.
+                Number of samples per gradient update.
+                If unspecified, `batch_size` will default to 32.
+                Do not specify the `batch_size` if your data is in the
+                form of symbolic tensors, generators, or
+                `keras.utils.Sequence` instances (since they generate batches).
+            verbose: Verbosity mode, 0 or 1.
+            steps: Total number of steps (batches of samples)
+                before declaring the prediction round finished.
+                Ignored with the default value of `None`.
+            callbacks: List of `keras.callbacks.Callback` instances.
+                List of callbacks to apply during prediction.
+                See [callbacks](/callbacks).
+            max_queue_size: Integer. Used for generator or `keras.utils.Sequence`
+                input only. Maximum size for the generator queue.
+                If unspecified, `max_queue_size` will default to 10.
+            workers: Integer. Used for generator or `keras.utils.Sequence` input
+                only. Maximum number of processes to spin up when using
+                process-based threading. If unspecified, `workers` will default
+                to 1. If 0, will execute the generator on the main thread.
+            use_multiprocessing: Boolean. Used for generator or
+                `keras.utils.Sequence` input only. If `True`, use process-based
+                threading. If unspecified, `use_multiprocessing` will default to
+                `False`. Note that because this implementation relies on
+                multiprocessing, you should not pass non-picklable arguments to
+                the generator as they can't be passed easily to children processes.
+    
+        # Returns
+            Numpy array(s) of predictions.
+    
+        # Raises
+            ValueError: In case of mismatch between the provided
+                input data and the model's expectations,
+                or in case a stateful model receives a number of samples
+                that is not a multiple of the batch size.
+        """
+    
+        batch_size = self._validate_or_infer_batch_size(batch_size, steps, x)
+    
+        # Case 1: generator-like. Input is Python generator, or Sequence object.
+        if training_utils.is_generator_or_sequence(x):
+            return self.predict_generator(
+                x,
+                steps=steps,
+                verbose=verbose,
+                callbacks=callbacks,
+                max_queue_size=max_queue_size,
+                workers=workers,
+                use_multiprocessing=use_multiprocessing)
+    
+        if x is None or steps is None:
+>           raise ValueError('If predicting from data tensors, '
+                             'you should specify the `steps` '
+                             'argument.')
+E           ValueError: If predicting from data tensors, you should specify the `steps` argument.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1436: ValueError
+______________________ test_model_with_input_feed_tensor ______________________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow',
+                        reason='Requires TensorFlow backend')
+    def test_model_with_input_feed_tensor():
+        """We test building a model with a TF variable as input.
+        We should be able to call fit, evaluate, predict,
+        by only passing them data for the placeholder inputs
+        in the model.
+        """
+        import tensorflow as tf
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+        b = Input(shape=(3,), name='input_b')
+    
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        b_2 = dp(b)
+    
+        model = Model([a, b], [a_2, b_2])
+        model.summary()
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        model.compile(optimizer, loss, metrics=['mean_squared_error'],
+                      loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_b_np,
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_b': input_b_np},
+                                   [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_b': input_b_np},
+                                  [output_a_np, output_b_np])
+        out = model.predict_on_batch({'input_b': input_b_np})
+    
+        # test fit
+        out = model.fit({'input_b': input_b_np},
+                        [output_a_np, output_b_np], epochs=1, batch_size=10)
+        out = model.fit(input_b_np,
+                        [output_a_np, output_b_np], epochs=1, batch_size=10)
+    
+        # test evaluate
+        out = model.evaluate({'input_b': input_b_np},
+                             [output_a_np, output_b_np], batch_size=10)
+        out = model.evaluate(input_b_np,
+                             [output_a_np, output_b_np], batch_size=10)
+    
+        # test predict
+>       out = model.predict({'input_b': input_b_np}, batch_size=10)
+
+test_training.py:891: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001DFB33E84E0>
+x = {'input_b': array([[0.86548922, 0.77712221, 0.48786279],
+       [0.79040146, 0.15863881, 0.96605546],
+       [0.372989...7, 0.56529107, 0.40256719],
+       [0.43256158, 0.13424531, 0.56388849],
+       [0.47449807, 0.48398898, 0.43534238]])}
+batch_size = 10, verbose = 0, steps = None, callbacks = None
+max_queue_size = 10, workers = 1, use_multiprocessing = False
+
+    def predict(self, x,
+                batch_size=None,
+                verbose=0,
+                steps=None,
+                callbacks=None,
+                max_queue_size=10,
+                workers=1,
+                use_multiprocessing=False):
+        """Generates output predictions for the input samples.
+    
+        Computation is done in batches.
+    
+        # Arguments
+            x: Input data. It could be:
+                - A Numpy array (or array-like), or a list of arrays
+                  (in case the model has multiple inputs).
+                - A dict mapping input names to the corresponding
+                  array/tensors, if the model has named inputs.
+                - A generator or `keras.utils.Sequence` returning
+                  `(inputs, targets)` or `(inputs, targets, sample weights)`.
+                - None (default) if feeding from framework-native
+                  tensors (e.g. TensorFlow data tensors).
+            batch_size: Integer or `None`.
+                Number of samples per gradient update.
+                If unspecified, `batch_size` will default to 32.
+                Do not specify the `batch_size` if your data is in the
+                form of symbolic tensors, generators, or
+                `keras.utils.Sequence` instances (since they generate batches).
+            verbose: Verbosity mode, 0 or 1.
+            steps: Total number of steps (batches of samples)
+                before declaring the prediction round finished.
+                Ignored with the default value of `None`.
+            callbacks: List of `keras.callbacks.Callback` instances.
+                List of callbacks to apply during prediction.
+                See [callbacks](/callbacks).
+            max_queue_size: Integer. Used for generator or `keras.utils.Sequence`
+                input only. Maximum size for the generator queue.
+                If unspecified, `max_queue_size` will default to 10.
+            workers: Integer. Used for generator or `keras.utils.Sequence` input
+                only. Maximum number of processes to spin up when using
+                process-based threading. If unspecified, `workers` will default
+                to 1. If 0, will execute the generator on the main thread.
+            use_multiprocessing: Boolean. Used for generator or
+                `keras.utils.Sequence` input only. If `True`, use process-based
+                threading. If unspecified, `use_multiprocessing` will default to
+                `False`. Note that because this implementation relies on
+                multiprocessing, you should not pass non-picklable arguments to
+                the generator as they can't be passed easily to children processes.
+    
+        # Returns
+            Numpy array(s) of predictions.
+    
+        # Raises
+            ValueError: In case of mismatch between the provided
+                input data and the model's expectations,
+                or in case a stateful model receives a number of samples
+                that is not a multiple of the batch size.
+        """
+    
+        batch_size = self._validate_or_infer_batch_size(batch_size, steps, x)
+    
+        # Case 1: generator-like. Input is Python generator, or Sequence object.
+        if training_utils.is_generator_or_sequence(x):
+            return self.predict_generator(
+                x,
+                steps=steps,
+                verbose=verbose,
+                callbacks=callbacks,
+                max_queue_size=max_queue_size,
+                workers=workers,
+                use_multiprocessing=use_multiprocessing)
+    
+        if x is None or steps is None:
+>           raise ValueError('If predicting from data tensors, '
+                             'you should specify the `steps` '
+                             'argument.')
+E           ValueError: If predicting from data tensors, you should specify the `steps` argument.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1436: ValueError
+---------------------------- Captured stdout call -----------------------------
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (10, 3)              0                                            
+__________________________________________________________________________________________________
+input_b (InputLayer)            (None, 3)            0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (10, 4)              16          input_1[0][0]                    
+__________________________________________________________________________________________________
+dropout (Dropout)               (None, 3)            0           input_b[0][0]                    
+==================================================================================================
+Total params: 16
+Trainable params: 16
+Non-trainable params: 0
+__________________________________________________________________________________________________
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.5474 - dense_1_loss: 0.2491 - dropout_loss: 0.5968 - dense_1_mean_squared_error: 0.2491 - dropout_mean_squared_error: 0.5968
+Epoch 1/1
+
+10/10 [==============================] - 0s 2ms/step - loss: 0.4874 - dense_1_loss: 0.2658 - dropout_loss: 0.4433 - dense_1_mean_squared_error: 0.2658 - dropout_mean_squared_error: 0.4433
+
+10/10 [==============================] - 0s 0us/step
+
+10/10 [==============================] - 0s 0us/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:03:18.105606: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:03:18.106196: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:03:18.106541: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:03:18.106883: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:03:18.107220: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:03:18.107559: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:03:18.107901: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:03:18.108244: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:03:18.108818: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:03:18.109139: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:03:18.109489: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:03:18.109708: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:03:18.110205: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:431: The name tf.is_variable_initialized is deprecated. Please use tf.compat.v1.is_variable_initialized instead.
+
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:438: The name tf.variables_initializer is deprecated. Please use tf.compat.v1.variables_initializer instead.
+
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:431: The name tf.is_variable_initialized is deprecated. Please use tf.compat.v1.is_variable_initialized instead.
+
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:438: The name tf.variables_initializer is deprecated. Please use tf.compat.v1.variables_initializer instead.
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+                    bias_regularizer='l2')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+    
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        input_a_np = np.random.random((10, 3))
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_a_np, None)
+        out = model.test_on_batch(input_a_np, None)
+        # fit
+        out = model.fit(input_a_np, None)
+        # evaluate
+        out = model.evaluate(input_a_np, None)
+    
+        # No dropout, external loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1')(a)
+        a_3 = Dense(4, name='dense_2')(a)
+    
+        model = Model(a, [a_2, a_3])
+        model.add_loss(K.mean(a_3 + a_2))
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_a_np, None)
+        out = model.test_on_batch(input_a_np, None)
+        # fit
+        out = model.fit(input_a_np, None)
+        # evaluate
+        out = model.evaluate(input_a_np, None)
+    
+        # Test fit with no external data at all.
+        if K.backend() == 'tensorflow':
+            import tensorflow as tf
+    
+            a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+            a_2 = Dense(4, name='dense_1')(a)
+            a_2 = Dropout(0.5, name='dropout')(a_2)
+            model = Model(a, a_2)
+            model.add_loss(K.mean(a_2))
+    
+            model.compile(optimizer='rmsprop',
+                          loss=None,
+                          metrics=['mean_squared_error'])
+    
+            # test train_on_batch
+            out = model.train_on_batch(None, None)
+            out = model.test_on_batch(None, None)
+            out = model.predict_on_batch(None)
+    
+            # test fit
+            with pytest.raises(ValueError):
+                out = model.fit(None, None, epochs=1, batch_size=10)
+            out = model.fit(None, None, epochs=1, steps_per_epoch=1)
+    
+            # define a generator to produce x=None and y=None
+            @threadsafe_generator
+            def data_tensors_generator():
+                while True:
+                    yield (None, None)
+    
+            generator = data_tensors_generator()
+    
+            # test fit_generator for framework-native data tensors
+            out = model.fit_generator(generator, epochs=1,
+                                      steps_per_epoch=3)
+    
+            # test evaluate_generator for framework-native data tensors
+            out = model.evaluate_generator(generator, steps=3)
+            out = model.evaluate(generator, steps=3)
+    
+            # test fit with validation data
+            with pytest.raises(ValueError):
+                out = model.fit(None, None,
+                                epochs=1,
+                                steps_per_epoch=None,
+                                validation_steps=2)
+            out = model.fit(None, None,
+                            epochs=1,
+                            steps_per_epoch=2,
+                            validation_steps=2)
+    
+            # test evaluate
+            with pytest.raises(ValueError):
+                out = model.evaluate(None, None, batch_size=10)
+            out = model.evaluate(None, None, steps=3)
+    
+            # test predict
+            with pytest.raises(ValueError):
+                out = model.predict(None, batch_size=10)
+>           out = model.predict(None, steps=3)
+
+test_training.py:1126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001DFB34BB9E8>, x = None
+batch_size = None, verbose = 0, steps = 3, callbacks = None, max_queue_size = 10
+workers = 1, use_multiprocessing = False
+
+    def predict(self, x,
+                batch_size=None,
+                verbose=0,
+                steps=None,
+                callbacks=None,
+                max_queue_size=10,
+                workers=1,
+                use_multiprocessing=False):
+        """Generates output predictions for the input samples.
+    
+        Computation is done in batches.
+    
+        # Arguments
+            x: Input data. It could be:
+                - A Numpy array (or array-like), or a list of arrays
+                  (in case the model has multiple inputs).
+                - A dict mapping input names to the corresponding
+                  array/tensors, if the model has named inputs.
+                - A generator or `keras.utils.Sequence` returning
+                  `(inputs, targets)` or `(inputs, targets, sample weights)`.
+                - None (default) if feeding from framework-native
+                  tensors (e.g. TensorFlow data tensors).
+            batch_size: Integer or `None`.
+                Number of samples per gradient update.
+                If unspecified, `batch_size` will default to 32.
+                Do not specify the `batch_size` if your data is in the
+                form of symbolic tensors, generators, or
+                `keras.utils.Sequence` instances (since they generate batches).
+            verbose: Verbosity mode, 0 or 1.
+            steps: Total number of steps (batches of samples)
+                before declaring the prediction round finished.
+                Ignored with the default value of `None`.
+            callbacks: List of `keras.callbacks.Callback` instances.
+                List of callbacks to apply during prediction.
+                See [callbacks](/callbacks).
+            max_queue_size: Integer. Used for generator or `keras.utils.Sequence`
+                input only. Maximum size for the generator queue.
+                If unspecified, `max_queue_size` will default to 10.
+            workers: Integer. Used for generator or `keras.utils.Sequence` input
+                only. Maximum number of processes to spin up when using
+                process-based threading. If unspecified, `workers` will default
+                to 1. If 0, will execute the generator on the main thread.
+            use_multiprocessing: Boolean. Used for generator or
+                `keras.utils.Sequence` input only. If `True`, use process-based
+                threading. If unspecified, `use_multiprocessing` will default to
+                `False`. Note that because this implementation relies on
+                multiprocessing, you should not pass non-picklable arguments to
+                the generator as they can't be passed easily to children processes.
+    
+        # Returns
+            Numpy array(s) of predictions.
+    
+        # Raises
+            ValueError: In case of mismatch between the provided
+                input data and the model's expectations,
+                or in case a stateful model receives a number of samples
+                that is not a multiple of the batch size.
+        """
+    
+        batch_size = self._validate_or_infer_batch_size(batch_size, steps, x)
+    
+        # Case 1: generator-like. Input is Python generator, or Sequence object.
+        if training_utils.is_generator_or_sequence(x):
+            return self.predict_generator(
+                x,
+                steps=steps,
+                verbose=verbose,
+                callbacks=callbacks,
+                max_queue_size=max_queue_size,
+                workers=workers,
+                use_multiprocessing=use_multiprocessing)
+    
+        if x is None or steps is None:
+>           raise ValueError('If predicting from data tensors, '
+                             'you should specify the `steps` '
+                             'argument.')
+E           ValueError: If predicting from data tensors, you should specify the `steps` argument.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1436: ValueError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.0505
+
+10/10 [==============================] - 0s 0us/step
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: -0.5174
+
+10/10 [==============================] - 0s 2ms/step
+Epoch 1/1
+
+1/1 [==============================] - 0s 0us/step - loss: 0.1857
+Epoch 1/1
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.1780
+3/3 [==============================] - 0s 5ms/step - loss: 0.1577
+
+1/3 [=========>....................] - ETA: 0s
+3/3 [==============================] - 0s 5ms/step
+Epoch 1/1
+
+1/2 [==============>...............] - ETA: 0s - loss: 0.0952
+2/2 [==============================] - 0s 0us/step - loss: 0.1262 - val_loss: 0.0608
+
+1/3 [=========>....................] - ETA: 0s
+3/3 [==============================] - 0s 5ms/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:03:19.565003: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:03:19.565594: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:03:19.565943: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:03:19.566336: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:03:19.566675: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:03:19.567016: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:03:19.567361: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:03:19.567716: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:03:19.568280: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:03:19.568591: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:03:19.568940: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:03:19.569158: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:03:19.569642: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________________________ test_pandas_dataframe ____________________________
+
+    def test_pandas_dataframe():
+        input_a = Input(shape=(3,), name='input_a')
+        input_b = Input(shape=(3,), name='input_b')
+    
+        x = Dense(4, name='dense_1')(input_a)
+        y = Dense(3, name='desne_2')(input_b)
+    
+        model_1 = Model(inputs=input_a, outputs=x)
+        model_2 = Model(inputs=[input_a, input_b], outputs=[x, y])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+    
+        model_1.compile(optimizer=optimizer, loss=loss)
+        model_2.compile(optimizer=optimizer, loss=loss)
+    
+        input_a_df = pd.DataFrame(np.random.random((10, 3)))
+        input_b_df = pd.DataFrame(np.random.random((10, 3)))
+    
+        output_a_df = pd.DataFrame(np.random.random((10, 4)))
+        output_b_df = pd.DataFrame(np.random.random((10, 3)))
+    
+        model_1.fit(input_a_df,
+                    output_a_df)
+        model_2.fit([input_a_df, input_b_df],
+                    [output_a_df, output_b_df])
+        model_1.fit([input_a_df],
+                    [output_a_df])
+        model_1.fit({'input_a': input_a_df},
+                    output_a_df)
+        model_2.fit({'input_a': input_a_df, 'input_b': input_b_df},
+                    [output_a_df, output_b_df])
+    
+>       model_1.predict(input_a_df)
+
+test_training.py:1390: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001DFB7A7C710>
+x =           0         1         2
+0  0.118013  0.846261  0.073643
+1  0.293607  0.499303  0.719394
+2  0.834511  0.985113 ...214  0.024636  0.078077
+7  0.235105  0.444466  0.274185
+8  0.302645  0.353664  0.977909
+9  0.409309  0.779233  0.142426
+batch_size = 32, verbose = 0, steps = None, callbacks = None
+max_queue_size = 10, workers = 1, use_multiprocessing = False
+
+    def predict(self, x,
+                batch_size=None,
+                verbose=0,
+                steps=None,
+                callbacks=None,
+                max_queue_size=10,
+                workers=1,
+                use_multiprocessing=False):
+        """Generates output predictions for the input samples.
+    
+        Computation is done in batches.
+    
+        # Arguments
+            x: Input data. It could be:
+                - A Numpy array (or array-like), or a list of arrays
+                  (in case the model has multiple inputs).
+                - A dict mapping input names to the corresponding
+                  array/tensors, if the model has named inputs.
+                - A generator or `keras.utils.Sequence` returning
+                  `(inputs, targets)` or `(inputs, targets, sample weights)`.
+                - None (default) if feeding from framework-native
+                  tensors (e.g. TensorFlow data tensors).
+            batch_size: Integer or `None`.
+                Number of samples per gradient update.
+                If unspecified, `batch_size` will default to 32.
+                Do not specify the `batch_size` if your data is in the
+                form of symbolic tensors, generators, or
+                `keras.utils.Sequence` instances (since they generate batches).
+            verbose: Verbosity mode, 0 or 1.
+            steps: Total number of steps (batches of samples)
+                before declaring the prediction round finished.
+                Ignored with the default value of `None`.
+            callbacks: List of `keras.callbacks.Callback` instances.
+                List of callbacks to apply during prediction.
+                See [callbacks](/callbacks).
+            max_queue_size: Integer. Used for generator or `keras.utils.Sequence`
+                input only. Maximum size for the generator queue.
+                If unspecified, `max_queue_size` will default to 10.
+            workers: Integer. Used for generator or `keras.utils.Sequence` input
+                only. Maximum number of processes to spin up when using
+                process-based threading. If unspecified, `workers` will default
+                to 1. If 0, will execute the generator on the main thread.
+            use_multiprocessing: Boolean. Used for generator or
+                `keras.utils.Sequence` input only. If `True`, use process-based
+                threading. If unspecified, `use_multiprocessing` will default to
+                `False`. Note that because this implementation relies on
+                multiprocessing, you should not pass non-picklable arguments to
+                the generator as they can't be passed easily to children processes.
+    
+        # Returns
+            Numpy array(s) of predictions.
+    
+        # Raises
+            ValueError: In case of mismatch between the provided
+                input data and the model's expectations,
+                or in case a stateful model receives a number of samples
+                that is not a multiple of the batch size.
+        """
+    
+        batch_size = self._validate_or_infer_batch_size(batch_size, steps, x)
+    
+        # Case 1: generator-like. Input is Python generator, or Sequence object.
+        if training_utils.is_generator_or_sequence(x):
+            return self.predict_generator(
+                x,
+                steps=steps,
+                verbose=verbose,
+                callbacks=callbacks,
+                max_queue_size=max_queue_size,
+                workers=workers,
+                use_multiprocessing=use_multiprocessing)
+    
+        if x is None or steps is None:
+>           raise ValueError('If predicting from data tensors, '
+                             'you should specify the `steps` '
+                             'argument.')
+E           ValueError: If predicting from data tensors, you should specify the `steps` argument.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1436: ValueError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+10/10 [==============================] - 0s 5ms/step - loss: 0.5302
+Epoch 1/1
+
+10/10 [==============================] - 0s 9ms/step - loss: 1.2999 - dense_1_loss: 0.5224 - desne_2_loss: 0.7774
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.5147
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.5093
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 1.2705 - dense_1_loss: 0.5048 - desne_2_loss: 0.7657
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:03:24.363775: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:03:24.364378: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:03:24.364726: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:03:24.365073: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:03:24.365415: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:03:24.365760: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:03:24.366103: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:03:24.366458: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:03:24.367018: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:03:24.367331: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:03:24.367682: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:03:24.367900: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:03:24.368383: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+___________________________ test_dynamic_set_inputs ___________________________
+
+    def test_dynamic_set_inputs():
+        model = Sequential()
+        model.add(Dense(16, input_dim=32))
+        model.add(Activation('relu'))
+    
+        model2 = Sequential()
+        model2.add(model.layers[-1])
+        model2.add(Dense(8))
+>       preds2 = model2.predict([np.random.random((1, 32))])
+
+test_training.py:1645: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x000001DFB3513198>
+x = [array([[0.27339064, 0.47480426, 0.53795399, 0.34815999, 0.86366027,
+        0.61598258, 0.26773935, 0.90030386, 0.219...676, 0.50938091,
+        0.93831388, 0.27318589, 0.17748028, 0.91235992, 0.24127846,
+        0.20417641, 0.29180684]])]
+batch_size = 32, verbose = 0, steps = None, callbacks = None
+max_queue_size = 10, workers = 1, use_multiprocessing = False
+
+    def predict(self, x,
+                batch_size=None,
+                verbose=0,
+                steps=None,
+                callbacks=None,
+                max_queue_size=10,
+                workers=1,
+                use_multiprocessing=False):
+        """Generates output predictions for the input samples.
+    
+        Computation is done in batches.
+    
+        # Arguments
+            x: Input data. It could be:
+                - A Numpy array (or array-like), or a list of arrays
+                  (in case the model has multiple inputs).
+                - A dict mapping input names to the corresponding
+                  array/tensors, if the model has named inputs.
+                - A generator or `keras.utils.Sequence` returning
+                  `(inputs, targets)` or `(inputs, targets, sample weights)`.
+                - None (default) if feeding from framework-native
+                  tensors (e.g. TensorFlow data tensors).
+            batch_size: Integer or `None`.
+                Number of samples per gradient update.
+                If unspecified, `batch_size` will default to 32.
+                Do not specify the `batch_size` if your data is in the
+                form of symbolic tensors, generators, or
+                `keras.utils.Sequence` instances (since they generate batches).
+            verbose: Verbosity mode, 0 or 1.
+            steps: Total number of steps (batches of samples)
+                before declaring the prediction round finished.
+                Ignored with the default value of `None`.
+            callbacks: List of `keras.callbacks.Callback` instances.
+                List of callbacks to apply during prediction.
+                See [callbacks](/callbacks).
+            max_queue_size: Integer. Used for generator or `keras.utils.Sequence`
+                input only. Maximum size for the generator queue.
+                If unspecified, `max_queue_size` will default to 10.
+            workers: Integer. Used for generator or `keras.utils.Sequence` input
+                only. Maximum number of processes to spin up when using
+                process-based threading. If unspecified, `workers` will default
+                to 1. If 0, will execute the generator on the main thread.
+            use_multiprocessing: Boolean. Used for generator or
+                `keras.utils.Sequence` input only. If `True`, use process-based
+                threading. If unspecified, `use_multiprocessing` will default to
+                `False`. Note that because this implementation relies on
+                multiprocessing, you should not pass non-picklable arguments to
+                the generator as they can't be passed easily to children processes.
+    
+        # Returns
+            Numpy array(s) of predictions.
+    
+        # Raises
+            ValueError: In case of mismatch between the provided
+                input data and the model's expectations,
+                or in case a stateful model receives a number of samples
+                that is not a multiple of the batch size.
+        """
+    
+        batch_size = self._validate_or_infer_batch_size(batch_size, steps, x)
+    
+        # Case 1: generator-like. Input is Python generator, or Sequence object.
+        if training_utils.is_generator_or_sequence(x):
+            return self.predict_generator(
+                x,
+                steps=steps,
+                verbose=verbose,
+                callbacks=callbacks,
+                max_queue_size=max_queue_size,
+                workers=workers,
+                use_multiprocessing=use_multiprocessing)
+    
+        if x is None or steps is None:
+>           raise ValueError('If predicting from data tensors, '
+                             'you should specify the `steps` '
+                             'argument.')
+E           ValueError: If predicting from data tensors, you should specify the `steps` argument.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1436: ValueError
+__________________________ test_add_metric_on_model ___________________________
+
+    def test_add_metric_on_model():
+        x = Input(shape=(1,))
+        y = Dense(1, kernel_initializer='ones', trainable=False)(x)
+        model = Model(x, y)
+        model.add_metric(K.sum(y), name='metric_1')
+        model.add_metric(metrics.Mean(name='metric_2')(y))
+        model.compile('sgd', loss='mse', metrics=['mse'])
+    
+        inputs = np.ones(shape=(10, 1))
+        targets = np.zeros(shape=(10, 1))
+        history = model.fit(
+            inputs,
+            targets,
+            epochs=2,
+            batch_size=5,
+            validation_data=(inputs, targets))
+        assert history.history['metric_1'][-1] == 5
+        assert history.history['val_metric_1'][-1] == 5
+    
+        assert history.history['metric_2'][-1] == 1
+        assert history.history['val_metric_2'][-1] == 1
+    
+        eval_results = model.evaluate(inputs, targets, batch_size=5)
+        assert eval_results[-2] == 5
+        assert eval_results[-1] == 1
+    
+>       model.predict(inputs, batch_size=5)
+
+test_training.py:1884: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001DFB56CFBE0>
+x = array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.]])
+batch_size = 5, verbose = 0, steps = None, callbacks = None, max_queue_size = 10
+workers = 1, use_multiprocessing = False
+
+    def predict(self, x,
+                batch_size=None,
+                verbose=0,
+                steps=None,
+                callbacks=None,
+                max_queue_size=10,
+                workers=1,
+                use_multiprocessing=False):
+        """Generates output predictions for the input samples.
+    
+        Computation is done in batches.
+    
+        # Arguments
+            x: Input data. It could be:
+                - A Numpy array (or array-like), or a list of arrays
+                  (in case the model has multiple inputs).
+                - A dict mapping input names to the corresponding
+                  array/tensors, if the model has named inputs.
+                - A generator or `keras.utils.Sequence` returning
+                  `(inputs, targets)` or `(inputs, targets, sample weights)`.
+                - None (default) if feeding from framework-native
+                  tensors (e.g. TensorFlow data tensors).
+            batch_size: Integer or `None`.
+                Number of samples per gradient update.
+                If unspecified, `batch_size` will default to 32.
+                Do not specify the `batch_size` if your data is in the
+                form of symbolic tensors, generators, or
+                `keras.utils.Sequence` instances (since they generate batches).
+            verbose: Verbosity mode, 0 or 1.
+            steps: Total number of steps (batches of samples)
+                before declaring the prediction round finished.
+                Ignored with the default value of `None`.
+            callbacks: List of `keras.callbacks.Callback` instances.
+                List of callbacks to apply during prediction.
+                See [callbacks](/callbacks).
+            max_queue_size: Integer. Used for generator or `keras.utils.Sequence`
+                input only. Maximum size for the generator queue.
+                If unspecified, `max_queue_size` will default to 10.
+            workers: Integer. Used for generator or `keras.utils.Sequence` input
+                only. Maximum number of processes to spin up when using
+                process-based threading. If unspecified, `workers` will default
+                to 1. If 0, will execute the generator on the main thread.
+            use_multiprocessing: Boolean. Used for generator or
+                `keras.utils.Sequence` input only. If `True`, use process-based
+                threading. If unspecified, `use_multiprocessing` will default to
+                `False`. Note that because this implementation relies on
+                multiprocessing, you should not pass non-picklable arguments to
+                the generator as they can't be passed easily to children processes.
+    
+        # Returns
+            Numpy array(s) of predictions.
+    
+        # Raises
+            ValueError: In case of mismatch between the provided
+                input data and the model's expectations,
+                or in case a stateful model receives a number of samples
+                that is not a multiple of the batch size.
+        """
+    
+        batch_size = self._validate_or_infer_batch_size(batch_size, steps, x)
+    
+        # Case 1: generator-like. Input is Python generator, or Sequence object.
+        if training_utils.is_generator_or_sequence(x):
+            return self.predict_generator(
+                x,
+                steps=steps,
+                verbose=verbose,
+                callbacks=callbacks,
+                max_queue_size=max_queue_size,
+                workers=workers,
+                use_multiprocessing=use_multiprocessing)
+    
+        if x is None or steps is None:
+>           raise ValueError('If predicting from data tensors, '
+                             'you should specify the `steps` '
+                             'argument.')
+E           ValueError: If predicting from data tensors, you should specify the `steps` argument.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1436: ValueError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 1.0000 - mse: 1.0000 - metric_1: 5.0000 - metric_2: 1.0000
+10/10 [==============================] - 0s 9ms/step - loss: 1.0000 - mse: 1.0000 - metric_1: 5.0000 - metric_2: 1.0000 - val_loss: 1.0000 - val_mse: 1.0000 - val_metric_1: 5.0000 - val_metric_2: 1.0000
+Epoch 2/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 1.0000 - mse: 1.0000 - metric_1: 5.0000 - metric_2: 1.0000
+10/10 [==============================] - 0s 2ms/step - loss: 1.0000 - mse: 1.0000 - metric_1: 5.0000 - metric_2: 1.0000 - val_loss: 1.0000 - val_mse: 1.0000 - val_metric_1: 5.0000 - val_metric_2: 1.0000
+
+ 5/10 [==============>...............] - ETA: 0s
+10/10 [==============================] - 0s 2ms/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:03:30.873236: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:03:30.875275: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:03:30.876617: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:03:30.877893: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:03:30.879158: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:03:30.880430: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:03:30.881721: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:03:30.883012: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:03:30.884962: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:03:30.886090: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:03:30.887393: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:03:30.888207: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:03:30.890026: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_add_metric_in_model_call ________________________
+
+    def test_add_metric_in_model_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                # Provide same name as in the instance created in __init__
+                # for eager mode
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+        assert np.isclose(history.history['metric_1'][-1], 1, 0)
+        assert np.isclose(history.history['val_metric_1'][-1], 1, 0)
+        assert np.isclose(history.history['metric_2'][-1], 5, 0)
+        assert np.isclose(history.history['val_metric_2'][-1], 5, 0)
+    
+        eval_results = model.evaluate(x, y, batch_size=5)
+        assert np.isclose(eval_results[1], 1, 0)
+        assert np.isclose(eval_results[2], 5, 0)
+    
+>       model.predict(x, batch_size=5)
+
+test_training.py:1920: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <test_training.test_add_metric_in_model_call.<locals>.TestModel object at 0x000001DFB5796160>
+x = array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.]])
+batch_size = 5, verbose = 0, steps = None, callbacks = None, max_queue_size = 10
+workers = 1, use_multiprocessing = False
+
+    def predict(self, x,
+                batch_size=None,
+                verbose=0,
+                steps=None,
+                callbacks=None,
+                max_queue_size=10,
+                workers=1,
+                use_multiprocessing=False):
+        """Generates output predictions for the input samples.
+    
+        Computation is done in batches.
+    
+        # Arguments
+            x: Input data. It could be:
+                - A Numpy array (or array-like), or a list of arrays
+                  (in case the model has multiple inputs).
+                - A dict mapping input names to the corresponding
+                  array/tensors, if the model has named inputs.
+                - A generator or `keras.utils.Sequence` returning
+                  `(inputs, targets)` or `(inputs, targets, sample weights)`.
+                - None (default) if feeding from framework-native
+                  tensors (e.g. TensorFlow data tensors).
+            batch_size: Integer or `None`.
+                Number of samples per gradient update.
+                If unspecified, `batch_size` will default to 32.
+                Do not specify the `batch_size` if your data is in the
+                form of symbolic tensors, generators, or
+                `keras.utils.Sequence` instances (since they generate batches).
+            verbose: Verbosity mode, 0 or 1.
+            steps: Total number of steps (batches of samples)
+                before declaring the prediction round finished.
+                Ignored with the default value of `None`.
+            callbacks: List of `keras.callbacks.Callback` instances.
+                List of callbacks to apply during prediction.
+                See [callbacks](/callbacks).
+            max_queue_size: Integer. Used for generator or `keras.utils.Sequence`
+                input only. Maximum size for the generator queue.
+                If unspecified, `max_queue_size` will default to 10.
+            workers: Integer. Used for generator or `keras.utils.Sequence` input
+                only. Maximum number of processes to spin up when using
+                process-based threading. If unspecified, `workers` will default
+                to 1. If 0, will execute the generator on the main thread.
+            use_multiprocessing: Boolean. Used for generator or
+                `keras.utils.Sequence` input only. If `True`, use process-based
+                threading. If unspecified, `use_multiprocessing` will default to
+                `False`. Note that because this implementation relies on
+                multiprocessing, you should not pass non-picklable arguments to
+                the generator as they can't be passed easily to children processes.
+    
+        # Returns
+            Numpy array(s) of predictions.
+    
+        # Raises
+            ValueError: In case of mismatch between the provided
+                input data and the model's expectations,
+                or in case a stateful model receives a number of samples
+                that is not a multiple of the batch size.
+        """
+    
+        batch_size = self._validate_or_infer_batch_size(batch_size, steps, x)
+    
+        # Case 1: generator-like. Input is Python generator, or Sequence object.
+        if training_utils.is_generator_or_sequence(x):
+            return self.predict_generator(
+                x,
+                steps=steps,
+                verbose=verbose,
+                callbacks=callbacks,
+                max_queue_size=max_queue_size,
+                workers=workers,
+                use_multiprocessing=use_multiprocessing)
+    
+        if x is None or steps is None:
+>           raise ValueError('If predicting from data tensors, '
+                             'you should specify the `steps` '
+                             'argument.')
+E           ValueError: If predicting from data tensors, you should specify the `steps` argument.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1436: ValueError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 5.0000
+10/10 [==============================] - 0s 9ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 5.0000 - val_loss: 0.0000e+00 - val_metric_1: 1.0000 - val_metric_2: 5.0000
+Epoch 2/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 5.0000
+10/10 [==============================] - 0s 3ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 5.0000 - val_loss: 0.0000e+00 - val_metric_1: 1.0000 - val_metric_2: 5.0000
+
+ 5/10 [==============>...............] - ETA: 0s
+10/10 [==============================] - 0s 2ms/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:03:31.436576: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:03:31.437179: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:03:31.437532: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:03:31.437875: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:03:31.438213: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:03:31.438607: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:03:31.438953: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:03:31.439303: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:03:31.439875: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:03:31.440194: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:03:31.440546: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:03:31.440765: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:03:31.441293: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_______________________ test_multiple_add_metric_calls ________________________
+
+    def test_multiple_add_metric_calls():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean1 = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_2')
+    
+            def call(self, x):
+                self.add_metric(self.mean2(x), name='metric_2')
+                self.add_metric(self.mean1(x), name='metric_1')
+                self.add_metric(K.sum(x), name='metric_3')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+        assert np.isclose(history.history['metric_1'][-1], 1, 0)
+        assert np.isclose(history.history['metric_2'][-1], 1, 0)
+        assert np.isclose(history.history['metric_3'][-1], 5, 0)
+    
+        eval_results = model.evaluate(x, y, batch_size=5)
+        assert np.allclose(eval_results[1:4], [1, 1, 5], 0.1)
+    
+>       model.predict(x, batch_size=5)
+
+test_training.py:1954: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <test_training.test_multiple_add_metric_calls.<locals>.TestModel object at 0x000001DFB326B358>
+x = array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.]])
+batch_size = 5, verbose = 0, steps = None, callbacks = None, max_queue_size = 10
+workers = 1, use_multiprocessing = False
+
+    def predict(self, x,
+                batch_size=None,
+                verbose=0,
+                steps=None,
+                callbacks=None,
+                max_queue_size=10,
+                workers=1,
+                use_multiprocessing=False):
+        """Generates output predictions for the input samples.
+    
+        Computation is done in batches.
+    
+        # Arguments
+            x: Input data. It could be:
+                - A Numpy array (or array-like), or a list of arrays
+                  (in case the model has multiple inputs).
+                - A dict mapping input names to the corresponding
+                  array/tensors, if the model has named inputs.
+                - A generator or `keras.utils.Sequence` returning
+                  `(inputs, targets)` or `(inputs, targets, sample weights)`.
+                - None (default) if feeding from framework-native
+                  tensors (e.g. TensorFlow data tensors).
+            batch_size: Integer or `None`.
+                Number of samples per gradient update.
+                If unspecified, `batch_size` will default to 32.
+                Do not specify the `batch_size` if your data is in the
+                form of symbolic tensors, generators, or
+                `keras.utils.Sequence` instances (since they generate batches).
+            verbose: Verbosity mode, 0 or 1.
+            steps: Total number of steps (batches of samples)
+                before declaring the prediction round finished.
+                Ignored with the default value of `None`.
+            callbacks: List of `keras.callbacks.Callback` instances.
+                List of callbacks to apply during prediction.
+                See [callbacks](/callbacks).
+            max_queue_size: Integer. Used for generator or `keras.utils.Sequence`
+                input only. Maximum size for the generator queue.
+                If unspecified, `max_queue_size` will default to 10.
+            workers: Integer. Used for generator or `keras.utils.Sequence` input
+                only. Maximum number of processes to spin up when using
+                process-based threading. If unspecified, `workers` will default
+                to 1. If 0, will execute the generator on the main thread.
+            use_multiprocessing: Boolean. Used for generator or
+                `keras.utils.Sequence` input only. If `True`, use process-based
+                threading. If unspecified, `use_multiprocessing` will default to
+                `False`. Note that because this implementation relies on
+                multiprocessing, you should not pass non-picklable arguments to
+                the generator as they can't be passed easily to children processes.
+    
+        # Returns
+            Numpy array(s) of predictions.
+    
+        # Raises
+            ValueError: In case of mismatch between the provided
+                input data and the model's expectations,
+                or in case a stateful model receives a number of samples
+                that is not a multiple of the batch size.
+        """
+    
+        batch_size = self._validate_or_infer_batch_size(batch_size, steps, x)
+    
+        # Case 1: generator-like. Input is Python generator, or Sequence object.
+        if training_utils.is_generator_or_sequence(x):
+            return self.predict_generator(
+                x,
+                steps=steps,
+                verbose=verbose,
+                callbacks=callbacks,
+                max_queue_size=max_queue_size,
+                workers=workers,
+                use_multiprocessing=use_multiprocessing)
+    
+        if x is None or steps is None:
+>           raise ValueError('If predicting from data tensors, '
+                             'you should specify the `steps` '
+                             'argument.')
+E           ValueError: If predicting from data tensors, you should specify the `steps` argument.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1436: ValueError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 1.0000 - metric_3: 5.0000
+10/10 [==============================] - 0s 14ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 1.0000 - metric_3: 5.0000 - val_loss: 0.0000e+00 - val_metric_1: 1.0000 - val_metric_2: 1.0000 - val_metric_3: 5.0000
+Epoch 2/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 1.0000 - metric_3: 5.0000
+10/10 [==============================] - 0s 3ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 1.0000 - metric_3: 5.0000 - val_loss: 0.0000e+00 - val_metric_1: 1.0000 - val_metric_2: 1.0000 - val_metric_3: 5.0000
+
+ 5/10 [==============>...............] - ETA: 0s
+10/10 [==============================] - 0s 0us/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:03:31.888777: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:03:31.889379: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:03:31.889735: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:03:31.890080: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:03:31.890417: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:03:31.890759: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:03:31.891102: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:03:31.891449: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:03:31.892089: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:03:31.892474: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:03:31.892921: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:03:31.893195: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:03:31.893835: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods failed and was not selected for rerun.
+	<class 'ValueError'>
+	If predicting from data tensors, you should specify the `steps` argument.
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:252>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1436>]
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_methods - ValueError: If predicting from ...
+FAILED test_training.py::test_trainable_argument - ValueError: If predicting ...
+FAILED test_training.py::test_model_with_input_feed_tensor - ValueError: If p...
+FAILED test_training.py::test_model_with_external_loss - ValueError: If predi...
+FAILED test_training.py::test_pandas_dataframe - ValueError: If predicting fr...
+FAILED test_training.py::test_dynamic_set_inputs - ValueError: If predicting ...
+FAILED test_training.py::test_add_metric_on_model - ValueError: If predicting...
+FAILED test_training.py::test_add_metric_in_model_call - ValueError: If predi...
+FAILED test_training.py::test_multiple_add_metric_calls - ValueError: If pred...
+============ 9 failed, 24 passed, 1 skipped, 5 warnings in 25.60s =============

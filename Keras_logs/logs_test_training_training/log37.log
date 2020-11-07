@@ -1,0 +1,1819 @@
+2020-10-03 19:05:51.142838: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ...FF..s.....FFF...FFFF..F....FFFF                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_model_methods ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_model_methods():
+        model = get_model(num_outputs=2)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        # training/testing doesn't work before compiling.
+        with pytest.raises(RuntimeError):
+            model.train_on_batch([input_a_np, input_b_np],
+                                 [output_a_np, output_b_np])
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                   {'dense_1': output_a_np, 'dropout': output_b_np})
+    
+        # test fit
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np], epochs=1, batch_size=4)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np], epochs=1, batch_size=4)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        {'dense_1': output_a_np, 'dropout': output_b_np},
+                        epochs=1, batch_size=4)
+    
+        # test validation_split
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5)
+    
+        # test validation data
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4,
+                        validation_data=([input_a_np, input_b_np],
+                                         [output_a_np, output_b_np]))
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5,
+                        validation_data=({'input_a': input_a_np,
+                                          'input_b': input_b_np},
+                                         [output_a_np, output_b_np]))
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        {'dense_1': output_a_np, 'dropout': output_b_np},
+                        epochs=1, batch_size=4, validation_split=0.5,
+                        validation_data=(
+                            {'input_a': input_a_np, 'input_b': input_b_np},
+                            {'dense_1': output_a_np, 'dropout': output_b_np}))
+    
+        # test_on_batch
+        out = model.test_on_batch([input_a_np, input_b_np],
+>                                 [output_a_np, output_b_np])
+
+test_training.py:231: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001A6C07AE390>
+x = [array([[0.4445836 , 0.02248978, 0.45603377],
+       [0.04761775, 0.34852592, 0.78755362],
+       [0.80372235, 0.08539...6, 0.6932662 , 0.54242001],
+       [0.23484929, 0.57032334, 0.07812421],
+       [0.48978192, 0.97025803, 0.52384127]])]
+y = [array([[0.108688  , 0.45100932, 0.4100948 , 0.55230274],
+       [0.76177922, 0.32772719, 0.96311871, 0.56138364],
+   ...9, 0.28216395, 0.62299511],
+       [0.62843911, 0.02677271, 0.2609331 ],
+       [0.50765222, 0.16885634, 0.70176079]])]
+sample_weight = None, reset_metrics = True
+
+    def test_on_batch(self, x, y, sample_weight=None, reset_metrics=True):
+        """Test the model on a single batch of samples.
+    
+        # Arguments
+            x: Numpy array of test data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar test loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [0]
+        else:
+            ins = x + y + sample_weights
+        self._make_test_function()
+>       outputs = self.test_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1559: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.3461 - dense_1_loss: 0.1881 - dropout_loss: 0.3160
+10/10 [==============================] - 0s 2ms/step - loss: 0.5198 - dense_1_loss: 0.2509 - dropout_loss: 0.5073
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.5754 - dense_1_loss: 0.3392 - dropout_loss: 0.4725
+10/10 [==============================] - 0s 2ms/step - loss: 0.5618 - dense_1_loss: 0.2289 - dropout_loss: 0.7076
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.4891 - dense_1_loss: 0.2313 - dropout_loss: 0.5156
+10/10 [==============================] - 0s 2ms/step - loss: 0.4687 - dense_1_loss: 0.2580 - dropout_loss: 0.4672
+Epoch 1/1
+
+4/5 [=======================>......] - ETA: 0s - loss: 0.3029 - dense_1_loss: 0.1510 - dropout_loss: 0.3039
+5/5 [==============================] - 0s 3ms/step - loss: 0.3808 - dense_1_loss: 0.2728 - dropout_loss: 0.4497
+Epoch 1/1
+
+4/5 [=======================>......] - ETA: 0s - loss: 0.3863 - dense_1_loss: 0.1485 - dropout_loss: 0.4756
+5/5 [==============================] - 0s 3ms/step - loss: 0.4465 - dense_1_loss: 0.2690 - dropout_loss: 0.5356
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.5226 - dense_1_loss: 0.2737 - dropout_loss: 0.4978
+10/10 [==============================] - 0s 2ms/step - loss: 0.4866 - dense_1_loss: 0.2313 - dropout_loss: 0.4932
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.5683 - dense_1_loss: 0.2300 - dropout_loss: 0.6766
+10/10 [==============================] - 0s 3ms/step - loss: 0.5089 - dense_1_loss: 0.2242 - dropout_loss: 0.5176
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.4732 - dense_1_loss: 0.1702 - dropout_loss: 0.6060
+10/10 [==============================] - 0s 2ms/step - loss: 0.4932 - dense_1_loss: 0.2408 - dropout_loss: 0.5421
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-03 19:05:53.489734: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-03 19:05:53.607287: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:53.615157: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:53.620499: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:53.624265: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:53.625988: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:53.630790: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:53.633951: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:53.643322: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:53.644366: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:53.645005: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-03 19:05:53.659997: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:53.660544: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:53.660884: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:53.661229: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:53.661564: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:53.661901: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:53.662244: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:53.662594: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:53.663464: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:54.607481: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:54.607894: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:54.608111: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:54.608852: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-03 19:05:55.160366: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+_____________________________ test_fit_generator ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_fit_generator():
+        model = get_model(num_outputs=2)
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+        tracker_cb = TrackerCallback()
+        val_seq = RandomSequence(4)
+        out = model.fit_generator(generator=RandomSequence(3),
+                                  steps_per_epoch=3,
+                                  epochs=5,
+                                  initial_epoch=0,
+                                  validation_data=val_seq,
+                                  validation_steps=3,
+                                  max_queue_size=1,
+>                                 callbacks=[tracker_cb])
+
+test_training.py:490: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732: in fit_generator
+    initial_epoch=initial_epoch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:242: in fit_generator
+    workers=0)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1791: in evaluate_generator
+    verbose=verbose)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:401: in evaluate_generator
+    reset_metrics=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001A935B8FE48>
+x = [array([[0.29079381, 0.69143473, 0.73028225],
+       [0.55258438, 0.88776752, 0.0980517 ],
+       [0.15366399, 0.85051...9, 0.83984898, 0.17756158],
+       [0.12394532, 0.87989012, 0.39178339],
+       [0.73587356, 0.31167906, 0.53273425]])]
+y = [array([[0.78196706, 0.33820108, 0.02365481, 0.93009614],
+       [0.51890468, 0.06331085, 0.63477888, 0.00547936],
+   ...6, 0.09901572, 0.63274949],
+       [0.71183183, 0.21254765, 0.68725991],
+       [0.21104279, 0.07467758, 0.24103067]])]
+sample_weight = None, reset_metrics = False
+
+    def test_on_batch(self, x, y, sample_weight=None, reset_metrics=True):
+        """Test the model on a single batch of samples.
+    
+        # Arguments
+            x: Numpy array of test data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar test loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [0]
+        else:
+            ins = x + y + sample_weights
+        self._make_test_function()
+>       outputs = self.test_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1559: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.5034 - dense_1_loss: 0.4304 - dropout_loss: 0.1459
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:57.050602: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:57.051208: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:57.051555: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:57.051898: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:57.052233: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:57.052587: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:57.052938: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:57.053289: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:57.053867: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:57.054186: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:57.054540: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:57.054763: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:57.055324: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+______________________ test_model_with_input_feed_tensor ______________________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow',
+                        reason='Requires TensorFlow backend')
+    def test_model_with_input_feed_tensor():
+        """We test building a model with a TF variable as input.
+        We should be able to call fit, evaluate, predict,
+        by only passing them data for the placeholder inputs
+        in the model.
+        """
+        import tensorflow as tf
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+        b = Input(shape=(3,), name='input_b')
+    
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        b_2 = dp(b)
+    
+        model = Model([a, b], [a_2, b_2])
+        model.summary()
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        model.compile(optimizer, loss, metrics=['mean_squared_error'],
+                      loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_b_np,
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_b': input_b_np},
+                                   [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_b': input_b_np},
+>                                 [output_a_np, output_b_np])
+
+test_training.py:875: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001A935B7F978>
+x = [array([[0.56858918, 0.03727662, 0.47566777],
+       [0.63625361, 0.54129154, 0.84221163],
+       [0.5013159 , 0.15994... , 0.55481175, 0.20116607],
+       [0.6962758 , 0.20154085, 0.16671263],
+       [0.34772975, 0.02478358, 0.54373275]])]
+y = [array([[0.11441088, 0.11304424, 0.09785531, 0.9952027 ],
+       [0.87155015, 0.57577509, 0.0466986 , 0.19386562],
+   ...9, 0.38854197, 0.8199063 ],
+       [0.05377042, 0.64124005, 0.69730316],
+       [0.07943945, 0.56522172, 0.8293084 ]])]
+sample_weight = None, reset_metrics = True
+
+    def test_on_batch(self, x, y, sample_weight=None, reset_metrics=True):
+        """Test the model on a single batch of samples.
+    
+        # Arguments
+            x: Numpy array of test data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar test loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [0]
+        else:
+            ins = x + y + sample_weights
+        self._make_test_function()
+>       outputs = self.test_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1559: TypeError
+---------------------------- Captured stdout call -----------------------------
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (10, 3)              0                                            
+__________________________________________________________________________________________________
+input_b (InputLayer)            (None, 3)            0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (10, 4)              16          input_1[0][0]                    
+__________________________________________________________________________________________________
+dropout (Dropout)               (None, 3)            0           input_b[0][0]                    
+==================================================================================================
+Total params: 16
+Trainable params: 16
+Non-trainable params: 0
+__________________________________________________________________________________________________
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:59.604569: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:59.605167: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:59.605530: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:59.605901: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:59.606260: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:59.606626: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:59.607004: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:59.607347: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:59.607928: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:59.608246: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:59.608604: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:59.608824: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:59.609344: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:431: The name tf.is_variable_initialized is deprecated. Please use tf.compat.v1.is_variable_initialized instead.
+
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:438: The name tf.variables_initializer is deprecated. Please use tf.compat.v1.variables_initializer instead.
+
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:431: The name tf.is_variable_initialized is deprecated. Please use tf.compat.v1.is_variable_initialized instead.
+
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:438: The name tf.variables_initializer is deprecated. Please use tf.compat.v1.variables_initializer instead.
+________________________ test_model_with_partial_loss _________________________
+
+    def test_model_with_partial_loss():
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = {'dropout': 'mse'}
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        input_a_np = np.random.random((10, 3))
+        output_a_np = np.random.random((10, 4))
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_a_np, output_a_np)
+>       out = model.test_on_batch(input_a_np, output_a_np)
+
+test_training.py:995: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001A935D68BE0>
+x = [array([[0.27956728, 0.21664068, 0.00827526],
+       [0.31008348, 0.89482576, 0.71157528],
+       [0.99764501, 0.62773...9, 0.51806046, 0.92955336],
+       [0.92067999, 0.53684351, 0.92475175],
+       [0.88972397, 0.14450644, 0.78518744]])]
+y = [array([[0.77962647, 0.97505441, 0.87724767, 0.13385388],
+       [0.89903418, 0.97306347, 0.66782361, 0.99359041],
+   ...3],
+       [0.62582578, 0.16041549, 0.83412859, 0.64744672],
+       [0.85152455, 0.84620851, 0.22053727, 0.15011697]])]
+sample_weight = None, reset_metrics = True
+
+    def test_on_batch(self, x, y, sample_weight=None, reset_metrics=True):
+        """Test the model on a single batch of samples.
+    
+        # Arguments
+            x: Numpy array of test data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar test loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [0]
+        else:
+            ins = x + y + sample_weights
+        self._make_test_function()
+>       outputs = self.test_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1559: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:06:00.116581: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:06:00.117194: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:06:00.117537: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:06:00.117898: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:06:00.118235: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:06:00.118583: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:06:00.118926: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:06:00.119268: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:06:00.119847: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:06:00.120165: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:06:00.120514: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:06:00.120738: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:06:00.121268: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+                    bias_regularizer='l2')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+    
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        input_a_np = np.random.random((10, 3))
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_a_np, None)
+>       out = model.test_on_batch(input_a_np, None)
+
+test_training.py:1041: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001A935CAB710>
+x = [array([[0.99690795, 0.4077875 , 0.64954876],
+       [0.84315284, 0.66889474, 0.2206487 ],
+       [0.7148909 , 0.65343...6, 0.07109983, 0.94003041],
+       [0.64387518, 0.2636906 , 0.43267478],
+       [0.1742877 , 0.21621977, 0.89380344]])]
+y = [], sample_weight = None, reset_metrics = True
+
+    def test_on_batch(self, x, y, sample_weight=None, reset_metrics=True):
+        """Test the model on a single batch of samples.
+    
+        # Arguments
+            x: Numpy array of test data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar test loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [0]
+        else:
+            ins = x + y + sample_weights
+        self._make_test_function()
+>       outputs = self.test_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1559: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:06:00.615011: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:06:00.615601: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:06:00.615945: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:06:00.616286: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:06:00.616620: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:06:00.616960: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:06:00.617302: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:06:00.617654: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:06:00.618242: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:06:00.618558: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:06:00.618909: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:06:00.619129: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:06:00.619648: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________________________ test_pandas_dataframe ____________________________
+
+    def test_pandas_dataframe():
+        input_a = Input(shape=(3,), name='input_a')
+        input_b = Input(shape=(3,), name='input_b')
+    
+        x = Dense(4, name='dense_1')(input_a)
+        y = Dense(3, name='desne_2')(input_b)
+    
+        model_1 = Model(inputs=input_a, outputs=x)
+        model_2 = Model(inputs=[input_a, input_b], outputs=[x, y])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+    
+        model_1.compile(optimizer=optimizer, loss=loss)
+        model_2.compile(optimizer=optimizer, loss=loss)
+    
+        input_a_df = pd.DataFrame(np.random.random((10, 3)))
+        input_b_df = pd.DataFrame(np.random.random((10, 3)))
+    
+        output_a_df = pd.DataFrame(np.random.random((10, 4)))
+        output_b_df = pd.DataFrame(np.random.random((10, 3)))
+    
+        model_1.fit(input_a_df,
+                    output_a_df)
+        model_2.fit([input_a_df, input_b_df],
+                    [output_a_df, output_b_df])
+        model_1.fit([input_a_df],
+                    [output_a_df])
+        model_1.fit({'input_a': input_a_df},
+                    output_a_df)
+        model_2.fit({'input_a': input_a_df, 'input_b': input_b_df},
+                    [output_a_df, output_b_df])
+    
+        model_1.predict(input_a_df)
+        model_2.predict([input_a_df, input_b_df])
+        model_1.predict([input_a_df])
+        model_1.predict({'input_a': input_a_df})
+        model_2.predict({'input_a': input_a_df, 'input_b': input_b_df})
+    
+        model_1.predict_on_batch(input_a_df)
+        model_2.predict_on_batch([input_a_df, input_b_df])
+        model_1.predict_on_batch([input_a_df])
+        model_1.predict_on_batch({'input_a': input_a_df})
+        model_2.predict_on_batch({'input_a': input_a_df, 'input_b': input_b_df})
+    
+        model_1.evaluate(input_a_df,
+>                        output_a_df)
+
+test_training.py:1403: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1361: in evaluate
+    callbacks=callbacks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x000001A93A3051D0>, f = None
+ins = [array([[0.47268991, 0.29898045, 0.82367735],
+       [0.28451271, 0.8638905 , 0.68538213],
+       [0.32579149, 0.16385...    [0.71108625, 0.73803107, 0.93795507, 0.52899928]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+batch_size = 32, verbose = 1, steps = None
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x000001A93A3A8C88>
+
+    def test_loop(model, f, ins,
+                  batch_size=None,
+                  verbose=0,
+                  steps=None,
+                  callbacks=None):
+        """Abstract method to loop over some data in batches.
+    
+        # Arguments
+            model: Keras model instance.
+            f: Keras function returning a list of tensors.
+            ins: list of tensors to be fed to `f`.
+            batch_size: integer batch size or `None`.
+            verbose: verbosity mode.
+            steps: Total number of steps (batches of samples)
+                before declaring predictions finished.
+                Ignored with the default value of `None`.
+            callbacks: List of callbacks or an instance of
+                `keras.callbacks.CallbackList` to be called during evaluation.
+    
+        # Returns
+            Scalar loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+    
+        model.reset_metrics()
+        num_samples = check_num_samples(ins,
+                                        batch_size=batch_size,
+                                        steps=steps,
+                                        steps_name='steps')
+    
+        # Check if callbacks have not been already configured
+        if not isinstance(callbacks, cbks.CallbackList):
+            callbacks = cbks.CallbackList(callbacks)
+            callback_model = model._get_callback_model()
+            callbacks.set_model(callback_model)
+            callback_metrics = list(model.metrics_names)
+            callback_params = {
+                'batch_size': batch_size,
+                'steps': steps,
+                'samples': num_samples,
+                'verbose': verbose,
+                'metrics': callback_metrics,
+            }
+            callbacks.set_params(callback_params)
+    
+        outs = []
+        if verbose == 1:
+            if steps is not None:
+                progbar = Progbar(target=steps)
+            else:
+                progbar = Progbar(target=num_samples)
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(ins[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        callbacks.model.stop_training = False
+        callbacks._call_begin_hook('test')
+    
+        if steps is not None:
+            for step in range(steps):
+                batch_logs = {'batch': step, 'size': 1}
+                callbacks._call_batch_hook('test', 'begin', step, batch_logs)
+                batch_outs = f(ins)
+                if isinstance(batch_outs, list):
+                    if step == 0:
+                        outs.extend([0.] * len(batch_outs))
+                    for i, batch_out in enumerate(batch_outs):
+                        if i == 0:  # Index 0 == `Loss`
+                            outs[i] = float(batch_out)
+                        else:
+                            outs[i] += float(batch_out)
+                else:
+                    if step == 0:
+                        outs.append(0.)
+                    outs[0] += float(batch_outs)
+    
+                for l, o in zip(model.metrics_names, batch_outs):
+                    batch_logs[l] = o
+                callbacks._call_batch_hook('test', 'end', step, batch_logs)
+    
+                if verbose == 1:
+                    progbar.update(step + 1)
+            outs[0] /= steps  # Index 0 == `Loss`
+        else:
+            batches = make_batches(num_samples, batch_size)
+            index_array = np.arange(num_samples)
+            for batch_index, (batch_start, batch_end) in enumerate(batches):
+                batch_ids = index_array[batch_start:batch_end]
+                if isinstance(ins[-1], int):
+                    # Do not slice the training phase flag.
+                    ins_batch = slice_arrays(ins[:-1], batch_ids) + [ins[-1]]
+                else:
+                    ins_batch = slice_arrays(ins, batch_ids)
+                for i in indices_for_conversion_to_dense:
+                    ins_batch[i] = ins_batch[i].toarray()
+    
+                batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                callbacks._call_batch_hook('test', 'begin', batch_index, batch_logs)
+>               batch_outs = f(ins_batch)
+E               TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:449: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+10/10 [==============================] - 0s 6ms/step - loss: 0.3840
+Epoch 1/1
+
+10/10 [==============================] - 0s 9ms/step - loss: 0.9134 - dense_1_loss: 0.3772 - desne_2_loss: 0.5362
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.3705
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.3657
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.8906 - dense_1_loss: 0.3618 - desne_2_loss: 0.5287
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:06:04.855456: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:06:04.856094: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:06:04.856480: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:06:04.856843: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:06:04.857203: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:06:04.857550: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:06:04.857895: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:06:04.858238: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:06:04.858810: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:06:04.859140: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:06:04.859531: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:06:04.859769: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:06:04.860311: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________ test_training_and_eval_methods_on_symbolic_tensors_single_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_single_io():
+        x = keras.layers.Input(shape=(3,), name='input')
+        y = keras.layers.Dense(4, name='dense')(x)
+        model = keras.Model(x, y)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        metrics = ['mae']
+        model.compile(optimizer, loss, metrics=metrics)
+    
+        inputs = keras.backend.zeros(shape=(10, 3))
+        targets = keras.backend.zeros(shape=(10, 4))
+    
+        model.fit(inputs, targets, epochs=1, steps_per_epoch=2, verbose=0)
+>       model.evaluate(inputs, targets, steps=2, verbose=0)
+
+test_training.py:1451: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1361: in evaluate
+    callbacks=callbacks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x000001A93A2E1DD8>, f = None
+ins = [<tf.Variable 'Variable:0' shape=(10, 3) dtype=float32>, <tf.Variable 'Variable_1:0' shape=(10, 4) dtype=float32>, array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+batch_size = None, verbose = 0, steps = 2
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x000001A932347DD8>
+
+    def test_loop(model, f, ins,
+                  batch_size=None,
+                  verbose=0,
+                  steps=None,
+                  callbacks=None):
+        """Abstract method to loop over some data in batches.
+    
+        # Arguments
+            model: Keras model instance.
+            f: Keras function returning a list of tensors.
+            ins: list of tensors to be fed to `f`.
+            batch_size: integer batch size or `None`.
+            verbose: verbosity mode.
+            steps: Total number of steps (batches of samples)
+                before declaring predictions finished.
+                Ignored with the default value of `None`.
+            callbacks: List of callbacks or an instance of
+                `keras.callbacks.CallbackList` to be called during evaluation.
+    
+        # Returns
+            Scalar loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+    
+        model.reset_metrics()
+        num_samples = check_num_samples(ins,
+                                        batch_size=batch_size,
+                                        steps=steps,
+                                        steps_name='steps')
+    
+        # Check if callbacks have not been already configured
+        if not isinstance(callbacks, cbks.CallbackList):
+            callbacks = cbks.CallbackList(callbacks)
+            callback_model = model._get_callback_model()
+            callbacks.set_model(callback_model)
+            callback_metrics = list(model.metrics_names)
+            callback_params = {
+                'batch_size': batch_size,
+                'steps': steps,
+                'samples': num_samples,
+                'verbose': verbose,
+                'metrics': callback_metrics,
+            }
+            callbacks.set_params(callback_params)
+    
+        outs = []
+        if verbose == 1:
+            if steps is not None:
+                progbar = Progbar(target=steps)
+            else:
+                progbar = Progbar(target=num_samples)
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(ins[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        callbacks.model.stop_training = False
+        callbacks._call_begin_hook('test')
+    
+        if steps is not None:
+            for step in range(steps):
+                batch_logs = {'batch': step, 'size': 1}
+                callbacks._call_batch_hook('test', 'begin', step, batch_logs)
+>               batch_outs = f(ins)
+E               TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:413: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:06:05.899143: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:06:05.899731: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:06:05.900073: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:06:05.900418: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:06:05.900755: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:06:05.901093: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:06:05.901435: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:06:05.901788: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:06:05.902380: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:06:05.902691: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:06:05.903046: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:06:05.903266: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:06:05.903788: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_________ test_training_and_eval_methods_on_symbolic_tensors_multi_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_multi_io():
+        a = keras.layers.Input(shape=(3,), name='input_a')
+        b = keras.layers.Input(shape=(3,), name='input_b')
+    
+        dense = keras.layers.Dense(4, name='dense')
+        c = dense(a)
+        d = dense(b)
+        e = keras.layers.Dropout(0.5, name='dropout')(c)
+    
+        model = keras.models.Model([a, b], [d, e])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        metrics = ['mae']
+        model.compile(optimizer, loss, metrics=metrics, loss_weights=loss_weights)
+    
+        input_a_tf = keras.backend.zeros(shape=(10, 3))
+        input_b_tf = keras.backend.zeros(shape=(10, 3))
+    
+        output_d_tf = keras.backend.zeros(shape=(10, 4))
+        output_e_tf = keras.backend.zeros(shape=(10, 4))
+    
+        model.fit(
+            [input_a_tf, input_b_tf], [output_d_tf, output_e_tf],
+            epochs=1,
+            steps_per_epoch=2,
+            verbose=0)
+        with pytest.raises(ValueError,
+                           match='should specify the `steps_per_epoch`'):
+            model.fit(
+                [input_a_tf, input_b_tf], [output_d_tf, output_e_tf],
+                epochs=1,
+                batch_size=5,
+                verbose=0)
+    
+        model.train_on_batch([input_a_tf, input_b_tf], [output_d_tf, output_e_tf])
+    
+        # Test with dictionary inputs
+        model.fit(
+            {'input_a': input_a_tf,
+             'input_b': input_b_tf},
+            {'dense': output_d_tf,
+             'dropout': output_e_tf},
+            epochs=1,
+            steps_per_epoch=2,
+            verbose=0)
+        model.fit(
+            {'input_a': input_a_tf,
+             'input_b': input_b_tf},
+            {'dense': output_d_tf,
+             'dropout': output_e_tf},
+            validation_data=({'input_a': input_a_tf,
+                              'input_b': input_b_tf},
+                             {'dense': output_d_tf,
+                              'dropout': output_e_tf}),
+            epochs=1,
+            steps_per_epoch=2,
+            validation_steps=2,
+>           verbose=0)
+
+test_training.py:1520: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:166: in fit_loop
+    verbose=0)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x000001A93900EEB8>, f = None
+ins = [<tf.Variable 'Variable:0' shape=(10, 3) dtype=float32>, <tf.Variable 'Variable_1:0' shape=(10, 3) dtype=float32>, <tf..., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), ...]
+batch_size = None, verbose = 0, steps = 2
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x000001A935E1D6A0>
+
+    def test_loop(model, f, ins,
+                  batch_size=None,
+                  verbose=0,
+                  steps=None,
+                  callbacks=None):
+        """Abstract method to loop over some data in batches.
+    
+        # Arguments
+            model: Keras model instance.
+            f: Keras function returning a list of tensors.
+            ins: list of tensors to be fed to `f`.
+            batch_size: integer batch size or `None`.
+            verbose: verbosity mode.
+            steps: Total number of steps (batches of samples)
+                before declaring predictions finished.
+                Ignored with the default value of `None`.
+            callbacks: List of callbacks or an instance of
+                `keras.callbacks.CallbackList` to be called during evaluation.
+    
+        # Returns
+            Scalar loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+    
+        model.reset_metrics()
+        num_samples = check_num_samples(ins,
+                                        batch_size=batch_size,
+                                        steps=steps,
+                                        steps_name='steps')
+    
+        # Check if callbacks have not been already configured
+        if not isinstance(callbacks, cbks.CallbackList):
+            callbacks = cbks.CallbackList(callbacks)
+            callback_model = model._get_callback_model()
+            callbacks.set_model(callback_model)
+            callback_metrics = list(model.metrics_names)
+            callback_params = {
+                'batch_size': batch_size,
+                'steps': steps,
+                'samples': num_samples,
+                'verbose': verbose,
+                'metrics': callback_metrics,
+            }
+            callbacks.set_params(callback_params)
+    
+        outs = []
+        if verbose == 1:
+            if steps is not None:
+                progbar = Progbar(target=steps)
+            else:
+                progbar = Progbar(target=num_samples)
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(ins[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        callbacks.model.stop_training = False
+        callbacks._call_begin_hook('test')
+    
+        if steps is not None:
+            for step in range(steps):
+                batch_logs = {'batch': step, 'size': 1}
+                callbacks._call_batch_hook('test', 'begin', step, batch_logs)
+>               batch_outs = f(ins)
+E               TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:413: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:06:06.378047: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:06:06.378645: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:06:06.378991: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:06:06.379374: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:06:06.379712: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:06:06.380050: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:06:06.380392: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:06:06.380740: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:06:06.381349: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:06:06.381663: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:06:06.382012: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:06:06.382231: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:06:06.382752: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_____________ test_model_with_crossentropy_losses_channels_first ______________
+
+    def test_model_with_crossentropy_losses_channels_first():
+        """Tests use of all crossentropy losses with `channels_first`.
+    
+        Tests `sparse_categorical_crossentropy`, `categorical_crossentropy`,
+        and `binary_crossentropy`.
+        Verifies that evaluate gives the same result with either
+        `channels_first` or `channels_last` image_data_format.
+        Tests PR #9715.
+        """
+    
+        def prepare_simple_model(input_tensor, loss_name, target):
+            axis = 1 if K.image_data_format() == 'channels_first' else -1
+            if loss_name == 'sparse_categorical_crossentropy':
+                loss = lambda y_true, y_pred: K.sparse_categorical_crossentropy(
+                    y_true, y_pred, axis=axis)
+                num_channels = np.amax(target) + 1
+                activation = 'softmax'
+            elif loss_name == 'categorical_crossentropy':
+                loss = lambda y_true, y_pred: K.categorical_crossentropy(
+                    y_true, y_pred, axis=axis)
+                num_channels = target.shape[axis]
+                activation = 'softmax'
+            elif loss_name == 'binary_crossentropy':
+                loss = lambda y_true, y_pred: K.binary_crossentropy(y_true, y_pred)
+                num_channels = target.shape[axis]
+                activation = 'sigmoid'
+            predictions = Conv2D(num_channels, 1, activation=activation,
+                                 kernel_initializer='ones',
+                                 bias_initializer='ones')(input_tensor)
+            simple_model = Model(inputs=input_tensor, outputs=predictions)
+            simple_model.compile(optimizer='rmsprop', loss=loss)
+            return simple_model
+    
+        losses_to_test = ['sparse_categorical_crossentropy',
+                          'categorical_crossentropy', 'binary_crossentropy']
+    
+        data_channels_first = np.array([[[[8., 7.1, 0.], [4.5, 2.6, 0.55],
+                                          [0.9, 4.2, 11.2]]]], dtype=np.float32)
+        # Labels for testing 4-class sparse_categorical_crossentropy, 4-class
+        # categorical_crossentropy, and 2-class binary_crossentropy:
+        labels_channels_first = [np.array([[[[0, 1, 3], [2, 1, 0], [2, 2, 1]]]]),
+                                 np.array([[[[0, 1, 0], [0, 1, 0], [0, 0, 0]],
+                                            [[1, 0, 0], [0, 0, 1], [0, 1, 0]],
+                                            [[0, 0, 0], [1, 0, 0], [0, 0, 1]],
+                                            [[0, 0, 1], [0, 0, 0], [1, 0, 0]]]]),
+                                 np.array([[[[0, 1, 0], [0, 1, 0], [0, 0, 1]],
+                                            [[1, 0, 1], [1, 0, 1], [1, 1, 0]]]])]
+        # Compute one loss for each loss function in the list `losses_to_test`:
+        loss_channels_last = [0., 0., 0.]
+        loss_channels_first = [0., 0., 0.]
+    
+        old_data_format = K.image_data_format()
+    
+        # Evaluate a simple network with channels last, with all three loss
+        # functions:
+        K.set_image_data_format('channels_last')
+        data = np.moveaxis(data_channels_first, 1, -1)
+        for index, loss_function in enumerate(losses_to_test):
+            labels = np.moveaxis(labels_channels_first[index], 1, -1)
+            inputs = Input(shape=(3, 3, 1))
+            model = prepare_simple_model(inputs, loss_function, labels)
+            loss_channels_last[index] = model.evaluate(x=data, y=labels,
+>                                                      batch_size=1, verbose=0)
+
+test_training.py:1616: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1361: in evaluate
+    callbacks=callbacks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x000001A93A149860>, f = None
+ins = [array([[[[ 8.  ],
+         [ 7.1 ],
+         [ 0.  ]],
+
+        [[ 4.5 ],
+         [ 2.6 ],
+         [ 0.55]],
+
+     ...
+
+        [[2],
+         [1],
+         [0]],
+
+        [[2],
+         [2],
+         [1]]]]), array([1.], dtype=float32)]
+batch_size = 1, verbose = 0, steps = None
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x000001A93A16C198>
+
+    def test_loop(model, f, ins,
+                  batch_size=None,
+                  verbose=0,
+                  steps=None,
+                  callbacks=None):
+        """Abstract method to loop over some data in batches.
+    
+        # Arguments
+            model: Keras model instance.
+            f: Keras function returning a list of tensors.
+            ins: list of tensors to be fed to `f`.
+            batch_size: integer batch size or `None`.
+            verbose: verbosity mode.
+            steps: Total number of steps (batches of samples)
+                before declaring predictions finished.
+                Ignored with the default value of `None`.
+            callbacks: List of callbacks or an instance of
+                `keras.callbacks.CallbackList` to be called during evaluation.
+    
+        # Returns
+            Scalar loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+    
+        model.reset_metrics()
+        num_samples = check_num_samples(ins,
+                                        batch_size=batch_size,
+                                        steps=steps,
+                                        steps_name='steps')
+    
+        # Check if callbacks have not been already configured
+        if not isinstance(callbacks, cbks.CallbackList):
+            callbacks = cbks.CallbackList(callbacks)
+            callback_model = model._get_callback_model()
+            callbacks.set_model(callback_model)
+            callback_metrics = list(model.metrics_names)
+            callback_params = {
+                'batch_size': batch_size,
+                'steps': steps,
+                'samples': num_samples,
+                'verbose': verbose,
+                'metrics': callback_metrics,
+            }
+            callbacks.set_params(callback_params)
+    
+        outs = []
+        if verbose == 1:
+            if steps is not None:
+                progbar = Progbar(target=steps)
+            else:
+                progbar = Progbar(target=num_samples)
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(ins[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        callbacks.model.stop_training = False
+        callbacks._call_begin_hook('test')
+    
+        if steps is not None:
+            for step in range(steps):
+                batch_logs = {'batch': step, 'size': 1}
+                callbacks._call_batch_hook('test', 'begin', step, batch_logs)
+                batch_outs = f(ins)
+                if isinstance(batch_outs, list):
+                    if step == 0:
+                        outs.extend([0.] * len(batch_outs))
+                    for i, batch_out in enumerate(batch_outs):
+                        if i == 0:  # Index 0 == `Loss`
+                            outs[i] = float(batch_out)
+                        else:
+                            outs[i] += float(batch_out)
+                else:
+                    if step == 0:
+                        outs.append(0.)
+                    outs[0] += float(batch_outs)
+    
+                for l, o in zip(model.metrics_names, batch_outs):
+                    batch_logs[l] = o
+                callbacks._call_batch_hook('test', 'end', step, batch_logs)
+    
+                if verbose == 1:
+                    progbar.update(step + 1)
+            outs[0] /= steps  # Index 0 == `Loss`
+        else:
+            batches = make_batches(num_samples, batch_size)
+            index_array = np.arange(num_samples)
+            for batch_index, (batch_start, batch_end) in enumerate(batches):
+                batch_ids = index_array[batch_start:batch_end]
+                if isinstance(ins[-1], int):
+                    # Do not slice the training phase flag.
+                    ins_batch = slice_arrays(ins[:-1], batch_ids) + [ins[-1]]
+                else:
+                    ins_batch = slice_arrays(ins, batch_ids)
+                for i in indices_for_conversion_to_dense:
+                    ins_batch[i] = ins_batch[i].toarray()
+    
+                batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                callbacks._call_batch_hook('test', 'begin', batch_index, batch_logs)
+>               batch_outs = f(ins_batch)
+E               TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:449: TypeError
+____________________________ test_validation_freq _____________________________
+
+    def test_validation_freq():
+        model = Sequential([Dense(1)])
+        model.compile('sgd', 'mse')
+    
+        def _gen():
+            while True:
+                yield np.ones((2, 10)), np.ones((2, 1))
+    
+        x, y = np.ones((10, 10)), np.ones((10, 1))
+    
+        class ValCounter(Callback):
+    
+            def __init__(self):
+                self.val_runs = 0
+    
+            def on_test_begin(self, logs=None):
+                self.val_runs += 1
+    
+        # Test in training_arrays.py
+        val_counter = ValCounter()
+        model.fit(
+            x,
+            y,
+            batch_size=2,
+            epochs=4,
+            validation_data=(x, y),
+            validation_freq=2,
+            callbacks=[val_counter])
+>       assert val_counter.val_runs == 2
+E       assert 0 == 2
+E        +  where 0 = <test_training.test_validation_freq.<locals>.ValCounter object at 0x000001A935EB37B8>.val_runs
+
+test_training.py:1721: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 0.3742
+10/10 [==============================] - 0s 5ms/step - loss: 0.1752
+Epoch 2/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 0.0312
+10/10 [==============================] - 0s 2ms/step - loss: 0.0146
+Epoch 3/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 0.0026
+10/10 [==============================] - 0s 2ms/step - loss: 0.0012
+Epoch 4/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 2.1675e-04
+10/10 [==============================] - 0s 2ms/step - loss: 1.0147e-04
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:06:07.330352: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:06:07.330937: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:06:07.331282: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:06:07.331623: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:06:07.331961: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:06:07.332412: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:06:07.332846: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:06:07.333286: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:06:07.333949: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:06:07.334294: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:06:07.334648: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:06:07.334872: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:06:07.335387: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+__________________________ test_add_metric_on_model ___________________________
+
+    def test_add_metric_on_model():
+        x = Input(shape=(1,))
+        y = Dense(1, kernel_initializer='ones', trainable=False)(x)
+        model = Model(x, y)
+        model.add_metric(K.sum(y), name='metric_1')
+        model.add_metric(metrics.Mean(name='metric_2')(y))
+        model.compile('sgd', loss='mse', metrics=['mse'])
+    
+        inputs = np.ones(shape=(10, 1))
+        targets = np.zeros(shape=(10, 1))
+        history = model.fit(
+            inputs,
+            targets,
+            epochs=2,
+            batch_size=5,
+            validation_data=(inputs, targets))
+        assert history.history['metric_1'][-1] == 5
+>       assert history.history['val_metric_1'][-1] == 5
+E       KeyError: 'val_metric_1'
+
+test_training.py:1875: KeyError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 1.0000 - mse: 1.0000 - metric_1: 5.0000 - metric_2: 1.0000
+10/10 [==============================] - 0s 2ms/step - loss: 1.0000 - mse: 1.0000 - metric_1: 5.0000 - metric_2: 1.0000
+Epoch 2/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 1.0000 - mse: 1.0000 - metric_1: 5.0000 - metric_2: 1.0000
+10/10 [==============================] - 0s 0us/step - loss: 1.0000 - mse: 1.0000 - metric_1: 5.0000 - metric_2: 1.0000
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:06:08.328702: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:06:08.329291: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:06:08.329639: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:06:08.329980: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:06:08.330317: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:06:08.330661: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:06:08.331005: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:06:08.331357: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:06:08.331946: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:06:08.332257: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:06:08.332609: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:06:08.332831: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:06:08.333336: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_add_metric_in_model_call ________________________
+
+    def test_add_metric_in_model_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                # Provide same name as in the instance created in __init__
+                # for eager mode
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+        assert np.isclose(history.history['metric_1'][-1], 1, 0)
+>       assert np.isclose(history.history['val_metric_1'][-1], 1, 0)
+E       KeyError: 'val_metric_1'
+
+test_training.py:1912: KeyError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 5.0000
+10/10 [==============================] - 0s 6ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 5.0000
+Epoch 2/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 5.0000
+10/10 [==============================] - 0s 0us/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 5.0000
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:06:08.667644: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:06:08.668246: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:06:08.668588: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:06:08.668930: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:06:08.669266: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:06:08.669606: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:06:08.669948: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:06:08.670295: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:06:08.670890: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:06:08.671199: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:06:08.671555: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:06:08.671776: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:06:08.672287: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_______________________ test_multiple_add_metric_calls ________________________
+
+    def test_multiple_add_metric_calls():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean1 = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_2')
+    
+            def call(self, x):
+                self.add_metric(self.mean2(x), name='metric_2')
+                self.add_metric(self.mean1(x), name='metric_1')
+                self.add_metric(K.sum(x), name='metric_3')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+        assert np.isclose(history.history['metric_1'][-1], 1, 0)
+        assert np.isclose(history.history['metric_2'][-1], 1, 0)
+        assert np.isclose(history.history['metric_3'][-1], 5, 0)
+    
+>       eval_results = model.evaluate(x, y, batch_size=5)
+
+test_training.py:1951: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1361: in evaluate
+    callbacks=callbacks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <test_training.test_multiple_add_metric_calls.<locals>.TestModel object at 0x000001A935E64128>
+f = None
+ins = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+batch_size = 5, verbose = 1, steps = None
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x000001A937F31550>
+
+    def test_loop(model, f, ins,
+                  batch_size=None,
+                  verbose=0,
+                  steps=None,
+                  callbacks=None):
+        """Abstract method to loop over some data in batches.
+    
+        # Arguments
+            model: Keras model instance.
+            f: Keras function returning a list of tensors.
+            ins: list of tensors to be fed to `f`.
+            batch_size: integer batch size or `None`.
+            verbose: verbosity mode.
+            steps: Total number of steps (batches of samples)
+                before declaring predictions finished.
+                Ignored with the default value of `None`.
+            callbacks: List of callbacks or an instance of
+                `keras.callbacks.CallbackList` to be called during evaluation.
+    
+        # Returns
+            Scalar loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+    
+        model.reset_metrics()
+        num_samples = check_num_samples(ins,
+                                        batch_size=batch_size,
+                                        steps=steps,
+                                        steps_name='steps')
+    
+        # Check if callbacks have not been already configured
+        if not isinstance(callbacks, cbks.CallbackList):
+            callbacks = cbks.CallbackList(callbacks)
+            callback_model = model._get_callback_model()
+            callbacks.set_model(callback_model)
+            callback_metrics = list(model.metrics_names)
+            callback_params = {
+                'batch_size': batch_size,
+                'steps': steps,
+                'samples': num_samples,
+                'verbose': verbose,
+                'metrics': callback_metrics,
+            }
+            callbacks.set_params(callback_params)
+    
+        outs = []
+        if verbose == 1:
+            if steps is not None:
+                progbar = Progbar(target=steps)
+            else:
+                progbar = Progbar(target=num_samples)
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(ins[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        callbacks.model.stop_training = False
+        callbacks._call_begin_hook('test')
+    
+        if steps is not None:
+            for step in range(steps):
+                batch_logs = {'batch': step, 'size': 1}
+                callbacks._call_batch_hook('test', 'begin', step, batch_logs)
+                batch_outs = f(ins)
+                if isinstance(batch_outs, list):
+                    if step == 0:
+                        outs.extend([0.] * len(batch_outs))
+                    for i, batch_out in enumerate(batch_outs):
+                        if i == 0:  # Index 0 == `Loss`
+                            outs[i] = float(batch_out)
+                        else:
+                            outs[i] += float(batch_out)
+                else:
+                    if step == 0:
+                        outs.append(0.)
+                    outs[0] += float(batch_outs)
+    
+                for l, o in zip(model.metrics_names, batch_outs):
+                    batch_logs[l] = o
+                callbacks._call_batch_hook('test', 'end', step, batch_logs)
+    
+                if verbose == 1:
+                    progbar.update(step + 1)
+            outs[0] /= steps  # Index 0 == `Loss`
+        else:
+            batches = make_batches(num_samples, batch_size)
+            index_array = np.arange(num_samples)
+            for batch_index, (batch_start, batch_end) in enumerate(batches):
+                batch_ids = index_array[batch_start:batch_end]
+                if isinstance(ins[-1], int):
+                    # Do not slice the training phase flag.
+                    ins_batch = slice_arrays(ins[:-1], batch_ids) + [ins[-1]]
+                else:
+                    ins_batch = slice_arrays(ins, batch_ids)
+                for i in indices_for_conversion_to_dense:
+                    ins_batch[i] = ins_batch[i].toarray()
+    
+                batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                callbacks._call_batch_hook('test', 'begin', batch_index, batch_logs)
+>               batch_outs = f(ins_batch)
+E               TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:449: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 1.0000 - metric_3: 5.0000
+10/10 [==============================] - 0s 5ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 1.0000 - metric_3: 5.0000
+Epoch 2/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 1.0000 - metric_3: 5.0000
+10/10 [==============================] - 0s 2ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 1.0000 - metric_3: 5.0000
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:06:09.025360: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:06:09.025956: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:06:09.026317: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:06:09.026667: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:06:09.027007: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:06:09.027349: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:06:09.027693: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:06:09.028036: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:06:09.028611: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:06:09.028924: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:06:09.029273: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:06:09.029509: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:06:09.030014: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_add_metric_in_layer_call ________________________
+
+    def test_add_metric_in_layer_call():
+    
+        class TestLayer(Layer):
+    
+            def build(self, input_shape):
+                self.a = self.add_weight(
+                    'a', (1, 1), initializer='ones', trainable=False)
+                self.built = True
+    
+            def call(self, inputs):
+                self.add_metric(K.sum(inputs), name='metric_1')
+                return inputs + 1
+    
+        inp = Input(shape=(1,))
+        x = TestLayer(input_shape=(1,))(inp)
+        x = keras.layers.Dense(2, kernel_initializer='ones')(x)
+    
+        model = Model(inp, x)
+        model.compile('adam', loss='mse')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+        assert np.isclose(history.history['metric_1'][-1], 5, 0)
+>       assert np.isclose(history.history['val_metric_1'][-1], 5, 0)
+E       KeyError: 'val_metric_1'
+
+test_training.py:1983: KeyError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 1.0000 - metric_1: 5.0000
+10/10 [==============================] - 0s 6ms/step - loss: 0.9970 - metric_1: 5.0000
+Epoch 2/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 0.9880 - metric_1: 5.0000
+10/10 [==============================] - 0s 0us/step - loss: 0.9851 - metric_1: 5.0000
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:06:09.488492: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:06:09.489093: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:06:09.489441: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:06:09.489786: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:06:09.490126: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:06:09.490468: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:06:09.490815: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:06:09.491164: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:06:09.491756: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:06:09.492070: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:06:09.492421: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:06:09.492640: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:06:09.493187: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods failed and was not selected for rerun.
+	<class 'TypeError'>
+	'NoneType' object is not callable
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:231>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1559>]
+test_fit_generator failed and was not selected for rerun.
+	<class 'TypeError'>
+	'NoneType' object is not callable
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:490>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:242>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1791>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:401>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1559>]
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_methods - TypeError: 'NoneType' object is...
+FAILED test_training.py::test_fit_generator - TypeError: 'NoneType' object is...
+FAILED test_training.py::test_model_with_input_feed_tensor - TypeError: 'None...
+FAILED test_training.py::test_model_with_partial_loss - TypeError: 'NoneType'...
+FAILED test_training.py::test_model_with_external_loss - TypeError: 'NoneType...
+FAILED test_training.py::test_pandas_dataframe - TypeError: 'NoneType' object...
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_single_io
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_multi_io
+FAILED test_training.py::test_model_with_crossentropy_losses_channels_first
+FAILED test_training.py::test_validation_freq - assert 0 == 2
+FAILED test_training.py::test_add_metric_on_model - KeyError: 'val_metric_1'
+FAILED test_training.py::test_add_metric_in_model_call - KeyError: 'val_metri...
+FAILED test_training.py::test_multiple_add_metric_calls - TypeError: 'NoneTyp...
+FAILED test_training.py::test_add_metric_in_layer_call - KeyError: 'val_metri...
+============ 14 failed, 19 passed, 1 skipped, 4 warnings in 16.44s ============

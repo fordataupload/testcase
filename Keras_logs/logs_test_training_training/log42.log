@@ -1,0 +1,362 @@
+2020-10-03 19:08:28.474037: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py .......s...............F....FF.FF.                      [100%]
+
+================================== FAILURES ===================================
+___________________________ test_dynamic_set_inputs ___________________________
+
+    def test_dynamic_set_inputs():
+        model = Sequential()
+        model.add(Dense(16, input_dim=32))
+        model.add(Activation('relu'))
+    
+        model2 = Sequential()
+        model2.add(model.layers[-1])
+        model2.add(Dense(8))
+        preds2 = model2.predict([np.random.random((1, 32))])
+        assert preds2.shape == (1, 8)
+    
+        model3 = Model(inputs=model.inputs, outputs=model.outputs)
+        with pytest.raises(ValueError):
+            model3._set_inputs(model.inputs)
+    
+        model3.inputs = None
+        model3._set_inputs(model.inputs)
+>       preds3 = model3.predict([np.random.random((1, 32))])
+
+test_training.py:1654: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1452: in predict
+    if self._uses_dynamic_learning_phase():
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:381: in _uses_dynamic_learning_phase
+    return (self.uses_learning_phase and
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:445: in uses_learning_phase
+    return any([x._uses_learning_phase for x in self.outputs])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+.0 = <list_iterator object at 0x0000026DA8EEE470>
+
+>   return any([x._uses_learning_phase for x in self.outputs])
+E   AttributeError: 'NoneType' object has no attribute '_uses_learning_phase'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:445: AttributeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:08:57.918530: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:08:57.919107: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:08:57.919455: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:08:57.919802: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:08:57.920139: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:08:57.920486: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:08:57.920829: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:08:57.921199: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:08:57.921790: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:08:57.922120: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:08:57.922493: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:08:57.922710: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:08:57.923231: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_______________________ test_model_metrics_list_in_call _______________________
+
+    def test_model_metrics_list_in_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2)
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(
+            loss='mse',
+            optimizer='adam',
+            metrics=[metrics.MeanSquaredError('metric_1')])
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1822: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:184: in compile
+    shape = K.int_shape(self.outputs[i])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = None
+
+    def int_shape(x):
+        """Returns the shape of tensor or variable as a tuple of int or None entries.
+    
+        # Arguments
+            x: Tensor or variable.
+    
+        # Returns
+            A tuple of integers (or None entries).
+    
+        # Examples
+        ```python
+            >>> from keras import backend as K
+            >>> inputs = K.placeholder(shape=(2, 4, 5))
+            >>> K.int_shape(inputs)
+            (2, 4, 5)
+            >>> val = np.array([[1, 2], [3, 4]])
+            >>> kvar = K.variable(value=val)
+            >>> K.int_shape(kvar)
+            (2, 2)
+        ```
+    
+        {{np_implementation}}
+        """
+        if hasattr(x, '_keras_shape'):
+            return x._keras_shape
+        try:
+>           if isinstance(x.shape, tuple):
+E           AttributeError: 'NoneType' object has no attribute 'shape'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:818: AttributeError
+__________________ test_duplicate_metric_name_in_add_metric ___________________
+
+    def test_duplicate_metric_name_in_add_metric():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='adam')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        with pytest.raises(ValueError):
+>           model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1855: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:184: in compile
+    shape = K.int_shape(self.outputs[i])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = None
+
+    def int_shape(x):
+        """Returns the shape of tensor or variable as a tuple of int or None entries.
+    
+        # Arguments
+            x: Tensor or variable.
+    
+        # Returns
+            A tuple of integers (or None entries).
+    
+        # Examples
+        ```python
+            >>> from keras import backend as K
+            >>> inputs = K.placeholder(shape=(2, 4, 5))
+            >>> K.int_shape(inputs)
+            (2, 4, 5)
+            >>> val = np.array([[1, 2], [3, 4]])
+            >>> kvar = K.variable(value=val)
+            >>> K.int_shape(kvar)
+            (2, 2)
+        ```
+    
+        {{np_implementation}}
+        """
+        if hasattr(x, '_keras_shape'):
+            return x._keras_shape
+        try:
+>           if isinstance(x.shape, tuple):
+E           AttributeError: 'NoneType' object has no attribute 'shape'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:818: AttributeError
+________________________ test_add_metric_in_model_call ________________________
+
+    def test_add_metric_in_model_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                # Provide same name as in the instance created in __init__
+                # for eager mode
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1910: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:184: in compile
+    shape = K.int_shape(self.outputs[i])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = None
+
+    def int_shape(x):
+        """Returns the shape of tensor or variable as a tuple of int or None entries.
+    
+        # Arguments
+            x: Tensor or variable.
+    
+        # Returns
+            A tuple of integers (or None entries).
+    
+        # Examples
+        ```python
+            >>> from keras import backend as K
+            >>> inputs = K.placeholder(shape=(2, 4, 5))
+            >>> K.int_shape(inputs)
+            (2, 4, 5)
+            >>> val = np.array([[1, 2], [3, 4]])
+            >>> kvar = K.variable(value=val)
+            >>> K.int_shape(kvar)
+            (2, 2)
+        ```
+    
+        {{np_implementation}}
+        """
+        if hasattr(x, '_keras_shape'):
+            return x._keras_shape
+        try:
+>           if isinstance(x.shape, tuple):
+E           AttributeError: 'NoneType' object has no attribute 'shape'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:818: AttributeError
+_______________________ test_multiple_add_metric_calls ________________________
+
+    def test_multiple_add_metric_calls():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean1 = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_2')
+    
+            def call(self, x):
+                self.add_metric(self.mean2(x), name='metric_2')
+                self.add_metric(self.mean1(x), name='metric_1')
+                self.add_metric(K.sum(x), name='metric_3')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1946: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:184: in compile
+    shape = K.int_shape(self.outputs[i])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+x = None
+
+    def int_shape(x):
+        """Returns the shape of tensor or variable as a tuple of int or None entries.
+    
+        # Arguments
+            x: Tensor or variable.
+    
+        # Returns
+            A tuple of integers (or None entries).
+    
+        # Examples
+        ```python
+            >>> from keras import backend as K
+            >>> inputs = K.placeholder(shape=(2, 4, 5))
+            >>> K.int_shape(inputs)
+            (2, 4, 5)
+            >>> val = np.array([[1, 2], [3, 4]])
+            >>> kvar = K.variable(value=val)
+            >>> K.int_shape(kvar)
+            (2, 2)
+        ```
+    
+        {{np_implementation}}
+        """
+        if hasattr(x, '_keras_shape'):
+            return x._keras_shape
+        try:
+>           if isinstance(x.shape, tuple):
+E           AttributeError: 'NoneType' object has no attribute 'shape'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:818: AttributeError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_dynamic_set_inputs - AttributeError: 'NoneType'...
+FAILED test_training.py::test_model_metrics_list_in_call - AttributeError: 'N...
+FAILED test_training.py::test_duplicate_metric_name_in_add_metric - Attribute...
+FAILED test_training.py::test_add_metric_in_model_call - AttributeError: 'Non...
+FAILED test_training.py::test_multiple_add_metric_calls - AttributeError: 'No...
+============ 5 failed, 28 passed, 1 skipped, 7 warnings in 30.12s =============

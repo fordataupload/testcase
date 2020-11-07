@@ -1,0 +1,3848 @@
+2020-10-03 19:05:14.607214: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ...FF.FsFF...FFFFFFFFF...FF.F.FFFF                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_model_methods ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_model_methods():
+        model = get_model(num_outputs=2)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        # training/testing doesn't work before compiling.
+        with pytest.raises(RuntimeError):
+            model.train_on_batch([input_a_np, input_b_np],
+                                 [output_a_np, output_b_np])
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch([input_a_np, input_b_np],
+>                                  [output_a_np, output_b_np])
+
+test_training.py:187: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x0000020953F9C2E8>
+x = [array([[0.20299373, 0.50526416, 0.5845944 ],
+       [0.51814514, 0.12442386, 0.17303592],
+       [0.80746602, 0.08142...2, 0.5355264 , 0.60488416],
+       [0.11542133, 0.93754887, 0.04571705],
+       [0.29979788, 0.92514139, 0.98310564]])]
+y = [array([[0.91261047, 0.05487693, 0.31626532, 0.82762648],
+       [0.37877227, 0.78806376, 0.77761842, 0.36811212],
+   ...3, 0.19680412, 0.02837175],
+       [0.84300012, 0.98522504, 0.15068417],
+       [0.56955896, 0.2003185 , 0.79442723]])]
+sample_weight = None, class_weight = None, reset_metrics = True
+
+    def train_on_batch(self, x, y,
+                       sample_weight=None,
+                       class_weight=None,
+                       reset_metrics=True):
+        """Runs a single gradient update on a single batch of data.
+    
+        # Arguments
+            x: Numpy array of training data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            class_weight: Optional dictionary mapping
+                class indices (integers) to
+                a weight (float) to apply to the model's loss for the samples
+                from this class during training.
+                This can be useful to tell the model to "pay more attention" to
+                samples from an under-represented class.
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar training loss
+            (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight,
+            class_weight=class_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [1]
+        else:
+            ins = x + y + sample_weights
+        self._make_train_function()
+>       outputs = self.train_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: TypeError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+_____________________________ test_fit_generator ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_fit_generator():
+        model = get_model(num_outputs=2)
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+        tracker_cb = TrackerCallback()
+        val_seq = RandomSequence(4)
+        out = model.fit_generator(generator=RandomSequence(3),
+                                  steps_per_epoch=3,
+                                  epochs=5,
+                                  initial_epoch=0,
+                                  validation_data=val_seq,
+                                  validation_steps=3,
+                                  max_queue_size=1,
+>                                 callbacks=[tracker_cb])
+
+test_training.py:490: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732: in fit_generator
+    initial_epoch=initial_epoch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:220: in fit_generator
+    reset_metrics=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x0000020955B9CEF0>
+x = [array([[0.20491655, 0.61203616, 0.67659999],
+       [0.94722737, 0.67345081, 0.97842161],
+       [0.90380302, 0.13811...4, 0.40297673, 0.74870562],
+       [0.09144758, 0.48551712, 0.64565419],
+       [0.84427103, 0.46294925, 0.64143523]])]
+y = [array([[0.15715178, 0.91856122, 0.60287677, 0.57791885],
+       [0.61063667, 0.9436652 , 0.99458056, 0.60139701],
+   ...7, 0.04914087, 0.95688602],
+       [0.54247183, 0.0297664 , 0.36158923],
+       [0.68331888, 0.58606949, 0.75485942]])]
+sample_weight = None, class_weight = None, reset_metrics = False
+
+    def train_on_batch(self, x, y,
+                       sample_weight=None,
+                       class_weight=None,
+                       reset_metrics=True):
+        """Runs a single gradient update on a single batch of data.
+    
+        # Arguments
+            x: Numpy array of training data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            class_weight: Optional dictionary mapping
+                class indices (integers) to
+                a weight (float) to apply to the model's loss for the samples
+                from this class during training.
+                This can be useful to tell the model to "pay more attention" to
+                samples from an under-represented class.
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar training loss
+            (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight,
+            class_weight=class_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [1]
+        else:
+            ins = x + y + sample_weights
+        self._make_train_function()
+>       outputs = self.train_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/5
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:17.972976: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-03 19:05:18.089801: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:18.091526: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:18.095947: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:18.100570: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:18.102232: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:18.107244: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:18.110612: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:18.119842: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:18.120827: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:18.121447: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-03 19:05:18.137332: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:18.137992: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:18.138373: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:18.138755: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:18.139135: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:18.139530: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:18.139924: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:18.140307: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:18.141259: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:19.097497: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:19.097918: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:19.098137: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:19.098919: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+______________________ test_training_with_loss_instance _______________________
+
+    def test_training_with_loss_instance():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+        dense = Dense(4, name='dense')
+        c = dense(a)
+        d = dense(b)
+        e = Dropout(0.5, name='dropout')(c)
+    
+        model = Model([a, b], [d, e])
+        loss_weights = [1., 0.5]
+        model.compile(
+            'sgd',
+            loss=losses.MeanSquaredError(),
+            metrics=['mae'],
+            loss_weights=loss_weights)
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_d_np = np.random.random((10, 4))
+        output_e_np = np.random.random((10, 4))
+    
+        model.fit([input_a_np, input_b_np], [output_d_np, output_e_np],
+                  epochs=1,
+>                 batch_size=5)
+
+test_training.py:697: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x000002095C323CC0>
+fit_function = None
+fit_inputs = [array([[0.36613363, 0.1071201 , 0.14630696],
+       [0.40195467, 0.50511683, 0.47889139],
+       [0.71380968, 0.85071..., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), ...]
+out_labels = ['loss', 'dense_loss', 'dropout_loss', 'dense_mae', 'dropout_mae']
+batch_size = 5, epochs = 1, verbose = 1
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x000002095C5B5CC0>
+val_function = None, val_inputs = [], shuffle = True, initial_epoch = 0
+steps_per_epoch = None, validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+                    outs = fit_function(fit_inputs)
+    
+                    outs = to_list(outs)
+                    for l, o in zip(out_labels, outs):
+                        batch_logs[l] = o
+    
+                    callbacks._call_batch_hook('train', 'end', step_index, batch_logs)
+                    if callback_model.stop_training:
+                        break
+    
+                if do_validation and should_run_validation(validation_freq, epoch):
+                    val_outs = test_loop(model, val_function, val_inputs,
+                                         steps=validation_steps,
+                                         callbacks=callbacks,
+                                         verbose=0)
+                    val_outs = to_list(val_outs)
+                    # Same labels assumed.
+                    for l, o in zip(out_labels, val_outs):
+                        epoch_logs['val_' + l] = o
+            else:
+                if shuffle == 'batch':
+                    index_array = batch_shuffle(index_array, batch_size)
+                elif shuffle:
+                    np.random.shuffle(index_array)
+    
+                batches = make_batches(num_train_samples, batch_size)
+                for batch_index, (batch_start, batch_end) in enumerate(batches):
+                    batch_ids = index_array[batch_start:batch_end]
+                    try:
+                        if isinstance(fit_inputs[-1], int):
+                            # Do not slice the training phase flag.
+                            ins_batch = slice_arrays(
+                                fit_inputs[:-1], batch_ids) + [fit_inputs[-1]]
+                        else:
+                            ins_batch = slice_arrays(fit_inputs, batch_ids)
+                    except TypeError:
+                        raise TypeError('TypeError while preparing batch. '
+                                        'If using HDF5 input data, '
+                                        'pass shuffle="batch".')
+                    batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                    callbacks._call_batch_hook('train', 'begin', batch_index, batch_logs)
+                    for i in indices_for_conversion_to_dense:
+                        ins_batch[i] = ins_batch[i].toarray()
+    
+>                   outs = fit_function(ins_batch)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:21.463505: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:21.464103: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:21.464449: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:21.464793: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:21.465131: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:21.465474: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:21.465818: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:21.466170: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:21.466766: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:21.467083: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:21.467446: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:21.467668: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:21.468293: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+___________________________ test_trainable_argument ___________________________
+
+    def test_trainable_argument():
+        x = np.random.random((5, 3))
+        y = np.random.random((5, 2))
+    
+        model = Sequential()
+        model.add(Dense(2, input_dim=3, trainable=False))
+        model.compile('rmsprop', 'mse')
+        out = model.predict(x)
+>       model.train_on_batch(x, y)
+
+test_training.py:787: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x00000209560F3C88>
+x = [array([[0.74760211, 0.21520331, 0.6838717 ],
+       [0.95324479, 0.68364301, 0.78234304],
+       [0.01625152, 0.82260716, 0.6533603 ],
+       [0.91684308, 0.53965   , 0.60426463],
+       [0.2975742 , 0.06342087, 0.89266569]])]
+y = [array([[0.82406797, 0.95168108],
+       [0.6032911 , 0.67541911],
+       [0.35880726, 0.86258138],
+       [0.02010036, 0.58598945],
+       [0.26241103, 0.76559386]])]
+sample_weight = None, class_weight = None, reset_metrics = True
+
+    def train_on_batch(self, x, y,
+                       sample_weight=None,
+                       class_weight=None,
+                       reset_metrics=True):
+        """Runs a single gradient update on a single batch of data.
+    
+        # Arguments
+            x: Numpy array of training data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            class_weight: Optional dictionary mapping
+                class indices (integers) to
+                a weight (float) to apply to the model's loss for the samples
+                from this class during training.
+                This can be useful to tell the model to "pay more attention" to
+                samples from an under-represented class.
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar training loss
+            (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight,
+            class_weight=class_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [1]
+        else:
+            ins = x + y + sample_weights
+        self._make_train_function()
+>       outputs = self.train_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:21.711559: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:21.712149: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:21.712494: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:21.712860: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:21.713200: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:21.713548: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:21.713894: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:21.714240: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:21.714819: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:21.715138: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:21.715490: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:21.715725: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:21.716245: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+__________________________ test_with_list_as_targets __________________________
+
+    def test_with_list_as_targets():
+        model = Sequential()
+        model.add(Dense(1, input_dim=3, trainable=False))
+        model.compile('rmsprop', 'mse')
+    
+        x = np.random.random((2, 3))
+        y = [0, 1]
+>       model.train_on_batch(x, y)
+
+test_training.py:809: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x000002095C47F2B0>
+x = [array([[0.00109445, 0.56930728, 0.78162021],
+       [0.36583757, 0.40470712, 0.03371509]])]
+y = [array([[0],
+       [1]])], sample_weight = None, class_weight = None
+reset_metrics = True
+
+    def train_on_batch(self, x, y,
+                       sample_weight=None,
+                       class_weight=None,
+                       reset_metrics=True):
+        """Runs a single gradient update on a single batch of data.
+    
+        # Arguments
+            x: Numpy array of training data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            class_weight: Optional dictionary mapping
+                class indices (integers) to
+                a weight (float) to apply to the model's loss for the samples
+                from this class during training.
+                This can be useful to tell the model to "pay more attention" to
+                samples from an under-represented class.
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar training loss
+            (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight,
+            class_weight=class_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [1]
+        else:
+            ins = x + y + sample_weights
+        self._make_train_function()
+>       outputs = self.train_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: TypeError
+______________________ test_model_with_input_feed_tensor ______________________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow',
+                        reason='Requires TensorFlow backend')
+    def test_model_with_input_feed_tensor():
+        """We test building a model with a TF variable as input.
+        We should be able to call fit, evaluate, predict,
+        by only passing them data for the placeholder inputs
+        in the model.
+        """
+        import tensorflow as tf
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+        b = Input(shape=(3,), name='input_b')
+    
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        b_2 = dp(b)
+    
+        model = Model([a, b], [a_2, b_2])
+        model.summary()
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        model.compile(optimizer, loss, metrics=['mean_squared_error'],
+                      loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_b_np,
+>                                  [output_a_np, output_b_np])
+
+test_training.py:871: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x0000020954032940>
+x = [array([[0.25824702, 0.42703235, 0.34942138],
+       [0.13860207, 0.39100333, 0.68656249],
+       [0.91650462, 0.09611...6, 0.86511379, 0.75684858],
+       [0.99666124, 0.86415587, 0.16900521],
+       [0.39405243, 0.7952195 , 0.54613378]])]
+y = [array([[0.6029389 , 0.36691712, 0.77779995, 0.99059686],
+       [0.82960859, 0.70658699, 0.55778731, 0.94441494],
+   ...5, 0.78624585, 0.85586909],
+       [0.98968136, 0.21426535, 0.34385508],
+       [0.26105757, 0.43267597, 0.66081346]])]
+sample_weight = None, class_weight = None, reset_metrics = True
+
+    def train_on_batch(self, x, y,
+                       sample_weight=None,
+                       class_weight=None,
+                       reset_metrics=True):
+        """Runs a single gradient update on a single batch of data.
+    
+        # Arguments
+            x: Numpy array of training data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            class_weight: Optional dictionary mapping
+                class indices (integers) to
+                a weight (float) to apply to the model's loss for the samples
+                from this class during training.
+                This can be useful to tell the model to "pay more attention" to
+                samples from an under-represented class.
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar training loss
+            (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight,
+            class_weight=class_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [1]
+        else:
+            ins = x + y + sample_weights
+        self._make_train_function()
+>       outputs = self.train_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: TypeError
+---------------------------- Captured stdout call -----------------------------
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (10, 3)              0                                            
+__________________________________________________________________________________________________
+input_b (InputLayer)            (None, 3)            0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (10, 4)              16          input_1[0][0]                    
+__________________________________________________________________________________________________
+dropout (Dropout)               (None, 3)            0           input_b[0][0]                    
+==================================================================================================
+Total params: 16
+Trainable params: 16
+Non-trainable params: 0
+__________________________________________________________________________________________________
+________________________ test_model_with_partial_loss _________________________
+
+    def test_model_with_partial_loss():
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = {'dropout': 'mse'}
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        input_a_np = np.random.random((10, 3))
+        output_a_np = np.random.random((10, 4))
+    
+        # test train_on_batch
+>       out = model.train_on_batch(input_a_np, output_a_np)
+
+test_training.py:994: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x0000020955E50518>
+x = [array([[0.00923809, 0.15447811, 0.89935009],
+       [0.06963869, 0.76680989, 0.29273629],
+       [0.65649548, 0.74579...1, 0.11047269, 0.21669903],
+       [0.28341786, 0.24685842, 0.40996101],
+       [0.44314985, 0.57203695, 0.42289947]])]
+y = [array([[0.54731317, 0.65186146, 0.11501964, 0.54216849],
+       [0.4477965 , 0.27740989, 0.97579978, 0.83478655],
+   ... ],
+       [0.52114678, 0.51877531, 0.7576258 , 0.51145805],
+       [0.94908195, 0.74716012, 0.02688229, 0.12439291]])]
+sample_weight = None, class_weight = None, reset_metrics = True
+
+    def train_on_batch(self, x, y,
+                       sample_weight=None,
+                       class_weight=None,
+                       reset_metrics=True):
+        """Runs a single gradient update on a single batch of data.
+    
+        # Arguments
+            x: Numpy array of training data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            class_weight: Optional dictionary mapping
+                class indices (integers) to
+                a weight (float) to apply to the model's loss for the samples
+                from this class during training.
+                This can be useful to tell the model to "pay more attention" to
+                samples from an under-represented class.
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar training loss
+            (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight,
+            class_weight=class_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [1]
+        else:
+            ins = x + y + sample_weights
+        self._make_train_function()
+>       outputs = self.train_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: TypeError
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+                    bias_regularizer='l2')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+    
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        input_a_np = np.random.random((10, 3))
+    
+        # test train_on_batch
+>       out = model.train_on_batch(input_a_np, None)
+
+test_training.py:1040: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x0000020955E68A90>
+x = [array([[0.20484931, 0.47836972, 0.48834262],
+       [0.59688258, 0.82090102, 0.15243653],
+       [0.1958074 , 0.19350...9, 0.53824623, 0.95536043],
+       [0.34863947, 0.32272771, 0.56824265],
+       [0.86789804, 0.07204414, 0.69439473]])]
+y = [], sample_weight = None, class_weight = None, reset_metrics = True
+
+    def train_on_batch(self, x, y,
+                       sample_weight=None,
+                       class_weight=None,
+                       reset_metrics=True):
+        """Runs a single gradient update on a single batch of data.
+    
+        # Arguments
+            x: Numpy array of training data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            class_weight: Optional dictionary mapping
+                class indices (integers) to
+                a weight (float) to apply to the model's loss for the samples
+                from this class during training.
+                This can be useful to tell the model to "pay more attention" to
+                samples from an under-represented class.
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar training loss
+            (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight,
+            class_weight=class_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [1]
+        else:
+            ins = x + y + sample_weights
+        self._make_train_function()
+>       outputs = self.train_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: TypeError
+_____________________________ test_target_tensors _____________________________
+
+    def test_target_tensors():
+        # single-output, as list
+        model = keras.models.Sequential()
+        model.add(keras.layers.Dense(4, input_shape=(4,), name='dense'))
+        input_val = np.random.random((10, 4))
+        target_val = np.random.random((10, 4))
+        target = keras.backend.variable(target_val)
+        model.compile(optimizer='rmsprop', loss='mse', target_tensors=[target])
+>       model.train_on_batch(input_val, None)
+
+test_training.py:1182: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x0000020956171978>
+x = [array([[0.45318136, 0.49287104, 0.73355482, 0.77296361],
+       [0.70818251, 0.57824298, 0.98577626, 0.30168209],
+   ...1],
+       [0.34648079, 0.87530204, 0.171851  , 0.08436476],
+       [0.20984676, 0.28653152, 0.36207363, 0.98407915]])]
+y = [], sample_weight = None, class_weight = None, reset_metrics = True
+
+    def train_on_batch(self, x, y,
+                       sample_weight=None,
+                       class_weight=None,
+                       reset_metrics=True):
+        """Runs a single gradient update on a single batch of data.
+    
+        # Arguments
+            x: Numpy array of training data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            class_weight: Optional dictionary mapping
+                class indices (integers) to
+                a weight (float) to apply to the model's loss for the samples
+                from this class during training.
+                This can be useful to tell the model to "pay more attention" to
+                samples from an under-represented class.
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar training loss
+            (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight,
+            class_weight=class_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [1]
+        else:
+            ins = x + y + sample_weights
+        self._make_train_function()
+>       outputs = self.train_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: TypeError
+______________________ test_model_custom_target_tensors _______________________
+
+    @pytest.mark.skipif(K.backend() == 'tensorflow' and
+                        tf.__version__.startswith('2'),
+                        reason='Cannot have tensors as dict keys in TF2')
+    def test_model_custom_target_tensors():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        b_2 = dp(b)
+    
+        y = K.placeholder([10, 4], name='y')
+        y1 = K.placeholder([10, 3], name='y1')
+        y2 = K.placeholder([7, 5], name='y2')
+        model = Model([a, b], [a_2, b_2])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        # test list of target tensors
+        with pytest.raises(ValueError):
+            model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                          sample_weight_mode=None, target_tensors=[y, y1, y2])
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None, target_tensors=[y, y1])
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np],
+                                   {y: np.random.random((10, 4)),
+>                                   y1: np.random.random((10, 3))})
+
+test_training.py:1286: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x0000020956178A58>
+x = [array([[0.33419995, 0.99064878, 0.26112413],
+       [0.8514585 , 0.56091445, 0.14758929],
+       [0.47600014, 0.38472...8, 0.85520129, 0.97110211],
+       [0.1418743 , 0.7774013 , 0.82175241],
+       [0.51903693, 0.01491961, 0.1519909 ]])]
+y = [array([[0.23918714, 0.26319686, 0.24445575, 0.98155104],
+       [0.94650709, 0.11385864, 0.17154323, 0.59519085],
+   ...1, 0.99464209, 0.05704788],
+       [0.56807184, 0.46944023, 0.29748992],
+       [0.76412398, 0.53120685, 0.23417104]])]
+sample_weight = {<tf.Tensor 'y:0' shape=(10, 4) dtype=float32>: array([[0.83198819, 0.84691107, 0.11464704, 0.82487105],
+       [0.537...7, 0.24804485, 0.97327639],
+       [0.37850275, 0.35297964, 0.133975  ],
+       [0.91188898, 0.66808046, 0.23011754]])}
+class_weight = None, reset_metrics = True
+
+    def train_on_batch(self, x, y,
+                       sample_weight=None,
+                       class_weight=None,
+                       reset_metrics=True):
+        """Runs a single gradient update on a single batch of data.
+    
+        # Arguments
+            x: Numpy array of training data,
+                or list of Numpy arrays if the model has multiple inputs.
+                If all inputs in the model are named,
+                you can also pass a dictionary
+                mapping input names to Numpy arrays.
+            y: Numpy array of target data,
+                or list of Numpy arrays if the model has multiple outputs.
+                If all outputs in the model are named,
+                you can also pass a dictionary
+                mapping output names to Numpy arrays.
+            sample_weight: Optional array of the same length as x, containing
+                weights to apply to the model's loss for each sample.
+                In the case of temporal data, you can pass a 2D array
+                with shape (samples, sequence_length),
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                sample_weight_mode="temporal" in compile().
+            class_weight: Optional dictionary mapping
+                class indices (integers) to
+                a weight (float) to apply to the model's loss for the samples
+                from this class during training.
+                This can be useful to tell the model to "pay more attention" to
+                samples from an under-represented class.
+            reset_metrics: If `True`, the metrics returned will be only for this
+                batch. If `False`, the metrics will be statefully accumulated across
+                batches.
+    
+        # Returns
+            Scalar training loss
+            (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+        x, y, sample_weights = self._standardize_user_data(
+            x, y,
+            sample_weight=sample_weight,
+            class_weight=class_weight)
+        if self._uses_dynamic_learning_phase():
+            ins = x + y + sample_weights + [1]
+        else:
+            ins = x + y + sample_weights
+        self._make_train_function()
+>       outputs = self.train_function(ins)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: TypeError
+__________________ test_trainable_weights_count_consistency ___________________
+
+    @pytest.mark.skipif(sys.version_info < (3,),
+                        reason='Cannot catch warnings in python 2')
+    def test_trainable_weights_count_consistency():
+        """Tests the trainable weights consistency check of Model.
+    
+        This verifies that a warning is shown if model.trainable is modified
+        and the model is summarized/run without a new call to .compile()
+    
+        Reproduce issue #8121
+        """
+        a = Input(shape=(3,), name='input_a')
+        model1 = Model(inputs=a, outputs=Dense(1)(a))
+    
+        model1.trainable = False
+        b = Input(shape=(3,), name='input_b')
+        y = model1(b)
+        model2 = Model(inputs=b, outputs=Dense(1)(y))
+    
+        model2.compile(optimizer='adam', loss='mse')
+    
+        model1.trainable = True
+    
+        # Should warn on .summary()
+        with pytest.warns(UserWarning) as w:
+            model2.summary()
+        warning_raised = any(['Discrepancy' in str(w_.message) for w_ in w])
+        assert warning_raised, (
+            'No warning raised when trainable is modified without .compile.')
+    
+        # And on .fit()
+        with pytest.warns(UserWarning) as w:
+>           model2.fit(x=np.zeros((5, 3)), y=np.zeros((5, 1)))
+
+test_training.py:1344: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x0000020955FE73C8>
+fit_function = None
+fit_inputs = [array([[0., 0., 0.],
+       [0., 0., 0.],
+       [0., 0., 0.],
+       [0., 0., 0.],
+       [0., 0., 0.]]), array([[0.],
+       [0.],
+       [0.],
+       [0.],
+       [0.]]), array([1., 1., 1., 1., 1.], dtype=float32)]
+out_labels = ['loss'], batch_size = 32, epochs = 1, verbose = 1
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x0000020B9FF45358>
+val_function = None, val_inputs = [], shuffle = True, initial_epoch = 0
+steps_per_epoch = None, validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+                    outs = fit_function(fit_inputs)
+    
+                    outs = to_list(outs)
+                    for l, o in zip(out_labels, outs):
+                        batch_logs[l] = o
+    
+                    callbacks._call_batch_hook('train', 'end', step_index, batch_logs)
+                    if callback_model.stop_training:
+                        break
+    
+                if do_validation and should_run_validation(validation_freq, epoch):
+                    val_outs = test_loop(model, val_function, val_inputs,
+                                         steps=validation_steps,
+                                         callbacks=callbacks,
+                                         verbose=0)
+                    val_outs = to_list(val_outs)
+                    # Same labels assumed.
+                    for l, o in zip(out_labels, val_outs):
+                        epoch_logs['val_' + l] = o
+            else:
+                if shuffle == 'batch':
+                    index_array = batch_shuffle(index_array, batch_size)
+                elif shuffle:
+                    np.random.shuffle(index_array)
+    
+                batches = make_batches(num_train_samples, batch_size)
+                for batch_index, (batch_start, batch_end) in enumerate(batches):
+                    batch_ids = index_array[batch_start:batch_end]
+                    try:
+                        if isinstance(fit_inputs[-1], int):
+                            # Do not slice the training phase flag.
+                            ins_batch = slice_arrays(
+                                fit_inputs[:-1], batch_ids) + [fit_inputs[-1]]
+                        else:
+                            ins_batch = slice_arrays(fit_inputs, batch_ids)
+                    except TypeError:
+                        raise TypeError('TypeError while preparing batch. '
+                                        'If using HDF5 input data, '
+                                        'pass shuffle="batch".')
+                    batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                    callbacks._call_batch_hook('train', 'begin', batch_index, batch_logs)
+                    for i in indices_for_conversion_to_dense:
+                        ins_batch[i] = ins_batch[i].toarray()
+    
+>                   outs = fit_function(ins_batch)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: TypeError
+---------------------------- Captured stdout call -----------------------------
+Model: "model_2"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_b (InputLayer)         (None, 3)                 0         
+_________________________________________________________________
+model_1 (Model)              (None, 1)                 4         
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 2         
+=================================================================
+Total params: 2
+Trainable params: 2
+Non-trainable params: 0
+_________________________________________________________________
+Epoch 1/1
+____________________________ test_pandas_dataframe ____________________________
+
+    def test_pandas_dataframe():
+        input_a = Input(shape=(3,), name='input_a')
+        input_b = Input(shape=(3,), name='input_b')
+    
+        x = Dense(4, name='dense_1')(input_a)
+        y = Dense(3, name='desne_2')(input_b)
+    
+        model_1 = Model(inputs=input_a, outputs=x)
+        model_2 = Model(inputs=[input_a, input_b], outputs=[x, y])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+    
+        model_1.compile(optimizer=optimizer, loss=loss)
+        model_2.compile(optimizer=optimizer, loss=loss)
+    
+        input_a_df = pd.DataFrame(np.random.random((10, 3)))
+        input_b_df = pd.DataFrame(np.random.random((10, 3)))
+    
+        output_a_df = pd.DataFrame(np.random.random((10, 4)))
+        output_b_df = pd.DataFrame(np.random.random((10, 3)))
+    
+        model_1.fit(input_a_df,
+>                   output_a_df)
+
+test_training.py:1380: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x0000020BA0081208>
+fit_function = None
+fit_inputs = [array([[0.83185434, 0.1202288 , 0.97093903],
+       [0.2767682 , 0.22566548, 0.04355075],
+       [0.28017221, 0.39423...    [0.1345139 , 0.12603043, 0.57284064, 0.93629276]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+out_labels = ['loss'], batch_size = 32, epochs = 1, verbose = 1
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x0000020BA0083CF8>
+val_function = None, val_inputs = [], shuffle = True, initial_epoch = 0
+steps_per_epoch = None, validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+                    outs = fit_function(fit_inputs)
+    
+                    outs = to_list(outs)
+                    for l, o in zip(out_labels, outs):
+                        batch_logs[l] = o
+    
+                    callbacks._call_batch_hook('train', 'end', step_index, batch_logs)
+                    if callback_model.stop_training:
+                        break
+    
+                if do_validation and should_run_validation(validation_freq, epoch):
+                    val_outs = test_loop(model, val_function, val_inputs,
+                                         steps=validation_steps,
+                                         callbacks=callbacks,
+                                         verbose=0)
+                    val_outs = to_list(val_outs)
+                    # Same labels assumed.
+                    for l, o in zip(out_labels, val_outs):
+                        epoch_logs['val_' + l] = o
+            else:
+                if shuffle == 'batch':
+                    index_array = batch_shuffle(index_array, batch_size)
+                elif shuffle:
+                    np.random.shuffle(index_array)
+    
+                batches = make_batches(num_train_samples, batch_size)
+                for batch_index, (batch_start, batch_end) in enumerate(batches):
+                    batch_ids = index_array[batch_start:batch_end]
+                    try:
+                        if isinstance(fit_inputs[-1], int):
+                            # Do not slice the training phase flag.
+                            ins_batch = slice_arrays(
+                                fit_inputs[:-1], batch_ids) + [fit_inputs[-1]]
+                        else:
+                            ins_batch = slice_arrays(fit_inputs, batch_ids)
+                    except TypeError:
+                        raise TypeError('TypeError while preparing batch. '
+                                        'If using HDF5 input data, '
+                                        'pass shuffle="batch".')
+                    batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                    callbacks._call_batch_hook('train', 'begin', batch_index, batch_logs)
+                    for i in indices_for_conversion_to_dense:
+                        ins_batch[i] = ins_batch[i].toarray()
+    
+>                   outs = fit_function(ins_batch)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+________ test_training_and_eval_methods_on_symbolic_tensors_single_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_single_io():
+        x = keras.layers.Input(shape=(3,), name='input')
+        y = keras.layers.Dense(4, name='dense')(x)
+        model = keras.Model(x, y)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        metrics = ['mae']
+        model.compile(optimizer, loss, metrics=metrics)
+    
+        inputs = keras.backend.zeros(shape=(10, 3))
+        targets = keras.backend.zeros(shape=(10, 4))
+    
+>       model.fit(inputs, targets, epochs=1, steps_per_epoch=2, verbose=0)
+
+test_training.py:1450: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x0000020BA0099390>
+fit_function = None
+fit_inputs = [<tf.Variable 'Variable:0' shape=(10, 3) dtype=float32>, <tf.Variable 'Variable_1:0' shape=(10, 4) dtype=float32>, array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+out_labels = ['loss', 'mae'], batch_size = None, epochs = 1, verbose = 0
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x0000020BA00B9EB8>
+val_function = None, val_inputs = [], shuffle = True, initial_epoch = 0
+steps_per_epoch = 2, validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+>                   outs = fit_function(fit_inputs)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:152: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:23.162228: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:23.162828: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:23.163172: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:23.163515: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:23.163851: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:23.164193: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:23.164539: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:23.164893: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:23.165491: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:23.165811: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:23.166169: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:23.166389: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:23.166907: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_________ test_training_and_eval_methods_on_symbolic_tensors_multi_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_multi_io():
+        a = keras.layers.Input(shape=(3,), name='input_a')
+        b = keras.layers.Input(shape=(3,), name='input_b')
+    
+        dense = keras.layers.Dense(4, name='dense')
+        c = dense(a)
+        d = dense(b)
+        e = keras.layers.Dropout(0.5, name='dropout')(c)
+    
+        model = keras.models.Model([a, b], [d, e])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        metrics = ['mae']
+        model.compile(optimizer, loss, metrics=metrics, loss_weights=loss_weights)
+    
+        input_a_tf = keras.backend.zeros(shape=(10, 3))
+        input_b_tf = keras.backend.zeros(shape=(10, 3))
+    
+        output_d_tf = keras.backend.zeros(shape=(10, 4))
+        output_e_tf = keras.backend.zeros(shape=(10, 4))
+    
+        model.fit(
+            [input_a_tf, input_b_tf], [output_d_tf, output_e_tf],
+            epochs=1,
+            steps_per_epoch=2,
+>           verbose=0)
+
+test_training.py:1488: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x0000020BA0113358>
+fit_function = None
+fit_inputs = [<tf.Variable 'Variable:0' shape=(10, 3) dtype=float32>, <tf.Variable 'Variable_1:0' shape=(10, 3) dtype=float32>, <tf..., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), ...]
+out_labels = ['loss', 'dense_loss', 'dropout_loss', 'dense_mae', 'dropout_mae']
+batch_size = None, epochs = 1, verbose = 0
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x0000020BA1565668>
+val_function = None, val_inputs = [], shuffle = True, initial_epoch = 0
+steps_per_epoch = 2, validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+>                   outs = fit_function(fit_inputs)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:152: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:23.484455: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:23.485067: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:23.485414: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:23.485760: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:23.486098: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:23.486440: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:23.486785: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:23.487137: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:23.487743: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:23.488063: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:23.488418: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:23.488641: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:23.489155: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________________________ test_validation_freq _____________________________
+
+    def test_validation_freq():
+        model = Sequential([Dense(1)])
+        model.compile('sgd', 'mse')
+    
+        def _gen():
+            while True:
+                yield np.ones((2, 10)), np.ones((2, 1))
+    
+        x, y = np.ones((10, 10)), np.ones((10, 1))
+    
+        class ValCounter(Callback):
+    
+            def __init__(self):
+                self.val_runs = 0
+    
+            def on_test_begin(self, logs=None):
+                self.val_runs += 1
+    
+        # Test in training_arrays.py
+        val_counter = ValCounter()
+        model.fit(
+            x,
+            y,
+            batch_size=2,
+            epochs=4,
+            validation_data=(x, y),
+            validation_freq=2,
+>           callbacks=[val_counter])
+
+test_training.py:1720: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.sequential.Sequential object at 0x000002095C607D68>
+fit_function = None
+fit_inputs = [array([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+       [1., 1., 1.,...,
+       [1.],
+       [1.],
+       [1.],
+       [1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+out_labels = ['loss'], batch_size = 2, epochs = 4, verbose = 1
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x000002095C60BAC8>
+val_function = <tensorflow.python.keras.backend.GraphExecutionFunction object at 0x000002095C617748>
+val_inputs = [array([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+       [1., 1., 1.,...,
+       [1.],
+       [1.],
+       [1.],
+       [1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+shuffle = True, initial_epoch = 0, steps_per_epoch = None
+validation_steps = None, validation_freq = 2
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+                    outs = fit_function(fit_inputs)
+    
+                    outs = to_list(outs)
+                    for l, o in zip(out_labels, outs):
+                        batch_logs[l] = o
+    
+                    callbacks._call_batch_hook('train', 'end', step_index, batch_logs)
+                    if callback_model.stop_training:
+                        break
+    
+                if do_validation and should_run_validation(validation_freq, epoch):
+                    val_outs = test_loop(model, val_function, val_inputs,
+                                         steps=validation_steps,
+                                         callbacks=callbacks,
+                                         verbose=0)
+                    val_outs = to_list(val_outs)
+                    # Same labels assumed.
+                    for l, o in zip(out_labels, val_outs):
+                        epoch_logs['val_' + l] = o
+            else:
+                if shuffle == 'batch':
+                    index_array = batch_shuffle(index_array, batch_size)
+                elif shuffle:
+                    np.random.shuffle(index_array)
+    
+                batches = make_batches(num_train_samples, batch_size)
+                for batch_index, (batch_start, batch_end) in enumerate(batches):
+                    batch_ids = index_array[batch_start:batch_end]
+                    try:
+                        if isinstance(fit_inputs[-1], int):
+                            # Do not slice the training phase flag.
+                            ins_batch = slice_arrays(
+                                fit_inputs[:-1], batch_ids) + [fit_inputs[-1]]
+                        else:
+                            ins_batch = slice_arrays(fit_inputs, batch_ids)
+                    except TypeError:
+                        raise TypeError('TypeError while preparing batch. '
+                                        'If using HDF5 input data, '
+                                        'pass shuffle="batch".')
+                    batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                    callbacks._call_batch_hook('train', 'begin', batch_index, batch_logs)
+                    for i in indices_for_conversion_to_dense:
+                        ins_batch[i] = ins_batch[i].toarray()
+    
+>                   outs = fit_function(ins_batch)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: TypeError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/4
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:26.810128: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:26.810744: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:26.811188: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:26.811621: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:26.812035: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:26.812382: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:26.812728: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:26.813072: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:26.813647: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:26.813980: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:26.814340: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:26.814564: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:26.815106: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________________________ test_loss_correctness ____________________________
+
+    def test_loss_correctness():
+        class Bias(Layer):
+    
+            def build(self, input_shape):
+                self.bias = self.add_weight('bias', (1,), initializer='zeros')
+    
+            def call(self, inputs):
+                return inputs + self.bias
+    
+        inp = Input(shape=(1,))
+        out = Bias()(inp)
+        model = Model(inp, out)
+        model.compile(
+            keras.optimizers.SGD(lr=0.1),
+            loss=keras.losses.MeanAbsoluteError())
+    
+        x = np.array([[0.], [1.], [2.]])
+        y = np.array([[0.5], [2.], [3.5]])
+>       history = model.fit(x, y, batch_size=3, epochs=5)
+
+test_training.py:1753: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x0000020B9FFDD3C8>
+fit_function = None
+fit_inputs = [array([[0.],
+       [1.],
+       [2.]]), array([[0.5],
+       [2. ],
+       [3.5]]), array([1., 1., 1.], dtype=float32)]
+out_labels = ['loss'], batch_size = 3, epochs = 5, verbose = 1
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x0000020BA696D358>
+val_function = None, val_inputs = [], shuffle = True, initial_epoch = 0
+steps_per_epoch = None, validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+                    outs = fit_function(fit_inputs)
+    
+                    outs = to_list(outs)
+                    for l, o in zip(out_labels, outs):
+                        batch_logs[l] = o
+    
+                    callbacks._call_batch_hook('train', 'end', step_index, batch_logs)
+                    if callback_model.stop_training:
+                        break
+    
+                if do_validation and should_run_validation(validation_freq, epoch):
+                    val_outs = test_loop(model, val_function, val_inputs,
+                                         steps=validation_steps,
+                                         callbacks=callbacks,
+                                         verbose=0)
+                    val_outs = to_list(val_outs)
+                    # Same labels assumed.
+                    for l, o in zip(out_labels, val_outs):
+                        epoch_logs['val_' + l] = o
+            else:
+                if shuffle == 'batch':
+                    index_array = batch_shuffle(index_array, batch_size)
+                elif shuffle:
+                    np.random.shuffle(index_array)
+    
+                batches = make_batches(num_train_samples, batch_size)
+                for batch_index, (batch_start, batch_end) in enumerate(batches):
+                    batch_ids = index_array[batch_start:batch_end]
+                    try:
+                        if isinstance(fit_inputs[-1], int):
+                            # Do not slice the training phase flag.
+                            ins_batch = slice_arrays(
+                                fit_inputs[:-1], batch_ids) + [fit_inputs[-1]]
+                        else:
+                            ins_batch = slice_arrays(fit_inputs, batch_ids)
+                    except TypeError:
+                        raise TypeError('TypeError while preparing batch. '
+                                        'If using HDF5 input data, '
+                                        'pass shuffle="batch".')
+                    batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                    callbacks._call_batch_hook('train', 'begin', batch_index, batch_logs)
+                    for i in indices_for_conversion_to_dense:
+                        ins_batch[i] = ins_batch[i].toarray()
+    
+>                   outs = fit_function(ins_batch)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/5
+_______________________ test_model_metrics_list_in_call _______________________
+
+    def test_model_metrics_list_in_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2)
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(
+            loss='mse',
+            optimizer='adam',
+            metrics=[metrics.MeanSquaredError('metric_1')])
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1822: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <test_training.test_model_metrics_list_in_call.<locals>.TestModel object at 0x0000020BA68E75F8>
+fit_function = None
+fit_inputs = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+out_labels = ['loss', 'metric_1', 'metric_2'], batch_size = 5, epochs = 2
+verbose = 1
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x0000020BA005FD30>
+val_function = <tensorflow.python.keras.backend.GraphExecutionFunction object at 0x0000020B9FFA5438>
+val_inputs = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+shuffle = True, initial_epoch = 0, steps_per_epoch = None
+validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+                    outs = fit_function(fit_inputs)
+    
+                    outs = to_list(outs)
+                    for l, o in zip(out_labels, outs):
+                        batch_logs[l] = o
+    
+                    callbacks._call_batch_hook('train', 'end', step_index, batch_logs)
+                    if callback_model.stop_training:
+                        break
+    
+                if do_validation and should_run_validation(validation_freq, epoch):
+                    val_outs = test_loop(model, val_function, val_inputs,
+                                         steps=validation_steps,
+                                         callbacks=callbacks,
+                                         verbose=0)
+                    val_outs = to_list(val_outs)
+                    # Same labels assumed.
+                    for l, o in zip(out_labels, val_outs):
+                        epoch_logs['val_' + l] = o
+            else:
+                if shuffle == 'batch':
+                    index_array = batch_shuffle(index_array, batch_size)
+                elif shuffle:
+                    np.random.shuffle(index_array)
+    
+                batches = make_batches(num_train_samples, batch_size)
+                for batch_index, (batch_start, batch_end) in enumerate(batches):
+                    batch_ids = index_array[batch_start:batch_end]
+                    try:
+                        if isinstance(fit_inputs[-1], int):
+                            # Do not slice the training phase flag.
+                            ins_batch = slice_arrays(
+                                fit_inputs[:-1], batch_ids) + [fit_inputs[-1]]
+                        else:
+                            ins_batch = slice_arrays(fit_inputs, batch_ids)
+                    except TypeError:
+                        raise TypeError('TypeError while preparing batch. '
+                                        'If using HDF5 input data, '
+                                        'pass shuffle="batch".')
+                    batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                    callbacks._call_batch_hook('train', 'begin', batch_index, batch_logs)
+                    for i in indices_for_conversion_to_dense:
+                        ins_batch[i] = ins_batch[i].toarray()
+    
+>                   outs = fit_function(ins_batch)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: TypeError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:27.260506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:27.261100: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:27.261445: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:27.261787: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:27.262123: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:27.262463: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:27.262806: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:27.263152: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:27.263782: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:27.264105: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:27.264464: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:27.264685: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:27.265231: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+__________________________ test_add_metric_on_model ___________________________
+
+    def test_add_metric_on_model():
+        x = Input(shape=(1,))
+        y = Dense(1, kernel_initializer='ones', trainable=False)(x)
+        model = Model(x, y)
+        model.add_metric(K.sum(y), name='metric_1')
+        model.add_metric(metrics.Mean(name='metric_2')(y))
+        model.compile('sgd', loss='mse', metrics=['mse'])
+    
+        inputs = np.ones(shape=(10, 1))
+        targets = np.zeros(shape=(10, 1))
+        history = model.fit(
+            inputs,
+            targets,
+            epochs=2,
+            batch_size=5,
+>           validation_data=(inputs, targets))
+
+test_training.py:1873: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x0000020BA68E70F0>
+fit_function = None
+fit_inputs = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...,
+       [0.],
+       [0.],
+       [0.],
+       [0.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+out_labels = ['loss', 'mse', 'metric_1', 'metric_2'], batch_size = 5, epochs = 2
+verbose = 1
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x0000020BA0051390>
+val_function = <tensorflow.python.keras.backend.GraphExecutionFunction object at 0x0000020BAD3087B8>
+val_inputs = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...,
+       [0.],
+       [0.],
+       [0.],
+       [0.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+shuffle = True, initial_epoch = 0, steps_per_epoch = None
+validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+                    outs = fit_function(fit_inputs)
+    
+                    outs = to_list(outs)
+                    for l, o in zip(out_labels, outs):
+                        batch_logs[l] = o
+    
+                    callbacks._call_batch_hook('train', 'end', step_index, batch_logs)
+                    if callback_model.stop_training:
+                        break
+    
+                if do_validation and should_run_validation(validation_freq, epoch):
+                    val_outs = test_loop(model, val_function, val_inputs,
+                                         steps=validation_steps,
+                                         callbacks=callbacks,
+                                         verbose=0)
+                    val_outs = to_list(val_outs)
+                    # Same labels assumed.
+                    for l, o in zip(out_labels, val_outs):
+                        epoch_logs['val_' + l] = o
+            else:
+                if shuffle == 'batch':
+                    index_array = batch_shuffle(index_array, batch_size)
+                elif shuffle:
+                    np.random.shuffle(index_array)
+    
+                batches = make_batches(num_train_samples, batch_size)
+                for batch_index, (batch_start, batch_end) in enumerate(batches):
+                    batch_ids = index_array[batch_start:batch_end]
+                    try:
+                        if isinstance(fit_inputs[-1], int):
+                            # Do not slice the training phase flag.
+                            ins_batch = slice_arrays(
+                                fit_inputs[:-1], batch_ids) + [fit_inputs[-1]]
+                        else:
+                            ins_batch = slice_arrays(fit_inputs, batch_ids)
+                    except TypeError:
+                        raise TypeError('TypeError while preparing batch. '
+                                        'If using HDF5 input data, '
+                                        'pass shuffle="batch".')
+                    batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                    callbacks._call_batch_hook('train', 'begin', batch_index, batch_logs)
+                    for i in indices_for_conversion_to_dense:
+                        ins_batch[i] = ins_batch[i].toarray()
+    
+>                   outs = fit_function(ins_batch)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: TypeError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:27.532381: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:27.532976: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:27.533324: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:27.533670: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:27.534009: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:27.534349: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:27.534693: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:27.535042: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:27.535634: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:27.535957: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:27.536311: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:27.536532: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:27.537079: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_add_metric_in_model_call ________________________
+
+    def test_add_metric_in_model_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                # Provide same name as in the instance created in __init__
+                # for eager mode
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1910: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <test_training.test_add_metric_in_model_call.<locals>.TestModel object at 0x0000020BB3DE51D0>
+fit_function = None
+fit_inputs = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+out_labels = ['loss', 'metric_1', 'metric_2'], batch_size = 5, epochs = 2
+verbose = 1
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x0000020BB3DE9978>
+val_function = <tensorflow.python.keras.backend.GraphExecutionFunction object at 0x0000020BA002F358>
+val_inputs = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+shuffle = True, initial_epoch = 0, steps_per_epoch = None
+validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+                    outs = fit_function(fit_inputs)
+    
+                    outs = to_list(outs)
+                    for l, o in zip(out_labels, outs):
+                        batch_logs[l] = o
+    
+                    callbacks._call_batch_hook('train', 'end', step_index, batch_logs)
+                    if callback_model.stop_training:
+                        break
+    
+                if do_validation and should_run_validation(validation_freq, epoch):
+                    val_outs = test_loop(model, val_function, val_inputs,
+                                         steps=validation_steps,
+                                         callbacks=callbacks,
+                                         verbose=0)
+                    val_outs = to_list(val_outs)
+                    # Same labels assumed.
+                    for l, o in zip(out_labels, val_outs):
+                        epoch_logs['val_' + l] = o
+            else:
+                if shuffle == 'batch':
+                    index_array = batch_shuffle(index_array, batch_size)
+                elif shuffle:
+                    np.random.shuffle(index_array)
+    
+                batches = make_batches(num_train_samples, batch_size)
+                for batch_index, (batch_start, batch_end) in enumerate(batches):
+                    batch_ids = index_array[batch_start:batch_end]
+                    try:
+                        if isinstance(fit_inputs[-1], int):
+                            # Do not slice the training phase flag.
+                            ins_batch = slice_arrays(
+                                fit_inputs[:-1], batch_ids) + [fit_inputs[-1]]
+                        else:
+                            ins_batch = slice_arrays(fit_inputs, batch_ids)
+                    except TypeError:
+                        raise TypeError('TypeError while preparing batch. '
+                                        'If using HDF5 input data, '
+                                        'pass shuffle="batch".')
+                    batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                    callbacks._call_batch_hook('train', 'begin', batch_index, batch_logs)
+                    for i in indices_for_conversion_to_dense:
+                        ins_batch[i] = ins_batch[i].toarray()
+    
+>                   outs = fit_function(ins_batch)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: TypeError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:27.826378: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:27.827019: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:27.827396: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:27.827756: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:27.828093: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:27.828441: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:27.828785: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:27.829131: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:27.829709: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:27.830028: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:27.830390: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:27.830619: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:27.831163: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_______________________ test_multiple_add_metric_calls ________________________
+
+    def test_multiple_add_metric_calls():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean1 = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_2')
+    
+            def call(self, x):
+                self.add_metric(self.mean2(x), name='metric_2')
+                self.add_metric(self.mean1(x), name='metric_1')
+                self.add_metric(K.sum(x), name='metric_3')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1946: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <test_training.test_multiple_add_metric_calls.<locals>.TestModel object at 0x0000020BB3E2B240>
+fit_function = None
+fit_inputs = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+out_labels = ['loss', 'metric_1', 'metric_2', 'metric_3'], batch_size = 5
+epochs = 2, verbose = 1
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x0000020B9FFE1828>
+val_function = <tensorflow.python.keras.backend.GraphExecutionFunction object at 0x0000020B9FFC86A0>
+val_inputs = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+shuffle = True, initial_epoch = 0, steps_per_epoch = None
+validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+                    outs = fit_function(fit_inputs)
+    
+                    outs = to_list(outs)
+                    for l, o in zip(out_labels, outs):
+                        batch_logs[l] = o
+    
+                    callbacks._call_batch_hook('train', 'end', step_index, batch_logs)
+                    if callback_model.stop_training:
+                        break
+    
+                if do_validation and should_run_validation(validation_freq, epoch):
+                    val_outs = test_loop(model, val_function, val_inputs,
+                                         steps=validation_steps,
+                                         callbacks=callbacks,
+                                         verbose=0)
+                    val_outs = to_list(val_outs)
+                    # Same labels assumed.
+                    for l, o in zip(out_labels, val_outs):
+                        epoch_logs['val_' + l] = o
+            else:
+                if shuffle == 'batch':
+                    index_array = batch_shuffle(index_array, batch_size)
+                elif shuffle:
+                    np.random.shuffle(index_array)
+    
+                batches = make_batches(num_train_samples, batch_size)
+                for batch_index, (batch_start, batch_end) in enumerate(batches):
+                    batch_ids = index_array[batch_start:batch_end]
+                    try:
+                        if isinstance(fit_inputs[-1], int):
+                            # Do not slice the training phase flag.
+                            ins_batch = slice_arrays(
+                                fit_inputs[:-1], batch_ids) + [fit_inputs[-1]]
+                        else:
+                            ins_batch = slice_arrays(fit_inputs, batch_ids)
+                    except TypeError:
+                        raise TypeError('TypeError while preparing batch. '
+                                        'If using HDF5 input data, '
+                                        'pass shuffle="batch".')
+                    batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                    callbacks._call_batch_hook('train', 'begin', batch_index, batch_logs)
+                    for i in indices_for_conversion_to_dense:
+                        ins_batch[i] = ins_batch[i].toarray()
+    
+>                   outs = fit_function(ins_batch)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: TypeError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:28.011032: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:28.011638: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:28.011985: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:28.012331: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:28.012684: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:28.013040: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:28.013385: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:28.013787: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:28.014413: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:28.014759: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:28.015113: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:28.015333: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:28.015880: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_add_metric_in_layer_call ________________________
+
+    def test_add_metric_in_layer_call():
+    
+        class TestLayer(Layer):
+    
+            def build(self, input_shape):
+                self.a = self.add_weight(
+                    'a', (1, 1), initializer='ones', trainable=False)
+                self.built = True
+    
+            def call(self, inputs):
+                self.add_metric(K.sum(inputs), name='metric_1')
+                return inputs + 1
+    
+        inp = Input(shape=(1,))
+        x = TestLayer(input_shape=(1,))(inp)
+        x = keras.layers.Dense(2, kernel_initializer='ones')(x)
+    
+        model = Model(inp, x)
+        model.compile('adam', loss='mse')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1981: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x0000020BA69A9470>
+fit_function = None
+fit_inputs = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+out_labels = ['loss', 'metric_1'], batch_size = 5, epochs = 2, verbose = 1
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x000002095C50F6D8>
+val_function = <tensorflow.python.keras.backend.GraphExecutionFunction object at 0x000002095C4FE9B0>
+val_inputs = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+...],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]]), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+shuffle = True, initial_epoch = 0, steps_per_epoch = None
+validation_steps = None, validation_freq = 1
+
+    def fit_loop(model, fit_function, fit_inputs,
+                 out_labels=None,
+                 batch_size=None,
+                 epochs=100,
+                 verbose=1,
+                 callbacks=None,
+                 val_function=None,
+                 val_inputs=None,
+                 shuffle=True,
+                 initial_epoch=0,
+                 steps_per_epoch=None,
+                 validation_steps=None,
+                 validation_freq=1):
+        """Abstract fit function for `fit_function(fit_inputs)`.
+    
+        Assumes that fit_function returns a list, labeled by out_labels.
+    
+        # Arguments
+            model: Keras model instance.
+            fit_function: Keras function returning a list of tensors
+            fit_inputs: List of tensors to be fed to `fit_function`
+            out_labels: List of strings, display names of
+                the outputs of `fit_function`
+            batch_size: Integer batch size or None if unknown.
+            epochs: Number of times to iterate over the data
+            verbose: Verbosity mode, 0, 1 or 2
+            callbacks: List of callbacks to be called during training and validation
+                (if `val_function` and `val_inputs` are not `None`).
+            val_function: Keras function to call for validation
+            val_inputs: List of tensors to be fed to `val_function`
+            shuffle: Whether to shuffle the data at the beginning of each epoch
+            initial_epoch: Epoch at which to start training
+                (useful for resuming a previous training run)
+            steps_per_epoch: Total number of steps (batches of samples)
+                before declaring one epoch finished and starting the
+                next epoch. Ignored with the default value of `None`.
+            validation_steps: Number of steps to run validation for
+                (only if doing validation from data tensors).
+                Ignored with the default value of `None`.
+            validation_freq: Only relevant if validation data is provided. Integer
+                or list/tuple/set. If an integer, specifies how many training
+                epochs to run before a new validation run is performed, e.g.
+                validation_freq=2` runs validation every 2 epochs. If a list,
+                tuple, or set, specifies the epochs on which to run validation,
+                e.g. `validation_freq=[1, 2, 10]` runs validation at the end
+                of the 1st, 2nd, and 10th epochs.
+    
+        # Returns
+            `History` object.
+        """
+        do_validation = False
+        if val_function and val_inputs:
+            do_validation = True
+            if (verbose and fit_inputs and
+               hasattr(fit_inputs[0], 'shape') and hasattr(val_inputs[0], 'shape')):
+                print('Train on %d samples, validate on %d samples' %
+                      (fit_inputs[0].shape[0], val_inputs[0].shape[0]))
+        if validation_steps:
+            do_validation = True
+            if steps_per_epoch is None:
+                raise ValueError('Can only use `validation_steps` '
+                                 'when doing step-wise '
+                                 'training, i.e. `steps_per_epoch` '
+                                 'must be set.')
+        elif do_validation:
+            if steps_per_epoch:
+                raise ValueError('Must specify `validation_steps` '
+                                 'to perform validation '
+                                 'when doing step-wise training.')
+    
+        num_train_samples = check_num_samples(fit_inputs,
+                                              batch_size=batch_size,
+                                              steps=steps_per_epoch,
+                                              steps_name='steps_per_epoch')
+        if num_train_samples is not None:
+            index_array = np.arange(num_train_samples)
+    
+        model.history = cbks.History()
+        _callbacks = [cbks.BaseLogger(stateful_metrics=model.metrics_names[1:])]
+        if verbose:
+            if steps_per_epoch is not None:
+                count_mode = 'steps'
+            else:
+                count_mode = 'samples'
+            _callbacks.append(
+                cbks.ProgbarLogger(count_mode, stateful_metrics=model.metrics_names[1:]))
+        _callbacks += (callbacks or []) + [model.history]
+        callbacks = cbks.CallbackList(_callbacks)
+        out_labels = out_labels or []
+    
+        # it's possible to callback a different model than itself
+        # (used by Sequential models)
+        callback_model = model._get_callback_model()
+        callback_metrics = list(model.metrics_names)
+        if do_validation:
+            callback_metrics += ['val_' + n for n in model.metrics_names]
+    
+        callbacks.set_model(callback_model)
+        callbacks.set_params({
+            'batch_size': batch_size,
+            'epochs': epochs,
+            'steps': steps_per_epoch,
+            'samples': num_train_samples,
+            'verbose': verbose,
+            'do_validation': do_validation,
+            'metrics': callback_metrics,
+        })
+        callbacks._call_begin_hook('train')
+        callbacks.model.stop_training = False
+        for cbk in callbacks:
+            cbk.validation_data = val_inputs
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(fit_inputs[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        for epoch in range(initial_epoch, epochs):
+            model.reset_metrics()
+            callbacks.on_epoch_begin(epoch)
+            epoch_logs = {}
+            if steps_per_epoch is not None:
+                for step_index in range(steps_per_epoch):
+                    batch_logs = {'batch': step_index, 'size': 1}
+                    callbacks._call_batch_hook('train', 'begin', step_index, batch_logs)
+                    outs = fit_function(fit_inputs)
+    
+                    outs = to_list(outs)
+                    for l, o in zip(out_labels, outs):
+                        batch_logs[l] = o
+    
+                    callbacks._call_batch_hook('train', 'end', step_index, batch_logs)
+                    if callback_model.stop_training:
+                        break
+    
+                if do_validation and should_run_validation(validation_freq, epoch):
+                    val_outs = test_loop(model, val_function, val_inputs,
+                                         steps=validation_steps,
+                                         callbacks=callbacks,
+                                         verbose=0)
+                    val_outs = to_list(val_outs)
+                    # Same labels assumed.
+                    for l, o in zip(out_labels, val_outs):
+                        epoch_logs['val_' + l] = o
+            else:
+                if shuffle == 'batch':
+                    index_array = batch_shuffle(index_array, batch_size)
+                elif shuffle:
+                    np.random.shuffle(index_array)
+    
+                batches = make_batches(num_train_samples, batch_size)
+                for batch_index, (batch_start, batch_end) in enumerate(batches):
+                    batch_ids = index_array[batch_start:batch_end]
+                    try:
+                        if isinstance(fit_inputs[-1], int):
+                            # Do not slice the training phase flag.
+                            ins_batch = slice_arrays(
+                                fit_inputs[:-1], batch_ids) + [fit_inputs[-1]]
+                        else:
+                            ins_batch = slice_arrays(fit_inputs, batch_ids)
+                    except TypeError:
+                        raise TypeError('TypeError while preparing batch. '
+                                        'If using HDF5 input data, '
+                                        'pass shuffle="batch".')
+                    batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                    callbacks._call_batch_hook('train', 'begin', batch_index, batch_logs)
+                    for i in indices_for_conversion_to_dense:
+                        ins_batch[i] = ins_batch[i].toarray()
+    
+>                   outs = fit_function(ins_batch)
+E                   TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: TypeError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:05:28.303686: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:05:28.304280: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:05:28.304628: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:05:28.304971: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:05:28.305313: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:05:28.305650: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:05:28.305993: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:05:28.306340: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:05:28.306933: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:05:28.307255: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:05:28.307609: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:05:28.307831: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:05:28.308382: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods failed and was not selected for rerun.
+	<class 'TypeError'>
+	'NoneType' object is not callable
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:187>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514>]
+test_fit_generator failed and was not selected for rerun.
+	<class 'TypeError'>
+	'NoneType' object is not callable
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:490>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:220>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514>]
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_methods - TypeError: 'NoneType' object is...
+FAILED test_training.py::test_fit_generator - TypeError: 'NoneType' object is...
+FAILED test_training.py::test_training_with_loss_instance - TypeError: 'NoneT...
+FAILED test_training.py::test_trainable_argument - TypeError: 'NoneType' obje...
+FAILED test_training.py::test_with_list_as_targets - TypeError: 'NoneType' ob...
+FAILED test_training.py::test_model_with_input_feed_tensor - TypeError: 'None...
+FAILED test_training.py::test_model_with_partial_loss - TypeError: 'NoneType'...
+FAILED test_training.py::test_model_with_external_loss - TypeError: 'NoneType...
+FAILED test_training.py::test_target_tensors - TypeError: 'NoneType' object i...
+FAILED test_training.py::test_model_custom_target_tensors - TypeError: 'NoneT...
+FAILED test_training.py::test_trainable_weights_count_consistency - TypeError...
+FAILED test_training.py::test_pandas_dataframe - TypeError: 'NoneType' object...
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_single_io
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_multi_io
+FAILED test_training.py::test_validation_freq - TypeError: 'NoneType' object ...
+FAILED test_training.py::test_loss_correctness - TypeError: 'NoneType' object...
+FAILED test_training.py::test_model_metrics_list_in_call - TypeError: 'NoneTy...
+FAILED test_training.py::test_add_metric_on_model - TypeError: 'NoneType' obj...
+FAILED test_training.py::test_add_metric_in_model_call - TypeError: 'NoneType...
+FAILED test_training.py::test_multiple_add_metric_calls - TypeError: 'NoneTyp...
+FAILED test_training.py::test_add_metric_in_layer_call - TypeError: 'NoneType...
+============ 21 failed, 12 passed, 1 skipped, 4 warnings in 11.69s ============

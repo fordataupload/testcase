@@ -1,0 +1,556 @@
+2020-10-03 19:09:05.009539: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py .......s....................F..FF.                      [100%]
+
+================================== FAILURES ===================================
+_______________________ test_model_metrics_list_in_call _______________________
+
+    def test_model_metrics_list_in_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2)
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(
+            loss='mse',
+            optimizer='adam',
+            metrics=[metrics.MeanSquaredError('metric_1')])
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1822: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <test_training.test_model_metrics_list_in_call.<locals>.TestModel object at 0x000001B923A843C8>
+x = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.]])]
+y = [array([[1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]])]
+sample_weight = None, class_weight = None, check_array_lengths = True
+batch_size = 5
+
+    def _standardize_user_data(self, x,
+                               y=None,
+                               sample_weight=None,
+                               class_weight=None,
+                               check_array_lengths=True,
+                               batch_size=None):
+        all_inputs = []
+        if not self.built:
+            # We need to use `x` to set the model inputs.
+            # We type-check that `x` and `y` are either single arrays
+            # or lists of arrays.
+            if isinstance(x, (list, tuple)):
+                if not all(isinstance(v, np.ndarray) or
+                           K.is_tensor(v) for v in x):
+                    raise ValueError('Please provide as model inputs '
+                                     'either a single '
+                                     'array or a list of arrays. '
+                                     'You passed: x=' + str(x))
+                all_inputs += list(x)
+            elif isinstance(x, dict):
+                raise ValueError('Please do not pass a dictionary '
+                                 'as model inputs.')
+            else:
+                if not isinstance(x, np.ndarray) and not K.is_tensor(x):
+                    raise ValueError('Please provide as model inputs '
+                                     'either a single '
+                                     'array or a list of arrays. '
+                                     'You passed: x=' + str(x))
+                all_inputs.append(x)
+    
+            # Build the model using the retrieved inputs (value or symbolic).
+            # If values, then in symbolic-mode placeholders will be created
+            # to match the value shapes.
+            if not self.inputs:
+                self._set_inputs(x)
+    
+        if y is not None:
+            if not self.optimizer:
+                raise RuntimeError('You must compile a model before '
+                                   'training/testing. '
+                                   'Use `model.compile(optimizer, loss)`.')
+            if not self._is_compiled:
+                # On-the-fly compilation of the model.
+                # We need to use `y` to set the model targets.
+                if isinstance(y, (list, tuple)):
+                    if not all(isinstance(v, np.ndarray) or
+                               K.is_tensor(v) for v in y):
+                        raise ValueError('Please provide as model targets '
+                                         'either a single '
+                                         'array or a list of arrays. '
+                                         'You passed: y=' + str(y))
+                elif isinstance(y, dict):
+                    raise ValueError('Please do not pass a dictionary '
+                                     'as model targets.')
+                else:
+                    if not isinstance(y, np.ndarray) and not K.is_tensor(y):
+                        raise ValueError('Please provide as model targets '
+                                         'either a single '
+                                         'array or a list of arrays. '
+                                         'You passed: y=' + str(y))
+                # Typecheck that all inputs are *either* value *or* symbolic.
+                if y is not None:
+                    all_inputs += to_list(y, allow_tuple=True)
+                if any(K.is_tensor(v) for v in all_inputs):
+                    if not all(K.is_tensor(v) for v in all_inputs):
+                        raise ValueError('Do not pass inputs that mix Numpy '
+                                         'arrays and symbolic tensors. '
+                                         'You passed: x=' + str(x) +
+                                         '; y=' + str(y))
+    
+                # Handle target tensors if any passed.
+                y = to_list(y, allow_tuple=True)
+                target_tensors = [v for v in y if K.is_tensor(v)]
+                if not target_tensors:
+                    target_tensors = None
+                self.compile(optimizer=self.optimizer,
+                             loss=self.loss,
+                             metrics=self._compile_metrics,
+                             weighted_metrics=self._compile_weighted_metrics,
+                             loss_weights=self.loss_weights,
+                             target_tensors=target_tensors)
+    
+        # If `x` and `y` were all symbolic,
+        # then the model should not be fed any inputs and targets.
+        # Note: in this case, `any` and `all` are equivalent since we disallow
+        # mixed symbolic/value inputs.
+        if any(K.is_tensor(v) for v in all_inputs):
+            return [], [], []
+    
+        # What follows is input validation and standardization to list format,
+        # in the case where all inputs are value arrays.
+    
+        if not self._is_graph_network:
+            # Case: symbolic-mode subclassed network.
+            # Do not do shape validation.
+            feed_input_names = self._feed_input_names
+            feed_input_shapes = None
+        else:
+            # Case: symbolic-mode graph network.
+            # In this case, we run extensive shape validation checks.
+            feed_input_names = self._feed_input_names
+            feed_input_shapes = self._feed_input_shapes
+    
+        # Standardize the inputs.
+        x = training_utils.standardize_input_data(
+            x,
+            feed_input_names,
+            feed_input_shapes,
+            check_batch_axis=False,  # Don't enforce the batch size.
+            exception_prefix='input')
+    
+        if y is not None:
+            if not self._is_graph_network:
+>               feed_output_names = self._feed_output_names
+E               AttributeError: 'TestModel' object has no attribute '_feed_output_names'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:583: AttributeError
+________________________ test_add_metric_in_model_call ________________________
+
+    def test_add_metric_in_model_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                # Provide same name as in the instance created in __init__
+                # for eager mode
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1910: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <test_training.test_add_metric_in_model_call.<locals>.TestModel object at 0x000001B6ACF66C18>
+x = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.]])]
+y = [array([[1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]])]
+sample_weight = None, class_weight = None, check_array_lengths = True
+batch_size = 5
+
+    def _standardize_user_data(self, x,
+                               y=None,
+                               sample_weight=None,
+                               class_weight=None,
+                               check_array_lengths=True,
+                               batch_size=None):
+        all_inputs = []
+        if not self.built:
+            # We need to use `x` to set the model inputs.
+            # We type-check that `x` and `y` are either single arrays
+            # or lists of arrays.
+            if isinstance(x, (list, tuple)):
+                if not all(isinstance(v, np.ndarray) or
+                           K.is_tensor(v) for v in x):
+                    raise ValueError('Please provide as model inputs '
+                                     'either a single '
+                                     'array or a list of arrays. '
+                                     'You passed: x=' + str(x))
+                all_inputs += list(x)
+            elif isinstance(x, dict):
+                raise ValueError('Please do not pass a dictionary '
+                                 'as model inputs.')
+            else:
+                if not isinstance(x, np.ndarray) and not K.is_tensor(x):
+                    raise ValueError('Please provide as model inputs '
+                                     'either a single '
+                                     'array or a list of arrays. '
+                                     'You passed: x=' + str(x))
+                all_inputs.append(x)
+    
+            # Build the model using the retrieved inputs (value or symbolic).
+            # If values, then in symbolic-mode placeholders will be created
+            # to match the value shapes.
+            if not self.inputs:
+                self._set_inputs(x)
+    
+        if y is not None:
+            if not self.optimizer:
+                raise RuntimeError('You must compile a model before '
+                                   'training/testing. '
+                                   'Use `model.compile(optimizer, loss)`.')
+            if not self._is_compiled:
+                # On-the-fly compilation of the model.
+                # We need to use `y` to set the model targets.
+                if isinstance(y, (list, tuple)):
+                    if not all(isinstance(v, np.ndarray) or
+                               K.is_tensor(v) for v in y):
+                        raise ValueError('Please provide as model targets '
+                                         'either a single '
+                                         'array or a list of arrays. '
+                                         'You passed: y=' + str(y))
+                elif isinstance(y, dict):
+                    raise ValueError('Please do not pass a dictionary '
+                                     'as model targets.')
+                else:
+                    if not isinstance(y, np.ndarray) and not K.is_tensor(y):
+                        raise ValueError('Please provide as model targets '
+                                         'either a single '
+                                         'array or a list of arrays. '
+                                         'You passed: y=' + str(y))
+                # Typecheck that all inputs are *either* value *or* symbolic.
+                if y is not None:
+                    all_inputs += to_list(y, allow_tuple=True)
+                if any(K.is_tensor(v) for v in all_inputs):
+                    if not all(K.is_tensor(v) for v in all_inputs):
+                        raise ValueError('Do not pass inputs that mix Numpy '
+                                         'arrays and symbolic tensors. '
+                                         'You passed: x=' + str(x) +
+                                         '; y=' + str(y))
+    
+                # Handle target tensors if any passed.
+                y = to_list(y, allow_tuple=True)
+                target_tensors = [v for v in y if K.is_tensor(v)]
+                if not target_tensors:
+                    target_tensors = None
+                self.compile(optimizer=self.optimizer,
+                             loss=self.loss,
+                             metrics=self._compile_metrics,
+                             weighted_metrics=self._compile_weighted_metrics,
+                             loss_weights=self.loss_weights,
+                             target_tensors=target_tensors)
+    
+        # If `x` and `y` were all symbolic,
+        # then the model should not be fed any inputs and targets.
+        # Note: in this case, `any` and `all` are equivalent since we disallow
+        # mixed symbolic/value inputs.
+        if any(K.is_tensor(v) for v in all_inputs):
+            return [], [], []
+    
+        # What follows is input validation and standardization to list format,
+        # in the case where all inputs are value arrays.
+    
+        if not self._is_graph_network:
+            # Case: symbolic-mode subclassed network.
+            # Do not do shape validation.
+            feed_input_names = self._feed_input_names
+            feed_input_shapes = None
+        else:
+            # Case: symbolic-mode graph network.
+            # In this case, we run extensive shape validation checks.
+            feed_input_names = self._feed_input_names
+            feed_input_shapes = self._feed_input_shapes
+    
+        # Standardize the inputs.
+        x = training_utils.standardize_input_data(
+            x,
+            feed_input_names,
+            feed_input_shapes,
+            check_batch_axis=False,  # Don't enforce the batch size.
+            exception_prefix='input')
+    
+        if y is not None:
+            if not self._is_graph_network:
+>               feed_output_names = self._feed_output_names
+E               AttributeError: 'TestModel' object has no attribute '_feed_output_names'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:583: AttributeError
+_______________________ test_multiple_add_metric_calls ________________________
+
+    def test_multiple_add_metric_calls():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean1 = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_2')
+    
+            def call(self, x):
+                self.add_metric(self.mean2(x), name='metric_2')
+                self.add_metric(self.mean1(x), name='metric_1')
+                self.add_metric(K.sum(x), name='metric_3')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1946: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <test_training.test_multiple_add_metric_calls.<locals>.TestModel object at 0x000001B6ACF994E0>
+x = [array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.]])]
+y = [array([[1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]])]
+sample_weight = None, class_weight = None, check_array_lengths = True
+batch_size = 5
+
+    def _standardize_user_data(self, x,
+                               y=None,
+                               sample_weight=None,
+                               class_weight=None,
+                               check_array_lengths=True,
+                               batch_size=None):
+        all_inputs = []
+        if not self.built:
+            # We need to use `x` to set the model inputs.
+            # We type-check that `x` and `y` are either single arrays
+            # or lists of arrays.
+            if isinstance(x, (list, tuple)):
+                if not all(isinstance(v, np.ndarray) or
+                           K.is_tensor(v) for v in x):
+                    raise ValueError('Please provide as model inputs '
+                                     'either a single '
+                                     'array or a list of arrays. '
+                                     'You passed: x=' + str(x))
+                all_inputs += list(x)
+            elif isinstance(x, dict):
+                raise ValueError('Please do not pass a dictionary '
+                                 'as model inputs.')
+            else:
+                if not isinstance(x, np.ndarray) and not K.is_tensor(x):
+                    raise ValueError('Please provide as model inputs '
+                                     'either a single '
+                                     'array or a list of arrays. '
+                                     'You passed: x=' + str(x))
+                all_inputs.append(x)
+    
+            # Build the model using the retrieved inputs (value or symbolic).
+            # If values, then in symbolic-mode placeholders will be created
+            # to match the value shapes.
+            if not self.inputs:
+                self._set_inputs(x)
+    
+        if y is not None:
+            if not self.optimizer:
+                raise RuntimeError('You must compile a model before '
+                                   'training/testing. '
+                                   'Use `model.compile(optimizer, loss)`.')
+            if not self._is_compiled:
+                # On-the-fly compilation of the model.
+                # We need to use `y` to set the model targets.
+                if isinstance(y, (list, tuple)):
+                    if not all(isinstance(v, np.ndarray) or
+                               K.is_tensor(v) for v in y):
+                        raise ValueError('Please provide as model targets '
+                                         'either a single '
+                                         'array or a list of arrays. '
+                                         'You passed: y=' + str(y))
+                elif isinstance(y, dict):
+                    raise ValueError('Please do not pass a dictionary '
+                                     'as model targets.')
+                else:
+                    if not isinstance(y, np.ndarray) and not K.is_tensor(y):
+                        raise ValueError('Please provide as model targets '
+                                         'either a single '
+                                         'array or a list of arrays. '
+                                         'You passed: y=' + str(y))
+                # Typecheck that all inputs are *either* value *or* symbolic.
+                if y is not None:
+                    all_inputs += to_list(y, allow_tuple=True)
+                if any(K.is_tensor(v) for v in all_inputs):
+                    if not all(K.is_tensor(v) for v in all_inputs):
+                        raise ValueError('Do not pass inputs that mix Numpy '
+                                         'arrays and symbolic tensors. '
+                                         'You passed: x=' + str(x) +
+                                         '; y=' + str(y))
+    
+                # Handle target tensors if any passed.
+                y = to_list(y, allow_tuple=True)
+                target_tensors = [v for v in y if K.is_tensor(v)]
+                if not target_tensors:
+                    target_tensors = None
+                self.compile(optimizer=self.optimizer,
+                             loss=self.loss,
+                             metrics=self._compile_metrics,
+                             weighted_metrics=self._compile_weighted_metrics,
+                             loss_weights=self.loss_weights,
+                             target_tensors=target_tensors)
+    
+        # If `x` and `y` were all symbolic,
+        # then the model should not be fed any inputs and targets.
+        # Note: in this case, `any` and `all` are equivalent since we disallow
+        # mixed symbolic/value inputs.
+        if any(K.is_tensor(v) for v in all_inputs):
+            return [], [], []
+    
+        # What follows is input validation and standardization to list format,
+        # in the case where all inputs are value arrays.
+    
+        if not self._is_graph_network:
+            # Case: symbolic-mode subclassed network.
+            # Do not do shape validation.
+            feed_input_names = self._feed_input_names
+            feed_input_shapes = None
+        else:
+            # Case: symbolic-mode graph network.
+            # In this case, we run extensive shape validation checks.
+            feed_input_names = self._feed_input_names
+            feed_input_shapes = self._feed_input_shapes
+    
+        # Standardize the inputs.
+        x = training_utils.standardize_input_data(
+            x,
+            feed_input_names,
+            feed_input_shapes,
+            check_batch_axis=False,  # Don't enforce the batch size.
+            exception_prefix='input')
+    
+        if y is not None:
+            if not self._is_graph_network:
+>               feed_output_names = self._feed_output_names
+E               AttributeError: 'TestModel' object has no attribute '_feed_output_names'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:583: AttributeError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_metrics_list_in_call - AttributeError: 'T...
+FAILED test_training.py::test_add_metric_in_model_call - AttributeError: 'Tes...
+FAILED test_training.py::test_multiple_add_metric_calls - AttributeError: 'Te...
+============ 3 failed, 30 passed, 1 skipped, 7 warnings in 29.56s =============

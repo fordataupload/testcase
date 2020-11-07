@@ -1,0 +1,812 @@
+2020-10-03 19:01:24.230582: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py .......s.....F.F....FF........FFFF                      [100%]
+
+================================== FAILURES ===================================
+______________________ test_model_with_input_feed_tensor ______________________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow',
+                        reason='Requires TensorFlow backend')
+    def test_model_with_input_feed_tensor():
+        """We test building a model with a TF variable as input.
+        We should be able to call fit, evaluate, predict,
+        by only passing them data for the placeholder inputs
+        in the model.
+        """
+        import tensorflow as tf
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+        b = Input(shape=(3,), name='input_b')
+    
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        b_2 = dp(b)
+    
+        model = Model([a, b], [a_2, b_2])
+        model.summary()
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        model.compile(optimizer, loss, metrics=['mean_squared_error'],
+                      loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_b_np,
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_b': input_b_np},
+                                   [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_b': input_b_np},
+                                  [output_a_np, output_b_np])
+        out = model.predict_on_batch({'input_b': input_b_np})
+    
+        # test fit
+        out = model.fit({'input_b': input_b_np},
+                        [output_a_np, output_b_np], epochs=1, batch_size=10)
+        out = model.fit(input_b_np,
+                        [output_a_np, output_b_np], epochs=1, batch_size=10)
+    
+        # test evaluate
+        out = model.evaluate({'input_b': input_b_np},
+                             [output_a_np, output_b_np], batch_size=10)
+        out = model.evaluate(input_b_np,
+                             [output_a_np, output_b_np], batch_size=10)
+    
+        # test predict
+        out = model.predict({'input_b': input_b_np}, batch_size=10)
+        out = model.predict(input_b_np, batch_size=10)
+        assert len(out) == 2
+    
+        # Now test a model with a single input
+        # i.e. we don't pass any data to fit the model.
+        a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+        a_2 = Dense(4, name='dense_1')(a)
+        a_2 = Dropout(0.5, name='dropout')(a_2)
+        model = Model(a, a_2)
+        model.summary()
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        model.compile(optimizer, loss, metrics=['mean_squared_error'])
+    
+        # test train_on_batch
+        out = model.train_on_batch(None,
+                                   output_a_np)
+        out = model.train_on_batch(None,
+                                   output_a_np)
+        out = model.test_on_batch(None,
+                                  output_a_np)
+        out = model.predict_on_batch(None)
+        out = model.train_on_batch([],
+                                   output_a_np)
+        out = model.train_on_batch({},
+                                   output_a_np)
+    
+        # test fit
+        out = model.fit(None,
+                        output_a_np, epochs=1, batch_size=10)
+        out = model.fit(None,
+                        output_a_np, epochs=1, batch_size=10)
+    
+        # test evaluate
+        out = model.evaluate(None,
+                             output_a_np, batch_size=10)
+        out = model.evaluate(None,
+                             output_a_np, batch_size=10)
+    
+        # test predict
+>       out = model.predict(None, steps=3)
+
+test_training.py:933: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1462: in predict
+    callbacks=callbacks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:250: in predict_loop
+    steps_name='steps')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ins = [0], batch_size = 32, steps = 3, steps_name = 'steps'
+
+    def check_num_samples(ins,
+                          batch_size=None,
+                          steps=None,
+                          steps_name='steps'):
+        """Checks the number of samples provided for training and evaluation.
+    
+        The number of samples is not defined when running with `steps`,
+        in which case the number of samples is set to `None`.
+    
+        # Arguments
+            ins: List of tensors to be fed to the Keras function.
+            batch_size: Integer batch size or `None` if not defined.
+            steps: Total number of steps (batches of samples)
+                before declaring `predict_loop` finished.
+                Ignored with the default value of `None`.
+            steps_name: The public API's parameter name for `steps`.
+    
+        # Raises
+            ValueError: when `steps` is `None` and the attribute `ins.shape`
+            does not exist. Also raises ValueError when `steps` is not `None`
+            and `batch_size` is not `None` because they are mutually
+            exclusive.
+    
+        # Returns
+            When `steps` is `None`, returns the number of samples to be
+            processed based on the size of the first dimension of the
+            first input Numpy array. When `steps` is not `None` and
+            `batch_size` is `None`, returns `None`.
+    
+        # Raises
+            ValueError: In case of invalid arguments.
+        """
+        if steps is not None and batch_size is not None:
+            raise ValueError(
+>               'If ' + steps_name + ' is set, the `batch_size` must be None.')
+E           ValueError: If steps is set, the `batch_size` must be None.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:565: ValueError
+---------------------------- Captured stdout call -----------------------------
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (10, 3)              0                                            
+__________________________________________________________________________________________________
+input_b (InputLayer)            (None, 3)            0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (10, 4)              16          input_1[0][0]                    
+__________________________________________________________________________________________________
+dropout (Dropout)               (None, 3)            0           input_b[0][0]                    
+==================================================================================================
+Total params: 16
+Trainable params: 16
+Non-trainable params: 0
+__________________________________________________________________________________________________
+Epoch 1/1
+
+10/10 [==============================] - 0s 2ms/step - loss: 0.8703 - dense_1_loss: 0.6408 - dropout_loss: 0.4589 - dense_1_mean_squared_error: 0.6408 - dropout_mean_squared_error: 0.4589
+Epoch 1/1
+
+10/10 [==============================] - 0s 2ms/step - loss: 0.8483 - dense_1_loss: 0.6588 - dropout_loss: 0.3790 - dense_1_mean_squared_error: 0.6588 - dropout_mean_squared_error: 0.3790
+
+10/10 [==============================] - 0s 0us/step
+
+10/10 [==============================] - 0s 0us/step
+Model: "model_2"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_2 (InputLayer)         (10, 3)                   0         
+_________________________________________________________________
+dense_1 (Dense)              (10, 4)                   16        
+_________________________________________________________________
+dropout (Dropout)            (10, 4)                   0         
+=================================================================
+Total params: 16
+Trainable params: 16
+Non-trainable params: 0
+_________________________________________________________________
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.8292 - mean_squared_error: 0.8292
+Epoch 1/1
+
+10/10 [==============================] - 0s 2ms/step - loss: 0.9803 - mean_squared_error: 0.9803
+
+10/10 [==============================] - 0s 0us/step
+
+10/10 [==============================] - 0s 0us/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:01:39.308779: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:01:39.309376: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:01:39.309722: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:01:39.310065: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:01:39.310404: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:01:39.310743: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:01:39.311093: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:01:39.311452: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:01:39.312042: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:01:39.312363: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:01:39.312717: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:01:39.312938: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:01:39.313568: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:431: The name tf.is_variable_initialized is deprecated. Please use tf.compat.v1.is_variable_initialized instead.
+
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:438: The name tf.variables_initializer is deprecated. Please use tf.compat.v1.variables_initializer instead.
+
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:431: The name tf.is_variable_initialized is deprecated. Please use tf.compat.v1.is_variable_initialized instead.
+
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:438: The name tf.variables_initializer is deprecated. Please use tf.compat.v1.variables_initializer instead.
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+                    bias_regularizer='l2')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+    
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        input_a_np = np.random.random((10, 3))
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_a_np, None)
+        out = model.test_on_batch(input_a_np, None)
+        # fit
+        out = model.fit(input_a_np, None)
+        # evaluate
+        out = model.evaluate(input_a_np, None)
+    
+        # No dropout, external loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1')(a)
+        a_3 = Dense(4, name='dense_2')(a)
+    
+        model = Model(a, [a_2, a_3])
+        model.add_loss(K.mean(a_3 + a_2))
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_a_np, None)
+        out = model.test_on_batch(input_a_np, None)
+        # fit
+        out = model.fit(input_a_np, None)
+        # evaluate
+        out = model.evaluate(input_a_np, None)
+    
+        # Test fit with no external data at all.
+        if K.backend() == 'tensorflow':
+            import tensorflow as tf
+    
+            a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+            a_2 = Dense(4, name='dense_1')(a)
+            a_2 = Dropout(0.5, name='dropout')(a_2)
+            model = Model(a, a_2)
+            model.add_loss(K.mean(a_2))
+    
+            model.compile(optimizer='rmsprop',
+                          loss=None,
+                          metrics=['mean_squared_error'])
+    
+            # test train_on_batch
+            out = model.train_on_batch(None, None)
+            out = model.test_on_batch(None, None)
+            out = model.predict_on_batch(None)
+    
+            # test fit
+            with pytest.raises(ValueError):
+                out = model.fit(None, None, epochs=1, batch_size=10)
+>           out = model.fit(None, None, epochs=1, steps_per_epoch=1)
+
+test_training.py:1089: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:95: in fit_loop
+    steps_name='steps_per_epoch')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ins = [1], batch_size = 32, steps = 1, steps_name = 'steps_per_epoch'
+
+    def check_num_samples(ins,
+                          batch_size=None,
+                          steps=None,
+                          steps_name='steps'):
+        """Checks the number of samples provided for training and evaluation.
+    
+        The number of samples is not defined when running with `steps`,
+        in which case the number of samples is set to `None`.
+    
+        # Arguments
+            ins: List of tensors to be fed to the Keras function.
+            batch_size: Integer batch size or `None` if not defined.
+            steps: Total number of steps (batches of samples)
+                before declaring `predict_loop` finished.
+                Ignored with the default value of `None`.
+            steps_name: The public API's parameter name for `steps`.
+    
+        # Raises
+            ValueError: when `steps` is `None` and the attribute `ins.shape`
+            does not exist. Also raises ValueError when `steps` is not `None`
+            and `batch_size` is not `None` because they are mutually
+            exclusive.
+    
+        # Returns
+            When `steps` is `None`, returns the number of samples to be
+            processed based on the size of the first dimension of the
+            first input Numpy array. When `steps` is not `None` and
+            `batch_size` is `None`, returns `None`.
+    
+        # Raises
+            ValueError: In case of invalid arguments.
+        """
+        if steps is not None and batch_size is not None:
+            raise ValueError(
+>               'If ' + steps_name + ' is set, the `batch_size` must be None.')
+E           ValueError: If steps_per_epoch is set, the `batch_size` must be None.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:565: ValueError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.0759
+
+10/10 [==============================] - 0s 0us/step
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.0745
+
+10/10 [==============================] - 0s 0us/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:01:42.357949: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:01:42.358549: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:01:42.358895: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:01:42.359238: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:01:42.359576: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:01:42.359956: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:01:42.360324: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:01:42.360705: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:01:42.361303: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:01:42.361610: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:01:42.361966: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:01:42.362187: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:01:42.362699: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________ test_training_and_eval_methods_on_symbolic_tensors_single_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_single_io():
+        x = keras.layers.Input(shape=(3,), name='input')
+        y = keras.layers.Dense(4, name='dense')(x)
+        model = keras.Model(x, y)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        metrics = ['mae']
+        model.compile(optimizer, loss, metrics=metrics)
+    
+        inputs = keras.backend.zeros(shape=(10, 3))
+        targets = keras.backend.zeros(shape=(10, 4))
+    
+>       model.fit(inputs, targets, epochs=1, steps_per_epoch=2, verbose=0)
+
+test_training.py:1450: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:95: in fit_loop
+    steps_name='steps_per_epoch')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ins = [<tf.Variable 'Variable:0' shape=(10, 3) dtype=float32>, <tf.Variable 'Variable_1:0' shape=(10, 4) dtype=float32>, array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32)]
+batch_size = 32, steps = 2, steps_name = 'steps_per_epoch'
+
+    def check_num_samples(ins,
+                          batch_size=None,
+                          steps=None,
+                          steps_name='steps'):
+        """Checks the number of samples provided for training and evaluation.
+    
+        The number of samples is not defined when running with `steps`,
+        in which case the number of samples is set to `None`.
+    
+        # Arguments
+            ins: List of tensors to be fed to the Keras function.
+            batch_size: Integer batch size or `None` if not defined.
+            steps: Total number of steps (batches of samples)
+                before declaring `predict_loop` finished.
+                Ignored with the default value of `None`.
+            steps_name: The public API's parameter name for `steps`.
+    
+        # Raises
+            ValueError: when `steps` is `None` and the attribute `ins.shape`
+            does not exist. Also raises ValueError when `steps` is not `None`
+            and `batch_size` is not `None` because they are mutually
+            exclusive.
+    
+        # Returns
+            When `steps` is `None`, returns the number of samples to be
+            processed based on the size of the first dimension of the
+            first input Numpy array. When `steps` is not `None` and
+            `batch_size` is `None`, returns `None`.
+    
+        # Raises
+            ValueError: In case of invalid arguments.
+        """
+        if steps is not None and batch_size is not None:
+            raise ValueError(
+>               'If ' + steps_name + ' is set, the `batch_size` must be None.')
+E           ValueError: If steps_per_epoch is set, the `batch_size` must be None.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:565: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:01:48.378842: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:01:48.379442: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:01:48.379793: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:01:48.380136: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:01:48.380474: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:01:48.380816: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:01:48.381163: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:01:48.381519: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:01:48.382115: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:01:48.382428: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:01:48.382780: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:01:48.383001: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:01:48.383517: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_________ test_training_and_eval_methods_on_symbolic_tensors_multi_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_multi_io():
+        a = keras.layers.Input(shape=(3,), name='input_a')
+        b = keras.layers.Input(shape=(3,), name='input_b')
+    
+        dense = keras.layers.Dense(4, name='dense')
+        c = dense(a)
+        d = dense(b)
+        e = keras.layers.Dropout(0.5, name='dropout')(c)
+    
+        model = keras.models.Model([a, b], [d, e])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        metrics = ['mae']
+        model.compile(optimizer, loss, metrics=metrics, loss_weights=loss_weights)
+    
+        input_a_tf = keras.backend.zeros(shape=(10, 3))
+        input_b_tf = keras.backend.zeros(shape=(10, 3))
+    
+        output_d_tf = keras.backend.zeros(shape=(10, 4))
+        output_e_tf = keras.backend.zeros(shape=(10, 4))
+    
+        model.fit(
+            [input_a_tf, input_b_tf], [output_d_tf, output_e_tf],
+            epochs=1,
+            steps_per_epoch=2,
+>           verbose=0)
+
+test_training.py:1488: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:95: in fit_loop
+    steps_name='steps_per_epoch')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ins = [<tf.Variable 'Variable:0' shape=(10, 3) dtype=float32>, <tf.Variable 'Variable_1:0' shape=(10, 3) dtype=float32>, <tf..., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), ...]
+batch_size = 32, steps = 2, steps_name = 'steps_per_epoch'
+
+    def check_num_samples(ins,
+                          batch_size=None,
+                          steps=None,
+                          steps_name='steps'):
+        """Checks the number of samples provided for training and evaluation.
+    
+        The number of samples is not defined when running with `steps`,
+        in which case the number of samples is set to `None`.
+    
+        # Arguments
+            ins: List of tensors to be fed to the Keras function.
+            batch_size: Integer batch size or `None` if not defined.
+            steps: Total number of steps (batches of samples)
+                before declaring `predict_loop` finished.
+                Ignored with the default value of `None`.
+            steps_name: The public API's parameter name for `steps`.
+    
+        # Raises
+            ValueError: when `steps` is `None` and the attribute `ins.shape`
+            does not exist. Also raises ValueError when `steps` is not `None`
+            and `batch_size` is not `None` because they are mutually
+            exclusive.
+    
+        # Returns
+            When `steps` is `None`, returns the number of samples to be
+            processed based on the size of the first dimension of the
+            first input Numpy array. When `steps` is not `None` and
+            `batch_size` is `None`, returns `None`.
+    
+        # Raises
+            ValueError: In case of invalid arguments.
+        """
+        if steps is not None and batch_size is not None:
+            raise ValueError(
+>               'If ' + steps_name + ' is set, the `batch_size` must be None.')
+E           ValueError: If steps_per_epoch is set, the `batch_size` must be None.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:565: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:01:48.898245: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:01:48.898860: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:01:48.899226: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:01:48.899576: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:01:48.899916: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:01:48.900261: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:01:48.900606: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:01:48.900950: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:01:48.901533: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:01:48.901858: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:01:48.902224: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:01:48.902450: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:01:48.902967: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+__________________________ test_add_metric_on_model ___________________________
+
+    def test_add_metric_on_model():
+        x = Input(shape=(1,))
+        y = Dense(1, kernel_initializer='ones', trainable=False)(x)
+        model = Model(x, y)
+        model.add_metric(K.sum(y), name='metric_1')
+        model.add_metric(metrics.Mean(name='metric_2')(y))
+        model.compile('sgd', loss='mse', metrics=['mse'])
+    
+        inputs = np.ones(shape=(10, 1))
+        targets = np.zeros(shape=(10, 1))
+        history = model.fit(
+            inputs,
+            targets,
+            epochs=2,
+            batch_size=5,
+            validation_data=(inputs, targets))
+>       assert history.history['metric_1'][-1] == 5
+E       assert 10.0 == 5
+
+test_training.py:1874: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+
+10/10 [==============================] - 0s 6ms/step - loss: 1.0000 - mse: 1.0000 - metric_1: 10.0000 - metric_2: 1.0000 - val_loss: 1.0000 - val_mse: 1.0000 - val_metric_1: 10.0000 - val_metric_2: 1.0000
+Epoch 2/2
+
+10/10 [==============================] - 0s 2ms/step - loss: 1.0000 - mse: 1.0000 - metric_1: 10.0000 - metric_2: 1.0000 - val_loss: 1.0000 - val_mse: 1.0000 - val_metric_1: 10.0000 - val_metric_2: 1.0000
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:01:53.506041: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:01:53.506702: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:01:53.507074: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:01:53.507442: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:01:53.507781: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:01:53.508122: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:01:53.508466: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:01:53.508823: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:01:53.509429: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:01:53.509848: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:01:53.510291: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:01:53.510566: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:01:53.511201: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_add_metric_in_model_call ________________________
+
+    def test_add_metric_in_model_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                # Provide same name as in the instance created in __init__
+                # for eager mode
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+        assert np.isclose(history.history['metric_1'][-1], 1, 0)
+        assert np.isclose(history.history['val_metric_1'][-1], 1, 0)
+>       assert np.isclose(history.history['metric_2'][-1], 5, 0)
+E       assert False
+E        +  where False = <function isclose at 0x0000019031034598>(10.0, 5, 0)
+E        +    where <function isclose at 0x0000019031034598> = np.isclose
+
+test_training.py:1913: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+
+10/10 [==============================] - 0s 9ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 10.0000 - val_loss: 0.0000e+00 - val_metric_1: 1.0000 - val_metric_2: 10.0000
+Epoch 2/2
+
+10/10 [==============================] - 0s 2ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 10.0000 - val_loss: 0.0000e+00 - val_metric_1: 1.0000 - val_metric_2: 10.0000
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:01:54.024447: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:01:54.025059: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:01:54.025462: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:01:54.025834: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:01:54.026195: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:01:54.026555: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:01:54.026901: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:01:54.027244: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:01:54.027830: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:01:54.028149: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:01:54.028513: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:01:54.028739: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:01:54.029296: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_______________________ test_multiple_add_metric_calls ________________________
+
+    def test_multiple_add_metric_calls():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean1 = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_2')
+    
+            def call(self, x):
+                self.add_metric(self.mean2(x), name='metric_2')
+                self.add_metric(self.mean1(x), name='metric_1')
+                self.add_metric(K.sum(x), name='metric_3')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+        assert np.isclose(history.history['metric_1'][-1], 1, 0)
+        assert np.isclose(history.history['metric_2'][-1], 1, 0)
+>       assert np.isclose(history.history['metric_3'][-1], 5, 0)
+E       assert False
+E        +  where False = <function isclose at 0x0000019031034598>(10.0, 5, 0)
+E        +    where <function isclose at 0x0000019031034598> = np.isclose
+
+test_training.py:1949: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+
+10/10 [==============================] - 0s 9ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 1.0000 - metric_3: 10.0000 - val_loss: 0.0000e+00 - val_metric_1: 1.0000 - val_metric_2: 1.0000 - val_metric_3: 10.0000
+Epoch 2/2
+
+10/10 [==============================] - 0s 2ms/step - loss: 0.0000e+00 - metric_1: 1.0000 - metric_2: 1.0000 - metric_3: 10.0000 - val_loss: 0.0000e+00 - val_metric_1: 1.0000 - val_metric_2: 1.0000 - val_metric_3: 10.0000
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:01:54.443333: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:01:54.443940: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:01:54.444285: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:01:54.444627: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:01:54.444962: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:01:54.445301: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:01:54.445645: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:01:54.445992: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:01:54.446595: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:01:54.446914: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:01:54.447304: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:01:54.447522: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:01:54.448130: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_add_metric_in_layer_call ________________________
+
+    def test_add_metric_in_layer_call():
+    
+        class TestLayer(Layer):
+    
+            def build(self, input_shape):
+                self.a = self.add_weight(
+                    'a', (1, 1), initializer='ones', trainable=False)
+                self.built = True
+    
+            def call(self, inputs):
+                self.add_metric(K.sum(inputs), name='metric_1')
+                return inputs + 1
+    
+        inp = Input(shape=(1,))
+        x = TestLayer(input_shape=(1,))(inp)
+        x = keras.layers.Dense(2, kernel_initializer='ones')(x)
+    
+        model = Model(inp, x)
+        model.compile('adam', loss='mse')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+>       assert np.isclose(history.history['metric_1'][-1], 5, 0)
+E       assert False
+E        +  where False = <function isclose at 0x0000019031034598>(10.0, 5, 0)
+E        +    where <function isclose at 0x0000019031034598> = np.isclose
+
+test_training.py:1982: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+
+10/10 [==============================] - 0s 11ms/step - loss: 1.0000 - metric_1: 10.0000 - val_loss: 0.9940 - val_metric_1: 10.0000
+Epoch 2/2
+
+10/10 [==============================] - 0s 0us/step - loss: 0.9940 - metric_1: 10.0000 - val_loss: 0.9880 - val_metric_1: 10.0000
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:01:54.908016: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:01:54.908629: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:01:54.908996: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:01:54.909338: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:01:54.909683: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:01:54.910034: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:01:54.910379: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:01:54.910725: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:01:54.911312: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:01:54.911626: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:01:54.911994: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:01:54.912217: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:01:54.912776: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_with_input_feed_tensor - ValueError: If s...
+FAILED test_training.py::test_model_with_external_loss - ValueError: If steps...
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_single_io
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_multi_io
+FAILED test_training.py::test_add_metric_on_model - assert 10.0 == 5
+FAILED test_training.py::test_add_metric_in_model_call - assert False
+FAILED test_training.py::test_multiple_add_metric_calls - assert False
+FAILED test_training.py::test_add_metric_in_layer_call - assert False
+============ 8 failed, 25 passed, 1 skipped, 7 warnings in 28.82s =============

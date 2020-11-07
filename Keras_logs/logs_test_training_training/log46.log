@@ -1,0 +1,145 @@
+2020-10-03 19:10:45.124499: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py .......s...................FF.....                      [100%]
+
+================================== FAILURES ===================================
+___________________________ test_model_metrics_list ___________________________
+
+    def test_model_metrics_list():
+    
+        class LayerWithAddMetric(Layer):
+    
+            def __init__(self):
+                super(LayerWithAddMetric, self).__init__()
+                self.dense = keras.layers.Dense(1, kernel_initializer='ones')
+    
+            def __call__(self, inputs):
+                outputs = self.dense(inputs)
+                return outputs
+    
+        class LayerWithNestedAddMetricLayer(Layer):
+    
+            def __init__(self):
+                super(LayerWithNestedAddMetricLayer, self).__init__()
+                self.layer = LayerWithAddMetric()
+    
+            def call(self, inputs):
+                outputs = self.layer(inputs)
+                self.add_metric(K.sum(outputs), name='metric_4')
+                return outputs
+    
+        x = Input(shape=(1,))
+        y = LayerWithNestedAddMetricLayer()(x)
+    
+        model = keras.models.Model(x, y)
+        model.add_metric(K.sum(y), name='metric_2')
+        model.add_metric(metrics.Mean(name='metric_3')(y))
+    
+        model.compile(
+            'sgd',
+            loss='mse',
+            metrics=[metrics.MeanSquaredError('metric_1')])
+    
+        # Verify that the metrics added using `compile` and `add_metric` API are
+        # included
+        for m1, m2 in zip([m.name for m in model._compile_metrics], ['metric_1']):
+>           assert m1 == m2
+E           AssertionError: assert 'layer_with_n...er_1_metric_1' == 'metric_1'
+E             - metric_1
+E             + layer_with_nested_add_metric_layer_1_metric_1
+
+test_training.py:1795: AssertionError
+_______________________ test_model_metrics_list_in_call _______________________
+
+    def test_model_metrics_list_in_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2)
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(
+            loss='mse',
+            optimizer='adam',
+            metrics=[metrics.MeanSquaredError('metric_1')])
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+    
+        # Verify that the metrics added using `compile` and `add_metric` API are
+        # included
+        for m1, m2 in zip([m.name for m in model._compile_metrics], ['metric_1']):
+>           assert m1 == m2
+E           AssertionError: assert 'output_1_metric_1' == 'metric_1'
+E             - metric_1
+E             + output_1_metric_1
+
+test_training.py:1827: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 3.2820 - output_1_metric_1: 3.2820 - metric_2: 5.0000
+10/10 [==============================] - 0s 9ms/step - loss: 3.2785 - output_1_metric_1: 3.2785 - metric_2: 5.0000 - val_loss: 3.2680 - val_output_1_metric_1: 3.2680 - val_metric_2: 5.0000
+Epoch 2/2
+
+ 5/10 [==============>...............] - ETA: 0s - loss: 3.2680 - output_1_metric_1: 3.2680 - metric_2: 5.0000
+10/10 [==============================] - 0s 2ms/step - loss: 3.2645 - output_1_metric_1: 3.2645 - metric_2: 5.0000 - val_loss: 3.2540 - val_output_1_metric_1: 3.2540 - val_metric_2: 5.0000
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 19:11:16.582876: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 19:11:16.583475: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 19:11:16.583819: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 19:11:16.584162: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 19:11:16.584498: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 19:11:16.584837: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 19:11:16.585180: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 19:11:16.585535: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 19:11:16.586196: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 19:11:16.586583: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 19:11:16.587018: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 19:11:16.587266: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 19:11:16.587801: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_metrics_list - AssertionError: assert 'la...
+FAILED test_training.py::test_model_metrics_list_in_call - AssertionError: as...
+============ 2 failed, 31 passed, 1 skipped, 7 warnings in 30.04s =============

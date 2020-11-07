@@ -1,0 +1,686 @@
+2020-10-03 19:07:16.845576: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py .......s...............F.F..FF.FF.                      [100%]
+
+================================== FAILURES ===================================
+___________________________ test_dynamic_set_inputs ___________________________
+
+    def test_dynamic_set_inputs():
+        model = Sequential()
+        model.add(Dense(16, input_dim=32))
+        model.add(Activation('relu'))
+    
+        model2 = Sequential()
+        model2.add(model.layers[-1])
+        model2.add(Dense(8))
+>       preds2 = model2.predict([np.random.random((1, 32))])
+
+test_training.py:1645: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1441: in predict
+    x, _, _ = self._standardize_user_data(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:504: in _standardize_user_data
+    self._set_inputs(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:463: in _set_inputs
+    outputs = self.call(unpack_singleton(self.inputs))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x00000134A56B1208>
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 32) dtype=float32>], mask = None
+
+    def call(self, inputs, mask=None):
+        """Calls the model on new inputs.
+    
+        In this case `call` just reapplies
+        all ops in the graph to the new inputs
+        (e.g. build a new computational graph from the provided inputs).
+    
+        A model is callable on non-Keras tensors.
+    
+        # Arguments
+            inputs: A tensor or list of tensors.
+            mask: A mask or list of masks. A mask can be
+                either a tensor or None (no mask).
+    
+        # Returns
+            A tensor if there is a single output, or
+            a list of tensors if there are more than one outputs.
+        """
+        inputs = to_list(inputs)
+        if mask is None:
+            masks = [None for _ in range(len(inputs))]
+        else:
+            masks = to_list(mask)
+        cache_key = object_list_uid(inputs)
+        cache_key += '_' + object_list_uid(masks)
+>       if cache_key in self._output_tensor_cache:
+E       AttributeError: 'Sequential' object has no attribute '_output_tensor_cache'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:580: AttributeError
+____________________________ test_validation_freq _____________________________
+
+    def test_validation_freq():
+        model = Sequential([Dense(1)])
+        model.compile('sgd', 'mse')
+    
+        def _gen():
+            while True:
+                yield np.ones((2, 10)), np.ones((2, 1))
+    
+        x, y = np.ones((10, 10)), np.ones((10, 1))
+    
+        class ValCounter(Callback):
+    
+            def __init__(self):
+                self.val_runs = 0
+    
+            def on_test_begin(self, logs=None):
+                self.val_runs += 1
+    
+        # Test in training_arrays.py
+        val_counter = ValCounter()
+        model.fit(
+            x,
+            y,
+            batch_size=2,
+            epochs=4,
+            validation_data=(x, y),
+            validation_freq=2,
+>           callbacks=[val_counter])
+
+test_training.py:1720: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:504: in _standardize_user_data
+    self._set_inputs(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:463: in _set_inputs
+    outputs = self.call(unpack_singleton(self.inputs))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x000001324A8FC2E8>
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 10) dtype=float32>], mask = None
+
+    def call(self, inputs, mask=None):
+        """Calls the model on new inputs.
+    
+        In this case `call` just reapplies
+        all ops in the graph to the new inputs
+        (e.g. build a new computational graph from the provided inputs).
+    
+        A model is callable on non-Keras tensors.
+    
+        # Arguments
+            inputs: A tensor or list of tensors.
+            mask: A mask or list of masks. A mask can be
+                either a tensor or None (no mask).
+    
+        # Returns
+            A tensor if there is a single output, or
+            a list of tensors if there are more than one outputs.
+        """
+        inputs = to_list(inputs)
+        if mask is None:
+            masks = [None for _ in range(len(inputs))]
+        else:
+            masks = to_list(mask)
+        cache_key = object_list_uid(inputs)
+        cache_key += '_' + object_list_uid(masks)
+>       if cache_key in self._output_tensor_cache:
+E       AttributeError: 'Sequential' object has no attribute '_output_tensor_cache'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:580: AttributeError
+_______________________ test_model_metrics_list_in_call _______________________
+
+    def test_model_metrics_list_in_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2)
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(
+            loss='mse',
+            optimizer='adam',
+            metrics=[metrics.MeanSquaredError('metric_1')])
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1822: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <test_training.test_model_metrics_list_in_call.<locals>.TestModel object at 0x00000134AA527160>
+optimizer = <keras.optimizers.Adam object at 0x000001324AE126A0>, loss = 'mse'
+metrics = [<keras.metrics.MeanSquaredError object at 0x00000134AA5276D8>]
+loss_weights = None, sample_weight_mode = None, weighted_metrics = None
+target_tensors = None, kwargs = {}
+
+    @K.symbolic
+    def compile(self, optimizer,
+                loss=None,
+                metrics=None,
+                loss_weights=None,
+                sample_weight_mode=None,
+                weighted_metrics=None,
+                target_tensors=None,
+                **kwargs):
+        """Configures the model for training.
+    
+        # Arguments
+            optimizer: String (name of optimizer) or optimizer instance.
+                See [optimizers](/optimizers).
+            loss: String (name of objective function) or objective function or
+                `Loss` instance. See [losses](/losses).
+                If the model has multiple outputs, you can use a different loss
+                on each output by passing a dictionary or a list of losses.
+                The loss value that will be minimized by the model
+                will then be the sum of all individual losses.
+            metrics: List of metrics to be evaluated by the model
+                during training and testing. Typically you will use
+                `metrics=['accuracy']`. To specify different metrics for different
+                outputs of a multi-output model, you could also pass a dictionary,
+                such as
+                `metrics={'output_a': 'accuracy', 'output_b': ['accuracy', 'mse']}`.
+                You can also pass a list (len = len(outputs)) of lists of metrics
+                such as `metrics=[['accuracy'], ['accuracy', 'mse']]` or
+                `metrics=['accuracy', ['accuracy', 'mse']]`.
+            loss_weights: Optional list or dictionary specifying scalar
+                coefficients (Python floats) to weight the loss contributions
+                of different model outputs.
+                The loss value that will be minimized by the model
+                will then be the *weighted sum* of all individual losses,
+                weighted by the `loss_weights` coefficients.
+                If a list, it is expected to have a 1:1 mapping
+                to the model's outputs. If a dict, it is expected to map
+                output names (strings) to scalar coefficients.
+            sample_weight_mode: If you need to do timestep-wise
+                sample weighting (2D weights), set this to `"temporal"`.
+                `None` defaults to sample-wise weights (1D).
+                If the model has multiple outputs, you can use a different
+                `sample_weight_mode` on each output by passing a
+                dictionary or a list of modes.
+            weighted_metrics: List of metrics to be evaluated and weighted
+                by sample_weight or class_weight during training and testing.
+            target_tensors: By default, Keras will create placeholders for the
+                model's target, which will be fed with the target data during
+                training. If instead you would like to use your own
+                target tensors (in turn, Keras will not expect external
+                Numpy data for these targets at training time), you
+                can specify them via the `target_tensors` argument. It can be
+                a single tensor (for a single-output model), a list of tensors,
+                or a dict mapping output names to target tensors.
+            **kwargs: When using the Theano/CNTK backends, these arguments
+                are passed into `K.function`.
+                When using the TensorFlow backend,
+                these arguments are passed into `tf.Session.run`.
+    
+        # Raises
+            ValueError: In case of invalid arguments for
+                `optimizer`, `loss`, `metrics` or `sample_weight_mode`.
+        """
+        self.optimizer = optimizers.get(optimizer)
+        self.loss = loss or {}
+        self._compile_metrics = metrics or []
+        self.loss_weights = loss_weights
+        self.sample_weight_mode = sample_weight_mode
+        self._compile_weighted_metrics = weighted_metrics
+    
+        # List of stateful metric functions. Used for resetting metric state during
+        # training/eval.
+        self._compile_metric_functions = []
+        # List of metric wrappers on output losses.
+        self._output_loss_metrics = None
+    
+        if not self.built:
+            # Model is not compilable because
+            # it does not know its number of inputs
+            # and outputs, nor their shapes and names.
+            # We will compile after the first
+            # time the model gets called on training data.
+            return
+        self._is_compiled = True
+    
+        # Prepare list of loss functions, same size as model outputs.
+        self.loss_functions = training_utils.prepare_loss_functions(
+>           self.loss, self.output_names)
+E       AttributeError: 'TestModel' object has no attribute 'output_names'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:119: AttributeError
+__________________ test_duplicate_metric_name_in_add_metric ___________________
+
+    def test_duplicate_metric_name_in_add_metric():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='adam')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+        with pytest.raises(ValueError):
+>           model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1855: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <test_training.test_duplicate_metric_name_in_add_metric.<locals>.TestModel object at 0x00000134B068B940>
+optimizer = <keras.optimizers.Adam object at 0x00000134ABFAD320>, loss = 'mse'
+metrics = [], loss_weights = None, sample_weight_mode = None
+weighted_metrics = None, target_tensors = None, kwargs = {}
+
+    @K.symbolic
+    def compile(self, optimizer,
+                loss=None,
+                metrics=None,
+                loss_weights=None,
+                sample_weight_mode=None,
+                weighted_metrics=None,
+                target_tensors=None,
+                **kwargs):
+        """Configures the model for training.
+    
+        # Arguments
+            optimizer: String (name of optimizer) or optimizer instance.
+                See [optimizers](/optimizers).
+            loss: String (name of objective function) or objective function or
+                `Loss` instance. See [losses](/losses).
+                If the model has multiple outputs, you can use a different loss
+                on each output by passing a dictionary or a list of losses.
+                The loss value that will be minimized by the model
+                will then be the sum of all individual losses.
+            metrics: List of metrics to be evaluated by the model
+                during training and testing. Typically you will use
+                `metrics=['accuracy']`. To specify different metrics for different
+                outputs of a multi-output model, you could also pass a dictionary,
+                such as
+                `metrics={'output_a': 'accuracy', 'output_b': ['accuracy', 'mse']}`.
+                You can also pass a list (len = len(outputs)) of lists of metrics
+                such as `metrics=[['accuracy'], ['accuracy', 'mse']]` or
+                `metrics=['accuracy', ['accuracy', 'mse']]`.
+            loss_weights: Optional list or dictionary specifying scalar
+                coefficients (Python floats) to weight the loss contributions
+                of different model outputs.
+                The loss value that will be minimized by the model
+                will then be the *weighted sum* of all individual losses,
+                weighted by the `loss_weights` coefficients.
+                If a list, it is expected to have a 1:1 mapping
+                to the model's outputs. If a dict, it is expected to map
+                output names (strings) to scalar coefficients.
+            sample_weight_mode: If you need to do timestep-wise
+                sample weighting (2D weights), set this to `"temporal"`.
+                `None` defaults to sample-wise weights (1D).
+                If the model has multiple outputs, you can use a different
+                `sample_weight_mode` on each output by passing a
+                dictionary or a list of modes.
+            weighted_metrics: List of metrics to be evaluated and weighted
+                by sample_weight or class_weight during training and testing.
+            target_tensors: By default, Keras will create placeholders for the
+                model's target, which will be fed with the target data during
+                training. If instead you would like to use your own
+                target tensors (in turn, Keras will not expect external
+                Numpy data for these targets at training time), you
+                can specify them via the `target_tensors` argument. It can be
+                a single tensor (for a single-output model), a list of tensors,
+                or a dict mapping output names to target tensors.
+            **kwargs: When using the Theano/CNTK backends, these arguments
+                are passed into `K.function`.
+                When using the TensorFlow backend,
+                these arguments are passed into `tf.Session.run`.
+    
+        # Raises
+            ValueError: In case of invalid arguments for
+                `optimizer`, `loss`, `metrics` or `sample_weight_mode`.
+        """
+        self.optimizer = optimizers.get(optimizer)
+        self.loss = loss or {}
+        self._compile_metrics = metrics or []
+        self.loss_weights = loss_weights
+        self.sample_weight_mode = sample_weight_mode
+        self._compile_weighted_metrics = weighted_metrics
+    
+        # List of stateful metric functions. Used for resetting metric state during
+        # training/eval.
+        self._compile_metric_functions = []
+        # List of metric wrappers on output losses.
+        self._output_loss_metrics = None
+    
+        if not self.built:
+            # Model is not compilable because
+            # it does not know its number of inputs
+            # and outputs, nor their shapes and names.
+            # We will compile after the first
+            # time the model gets called on training data.
+            return
+        self._is_compiled = True
+    
+        # Prepare list of loss functions, same size as model outputs.
+        self.loss_functions = training_utils.prepare_loss_functions(
+>           self.loss, self.output_names)
+E       AttributeError: 'TestModel' object has no attribute 'output_names'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:119: AttributeError
+________________________ test_add_metric_in_model_call ________________________
+
+    def test_add_metric_in_model_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                # Provide same name as in the instance created in __init__
+                # for eager mode
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1910: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <test_training.test_add_metric_in_model_call.<locals>.TestModel object at 0x00000134B0624C18>
+optimizer = <keras.optimizers.SGD object at 0x00000134B0624208>, loss = 'mse'
+metrics = [], loss_weights = None, sample_weight_mode = None
+weighted_metrics = None, target_tensors = None, kwargs = {}
+
+    @K.symbolic
+    def compile(self, optimizer,
+                loss=None,
+                metrics=None,
+                loss_weights=None,
+                sample_weight_mode=None,
+                weighted_metrics=None,
+                target_tensors=None,
+                **kwargs):
+        """Configures the model for training.
+    
+        # Arguments
+            optimizer: String (name of optimizer) or optimizer instance.
+                See [optimizers](/optimizers).
+            loss: String (name of objective function) or objective function or
+                `Loss` instance. See [losses](/losses).
+                If the model has multiple outputs, you can use a different loss
+                on each output by passing a dictionary or a list of losses.
+                The loss value that will be minimized by the model
+                will then be the sum of all individual losses.
+            metrics: List of metrics to be evaluated by the model
+                during training and testing. Typically you will use
+                `metrics=['accuracy']`. To specify different metrics for different
+                outputs of a multi-output model, you could also pass a dictionary,
+                such as
+                `metrics={'output_a': 'accuracy', 'output_b': ['accuracy', 'mse']}`.
+                You can also pass a list (len = len(outputs)) of lists of metrics
+                such as `metrics=[['accuracy'], ['accuracy', 'mse']]` or
+                `metrics=['accuracy', ['accuracy', 'mse']]`.
+            loss_weights: Optional list or dictionary specifying scalar
+                coefficients (Python floats) to weight the loss contributions
+                of different model outputs.
+                The loss value that will be minimized by the model
+                will then be the *weighted sum* of all individual losses,
+                weighted by the `loss_weights` coefficients.
+                If a list, it is expected to have a 1:1 mapping
+                to the model's outputs. If a dict, it is expected to map
+                output names (strings) to scalar coefficients.
+            sample_weight_mode: If you need to do timestep-wise
+                sample weighting (2D weights), set this to `"temporal"`.
+                `None` defaults to sample-wise weights (1D).
+                If the model has multiple outputs, you can use a different
+                `sample_weight_mode` on each output by passing a
+                dictionary or a list of modes.
+            weighted_metrics: List of metrics to be evaluated and weighted
+                by sample_weight or class_weight during training and testing.
+            target_tensors: By default, Keras will create placeholders for the
+                model's target, which will be fed with the target data during
+                training. If instead you would like to use your own
+                target tensors (in turn, Keras will not expect external
+                Numpy data for these targets at training time), you
+                can specify them via the `target_tensors` argument. It can be
+                a single tensor (for a single-output model), a list of tensors,
+                or a dict mapping output names to target tensors.
+            **kwargs: When using the Theano/CNTK backends, these arguments
+                are passed into `K.function`.
+                When using the TensorFlow backend,
+                these arguments are passed into `tf.Session.run`.
+    
+        # Raises
+            ValueError: In case of invalid arguments for
+                `optimizer`, `loss`, `metrics` or `sample_weight_mode`.
+        """
+        self.optimizer = optimizers.get(optimizer)
+        self.loss = loss or {}
+        self._compile_metrics = metrics or []
+        self.loss_weights = loss_weights
+        self.sample_weight_mode = sample_weight_mode
+        self._compile_weighted_metrics = weighted_metrics
+    
+        # List of stateful metric functions. Used for resetting metric state during
+        # training/eval.
+        self._compile_metric_functions = []
+        # List of metric wrappers on output losses.
+        self._output_loss_metrics = None
+    
+        if not self.built:
+            # Model is not compilable because
+            # it does not know its number of inputs
+            # and outputs, nor their shapes and names.
+            # We will compile after the first
+            # time the model gets called on training data.
+            return
+        self._is_compiled = True
+    
+        # Prepare list of loss functions, same size as model outputs.
+        self.loss_functions = training_utils.prepare_loss_functions(
+>           self.loss, self.output_names)
+E       AttributeError: 'TestModel' object has no attribute 'output_names'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:119: AttributeError
+_______________________ test_multiple_add_metric_calls ________________________
+
+    def test_multiple_add_metric_calls():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean1 = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_2')
+    
+            def call(self, x):
+                self.add_metric(self.mean2(x), name='metric_2')
+                self.add_metric(self.mean1(x), name='metric_1')
+                self.add_metric(K.sum(x), name='metric_3')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1946: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <test_training.test_multiple_add_metric_calls.<locals>.TestModel object at 0x000001324441EE80>
+optimizer = <keras.optimizers.SGD object at 0x000001324AA36EF0>, loss = 'mse'
+metrics = [], loss_weights = None, sample_weight_mode = None
+weighted_metrics = None, target_tensors = None, kwargs = {}
+
+    @K.symbolic
+    def compile(self, optimizer,
+                loss=None,
+                metrics=None,
+                loss_weights=None,
+                sample_weight_mode=None,
+                weighted_metrics=None,
+                target_tensors=None,
+                **kwargs):
+        """Configures the model for training.
+    
+        # Arguments
+            optimizer: String (name of optimizer) or optimizer instance.
+                See [optimizers](/optimizers).
+            loss: String (name of objective function) or objective function or
+                `Loss` instance. See [losses](/losses).
+                If the model has multiple outputs, you can use a different loss
+                on each output by passing a dictionary or a list of losses.
+                The loss value that will be minimized by the model
+                will then be the sum of all individual losses.
+            metrics: List of metrics to be evaluated by the model
+                during training and testing. Typically you will use
+                `metrics=['accuracy']`. To specify different metrics for different
+                outputs of a multi-output model, you could also pass a dictionary,
+                such as
+                `metrics={'output_a': 'accuracy', 'output_b': ['accuracy', 'mse']}`.
+                You can also pass a list (len = len(outputs)) of lists of metrics
+                such as `metrics=[['accuracy'], ['accuracy', 'mse']]` or
+                `metrics=['accuracy', ['accuracy', 'mse']]`.
+            loss_weights: Optional list or dictionary specifying scalar
+                coefficients (Python floats) to weight the loss contributions
+                of different model outputs.
+                The loss value that will be minimized by the model
+                will then be the *weighted sum* of all individual losses,
+                weighted by the `loss_weights` coefficients.
+                If a list, it is expected to have a 1:1 mapping
+                to the model's outputs. If a dict, it is expected to map
+                output names (strings) to scalar coefficients.
+            sample_weight_mode: If you need to do timestep-wise
+                sample weighting (2D weights), set this to `"temporal"`.
+                `None` defaults to sample-wise weights (1D).
+                If the model has multiple outputs, you can use a different
+                `sample_weight_mode` on each output by passing a
+                dictionary or a list of modes.
+            weighted_metrics: List of metrics to be evaluated and weighted
+                by sample_weight or class_weight during training and testing.
+            target_tensors: By default, Keras will create placeholders for the
+                model's target, which will be fed with the target data during
+                training. If instead you would like to use your own
+                target tensors (in turn, Keras will not expect external
+                Numpy data for these targets at training time), you
+                can specify them via the `target_tensors` argument. It can be
+                a single tensor (for a single-output model), a list of tensors,
+                or a dict mapping output names to target tensors.
+            **kwargs: When using the Theano/CNTK backends, these arguments
+                are passed into `K.function`.
+                When using the TensorFlow backend,
+                these arguments are passed into `tf.Session.run`.
+    
+        # Raises
+            ValueError: In case of invalid arguments for
+                `optimizer`, `loss`, `metrics` or `sample_weight_mode`.
+        """
+        self.optimizer = optimizers.get(optimizer)
+        self.loss = loss or {}
+        self._compile_metrics = metrics or []
+        self.loss_weights = loss_weights
+        self.sample_weight_mode = sample_weight_mode
+        self._compile_weighted_metrics = weighted_metrics
+    
+        # List of stateful metric functions. Used for resetting metric state during
+        # training/eval.
+        self._compile_metric_functions = []
+        # List of metric wrappers on output losses.
+        self._output_loss_metrics = None
+    
+        if not self.built:
+            # Model is not compilable because
+            # it does not know its number of inputs
+            # and outputs, nor their shapes and names.
+            # We will compile after the first
+            # time the model gets called on training data.
+            return
+        self._is_compiled = True
+    
+        # Prepare list of loss functions, same size as model outputs.
+        self.loss_functions = training_utils.prepare_loss_functions(
+>           self.loss, self.output_names)
+E       AttributeError: 'TestModel' object has no attribute 'output_names'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:119: AttributeError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_dynamic_set_inputs - AttributeError: 'Sequentia...
+FAILED test_training.py::test_validation_freq - AttributeError: 'Sequential' ...
+FAILED test_training.py::test_model_metrics_list_in_call - AttributeError: 'T...
+FAILED test_training.py::test_duplicate_metric_name_in_add_metric - Attribute...
+FAILED test_training.py::test_add_metric_in_model_call - AttributeError: 'Tes...
+FAILED test_training.py::test_multiple_add_metric_calls - AttributeError: 'Te...
+============ 6 failed, 27 passed, 1 skipped, 7 warnings in 29.19s =============
