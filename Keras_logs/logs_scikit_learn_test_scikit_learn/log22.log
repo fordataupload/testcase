@@ -1,0 +1,223 @@
+2020-10-04 19:29:38.159001: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\wrappers
+plugins: flaky-3.7.0
+collected 8 items
+
+scikit_learn_test.py ...FFF.F                                            [100%]
+
+================================== FAILURES ===================================
+__________________________ test_regression_build_fn ___________________________
+
+    def test_regression_build_fn():
+        reg = KerasRegressor(
+            build_fn=build_fn_reg, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_regression_works(reg)
+
+scikit_learn_test.py:131: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reg = <keras.wrappers.scikit_learn.KerasRegressor object at 0x0000029221076908>
+
+    def assert_regression_works(reg):
+        reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+    
+        score = reg.score(X_train, y_train, batch_size=batch_size)
+        assert np.isscalar(score) and np.isfinite(score)
+    
+        preds = reg.predict(X_test, batch_size=batch_size)
+>       assert preds.shape == (num_test, )
+E       assert (50, 1) == (50,)
+E         Left contains one more item: 1
+E         Use -v to get the full diff
+
+scikit_learn_test.py:167: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 0.5183 - accuracy: 0.5312
+100/100 [==============================] - 0s 1ms/step - loss: 0.5381 - accuracy: 0.4600
+
+ 32/100 [========>.....................] - ETA: 0s
+100/100 [==============================] - 0s 469us/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:29:47.442126: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:29:47.442783: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:29:47.443219: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:29:47.443644: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:29:47.444022: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:29:47.444387: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:29:47.444732: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:29:47.445082: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:29:47.445658: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:29:47.445972: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:29:47.446322: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:29:47.446538: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:29:47.447038: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_______________________ test_regression_class_build_fn ________________________
+
+    def test_regression_class_build_fn():
+        class ClassBuildFnReg(object):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_reg(hidden_dims)
+    
+        reg = KerasRegressor(
+            build_fn=ClassBuildFnReg(), hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_regression_works(reg)
+
+scikit_learn_test.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reg = <keras.wrappers.scikit_learn.KerasRegressor object at 0x000002922CA7E550>
+
+    def assert_regression_works(reg):
+        reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+    
+        score = reg.score(X_train, y_train, batch_size=batch_size)
+        assert np.isscalar(score) and np.isfinite(score)
+    
+        preds = reg.predict(X_test, batch_size=batch_size)
+>       assert preds.shape == (num_test, )
+E       assert (50, 1) == (50,)
+E         Left contains one more item: 1
+E         Use -v to get the full diff
+
+scikit_learn_test.py:167: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 0.5998 - accuracy: 0.5312
+100/100 [==============================] - 0s 937us/step - loss: 0.5488 - accuracy: 0.5900
+
+ 32/100 [========>.....................] - ETA: 0s
+100/100 [==============================] - 0s 468us/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:29:49.355802: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:29:49.356406: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:29:49.356756: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:29:49.357099: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:29:49.357436: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:29:49.357779: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:29:49.358123: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:29:49.358472: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:29:49.359043: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:29:49.359355: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:29:49.359706: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:29:49.359923: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:29:49.360418: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+___________________ test_regression_inherit_class_build_fn ____________________
+
+    def test_regression_inherit_class_build_fn():
+        class InheritClassBuildFnReg(KerasRegressor):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_reg(hidden_dims)
+    
+        reg = InheritClassBuildFnReg(
+            build_fn=None, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_regression_works(reg)
+
+scikit_learn_test.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reg = <scikit_learn_test.test_regression_inherit_class_build_fn.<locals>.InheritClassBuildFnReg object at 0x00000292352CA668>
+
+    def assert_regression_works(reg):
+        reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+    
+        score = reg.score(X_train, y_train, batch_size=batch_size)
+        assert np.isscalar(score) and np.isfinite(score)
+    
+        preds = reg.predict(X_test, batch_size=batch_size)
+>       assert preds.shape == (num_test, )
+E       assert (50, 1) == (50,)
+E         Left contains one more item: 1
+E         Use -v to get the full diff
+
+scikit_learn_test.py:167: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 1.5497 - accuracy: 0.2188
+100/100 [==============================] - 0s 937us/step - loss: 1.2867 - accuracy: 0.3200
+
+ 32/100 [========>.....................] - ETA: 0s
+100/100 [==============================] - 0s 312us/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:29:49.826150: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:29:49.826768: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:29:49.827117: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:29:49.827458: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:29:49.827795: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:29:49.828144: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:29:49.828491: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:29:49.828836: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:29:49.829398: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:29:49.829709: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:29:49.830055: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:29:49.830274: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:29:49.830773: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+______________ test_regression_predict_shape_correct_num_test_1 _______________
+
+    def test_regression_predict_shape_correct_num_test_1():
+>       assert_regression_predict_shape_correct(num_test=1)
+
+scikit_learn_test.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+num_test = 1
+
+    def assert_regression_predict_shape_correct(num_test):
+        reg = KerasRegressor(
+            build_fn=build_fn_reg, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+        reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+    
+        preds = reg.predict(X_test[:num_test], batch_size=batch_size)
+>       assert preds.shape == (num_test, )
+E       assert (1, 1) == (1,)
+E         Left contains one more item: 1
+E         Use -v to get the full diff
+
+scikit_learn_test.py:185: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 0.4516 - accuracy: 0.5625
+100/100 [==============================] - 0s 781us/step - loss: 0.4480 - accuracy: 0.6100
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:29:50.668092: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:29:50.668699: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:29:50.669048: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:29:50.669391: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:29:50.669732: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:29:50.670071: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:29:50.670419: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:29:50.670765: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:29:50.671337: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:29:50.671650: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:29:50.672000: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:29:50.672216: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:29:50.672765: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED scikit_learn_test.py::test_regression_build_fn - assert (50, 1) == (50,)
+FAILED scikit_learn_test.py::test_regression_class_build_fn - assert (50, 1) ...
+FAILED scikit_learn_test.py::test_regression_inherit_class_build_fn - assert ...
+FAILED scikit_learn_test.py::test_regression_predict_shape_correct_num_test_1
+========================= 4 failed, 4 passed in 8.76s =========================

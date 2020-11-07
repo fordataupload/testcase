@@ -1,0 +1,254 @@
+2020-10-04 19:27:12.954794: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\wrappers
+plugins: flaky-3.7.0
+collected 8 items
+
+scikit_learn_test.py FFF.....                                            [100%]
+
+================================== FAILURES ===================================
+___________________________ test_classify_build_fn ____________________________
+
+    def test_classify_build_fn():
+        clf = KerasClassifier(
+            build_fn=build_fn_clf, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:84: in assert_classification_works
+    preds = clf.predict(X_test, batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x00000118A0A746A0>
+x = array([[ 2.11563611e+00,  2.39825559e+00,  1.38763535e+00,
+         1.71973896e+00,  2.35656476e+00],
+       [ 2.87312...,
+       [-4.64727849e-01,  8.16972017e-01,  1.13477600e+00,
+        -1.09897220e+00,  5.17740734e-02]], dtype=float32)
+kwargs = None
+
+    def predict(self, x, **kwargs):
+        """Returns the class predictions for the given test data.
+    
+        # Arguments
+            x: array-like, shape `(n_samples, n_features)`
+                Test samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments
+                of `Sequential.predict_classes`.
+    
+        # Returns
+            preds: array-like, shape `(n_samples,)`
+                Class predictions.
+        """
+        kwargs = None
+    
+>       proba = self.model.predict(x, **kwargs)
+E       TypeError: predict() argument after ** must be a mapping, not NoneType
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:228: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 1s - loss: 1.0670 - accuracy: 0.3125
+100/100 [==============================] - 1s 6ms/step - loss: 1.0609 - accuracy: 0.3600
+
+ 32/100 [========>.....................] - ETA: 0s
+100/100 [==============================] - 0s 468us/step
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-04 19:27:15.838562: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 19:27:15.971800: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:27:15.973222: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:27:15.976876: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:27:15.980396: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:27:15.982055: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:27:15.986938: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:27:15.990123: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:27:15.999347: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:27:16.000336: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:27:16.001149: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 19:27:16.016458: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:27:16.017111: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:27:16.017470: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:27:16.017811: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:27:16.018150: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:27:16.018512: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:27:16.018860: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:27:16.019211: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:27:16.020059: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:27:16.974224: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:27:16.974662: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:27:16.974881: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:27:16.975635: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-04 19:27:17.587043: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+________________________ test_classify_class_build_fn _________________________
+
+    def test_classify_class_build_fn():
+        class ClassBuildFnClf(object):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = KerasClassifier(
+            build_fn=ClassBuildFnClf(), hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:84: in assert_classification_works
+    preds = clf.predict(X_test, batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x0000011B31F260B8>
+x = array([[ 2.11563611e+00,  2.39825559e+00,  1.38763535e+00,
+         1.71973896e+00,  2.35656476e+00],
+       [ 2.87312...,
+       [-4.64727849e-01,  8.16972017e-01,  1.13477600e+00,
+        -1.09897220e+00,  5.17740734e-02]], dtype=float32)
+kwargs = None
+
+    def predict(self, x, **kwargs):
+        """Returns the class predictions for the given test data.
+    
+        # Arguments
+            x: array-like, shape `(n_samples, n_features)`
+                Test samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments
+                of `Sequential.predict_classes`.
+    
+        # Returns
+            preds: array-like, shape `(n_samples,)`
+                Class predictions.
+        """
+        kwargs = None
+    
+>       proba = self.model.predict(x, **kwargs)
+E       TypeError: predict() argument after ** must be a mapping, not NoneType
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:228: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 1.0460 - accuracy: 0.3438
+100/100 [==============================] - 0s 937us/step - loss: 1.0621 - accuracy: 0.3500
+
+ 32/100 [========>.....................] - ETA: 0s
+100/100 [==============================] - 0s 624us/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:27:19.304721: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:27:19.305340: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:27:19.305688: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:27:19.306030: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:27:19.306366: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:27:19.306709: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:27:19.307051: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:27:19.307433: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:27:19.308074: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:27:19.308415: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:27:19.308771: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:27:19.308992: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:27:19.309513: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________________ test_classify_inherit_class_build_fn _____________________
+
+    def test_classify_inherit_class_build_fn():
+        class InheritClassBuildFnClf(KerasClassifier):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = InheritClassBuildFnClf(
+            build_fn=None, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:84: in assert_classification_works
+    preds = clf.predict(X_test, batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <scikit_learn_test.test_classify_inherit_class_build_fn.<locals>.InheritClassBuildFnClf object at 0x0000011B31FB0828>
+x = array([[ 2.11563611e+00,  2.39825559e+00,  1.38763535e+00,
+         1.71973896e+00,  2.35656476e+00],
+       [ 2.87312...,
+       [-4.64727849e-01,  8.16972017e-01,  1.13477600e+00,
+        -1.09897220e+00,  5.17740734e-02]], dtype=float32)
+kwargs = None
+
+    def predict(self, x, **kwargs):
+        """Returns the class predictions for the given test data.
+    
+        # Arguments
+            x: array-like, shape `(n_samples, n_features)`
+                Test samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments
+                of `Sequential.predict_classes`.
+    
+        # Returns
+            preds: array-like, shape `(n_samples,)`
+                Class predictions.
+        """
+        kwargs = None
+    
+>       proba = self.model.predict(x, **kwargs)
+E       TypeError: predict() argument after ** must be a mapping, not NoneType
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:228: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 1.1860 - accuracy: 0.2188
+100/100 [==============================] - 0s 937us/step - loss: 1.1505 - accuracy: 0.2800
+
+ 32/100 [========>.....................] - ETA: 0s
+100/100 [==============================] - 0s 468us/step
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:27:19.760551: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:27:19.761154: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:27:19.761504: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:27:19.761851: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:27:19.762194: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:27:19.762549: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:27:19.762896: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:27:19.763245: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:27:19.763837: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:27:19.764147: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:27:19.764499: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:27:19.764723: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:27:19.765243: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED scikit_learn_test.py::test_classify_build_fn - TypeError: predict() ar...
+FAILED scikit_learn_test.py::test_classify_class_build_fn - TypeError: predic...
+FAILED scikit_learn_test.py::test_classify_inherit_class_build_fn - TypeError...
+========================= 3 failed, 5 passed in 6.55s =========================

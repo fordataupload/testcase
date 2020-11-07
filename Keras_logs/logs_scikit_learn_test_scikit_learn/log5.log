@@ -1,0 +1,355 @@
+2020-10-04 19:26:44.779595: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\wrappers
+plugins: flaky-3.7.0
+collected 8 items
+
+scikit_learn_test.py FFFFFFFF                                            [100%]
+
+================================== FAILURES ===================================
+___________________________ test_classify_build_fn ____________________________
+
+    def test_classify_build_fn():
+        clf = KerasClassifier(
+            build_fn=build_fn_clf, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:79: in assert_classification_works
+    batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:209: in fit
+    return super(KerasClassifier, self).fit(x, y, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:142: in fit
+    self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x0000029A4C814550>
+fn = <function build_fn_clf at 0x0000029A4C7E7950>, override = {}
+
+    def filter_sk_params(self, fn, override=None):
+        """Filters `sk_params` and returns those in `fn`'s arguments.
+    
+        # Arguments
+            fn : arbitrary function
+            override: dictionary, values to override `sk_params`
+    
+        # Returns
+            res : dictionary containing variables
+                in both `sk_params` and `fn`'s arguments.
+        """
+        override = override or {}
+        res = None
+        for name, value in self.sk_params.items():
+            if has_arg(fn, name):
+>               res.update({name: value})
+E               AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:170: AttributeError
+________________________ test_classify_class_build_fn _________________________
+
+    def test_classify_class_build_fn():
+        class ClassBuildFnClf(object):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = KerasClassifier(
+            build_fn=ClassBuildFnClf(), hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:79: in assert_classification_works
+    batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:209: in fit
+    return super(KerasClassifier, self).fit(x, y, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:140: in fit
+    **self.filter_sk_params(self.build_fn.__call__))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x0000029A4E5BD4E0>
+fn = <bound method test_classify_class_build_fn.<locals>.ClassBuildFnClf.__call__ of <scikit_learn_test.test_classify_class_build_fn.<locals>.ClassBuildFnClf object at 0x0000029A4E5BD2E8>>
+override = {}
+
+    def filter_sk_params(self, fn, override=None):
+        """Filters `sk_params` and returns those in `fn`'s arguments.
+    
+        # Arguments
+            fn : arbitrary function
+            override: dictionary, values to override `sk_params`
+    
+        # Returns
+            res : dictionary containing variables
+                in both `sk_params` and `fn`'s arguments.
+        """
+        override = override or {}
+        res = None
+        for name, value in self.sk_params.items():
+            if has_arg(fn, name):
+>               res.update({name: value})
+E               AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:170: AttributeError
+____________________ test_classify_inherit_class_build_fn _____________________
+
+    def test_classify_inherit_class_build_fn():
+        class InheritClassBuildFnClf(KerasClassifier):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = InheritClassBuildFnClf(
+            build_fn=None, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:79: in assert_classification_works
+    batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:209: in fit
+    return super(KerasClassifier, self).fit(x, y, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:136: in fit
+    self.model = self.__call__(**self.filter_sk_params(self.__call__))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <scikit_learn_test.test_classify_inherit_class_build_fn.<locals>.InheritClassBuildFnClf object at 0x0000029A4D44B7B8>
+fn = <bound method test_classify_inherit_class_build_fn.<locals>.InheritClassBuildFnClf.__call__ of <scikit_learn_test.test_classify_inherit_class_build_fn.<locals>.InheritClassBuildFnClf object at 0x0000029A4D44B7B8>>
+override = {}
+
+    def filter_sk_params(self, fn, override=None):
+        """Filters `sk_params` and returns those in `fn`'s arguments.
+    
+        # Arguments
+            fn : arbitrary function
+            override: dictionary, values to override `sk_params`
+    
+        # Returns
+            res : dictionary containing variables
+                in both `sk_params` and `fn`'s arguments.
+        """
+        override = override or {}
+        res = None
+        for name, value in self.sk_params.items():
+            if has_arg(fn, name):
+>               res.update({name: value})
+E               AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:170: AttributeError
+__________________________ test_regression_build_fn ___________________________
+
+    def test_regression_build_fn():
+        reg = KerasRegressor(
+            build_fn=build_fn_reg, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_regression_works(reg)
+
+scikit_learn_test.py:131: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:161: in assert_regression_works
+    reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:142: in fit
+    self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x0000029A4E58A198>
+fn = <function build_fn_reg at 0x0000029A4C7E76A8>, override = {}
+
+    def filter_sk_params(self, fn, override=None):
+        """Filters `sk_params` and returns those in `fn`'s arguments.
+    
+        # Arguments
+            fn : arbitrary function
+            override: dictionary, values to override `sk_params`
+    
+        # Returns
+            res : dictionary containing variables
+                in both `sk_params` and `fn`'s arguments.
+        """
+        override = override or {}
+        res = None
+        for name, value in self.sk_params.items():
+            if has_arg(fn, name):
+>               res.update({name: value})
+E               AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:170: AttributeError
+_______________________ test_regression_class_build_fn ________________________
+
+    def test_regression_class_build_fn():
+        class ClassBuildFnReg(object):Using TensorFlow backend.
+
+    
+            def __call__(self, hidden_dims):
+                return build_fn_reg(hidden_dims)
+    
+        reg = KerasRegressor(
+            build_fn=ClassBuildFnReg(), hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_regression_works(reg)
+
+scikit_learn_test.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:161: in assert_regression_works
+    reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:140: in fit
+    **self.filter_sk_params(self.build_fn.__call__))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x0000029A4E58C080>
+fn = <bound method test_regression_class_build_fn.<locals>.ClassBuildFnReg.__call__ of <scikit_learn_test.test_regression_class_build_fn.<locals>.ClassBuildFnReg object at 0x0000029A4E58C860>>
+override = {}
+
+    def filter_sk_params(self, fn, override=None):
+        """Filters `sk_params` and returns those in `fn`'s arguments.
+    
+        # Arguments
+            fn : arbitrary function
+            override: dictionary, values to override `sk_params`
+    
+        # Returns
+            res : dictionary containing variables
+                in both `sk_params` and `fn`'s arguments.
+        """
+        override = override or {}
+        res = None
+        for name, value in self.sk_params.items():
+            if has_arg(fn, name):
+>               res.update({name: value})
+E               AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:170: AttributeError
+___________________ test_regression_inherit_class_build_fn ____________________
+
+    def test_regression_inherit_class_build_fn():
+        class InheritClassBuildFnReg(KerasRegressor):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_reg(hidden_dims)
+    
+        reg = InheritClassBuildFnReg(
+            build_fn=None, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_regression_works(reg)
+
+scikit_learn_test.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:161: in assert_regression_works
+    reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:136: in fit
+    self.model = self.__call__(**self.filter_sk_params(self.__call__))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <scikit_learn_test.test_regression_inherit_class_build_fn.<locals>.InheritClassBuildFnReg object at 0x0000029A4E5BD860>
+fn = <bound method test_regression_inherit_class_build_fn.<locals>.InheritClassBuildFnReg.__call__ of <scikit_learn_test.test_regression_inherit_class_build_fn.<locals>.InheritClassBuildFnReg object at 0x0000029A4E5BD860>>
+override = {}
+
+    def filter_sk_params(self, fn, override=None):
+        """Filters `sk_params` and returns those in `fn`'s arguments.
+    
+        # Arguments
+            fn : arbitrary function
+            override: dictionary, values to override `sk_params`
+    
+        # Returns
+            res : dictionary containing variables
+                in both `sk_params` and `fn`'s arguments.
+        """
+        override = override or {}
+        res = None
+        for name, value in self.sk_params.items():
+            if has_arg(fn, name):
+>               res.update({name: value})
+E               AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:170: AttributeError
+______________ test_regression_predict_shape_correct_num_test_0 _______________
+
+    def test_regression_predict_shape_correct_num_test_0():
+>       assert_regression_predict_shape_correct(num_test=0)
+
+scikit_learn_test.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:182: in assert_regression_predict_shape_correct
+    reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:142: in fit
+    self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x0000029A4E5B3EB8>
+fn = <function build_fn_reg at 0x0000029A4C7E76A8>, override = {}
+
+    def filter_sk_params(self, fn, override=None):
+        """Filters `sk_params` and returns those in `fn`'s arguments.
+    
+        # Arguments
+            fn : arbitrary function
+            override: dictionary, values to override `sk_params`
+    
+        # Returns
+            res : dictionary containing variables
+                in both `sk_params` and `fn`'s arguments.
+        """
+        override = override or {}
+        res = None
+        for name, value in self.sk_params.items():
+            if has_arg(fn, name):
+>               res.update({name: value})
+E               AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:170: AttributeError
+______________ test_regression_predict_shape_correct_num_test_1 _______________
+
+    def test_regression_predict_shape_correct_num_test_1():
+>       assert_regression_predict_shape_correct(num_test=1)
+
+scikit_learn_test.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:182: in assert_regression_predict_shape_correct
+    reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:142: in fit
+    self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x0000029A4E5E06A0>
+fn = <function build_fn_reg at 0x0000029A4C7E76A8>, override = {}
+
+    def filter_sk_params(self, fn, override=None):
+        """Filters `sk_params` and returns those in `fn`'s arguments.
+    
+        # Arguments
+            fn : arbitrary function
+            override: dictionary, values to override `sk_params`
+    
+        # Returns
+            res : dictionary containing variables
+                in both `sk_params` and `fn`'s arguments.
+        """
+        override = override or {}
+        res = None
+        for name, value in self.sk_params.items():
+            if has_arg(fn, name):
+>               res.update({name: value})
+E               AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:170: AttributeError
+=========================== short test summary info ===========================
+FAILED scikit_learn_test.py::test_classify_build_fn - AttributeError: 'NoneTy...
+FAILED scikit_learn_test.py::test_classify_class_build_fn - AttributeError: '...
+FAILED scikit_learn_test.py::test_classify_inherit_class_build_fn - Attribute...
+FAILED scikit_learn_test.py::test_regression_build_fn - AttributeError: 'None...
+FAILED scikit_learn_test.py::test_regression_class_build_fn - AttributeError:...
+FAILED scikit_learn_test.py::test_regression_inherit_class_build_fn - Attribu...
+FAILED scikit_learn_test.py::test_regression_predict_shape_correct_num_test_0
+FAILED scikit_learn_test.py::test_regression_predict_shape_correct_num_test_1
+============================== 8 failed in 1.50s ==============================

@@ -1,0 +1,69 @@
+2020-10-04 19:35:03.818530: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\wrappers
+plugins: flaky-3.7.0
+collected 8 items
+
+scikit_learn_test.py ......F.                                            [100%]
+
+================================== FAILURES ===================================
+______________ test_regression_predict_shape_correct_num_test_0 _______________
+
+    def test_regression_predict_shape_correct_num_test_0():
+>       assert_regression_predict_shape_correct(num_test=0)
+
+scikit_learn_test.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:184: in assert_regression_predict_shape_correct
+    preds = reg.predict(X_test[:num_test], batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001E515E6B748>
+x = array([], shape=(0, 5), dtype=float32), kwargs = {'batch_size': 32}
+preds = array([], dtype=float64)
+
+    def predict(self, x, **kwargs):
+        """Returns predictions for the given test data.
+    
+        # Arguments
+            x: array-like, shape `(n_samples, n_features)`
+                Test samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.predict`.
+    
+        # Returns
+            preds: array-like, shape `(n_samples,)`
+                Predictions.
+        """
+        kwargs = self.filter_sk_params(Sequential.predict, kwargs)
+        preds = np.array(self.model.predict(x, **kwargs))
+>       if preds.shape[+1] == 1:
+E       IndexError: tuple index out of range
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:323: IndexError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 1.2839 - accuracy: 0.2500
+100/100 [==============================] - 0s 781us/step - loss: 1.1303 - accuracy: 0.3200
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:35:14.603962: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:35:14.604602: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:35:14.604950: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:35:14.605296: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:35:14.605633: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:35:14.605978: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:35:14.606323: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:35:14.606672: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:35:14.607242: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:35:14.607558: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:35:14.607910: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:35:14.608129: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:35:14.608620: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED scikit_learn_test.py::test_regression_predict_shape_correct_num_test_0
+========================= 1 failed, 7 passed in 8.71s =========================

@@ -1,0 +1,569 @@
+2020-10-04 19:31:43.679141: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\wrappers
+plugins: flaky-3.7.0
+collected 8 items
+
+scikit_learn_test.py FFF.....                                            [100%]
+
+================================== FAILURES ===================================
+___________________________ test_classify_build_fn ____________________________
+
+    def test_classify_build_fn():
+        clf = KerasClassifier(
+            build_fn=build_fn_clf, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:81: in assert_classification_works
+    score = clf.score(X_train, y_train, batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:293: in score
+    outputs = self.model.evaluate(x, y, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1349: in evaluate
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:621: in _standardize_user_data
+    exception_prefix='target')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+data = [array([[2],
+       [0],
+       [2],
+       [2],
+       [0],
+       [0],
+       [2],
+       [1],
+       [2],
+       [2...    [0],
+       [0],
+       [2],
+       [0],
+       [0],
+       [0],
+       [2],
+       [0],
+       [0]], dtype=int64)]
+names = ['activation_3'], shapes = [(None, 3)], check_batch_axis = False
+exception_prefix = 'target'
+
+    def standardize_input_data(data,
+                               names,
+                               shapes=None,
+                               check_batch_axis=True,
+                               exception_prefix=''):
+        """Normalizes inputs and targets provided by users.
+    
+        Users may pass data as a list of arrays, dictionary of arrays,
+        or as a single array. We normalize this to an ordered list of
+        arrays (same order as `names`), while checking that the provided
+        arrays have shapes that match the network's expectations.
+    
+        # Arguments
+            data: User-provided input data (polymorphic).
+            names: List of expected array names.
+            shapes: Optional list of expected array shapes.
+            check_batch_axis: Boolean; whether to check that
+                the batch axis of the arrays matches the expected
+                value found in `shapes`.
+            exception_prefix: String prefix used for exception formatting.
+    
+        # Returns
+            List of standardized input arrays (one array per model input).
+    
+        # Raises
+            ValueError: in case of improperly formatted user-provided data.
+        """
+        if not names:
+            if data is not None and hasattr(data, '__len__') and len(data):
+                raise ValueError('Error when checking model ' +
+                                 exception_prefix + ': '
+                                 'expected no data, but got:', data)
+            return []
+        if data is None:
+            return [None for _ in range(len(names))]
+    
+        if isinstance(data, dict):
+            try:
+                data = [
+                    data[x].values
+                    if data[x].__class__.__name__ == 'DataFrame' else data[x]
+                    for x in names
+                ]
+            except KeyError as e:
+                raise ValueError('No data provided for "' + e.args[0] +
+                                 '". Need data '
+                                 'for each key in: ' + str(names))
+        elif isinstance(data, list):
+            if isinstance(data[0], list):
+                data = [np.asarray(d) for d in data]
+            elif len(names) == 1 and isinstance(data[0], (float, int)):
+                data = [np.asarray(data)]
+            else:
+                data = [
+                    x.values if x.__class__.__name__ == 'DataFrame'
+                    else x for x in data
+                ]
+        else:
+            data = data.values if data.__class__.__name__ == 'DataFrame' else data
+            data = [data]
+        data = [standardize_single_array(x) for x in data]
+    
+        if len(data) != len(names):
+            if data and hasattr(data[0], 'shape'):
+                raise ValueError(
+                    'Error when checking model ' + exception_prefix +
+                    ': the list of Numpy arrays that you are passing to '
+                    'your model is not the size the model expected. '
+                    'Expected to see ' + str(len(names)) + ' array(s), '
+                    'but instead got the following list of ' +
+                    str(len(data)) + ' arrays: ' + str(data)[:200] + '...')
+            elif len(names) > 1:
+                raise ValueError(
+                    'Error when checking model ' + exception_prefix +
+                    ': you are passing a list as input to your model, '
+                    'but the model expects a list of ' + str(len(names)) +
+                    ' Numpy arrays instead. '
+                    'The list you passed was: ' + str(data)[:200])
+            elif len(data) == 1 and not hasattr(data[0], 'shape'):
+                raise TypeError('Error when checking model ' + exception_prefix +
+                                ': data should be a Numpy array, or list/dict of '
+                                'Numpy arrays. Found: ' + str(data)[:200] + '...')
+            elif len(names) == 1:
+                data = [np.asarray(data)]
+    
+        # Check shapes compatibility.
+        if shapes:
+            for i in range(len(names)):
+                if shapes[i] is not None and not K.is_tensor(data[i]):
+                    data_shape = data[i].shape
+                    shape = shapes[i]
+                    if data[i].ndim != len(shape):
+                        raise ValueError(
+                            'Error when checking ' + exception_prefix +
+                            ': expected ' + names[i] + ' to have ' +
+                            str(len(shape)) + ' dimensions, but got array '
+                            'with shape ' + str(data_shape))
+                    if not check_batch_axis:
+                        data_shape = data_shape[1:]
+                        shape = shape[1:]
+                    for dim, ref_dim in zip(data_shape, shape):
+                        if ref_dim != dim and ref_dim:
+                            raise ValueError(
+                                'Error when checking ' + exception_prefix +
+                                ': expected ' + names[i] + ' to have shape ' +
+                                str(shape) + ' but got array with shape ' +
+>                               str(data_shape))
+E                           ValueError: Error when checking target: expected activation_3 to have shape (3,) but got array with shape (1,)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:145: ValueError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 1s - loss: 1.0670 - accuracy: 0.3125
+100/100 [==============================] - 1s 5ms/step - loss: 1.0609 - accuracy: 0.3600
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-04 19:31:46.560881: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 19:31:46.693210: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:31:46.694583: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:31:46.698162: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:31:46.701555: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:31:46.703166: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:31:46.708068: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:31:46.711301: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:31:46.720793: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:31:46.721774: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:31:46.722385: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 19:31:46.736842: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:31:46.737397: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:31:46.737744: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:31:46.738083: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:31:46.738423: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:31:46.738785: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:31:46.739135: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:31:46.739488: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:31:46.740676: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:31:47.692146: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:31:47.692563: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:31:47.692797: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:31:47.693576: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-04 19:31:48.342352: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+________________________ test_classify_class_build_fn _________________________
+
+    def test_classify_class_build_fn():
+        class ClassBuildFnClf(object):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = KerasClassifier(
+            build_fn=ClassBuildFnClf(), hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:81: in assert_classification_works
+    score = clf.score(X_train, y_train, batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:293: in score
+    outputs = self.model.evaluate(x, y, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1349: in evaluate
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:621: in _standardize_user_data
+    exception_prefix='target')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+data = [array([[2],
+       [0],
+       [2],
+       [2],
+       [0],
+       [0],
+       [2],
+       [1],
+       [2],
+       [2...    [0],
+       [0],
+       [2],
+       [0],
+       [0],
+       [0],
+       [2],
+       [0],
+       [0]], dtype=int64)]
+names = ['activation_3'], shapes = [(None, 3)], check_batch_axis = False
+exception_prefix = 'target'
+
+    def standardize_input_data(data,
+                               names,
+                               shapes=None,
+                               check_batch_axis=True,
+                               exception_prefix=''):
+        """Normalizes inputs and targets provided by users.
+    
+        Users may pass data as a list of arrays, dictionary of arrays,
+        or as a single array. We normalize this to an ordered list of
+        arrays (same order as `names`), while checking that the provided
+        arrays have shapes that match the network's expectations.
+    
+        # Arguments
+            data: User-provided input data (polymorphic).
+            names: List of expected array names.
+            shapes: Optional list of expected array shapes.
+            check_batch_axis: Boolean; whether to check that
+                the batch axis of the arrays matches the expected
+                value found in `shapes`.
+            exception_prefix: String prefix used for exception formatting.
+    
+        # Returns
+            List of standardized input arrays (one array per model input).
+    
+        # Raises
+            ValueError: in case of improperly formatted user-provided data.
+        """
+        if not names:
+            if data is not None and hasattr(data, '__len__') and len(data):
+                raise ValueError('Error when checking model ' +
+                                 exception_prefix + ': '
+                                 'expected no data, but got:', data)
+            return []
+        if data is None:
+            return [None for _ in range(len(names))]
+    
+        if isinstance(data, dict):
+            try:
+                data = [
+                    data[x].values
+                    if data[x].__class__.__name__ == 'DataFrame' else data[x]
+                    for x in names
+                ]
+            except KeyError as e:
+                raise ValueError('No data provided for "' + e.args[0] +
+                                 '". Need data '
+                                 'for each key in: ' + str(names))
+        elif isinstance(data, list):
+            if isinstance(data[0], list):
+                data = [np.asarray(d) for d in data]
+            elif len(names) == 1 and isinstance(data[0], (float, int)):
+                data = [np.asarray(data)]
+            else:
+                data = [
+                    x.values if x.__class__.__name__ == 'DataFrame'
+                    else x for x in data
+                ]
+        else:
+            data = data.values if data.__class__.__name__ == 'DataFrame' else data
+            data = [data]
+        data = [standardize_single_array(x) for x in data]
+    
+        if len(data) != len(names):
+            if data and hasattr(data[0], 'shape'):
+                raise ValueError(
+                    'Error when checking model ' + exception_prefix +
+                    ': the list of Numpy arrays that you are passing to '
+                    'your model is not the size the model expected. '
+                    'Expected to see ' + str(len(names)) + ' array(s), '
+                    'but instead got the following list of ' +
+                    str(len(data)) + ' arrays: ' + str(data)[:200] + '...')
+            elif len(names) > 1:
+                raise ValueError(
+                    'Error when checking model ' + exception_prefix +
+                    ': you are passing a list as input to your model, '
+                    'but the model expects a list of ' + str(len(names)) +
+                    ' Numpy arrays instead. '
+                    'The list you passed was: ' + str(data)[:200])
+            elif len(data) == 1 and not hasattr(data[0], 'shape'):
+                raise TypeError('Error when checking model ' + exception_prefix +
+                                ': data should be a Numpy array, or list/dict of '
+                                'Numpy arrays. Found: ' + str(data)[:200] + '...')
+            elif len(names) == 1:
+                data = [np.asarray(data)]
+    
+        # Check shapes compatibility.
+        if shapes:
+            for i in range(len(names)):
+                if shapes[i] is not None and not K.is_tensor(data[i]):
+                    data_shape = data[i].shape
+                    shape = shapes[i]
+                    if data[i].ndim != len(shape):
+                        raise ValueError(
+                            'Error when checking ' + exception_prefix +
+                            ': expected ' + names[i] + ' to have ' +
+                            str(len(shape)) + ' dimensions, but got array '
+                            'with shape ' + str(data_shape))
+                    if not check_batch_axis:
+                        data_shape = data_shape[1:]
+                        shape = shape[1:]
+                    for dim, ref_dim in zip(data_shape, shape):
+                        if ref_dim != dim and ref_dim:
+                            raise ValueError(
+                                'Error when checking ' + exception_prefix +
+                                ': expected ' + names[i] + ' to have shape ' +
+                                str(shape) + ' but got array with shape ' +
+>                               str(data_shape))
+E                           ValueError: Error when checking target: expected activation_3 to have shape (3,) but got array with shape (1,)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:145: ValueError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 1.0460 - accuracy: 0.3438
+100/100 [==============================] - 0s 1ms/step - loss: 1.0621 - accuracy: 0.3500
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:31:50.006538: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:31:50.007160: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:31:50.007508: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:31:50.007852: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:31:50.008193: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:31:50.008532: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:31:50.008877: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:31:50.009225: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:31:50.009825: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:31:50.010145: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:31:50.010501: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:31:50.010720: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:31:50.011232: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________________ test_classify_inherit_class_build_fn _____________________
+
+    def test_classify_inherit_class_build_fn():
+        class InheritClassBuildFnClf(KerasClassifier):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = InheritClassBuildFnClf(
+            build_fn=None, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:81: in assert_classification_works
+    score = clf.score(X_train, y_train, batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:293: in score
+    outputs = self.model.evaluate(x, y, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1349: in evaluate
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:621: in _standardize_user_data
+    exception_prefix='target')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+data = [array([[2],
+       [0],
+       [2],
+       [2],
+       [0],
+       [0],
+       [2],
+       [1],
+       [2],
+       [2...    [0],
+       [0],
+       [2],
+       [0],
+       [0],
+       [0],
+       [2],
+       [0],
+       [0]], dtype=int64)]
+names = ['activation_3'], shapes = [(None, 3)], check_batch_axis = False
+exception_prefix = 'target'
+
+    def standardize_input_data(data,
+                               names,
+                               shapes=None,
+                               check_batch_axis=True,
+                               exception_prefix=''):
+        """Normalizes inputs and targets provided by users.
+    
+        Users may pass data as a list of arrays, dictionary of arrays,
+        or as a single array. We normalize this to an ordered list of
+        arrays (same order as `names`), while checking that the provided
+        arrays have shapes that match the network's expectations.
+    
+        # Arguments
+            data: User-provided input data (polymorphic).
+            names: List of expected array names.
+            shapes: Optional list of expected array shapes.
+            check_batch_axis: Boolean; whether to check that
+                the batch axis of the arrays matches the expected
+                value found in `shapes`.
+            exception_prefix: String prefix used for exception formatting.
+    
+        # Returns
+            List of standardized input arrays (one array per model input).
+    
+        # Raises
+            ValueError: in case of improperly formatted user-provided data.
+        """
+        if not names:
+            if data is not None and hasattr(data, '__len__') and len(data):
+                raise ValueError('Error when checking model ' +
+                                 exception_prefix + ': '
+                                 'expected no data, but got:', data)
+            return []
+        if data is None:
+            return [None for _ in range(len(names))]
+    
+        if isinstance(data, dict):
+            try:
+                data = [
+                    data[x].values
+                    if data[x].__class__.__name__ == 'DataFrame' else data[x]
+                    for x in names
+                ]
+            except KeyError as e:
+                raise ValueError('No data provided for "' + e.args[0] +
+                                 '". Need data '
+                                 'for each key in: ' + str(names))
+        elif isinstance(data, list):
+            if isinstance(data[0], list):
+                data = [np.asarray(d) for d in data]
+            elif len(names) == 1 and isinstance(data[0], (float, int)):
+                data = [np.asarray(data)]
+            else:
+                data = [
+                    x.values if x.__class__.__name__ == 'DataFrame'
+                    else x for x in data
+                ]
+        else:
+            data = data.values if data.__class__.__name__ == 'DataFrame' else data
+            data = [data]
+        data = [standardize_single_array(x) for x in data]
+    
+        if len(data) != len(names):
+            if data and hasattr(data[0], 'shape'):
+                raise ValueError(
+                    'Error when checking model ' + exception_prefix +
+                    ': the list of Numpy arrays that you are passing to '
+                    'your model is not the size the model expected. '
+                    'Expected to see ' + str(len(names)) + ' array(s), '
+                    'but instead got the following list of ' +
+                    str(len(data)) + ' arrays: ' + str(data)[:200] + '...')
+            elif len(names) > 1:
+                raise ValueError(
+                    'Error when checking model ' + exception_prefix +
+                    ': you are passing a list as input to your model, '
+                    'but the model expects a list of ' + str(len(names)) +
+                    ' Numpy arrays instead. '
+                    'The list you passed was: ' + str(data)[:200])
+            elif len(data) == 1 and not hasattr(data[0], 'shape'):
+                raise TypeError('Error when checking model ' + exception_prefix +
+                                ': data should be a Numpy array, or list/dict of '
+                                'Numpy arrays. Found: ' + str(data)[:200] + '...')
+            elif len(names) == 1:
+                data = [np.asarray(data)]
+    
+        # Check shapes compatibility.
+        if shapes:
+            for i in range(len(names)):
+                if shapes[i] is not None and not K.is_tensor(data[i]):
+                    data_shape = data[i].shape
+                    shape = shapes[i]
+                    if data[i].ndim != len(shape):
+                        raise ValueError(
+                            'Error when checking ' + exception_prefix +
+                            ': expected ' + names[i] + ' to have ' +
+                            str(len(shape)) + ' dimensions, but got array '
+                            'with shape ' + str(data_shape))
+                    if not check_batch_axis:
+                        data_shape = data_shape[1:]
+                        shape = shape[1:]
+                    for dim, ref_dim in zip(data_shape, shape):
+                        if ref_dim != dim and ref_dim:
+                            raise ValueError(
+                                'Error when checking ' + exception_prefix +
+                                ': expected ' + names[i] + ' to have shape ' +
+                                str(shape) + ' but got array with shape ' +
+>                               str(data_shape))
+E                           ValueError: Error when checking target: expected activation_3 to have shape (3,) but got array with shape (1,)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:145: ValueError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 1.1860 - accuracy: 0.2188
+100/100 [==============================] - 0s 937us/step - loss: 1.1505 - accuracy: 0.2800
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:31:50.456028: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:31:50.456640: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:31:50.456989: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:31:50.457336: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:31:50.457674: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:31:50.458020: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:31:50.458365: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:31:50.458720: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:31:50.459328: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:31:50.459642: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:31:50.459998: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:31:50.460219: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:31:50.460741: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED scikit_learn_test.py::test_classify_build_fn - ValueError: Error when ...
+FAILED scikit_learn_test.py::test_classify_class_build_fn - ValueError: Error...
+FAILED scikit_learn_test.py::test_classify_inherit_class_build_fn - ValueErro...
+========================= 3 failed, 5 passed in 6.73s =========================

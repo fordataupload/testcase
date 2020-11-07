@@ -1,0 +1,275 @@
+2020-10-04 19:27:59.548831: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\wrappers
+plugins: flaky-3.7.0
+collected 8 items
+
+scikit_learn_test.py FFF.....                                            [100%]
+
+================================== FAILURES ===================================
+___________________________ test_classify_build_fn ____________________________
+
+    def test_classify_build_fn():
+        clf = KerasClassifier(
+            build_fn=build_fn_clf, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:81: in assert_classification_works
+    score = clf.score(X_train, y_train, batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x000001DBD71DB780>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = None, kwargs = {'batch_size': 32}, loss_name = 'categorical_crossentropy'
+
+    def score(self, x, y, **kwargs):
+        """Returns the mean accuracy on the given test data and labels.
+    
+        # Arguments
+            x: array-like, shape `(n_samples, n_features)`
+                Test samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y: array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.evaluate`.
+    
+        # Returns
+            score: float
+                Mean accuracy of predictions on `x` wrt. `y`.
+    
+        # Raises
+            ValueError: If the underlying model isn't configured to
+                compute accuracy. You should pass `metrics=["accuracy"]` to
+                the `.compile()` method of the model.
+        """
+        y = None
+        kwargs = self.filter_sk_params(Sequential.evaluate, kwargs)
+    
+        loss_name = self.model.loss
+        if hasattr(loss_name, '__name__'):
+            loss_name = loss_name.__name__
+>       if loss_name == 'categorical_crossentropy' and len(y.shape) != 2:
+E       AttributeError: 'NoneType' object has no attribute 'shape'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:290: AttributeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 1s - loss: 1.0670 - accuracy: 0.3125
+100/100 [==============================] - 1s 5ms/step - loss: 1.0609 - accuracy: 0.3600
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-04 19:28:02.454261: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 19:28:02.585278: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:28:02.586900: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:28:02.590440: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:28:02.593864: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:28:02.595725: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:28:02.600652: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:28:02.603955: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:28:02.613236: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:28:02.614216: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:28:02.614824: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 19:28:02.629467: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:28:02.630016: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:28:02.630362: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:28:02.630706: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:28:02.631063: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:28:02.631411: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:28:02.631756: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:28:02.632100: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:28:02.632945: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:28:03.578971: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:28:03.579470: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:28:03.579744: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:28:03.580526: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-04 19:28:04.168558: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+________________________ test_classify_class_build_fn _________________________
+
+    def test_classify_class_build_fn():
+        class ClassBuildFnClf(object):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = KerasClassifier(
+            build_fn=ClassBuildFnClf(), hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:81: in assert_classification_works
+    score = clf.score(X_train, y_train, batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x000001DE298C54A8>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = None, kwargs = {'batch_size': 32}, loss_name = 'categorical_crossentropy'
+
+    def score(self, x, y, **kwargs):
+        """Returns the mean accuracy on the given test data and labels.
+    
+        # Arguments
+            x: array-like, shape `(n_samples, n_features)`
+                Test samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y: array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.evaluate`.
+    
+        # Returns
+            score: float
+                Mean accuracy of predictions on `x` wrt. `y`.
+    
+        # Raises
+            ValueError: If the underlying model isn't configured to
+                compute accuracy. You should pass `metrics=["accuracy"]` to
+                the `.compile()` method of the model.
+        """
+        y = None
+        kwargs = self.filter_sk_params(Sequential.evaluate, kwargs)
+    
+        loss_name = self.model.loss
+        if hasattr(loss_name, '__name__'):
+            loss_name = loss_name.__name__
+>       if loss_name == 'categorical_crossentropy' and len(y.shape) != 2:
+E       AttributeError: 'NoneType' object has no attribute 'shape'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:290: AttributeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 1.0460 - accuracy: 0.3438
+100/100 [==============================] - 0s 781us/step - loss: 1.0621 - accuracy: 0.3500
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:28:05.794866: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:28:05.795478: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:28:05.795823: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:28:05.796166: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:28:05.796503: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:28:05.796847: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:28:05.797265: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:28:05.797653: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:28:05.798286: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:28:05.798606: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:28:05.798962: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:28:05.799186: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:28:05.799706: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________________ test_classify_inherit_class_build_fn _____________________
+
+    def test_classify_inherit_class_build_fn():
+        class InheritClassBuildFnClf(KerasClassifier):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = InheritClassBuildFnClf(
+            build_fn=None, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:81: in assert_classification_works
+    score = clf.score(X_train, y_train, batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <scikit_learn_test.test_classify_inherit_class_build_fn.<locals>.InheritClassBuildFnClf object at 0x000001DE2B582860>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = None, kwargs = {'batch_size': 32}, loss_name = 'categorical_crossentropy'
+
+    def score(self, x, y, **kwargs):
+        """Returns the mean accuracy on the given test data and labels.
+    
+        # Arguments
+            x: array-like, shape `(n_samples, n_features)`
+                Test samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y: array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.evaluate`.
+    
+        # Returns
+            score: float
+                Mean accuracy of predictions on `x` wrt. `y`.
+    
+        # Raises
+            ValueError: If the underlying model isn't configured to
+                compute accuracy. You should pass `metrics=["accuracy"]` to
+                the `.compile()` method of the model.
+        """
+        y = None
+        kwargs = self.filter_sk_params(Sequential.evaluate, kwargs)
+    
+        loss_name = self.model.loss
+        if hasattr(loss_name, '__name__'):
+            loss_name = loss_name.__name__
+>       if loss_name == 'categorical_crossentropy' and len(y.shape) != 2:
+E       AttributeError: 'NoneType' object has no attribute 'shape'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:290: AttributeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 32/100 [========>.....................] - ETA: 0s - loss: 1.1860 - accuracy: 0.2188
+100/100 [==============================] - 0s 937us/step - loss: 1.1505 - accuracy: 0.2800
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 19:28:06.141859: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 19:28:06.142467: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 19:28:06.142819: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 19:28:06.143166: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 19:28:06.143506: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 19:28:06.143848: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 19:28:06.144193: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 19:28:06.144545: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 19:28:06.145158: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 19:28:06.145480: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 19:28:06.145839: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 19:28:06.146063: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 19:28:06.146584: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED scikit_learn_test.py::test_classify_build_fn - AttributeError: 'NoneTy...
+FAILED scikit_learn_test.py::test_classify_class_build_fn - AttributeError: '...
+FAILED scikit_learn_test.py::test_classify_inherit_class_build_fn - Attribute...
+========================= 3 failed, 5 passed in 6.28s =========================

@@ -1,0 +1,67 @@
+2020-10-04 19:30:05.330096: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\wrappers
+plugins: flaky-3.7.0
+collected 8 items
+
+scikit_learn_test.py F.......                                            [100%]
+
+================================== FAILURES ===================================
+___________________________ test_classify_build_fn ____________________________
+
+    def test_classify_build_fn():
+        clf = KerasClassifier(
+            build_fn=build_fn_clf, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:79: in assert_classification_works
+    batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:209: in fit
+    return super(KerasClassifier, self).fit(x, y, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x00000209BB8B56A0>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = array([2, 0, 2, 2, 0, 0, 2, 1, 2, 2, 2, 2, 0, 2, 1, 0, 1, 1, 1, 1, 0, 0,
+       1, 1, 0, 0, 0, 2, 2, 2, 1, 2, 1, 1, 2,...1, 1, 0, 2, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 0, 1, 0, 0, 1, 2, 0,
+       1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0], dtype=int64)
+kwargs = {'batch_size': 32, 'epochs': 1, 'sample_weight': array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1....., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+       1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])}
+
+    def fit(self, x, y, **kwargs):
+        """Constructs a new model with `build_fn` & fit the model to `(x, y)`.
+    
+        # Arguments
+            x : array-like, shape `(n_samples, n_features)`
+                Training samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y : array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.fit`
+    
+        # Returns
+            history : object
+                details about the training history at each epoch.
+        """
+        if self.build_fn is None:
+            self.model = self.__call__(**self.filter_sk_params(self.__call__))
+        elif ( isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+            self.model = self.build_fn(
+>               **self.filter_sk_params(self.build_fn.__call__))
+E           TypeError: build_fn_clf() missing 1 required positional argument: 'hidden_dims'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:140: TypeError
+=========================== short test summary info ===========================
+FAILED scikit_learn_test.py::test_classify_build_fn - TypeError: build_fn_clf...
+========================= 1 failed, 7 passed in 7.51s =========================

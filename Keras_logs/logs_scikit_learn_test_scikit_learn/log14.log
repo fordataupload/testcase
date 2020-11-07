@@ -1,0 +1,303 @@
+2020-10-04 19:28:21.274683: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\wrappers
+plugins: flaky-3.7.0
+collected 8 items
+
+scikit_learn_test.py FFFFFFFF                                            [100%]
+
+================================== FAILURES ===================================
+___________________________ test_classify_build_fn ____________________________
+
+    def test_classify_build_fn():
+        clf = KerasClassifier(
+            build_fn=build_fn_clf, hidden_dims=hidden_dims,
+>           batch_size=batch_size, epochs=epochs)
+
+scikit_learn_test.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:63: in __init__
+    self.check_params(sk_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x000001FD50875CC0>
+params = {'batch_size': 32, 'epochs': 1, 'hidden_dims': 5}
+
+    def check_params(self, params):
+        """Checks for user typos in `params`.
+    
+        # Arguments
+            params: dictionary; the parameters to be checked
+    
+        # Raises
+            ValueError: if any member of `params` is not a valid argument.
+        """
+        legal_params_fns = [Sequential.fit, Sequential.predict,
+                            Sequential.predict_classes, Sequential.evaluate]
+        if self.build_fn is not None:
+>           legal_params_fns.append(self.__call__)
+E           AttributeError: 'KerasClassifier' object has no attribute '__call__'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:77: AttributeError
+________________________ test_classify_class_build_fn _________________________
+
+    def test_classify_class_build_fn():
+        class ClassBuildFnClf(object):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = KerasClassifier(
+            build_fn=ClassBuildFnClf(), hidden_dims=hidden_dims,
+>           batch_size=batch_size, epochs=epochs)
+
+scikit_learn_test.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:63: in __init__
+    self.check_params(sk_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x000001FD525FA4E0>
+params = {'batch_size': 32, 'epochs': 1, 'hidden_dims': 5}
+
+    def check_params(self, params):
+        """Checks for user typos in `params`.
+    
+        # Arguments
+            params: dictionary; the parameters to be checked
+    
+        # Raises
+            ValueError: if any member of `params` is not a valid argument.
+        """
+        legal_params_fns = [Sequential.fit, Sequential.predict,
+                            Sequential.predict_classes, Sequential.evaluate]
+        if self.build_fn is not None:
+>           legal_params_fns.append(self.__call__)
+E           AttributeError: 'KerasClassifier' object has no attribute '__call__'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:77: AttributeError
+____________________ test_classify_inherit_class_build_fn _____________________
+
+    def test_classify_inherit_class_build_fn():
+        class InheritClassBuildFnClf(KerasClassifier):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = InheritClassBuildFnClf(
+            build_fn=None, hidden_dims=hidden_dims,
+>           batch_size=batch_size, epochs=epochs)
+
+scikit_learn_test.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:63: in __init__
+    self.check_params(sk_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <scikit_learn_test.test_classify_inherit_class_build_fn.<locals>.InheritClassBuildFnClf object at 0x000001FD5146A6A0>
+params = {'batch_size': 32, 'epochs': 1, 'hidden_dims': 5}
+
+    def check_params(self, params):
+        """Checks for user typos in `params`.
+    
+        # Arguments
+            params: dictionary; the parameters to be checked
+    
+        # Raises
+            ValueError: if any member of `params` is not a valid argument.
+        """
+        legal_params_fns = [Sequential.fit, Sequential.predict,
+                            Sequential.predict_classes, Sequential.evaluate]
+        if self.build_fn is not None:
+            legal_params_fns.append(self.__call__)
+        elif (not isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+>           legal_params_fns.append(self.build_fn.__call__)
+E           AttributeError: 'NoneType' object has no attribute '__call__'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:80: AttributeError
+__________________________ test_regression_build_fn ___________________________
+
+    def test_regression_build_fn():
+        reg = KerasRegressor(
+            build_fn=build_fn_reg, hidden_dims=hidden_dims,
+>           batch_size=batch_size, epochs=epochs)
+
+scikit_learn_test.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:63: in __init__
+    self.check_params(sk_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001FD525C91D0>
+params = {'batch_size': 32, 'epochs': 1, 'hidden_dims': 5}
+
+    def check_params(self, params):
+        """Checks for user typos in `params`.
+    
+        # Arguments
+            params: dictionary; the parameters to be checked
+    
+        # Raises
+            ValueError: if any member of `params` is not a valid argument.
+        """
+        legal_params_fns = [Sequential.fit, Sequential.predict,
+                            Sequential.predict_classes, Sequential.evaluate]
+        if self.build_fn is not None:
+>           legal_params_fns.append(self.__call__)
+E           AttributeError: 'KerasRegressor' object has no attribute '__call__'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:77: AttributeError
+_______________________ test_regression_class_build_fn ________________________
+
+    def test_regression_class_build_fn():
+        class ClassBuildFnReg(object):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_reg(hidden_dims)
+    
+        reg = KerasRegressor(
+            build_fn=ClassBuildFnReg(), hidden_dims=hidden_dims,
+>           batch_size=batch_size, epochs=epochs)
+
+scikit_learn_test.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:63: in __init__
+    self.check_params(sk_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001FD525D2588>
+params = {'batch_size': 32, 'epochs': 1, 'hidden_dims': 5}
+
+    def check_params(self, params):
+        """Checks for user typos in `params`.
+    
+        # Arguments
+            params: dictionary; the parameters to be checked
+    
+        # Raises
+            ValueError: if any member of `params` is not a valid argument.
+        """
+        legal_params_fns = [Sequential.fit, Sequential.predict,
+                            Sequential.predict_classes, Sequential.evaluate]
+        if self.build_fn is not None:
+>           legal_params_fns.append(self.__call__)
+E           AttributeError: 'KerasRegressor' object has no attribute '__call__'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:77: AttributeError
+___________________ test_regression_inherit_class_build_fn ____________________
+
+    def test_regression_inherit_class_build_fn():
+        class InheritClassBuildFnReg(KerasRegressor):Using TensorFlow backend.
+
+    
+            def __call__(self, hidden_dims):
+                return build_fn_reg(hidden_dims)
+    
+        reg = InheritClassBuildFnReg(
+            build_fn=None, hidden_dims=hidden_dims,
+>           batch_size=batch_size, epochs=epochs)
+
+scikit_learn_test.py:155: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:63: in __init__
+    self.check_params(sk_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <scikit_learn_test.test_regression_inherit_class_build_fn.<locals>.InheritClassBuildFnReg object at 0x000001FD525FAD68>
+params = {'batch_size': 32, 'epochs': 1, 'hidden_dims': 5}
+
+    def check_params(self, params):
+        """Checks for user typos in `params`.
+    
+        # Arguments
+            params: dictionary; the parameters to be checked
+    
+        # Raises
+            ValueError: if any member of `params` is not a valid argument.
+        """
+        legal_params_fns = [Sequential.fit, Sequential.predict,
+                            Sequential.predict_classes, Sequential.evaluate]
+        if self.build_fn is not None:
+            legal_params_fns.append(self.__call__)
+        elif (not isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+>           legal_params_fns.append(self.build_fn.__call__)
+E           AttributeError: 'NoneType' object has no attribute '__call__'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:80: AttributeError
+______________ test_regression_predict_shape_correct_num_test_0 _______________
+
+    def test_regression_predict_shape_correct_num_test_0():
+>       assert_regression_predict_shape_correct(num_test=0)
+
+scikit_learn_test.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:181: in assert_regression_predict_shape_correct
+    batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:63: in __init__
+    self.check_params(sk_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001FD525ECC18>
+params = {'batch_size': 32, 'epochs': 1, 'hidden_dims': 5}
+
+    def check_params(self, params):
+        """Checks for user typos in `params`.
+    
+        # Arguments
+            params: dictionary; the parameters to be checked
+    
+        # Raises
+            ValueError: if any member of `params` is not a valid argument.
+        """
+        legal_params_fns = [Sequential.fit, Sequential.predict,
+                            Sequential.predict_classes, Sequential.evaluate]
+        if self.build_fn is not None:
+>           legal_params_fns.append(self.__call__)
+E           AttributeError: 'KerasRegressor' object has no attribute '__call__'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:77: AttributeError
+______________ test_regression_predict_shape_correct_num_test_1 _______________
+
+    def test_regression_predict_shape_correct_num_test_1():
+>       assert_regression_predict_shape_correct(num_test=1)
+
+scikit_learn_test.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:181: in assert_regression_predict_shape_correct
+    batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:63: in __init__
+    self.check_params(sk_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001FD525F6780>
+params = {'batch_size': 32, 'epochs': 1, 'hidden_dims': 5}
+
+    def check_params(self, params):
+        """Checks for user typos in `params`.
+    
+        # Arguments
+            params: dictionary; the parameters to be checked
+    
+        # Raises
+            ValueError: if any member of `params` is not a valid argument.
+        """
+        legal_params_fns = [Sequential.fit, Sequential.predict,
+                            Sequential.predict_classes, Sequential.evaluate]
+        if self.build_fn is not None:
+>           legal_params_fns.append(self.__call__)
+E           AttributeError: 'KerasRegressor' object has no attribute '__call__'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:77: AttributeError
+=========================== short test summary info ===========================
+FAILED scikit_learn_test.py::test_classify_build_fn - AttributeError: 'KerasC...
+FAILED scikit_learn_test.py::test_classify_class_build_fn - AttributeError: '...
+FAILED scikit_learn_test.py::test_classify_inherit_class_build_fn - Attribute...
+FAILED scikit_learn_test.py::test_regression_build_fn - AttributeError: 'Kera...
+FAILED scikit_learn_test.py::test_regression_class_build_fn - AttributeError:...
+FAILED scikit_learn_test.py::test_regression_inherit_class_build_fn - Attribu...
+FAILED scikit_learn_test.py::test_regression_predict_shape_correct_num_test_0
+FAILED scikit_learn_test.py::test_regression_predict_shape_correct_num_test_1
+============================== 8 failed in 1.15s ==============================

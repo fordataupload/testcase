@@ -1,0 +1,559 @@
+2020-10-04 19:37:33.793094: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\wrappers
+plugins: flaky-3.7.0
+collected 8 items
+
+scikit_learn_test.py FFFFFFFF                                            [100%]
+
+================================== FAILURES ===================================
+___________________________ test_classify_build_fn ____________________________
+
+    def test_classify_build_fn():
+        clf = KerasClassifier(
+            build_fn=build_fn_clf, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:79: in assert_classification_works
+    batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:209: in fit
+    return super(KerasClassifier, self).fit(x, y, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x000001B9BA47B7F0>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = array([[0., 0., 1.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [1., 0...      [1., 0., 0.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [1., 0., 0.]], dtype=float32)
+kwargs = {'batch_size': 32, 'epochs': 1, 'sample_weight': array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1....., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+       1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])}
+fit_args = None
+
+    def fit(self, x, y, **kwargs):
+        """Constructs a new model with `build_fn` & fit the model to `(x, y)`.
+    
+        # Arguments
+            x : array-like, shape `(n_samples, n_features)`
+                Training samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y : array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.fit`
+    
+        # Returns
+            history : object
+                details about the training history at each epoch.
+        """
+        if self.build_fn is None:
+            self.model = self.__call__(**self.filter_sk_params(self.__call__))
+        elif (not isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+            self.model = self.build_fn(
+                **self.filter_sk_params(self.build_fn.__call__))
+        else:
+            self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+    
+        if (losses.is_categorical_crossentropy(self.model.loss) and
+                len(y.shape) != 2):
+            y = to_categorical(y)
+    
+        fit_args = None
+>       fit_args.update(kwargs)
+E       AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:149: AttributeError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+________________________ test_classify_class_build_fn _________________________
+
+    def test_classify_class_build_fn():
+        class ClassBuildFnClf(object):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = KerasClassifier(
+            build_fn=ClassBuildFnClf(), hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:79: in assert_classification_works
+    batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:209: in fit
+    return super(KerasClassifier, self).fit(x, y, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasClassifier object at 0x000001B9BB0B27F0>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = array([[0., 0., 1.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [1., 0...      [1., 0., 0.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [1., 0., 0.]], dtype=float32)
+kwargs = {'batch_size': 32, 'epochs': 1, 'sample_weight': array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1....., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+       1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])}
+fit_args = None
+
+    def fit(self, x, y, **kwargs):
+        """Constructs a new model with `build_fn` & fit the model to `(x, y)`.
+    
+        # Arguments
+            x : array-like, shape `(n_samples, n_features)`
+                Training samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y : array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.fit`
+    
+        # Returns
+            history : object
+                details about the training history at each epoch.
+        """
+        if self.build_fn is None:
+            self.model = self.__call__(**self.filter_sk_params(self.__call__))
+        elif (not isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+            self.model = self.build_fn(
+                **self.filter_sk_params(self.build_fn.__call__))
+        else:
+            self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+    
+        if (losses.is_categorical_crossentropy(self.model.loss) and
+                len(y.shape) != 2):
+            y = to_categorical(y)
+    
+        fit_args = None
+>       fit_args.update(kwargs)
+E       AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:149: AttributeError
+____________________ test_classify_inherit_class_build_fn _____________________
+
+    def test_classify_inherit_class_build_fn():
+        class InheritClassBuildFnClf(KerasClassifier):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_clf(hidden_dims)
+    
+        clf = InheritClassBuildFnClf(
+            build_fn=None, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_classification_works(clf)
+
+scikit_learn_test.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:79: in assert_classification_works
+    batch_size=batch_size, epochs=epochs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:209: in fit
+    return super(KerasClassifier, self).fit(x, y, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <scikit_learn_test.test_classify_inherit_class_build_fn.<locals>.InheritClassBuildFnClf object at 0x000001B9BC2A3E48>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = array([[0., 0., 1.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [1., 0...      [1., 0., 0.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [1., 0., 0.]], dtype=float32)
+kwargs = {'batch_size': 32, 'epochs': 1, 'sample_weight': array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1....., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+       1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])}
+fit_args = None
+
+    def fit(self, x, y, **kwargs):
+        """Constructs a new model with `build_fn` & fit the model to `(x, y)`.
+    
+        # Arguments
+            x : array-like, shape `(n_samples, n_features)`
+                Training samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y : array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.fit`
+    
+        # Returns
+            history : object
+                details about the training history at each epoch.
+        """
+        if self.build_fn is None:
+            self.model = self.__call__(**self.filter_sk_params(self.__call__))
+        elif (not isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+            self.model = self.build_fn(
+                **self.filter_sk_params(self.build_fn.__call__))
+        else:
+            self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+    
+        if (losses.is_categorical_crossentropy(self.model.loss) and
+                len(y.shape) != 2):
+            y = to_categorical(y)
+    
+        fit_args = None
+>       fit_args.update(kwargs)
+E       AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:149: AttributeError
+__________________________ test_regression_build_fn ___________________________
+
+    def test_regression_build_fn():
+        reg = KerasRegressor(
+            build_fn=build_fn_reg, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_regression_works(reg)
+
+scikit_learn_test.py:131: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:161: in assert_regression_works
+    reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001B9BC2B4240>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = array([2, 0, 2, 2, 0, 0, 2, 1, 2, 2, 2, 2, 0, 2, 1, 0, 1, 1, 1, 1, 0, 0,
+       1, 1, 0, 0, 0, 2, 2, 2, 1, 2, 1, 1, 2,...1,
+       1, 1, 1, 0, 2, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 0, 1, 0, 0, 1, 2, 0,
+       1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0])
+kwargs = {'batch_size': 32, 'epochs': 1}, fit_args = None
+
+    def fit(self, x, y, **kwargs):
+        """Constructs a new model with `build_fn` & fit the model to `(x, y)`.
+    
+        # Arguments
+            x : array-like, shape `(n_samples, n_features)`
+                Training samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y : array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.fit`
+    
+        # Returns
+            history : object
+                details about the training history at each epoch.
+        """
+        if self.build_fn is None:
+            self.model = self.__call__(**self.filter_sk_params(self.__call__))
+        elif (not isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+            self.model = self.build_fn(
+                **self.filter_sk_params(self.build_fn.__call__))
+        else:
+            self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+    
+        if (losses.is_categorical_crossentropy(self.model.loss) and
+                len(y.shape) != 2):
+            y = to_categorical(y)
+    
+        fit_args = None
+>       fit_args.update(kwargs)
+E       AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:149: AttributeError
+_______________________ test_regression_class_build_fn ________________________
+
+    def test_regression_class_build_fn():
+        class ClassBuildFnReg(object):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_reg(hidden_dims)
+    
+        reg = KerasRegressor(
+            build_fn=ClassBuildFnReg(), hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_regression_works(reg)
+
+scikit_learn_test.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:161: in assert_regression_works
+    reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001B9BC34BA90>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = array([2, 0, 2, 2, 0, 0, 2, 1, 2, 2, 2, 2, 0, 2, 1, 0, 1, 1, 1, 1, 0, 0,
+       1, 1, 0, 0, 0, 2, 2, 2, 1, 2, 1, 1, 2,...1,
+       1, 1, 1, 0, 2, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 0, 1, 0, 0, 1, 2, 0,
+       1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0])
+kwargs = {'batch_size': 32, 'epochs': 1}, fit_args = None
+
+    def fit(self, x, y, **kwargs):
+        """Constructs a new model with `build_fn` & fit the model to `(x, y)`.
+    
+        # Arguments
+            x : array-like, shape `(n_samples, n_features)`
+                Training samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y : array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.fit`
+    
+        # Returns
+            history : object
+                details about the training history at each epoch.
+        """
+        if self.build_fn is None:
+            self.model = self.__call__(**self.filter_sk_params(self.__call__))
+        elif (not isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+            self.model = self.build_fn(
+                **self.filter_sk_params(self.build_fn.__call__))
+        else:
+            self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+    
+        if (losses.is_categorical_crossentropy(self.model.loss) and
+                len(y.shape) != 2):
+            y = to_categorical(y)
+    
+        fit_args = None
+>       fit_args.update(kwargs)
+E       AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:149: AttributeError
+___________________ test_regression_inherit_class_build_fn ____________________
+
+    def test_regression_inherit_class_build_fn():
+        class InheritClassBuildFnReg(KerasRegressor):
+    
+            def __call__(self, hidden_dims):
+                return build_fn_reg(hidden_dims)
+    
+        reg = InheritClassBuildFnReg(
+            build_fn=None, hidden_dims=hidden_dims,
+            batch_size=batch_size, epochs=epochs)
+    
+>       assert_regression_works(reg)
+
+scikit_learn_test.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:161: in assert_regression_works
+    reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <scikit_learn_test.test_regression_inherit_class_build_fn.<locals>.InheritClassBuildFnReg object at 0x000001B9BC2F2E80>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = array([2, 0, 2, 2, 0, 0, 2, 1, 2, 2, 2, 2, 0, 2, 1, 0, 1, 1, 1, 1, 0, 0,
+       1, 1, 0, 0, 0, 2, 2, 2, 1, 2, 1, 1, 2,...1,
+       1, 1, 1, 0, 2, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 0, 1, 0, 0, 1, 2, 0,
+       1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0])
+kwargs = {'batch_size': 32, 'epochs': 1}, fit_args = None
+
+    def fit(self, x, y, **kwargs):
+        """Constructs a new model with `build_fn` & fit the model to `(x, y)`.
+    
+        # Arguments
+            x : array-like, shape `(n_samples, n_features)`
+                Training samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y : array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.fit`
+    
+        # Returns
+            history : object
+                details about the training history at each epoch.
+        """
+        if self.build_fn is None:
+            self.model = self.__call__(**self.filter_sk_params(self.__call__))
+        elif (not isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+            self.model = self.build_fn(
+                **self.filter_sk_params(self.build_fn.__call__))
+        else:
+            self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+    
+        if (losses.is_categorical_crossentropy(self.model.loss) and
+                len(y.shape) != 2):
+            y = to_categorical(y)
+    
+        fit_args = None
+>       fit_args.update(kwargs)
+E       AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:149: AttributeError
+______________ test_regression_predict_shape_correct_num_test_0 _______________
+
+    def test_regression_predict_shape_correct_num_test_0():
+>       assert_regression_predict_shape_correct(num_test=0)
+
+scikit_learn_test.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:182: in assert_regression_predict_shape_correct
+    reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001B9BC3B8240>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = array([2, 0, 2, 2, 0, 0, 2, 1, 2, 2, 2, 2, 0, 2, 1, 0, 1, 1, 1, 1, 0, 0,
+       1, 1, 0, 0, 0, 2, 2, 2, 1, 2, 1, 1, 2,...1,
+       1, 1, 1, 0, 2, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 0, 1, 0, 0, 1, 2, 0,
+       1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0])
+kwargs = {'batch_size': 32, 'epochs': 1}, fit_args = None
+
+    def fit(self, x, y, **kwargs):
+        """Constructs a new model with `build_fn` & fit the model to `(x, y)`.
+    
+        # Arguments
+            x : array-like, shape `(n_samples, n_features)`
+                Training samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y : array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.fit`
+    
+        # Returns
+            history : object
+                details about the training history at each epoch.
+        """
+        if self.build_fn is None:
+            self.model = self.__call__(**self.filter_sk_params(self.__call__))
+        elif (not isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+            self.model = self.build_fn(
+                **self.filter_sk_params(self.build_fn.__call__))
+        else:
+            self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+    
+        if (losses.is_categorical_crossentropy(self.model.loss) and
+                len(y.shape) != 2):
+            y = to_categorical(y)
+    
+        fit_args = None
+>       fit_args.update(kwargs)
+E       AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:149: AttributeError
+______________ test_regression_predict_shape_correct_num_test_1 _______________
+
+    def test_regression_predict_shape_correct_num_test_1():
+>       assert_regression_predict_shape_correct(num_test=1)
+
+scikit_learn_test.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scikit_learn_test.py:182: in assert_regression_predict_shape_correct
+    reg.fit(X_train, y_train, batch_size=batch_size, epochs=epochs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001B9BC432390>
+x = array([[ 2.6324728e+00,  2.0133002e+00,  1.6259085e+00,  9.5346230e-01,
+         1.4475192e+00],
+       [ 5.2059788e-0...e-01],
+       [ 5.7617348e-01,  6.2468755e-01,  6.6934310e-02, -6.1937118e-01,
+         2.0085888e-01]], dtype=float32)
+y = array([2, 0, 2, 2, 0, 0, 2, 1, 2, 2, 2, 2, 0, 2, 1, 0, 1, 1, 1, 1, 0, 0,
+       1, 1, 0, 0, 0, 2, 2, 2, 1, 2, 1, 1, 2,...1,
+       1, 1, 1, 0, 2, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 0, 1, 0, 0, 1, 2, 0,
+       1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0])
+kwargs = {'batch_size': 32, 'epochs': 1}, fit_args = None
+
+    def fit(self, x, y, **kwargs):
+        """Constructs a new model with `build_fn` & fit the model to `(x, y)`.
+    
+        # Arguments
+            x : array-like, shape `(n_samples, n_features)`
+                Training samples where `n_samples` is the number of samples
+                and `n_features` is the number of features.
+            y : array-like, shape `(n_samples,)` or `(n_samples, n_outputs)`
+                True labels for `x`.
+            **kwargs: dictionary arguments
+                Legal arguments are the arguments of `Sequential.fit`
+    
+        # Returns
+            history : object
+                details about the training history at each epoch.
+        """
+        if self.build_fn is None:
+            self.model = self.__call__(**self.filter_sk_params(self.__call__))
+        elif (not isinstance(self.build_fn, types.FunctionType) and
+              not isinstance(self.build_fn, types.MethodType)):
+            self.model = self.build_fn(
+                **self.filter_sk_params(self.build_fn.__call__))
+        else:
+            self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+    
+        if (losses.is_categorical_crossentropy(self.model.loss) and
+                len(y.shape) != 2):
+            y = to_categorical(y)
+    
+        fit_args = None
+>       fit_args.update(kwargs)
+E       AttributeError: 'NoneType' object has no attribute 'update'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\wrappers\scikit_learn.py:149: AttributeError
+=========================== short test summary info ===========================
+FAILED scikit_learn_test.py::test_classify_build_fn - AttributeError: 'NoneTy...
+FAILED scikit_learn_test.py::test_classify_class_build_fn - AttributeError: '...
+FAILED scikit_learn_test.py::test_classify_inherit_class_build_fn - Attribute...
+FAILED scikit_learn_test.py::test_regression_build_fn - AttributeError: 'None...
+FAILED scikit_learn_test.py::test_regression_class_build_fn - AttributeError:...
+FAILED scikit_learn_test.py::test_regression_inherit_class_build_fn - Attribu...
+FAILED scikit_learn_test.py::test_regression_predict_shape_correct_num_test_0
+FAILED scikit_learn_test.py::test_regression_predict_shape_correct_num_test_1
+============================== 8 failed in 2.20s ==============================
