@@ -1,0 +1,576 @@
+2020-10-03 17:16:31.366203: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 110 items
+
+convolutional_test.py ..............FFFFFFFFFF.......................... [ 45%]
+............................................................             [100%]
+
+================================== FAILURES ===================================
+_________________ test_conv2d_transpose[valid-None-strides0] __________________
+
+padding = 'valid', out_padding = None, strides = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000001B572EA5F98>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 4:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+                             '; Received input shape:', str(input_shape))
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is not None:
+>           raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+E           ValueError: The channel dimension of the inputs should be defined. Found `None`.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:786: ValueError
+_________________ test_conv2d_transpose[valid-None-strides1] __________________
+
+padding = 'valid', out_padding = None, strides = (2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000001B57D528550>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 4:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+                             '; Received input shape:', str(input_shape))
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is not None:
+>           raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+E           ValueError: The channel dimension of the inputs should be defined. Found `None`.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:786: ValueError
+_____________ test_conv2d_transpose[valid-out_padding2-strides2] ______________
+
+padding = 'valid', out_padding = (0, 0), strides = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000001B572E96550>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 4:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+                             '; Received input shape:', str(input_shape))
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is not None:
+>           raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+E           ValueError: The channel dimension of the inputs should be defined. Found `None`.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:786: ValueError
+_____________ test_conv2d_transpose[valid-out_padding3-strides3] ______________
+
+padding = 'valid', out_padding = (0, 0), strides = (2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000001B57D793470>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 4:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+                             '; Received input shape:', str(input_shape))
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is not None:
+>           raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+E           ValueError: The channel dimension of the inputs should be defined. Found `None`.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:786: ValueError
+_____________ test_conv2d_transpose[valid-out_padding4-strides4] ______________
+
+padding = 'valid', out_padding = (1, 1), strides = (2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000001B57D75D1D0>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 4:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+                             '; Received input shape:', str(input_shape))
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is not None:
+>           raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+E           ValueError: The channel dimension of the inputs should be defined. Found `None`.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:786: ValueError
+__________________ test_conv2d_transpose[same-None-strides5] __________________
+
+padding = 'same', out_padding = None, strides = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000001B57D67A080>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 4:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+                             '; Received input shape:', str(input_shape))
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is not None:
+>           raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+E           ValueError: The channel dimension of the inputs should be defined. Found `None`.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:786: ValueError
+______________ test_conv2d_transpose[same-out_padding6-strides6] ______________
+
+padding = 'same', out_padding = (0, 0), strides = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000001B57D4DA0F0>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 4:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+                             '; Received input shape:', str(input_shape))
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is not None:
+>           raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+E           ValueError: The channel dimension of the inputs should be defined. Found `None`.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:786: ValueError
+_______________________ test_conv2d_transpose_dilation ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only supports dilated conv transpose on GPU')
+    def test_conv2d_transpose_dilation():
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': 2,
+                           'kernel_size': 3,
+                           'padding': 'same',
+                           'data_format': 'channels_last',
+                           'dilation_rate': (2, 2)},
+>                  input_shape=(2, 5, 6, 3))
+
+convolutional_test.py:226: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000001B57D741D68>
+input_shape = (None, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 4:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+                             '; Received input shape:', str(input_shape))
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is not None:
+>           raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+E           ValueError: The channel dimension of the inputs should be defined. Found `None`.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:786: ValueError
+____________________ test_conv2d_transpose_channels_first _____________________
+
+    def test_conv2d_transpose_channels_first():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+        padding = 'valid'
+        strides = (2, 2)
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'data_format': 'channels_first',
+                           'activation': None,
+                           'kernel_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'kernel_constraint': 'max_norm',
+                           'bias_constraint': 'max_norm',
+                           'strides': strides},
+                   input_shape=(num_samples, stack_size, num_row, num_col),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:268: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000001B57D64CB38>
+input_shape = (2, 3, 5, 6)
+
+    def build(self, input_shape):
+        if len(input_shape) != 4:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+                             '; Received input shape:', str(input_shape))
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is not None:
+>           raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+E           ValueError: The channel dimension of the inputs should be defined. Found `None`.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:786: ValueError
+________________________ test_conv2d_transpose_invalid ________________________
+
+    def test_conv2d_transpose_invalid():
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+        padding = 'valid'
+    
+        with pytest.raises(ValueError):
+            model = Sequential([convolutional.Conv2DTranspose(
+                filters=filters,
+                kernel_size=3,
+                padding=padding,
+                use_bias=True,
+>               batch_input_shape=(None, None, 5, None))])
+
+convolutional_test.py:284: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\sequential.py:94: in __init__
+    self.add(layer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\sequential.py:166: in add
+    layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:795: in build
+    constraint=self.kernel_constraint)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:279: in add_weight
+    weight = K.variable(initializer(shape, dtype=dtype),
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:211: in __call__
+    fan_in, fan_out = _compute_fans(shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+shape = (3, 3, 2, None), data_format = 'channels_last'
+
+    def _compute_fans(shape, data_format='channels_last'):
+        """Computes the number of input and output units for a weight shape.
+    
+        # Arguments
+            shape: Integer shape tuple.
+            data_format: Image data format to use for convolution kernels.
+                Note that all kernels in Keras are standardized on the
+                `channels_last` ordering (even when inputs are set
+                to `channels_first`).
+    
+        # Returns
+            A tuple of scalars, `(fan_in, fan_out)`.
+    
+        # Raises
+            ValueError: in case of invalid `data_format` argument.
+        """
+        if len(shape) == 2:
+            fan_in = shape[0]
+            fan_out = shape[1]
+        elif len(shape) in {3, 4, 5}:
+            # Assuming convolution kernels (1D, 2D or 3D).
+            # TH kernel shape: (depth, input_depth, ...)
+            # TF kernel shape: (..., input_depth, depth)
+            if data_format == 'channels_first':
+                receptive_field_size = np.prod(shape[2:])
+                fan_in = shape[1] * receptive_field_size
+                fan_out = shape[0] * receptive_field_size
+            elif data_format == 'channels_last':
+                receptive_field_size = np.prod(shape[:-2])
+                fan_in = shape[-2] * receptive_field_size
+>               fan_out = shape[-1] * receptive_field_size
+E               TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:492: TypeError
+=========================== short test summary info ===========================
+FAILED convolutional_test.py::test_conv2d_transpose[valid-None-strides0] - Va...
+FAILED convolutional_test.py::test_conv2d_transpose[valid-None-strides1] - Va...
+FAILED convolutional_test.py::test_conv2d_transpose[valid-out_padding2-strides2]
+FAILED convolutional_test.py::test_conv2d_transpose[valid-out_padding3-strides3]
+FAILED convolutional_test.py::test_conv2d_transpose[valid-out_padding4-strides4]
+FAILED convolutional_test.py::test_conv2d_transpose[same-None-strides5] - Val...
+FAILED convolutional_test.py::test_conv2d_transpose[same-out_padding6-strides6]
+FAILED convolutional_test.py::test_conv2d_transpose_dilation - ValueError: Th...
+FAILED convolutional_test.py::test_conv2d_transpose_channels_first - ValueErr...
+FAILED convolutional_test.py::test_conv2d_transpose_invalid - TypeError: unsu...
+======================= 10 failed, 100 passed in 26.66s =======================

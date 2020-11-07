@@ -1,0 +1,1898 @@
+2020-10-03 17:10:32.902116: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 110 items
+
+convolutional_test.py FFFFFFF....FF...........FFFFFFFFFF..FFFFFFFFFFFF.. [ 45%]
+..............FFFF.......................................FFF             [100%]
+
+================================== FAILURES ===================================
+_________ test_causal_dilated_conv[layer_kwargs0-4-expected_output0] __________
+
+layer_kwargs = {'dilation_rate': 1, 'filters': 1, 'kernel_initializer': 'ones', 'kernel_size': 2, ...}
+input_length = 4, expected_output = [[[0], [1], [3], [5]]]
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    @pytest.mark.parametrize(
+        'layer_kwargs,input_length,expected_output',
+        [
+            # Causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[0], [1], [3], [5]]]),
+            # Non-causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'valid',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[1], [3], [5]]]),
+            # Causal dilated with larger kernel size
+            ({'filters': 1, 'kernel_size': 3, 'dilation_rate': 2, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             10, np.float32([[[0], [1], [2], [4], [6], [9], [12], [15], [18], [21]]])),
+        ]
+    )
+    def test_causal_dilated_conv(layer_kwargs, input_length, expected_output):
+        input_data = np.reshape(np.arange(input_length, dtype='float32'),
+                                (1, input_length, 1))
+        layer_test(convolutional.Conv1D, input_data=input_data,
+>                  kwargs=layer_kwargs, expected_output=expected_output)
+
+convolutional_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv1D object at 0x000001EFD00D49B0>
+input_shape = (1, 4, 1)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_________ test_causal_dilated_conv[layer_kwargs1-4-expected_output1] __________
+
+layer_kwargs = {'dilation_rate': 1, 'filters': 1, 'kernel_initializer': 'ones', 'kernel_size': 2, ...}
+input_length = 4, expected_output = [[[1], [3], [5]]]
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    @pytest.mark.parametrize(
+        'layer_kwargs,input_length,expected_output',
+        [
+            # Causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[0], [1], [3], [5]]]),
+            # Non-causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'valid',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[1], [3], [5]]]),
+            # Causal dilated with larger kernel size
+            ({'filters': 1, 'kernel_size': 3, 'dilation_rate': 2, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             10, np.float32([[[0], [1], [2], [4], [6], [9], [12], [15], [18], [21]]])),
+        ]
+    )
+    def test_causal_dilated_conv(layer_kwargs, input_length, expected_output):
+        input_data = np.reshape(np.arange(input_length, dtype='float32'),
+                                (1, input_length, 1))
+        layer_test(convolutional.Conv1D, input_data=input_data,
+>                  kwargs=layer_kwargs, expected_output=expected_output)
+
+convolutional_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv1D object at 0x000001EFD1C8BC18>
+input_shape = (1, 4, 1)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_________ test_causal_dilated_conv[layer_kwargs2-10-expected_output2] _________
+
+layer_kwargs = {'dilation_rate': 2, 'filters': 1, 'kernel_initializer': 'ones', 'kernel_size': 3, ...}
+input_length = 10
+expected_output = array([[[ 0.],
+        [ 1.],
+        [ 2.],
+        [ 4.],
+        [ 6.],
+        [ 9.],
+        [12.],
+        [15.],
+        [18.],
+        [21.]]], dtype=float32)
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    @pytest.mark.parametrize(
+        'layer_kwargs,input_length,expected_output',
+        [
+            # Causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[0], [1], [3], [5]]]),
+            # Non-causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'valid',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[1], [3], [5]]]),
+            # Causal dilated with larger kernel size
+            ({'filters': 1, 'kernel_size': 3, 'dilation_rate': 2, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             10, np.float32([[[0], [1], [2], [4], [6], [9], [12], [15], [18], [21]]])),
+        ]
+    )
+    def test_causal_dilated_conv(layer_kwargs, input_length, expected_output):
+        input_data = np.reshape(np.arange(input_length, dtype='float32'),
+                                (1, input_length, 1))
+        layer_test(convolutional.Conv1D, input_data=input_data,
+>                  kwargs=layer_kwargs, expected_output=expected_output)
+
+convolutional_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv1D object at 0x000001EFD1EC8358>
+input_shape = (1, 10, 1)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+____________________________ test_conv_1d[valid-1] ____________________________
+
+padding = 'valid', strides = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         if not (padding == 'same' and strides != 1)]
+    )
+    def test_conv_1d(padding, strides):
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv1D object at 0x000001EFD1F52D30>
+input_shape = (2, 8, 2)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+____________________________ test_conv_1d[valid-2] ____________________________
+
+padding = 'valid', strides = 2
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         if not (padding == 'same' and strides != 1)]
+    )
+    def test_conv_1d(padding, strides):
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv1D object at 0x000001EFD20336A0>
+input_shape = (2, 8, 2)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+____________________________ test_conv_1d[same-1] _____________________________
+
+padding = 'same', strides = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         if not (padding == 'same' and strides != 1)]
+    )
+    def test_conv_1d(padding, strides):
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv1D object at 0x000001EFD1E5DA20>
+input_shape = (2, 8, 2)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+____________________________ test_conv_1d_dilation ____________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    def test_conv_1d_dilation():
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+        padding = _convolution_paddings[-1]
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'dilation_rate': 2},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv1D object at 0x000001EFD0133518>
+input_shape = (2, 8, 2)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+______________________ test_convolution_2d_channels_last ______________________
+
+    def test_convolution_2d_channels_last():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+        padding = 'valid'
+        strides = (2, 2)
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'data_format': 'channels_last',
+                           'activation': None,
+                           'kernel_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'kernel_constraint': 'max_norm',
+                           'bias_constraint': 'max_norm',
+                           'strides': strides},
+>                  input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2D object at 0x000001EFD1F55630>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+________________________ test_convolution_2d_dilation _________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only supports dilated conv on GPU')
+    def test_convolution_2d_dilation():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+        padding = 'valid'
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'dilation_rate': (2, 2)},
+>                  input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2D object at 0x000001EFD1F5C780>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_separable_conv_1d[valid-1-1-1] _____________________
+
+padding = 'valid', strides = 1, multiplier = 1, dilation_rate = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         for multiplier in [1, 2]
+         for dilation_rate in [1, 2]
+         if (not (padding == 'same' and strides != 1)
+             and not (dilation_rate != 1 and strides != 1)
+             and not (dilation_rate != 1 and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_1d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides,
+                           'depth_multiplier': multiplier,
+                           'dilation_rate': dilation_rate},
+>                  input_shape=(num_samples, num_step, stack_size))
+
+convolutional_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv1D object at 0x000001EFD207BD68>
+input_shape = (2, 9, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_separable_conv_1d[valid-1-1-2] _____________________
+
+padding = 'valid', strides = 1, multiplier = 1, dilation_rate = 2
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         for multiplier in [1, 2]
+         for dilation_rate in [1, 2]
+         if (not (padding == 'same' and strides != 1)
+             and not (dilation_rate != 1 and strides != 1)
+             and not (dilation_rate != 1 and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_1d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides,
+                           'depth_multiplier': multiplier,
+                           'dilation_rate': dilation_rate},
+>                  input_shape=(num_samples, num_step, stack_size))
+
+convolutional_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv1D object at 0x000001EFD2496278>
+input_shape = (2, 9, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_separable_conv_1d[valid-1-2-1] _____________________
+
+padding = 'valid', strides = 1, multiplier = 2, dilation_rate = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         for multiplier in [1, 2]
+         for dilation_rate in [1, 2]
+         if (not (padding == 'same' and strides != 1)
+             and not (dilation_rate != 1 and strides != 1)
+             and not (dilation_rate != 1 and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_1d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides,
+                           'depth_multiplier': multiplier,
+                           'dilation_rate': dilation_rate},
+>                  input_shape=(num_samples, num_step, stack_size))
+
+convolutional_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv1D object at 0x000001EFD1E6B128>
+input_shape = (2, 9, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_separable_conv_1d[valid-1-2-2] _____________________
+
+padding = 'valid', strides = 1, multiplier = 2, dilation_rate = 2
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         for multiplier in [1, 2]
+         for dilation_rate in [1, 2]
+         if (not (padding == 'same' and strides != 1)
+             and not (dilation_rate != 1 and strides != 1)
+             and not (dilation_rate != 1 and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_1d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides,
+                           'depth_multiplier': multiplier,
+                           'dilation_rate': dilation_rate},
+>                  input_shape=(num_samples, num_step, stack_size))
+
+convolutional_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv1D object at 0x000001EFD1F52E48>
+input_shape = (2, 9, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_separable_conv_1d[valid-2-1-1] _____________________
+
+padding = 'valid', strides = 2, multiplier = 1, dilation_rate = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         for multiplier in [1, 2]
+         for dilation_rate in [1, 2]
+         if (not (padding == 'same' and strides != 1)
+             and not (dilation_rate != 1 and strides != 1)
+             and not (dilation_rate != 1 and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_1d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides,
+                           'depth_multiplier': multiplier,
+                           'dilation_rate': dilation_rate},
+>                  input_shape=(num_samples, num_step, stack_size))
+
+convolutional_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv1D object at 0x000001EFD1E5DF60>
+input_shape = (2, 9, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_separable_conv_1d[valid-2-2-1] _____________________
+
+padding = 'valid', strides = 2, multiplier = 2, dilation_rate = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         for multiplier in [1, 2]
+         for dilation_rate in [1, 2]
+         if (not (padding == 'same' and strides != 1)
+             and not (dilation_rate != 1 and strides != 1)
+             and not (dilation_rate != 1 and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_1d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides,
+                           'depth_multiplier': multiplier,
+                           'dilation_rate': dilation_rate},
+>                  input_shape=(num_samples, num_step, stack_size))
+
+convolutional_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv1D object at 0x000001EFD1C8BF98>
+input_shape = (2, 9, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_separable_conv_1d[same-1-1-1] ______________________
+
+padding = 'same', strides = 1, multiplier = 1, dilation_rate = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         for multiplier in [1, 2]
+         for dilation_rate in [1, 2]
+         if (not (padding == 'same' and strides != 1)
+             and not (dilation_rate != 1 and strides != 1)
+             and not (dilation_rate != 1 and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_1d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides,
+                           'depth_multiplier': multiplier,
+                           'dilation_rate': dilation_rate},
+>                  input_shape=(num_samples, num_step, stack_size))
+
+convolutional_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv1D object at 0x000001EFD21129B0>
+input_shape = (2, 9, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_separable_conv_1d[same-1-1-2] ______________________
+
+padding = 'same', strides = 1, multiplier = 1, dilation_rate = 2
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         for multiplier in [1, 2]
+         for dilation_rate in [1, 2]
+         if (not (padding == 'same' and strides != 1)
+             and not (dilation_rate != 1 and strides != 1)
+             and not (dilation_rate != 1 and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_1d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides,
+                           'depth_multiplier': multiplier,
+                           'dilation_rate': dilation_rate},
+>                  input_shape=(num_samples, num_step, stack_size))
+
+convolutional_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv1D object at 0x000001EFD0133CF8>
+input_shape = (2, 9, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_separable_conv_1d[same-1-2-1] ______________________
+
+padding = 'same', strides = 1, multiplier = 2, dilation_rate = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         for multiplier in [1, 2]
+         for dilation_rate in [1, 2]
+         if (not (padding == 'same' and strides != 1)
+             and not (dilation_rate != 1 and strides != 1)
+             and not (dilation_rate != 1 and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_1d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides,
+                           'depth_multiplier': multiplier,
+                           'dilation_rate': dilation_rate},
+>                  input_shape=(num_samples, num_step, stack_size))
+
+convolutional_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv1D object at 0x000001EFD1FE3160>
+input_shape = (2, 9, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_separable_conv_1d[same-1-2-2] ______________________
+
+padding = 'same', strides = 1, multiplier = 2, dilation_rate = 2
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         for multiplier in [1, 2]
+         for dilation_rate in [1, 2]
+         if (not (padding == 'same' and strides != 1)
+             and not (dilation_rate != 1 and strides != 1)
+             and not (dilation_rate != 1 and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_1d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides,
+                           'depth_multiplier': multiplier,
+                           'dilation_rate': dilation_rate},
+>                  input_shape=(num_samples, num_step, stack_size))
+
+convolutional_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv1D object at 0x000001EFD1E5D630>
+input_shape = (2, 9, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________ test_separable_conv_2d[valid-strides0-1-dilation_rate0] ___________
+
+padding = 'valid', strides = (1, 1), multiplier = 1, dilation_rate = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD20CA080>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________ test_separable_conv_2d[valid-strides1-1-dilation_rate1] ___________
+
+padding = 'valid', strides = (1, 1), multiplier = 1, dilation_rate = (2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD204D198>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________ test_separable_conv_2d[valid-strides2-1-dilation_rate2] ___________
+
+padding = 'valid', strides = (1, 1), multiplier = 1, dilation_rate = (2, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD2489C50>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________ test_separable_conv_2d[valid-strides3-2-dilation_rate3] ___________
+
+padding = 'valid', strides = (1, 1), multiplier = 2, dilation_rate = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD1E505C0>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________ test_separable_conv_2d[valid-strides4-2-dilation_rate4] ___________
+
+padding = 'valid', strides = (1, 1), multiplier = 2, dilation_rate = (1, 2)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD2132438>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________ test_separable_conv_2d[valid-strides5-1-dilation_rate5] ___________
+
+padding = 'valid', strides = (2, 2), multiplier = 1, dilation_rate = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD2032C18>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________ test_separable_conv_2d[valid-strides6-2-dilation_rate6] ___________
+
+padding = 'valid', strides = (2, 2), multiplier = 2, dilation_rate = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD1F9BC18>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________ test_separable_conv_2d[same-strides7-1-dilation_rate7] ____________
+
+padding = 'same', strides = (1, 1), multiplier = 1, dilation_rate = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD1FD5588>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________ test_separable_conv_2d[same-strides8-1-dilation_rate8] ____________
+
+padding = 'same', strides = (1, 1), multiplier = 1, dilation_rate = (2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD1F826D8>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________ test_separable_conv_2d[same-strides9-1-dilation_rate9] ____________
+
+padding = 'same', strides = (1, 1), multiplier = 1, dilation_rate = (2, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD1FF3978>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+__________ test_separable_conv_2d[same-strides10-2-dilation_rate10] ___________
+
+padding = 'same', strides = (1, 1), multiplier = 2, dilation_rate = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD1FDD160>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+__________ test_separable_conv_2d[same-strides11-2-dilation_rate11] ___________
+
+padding = 'same', strides = (1, 1), multiplier = 2, dilation_rate = (1, 2)
+
+    @pytest.mark.parametrize(
+        'padding,strides,multiplier,dilation_rate',
+        [(padding, strides, multiplier, dilation_rate)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         for multiplier in [1, 2]
+         for dilation_rate in [(1, 1), (2, 2), (2, 1), (1, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and strides != (1, 1))
+             and not (dilation_rate != (1, 1) and multiplier == dilation_rate[0])
+             and not (dilation_rate != (1, 1) and K.backend() == 'cntk'))]
+    )
+    def test_separable_conv_2d(padding, strides, multiplier, dilation_rate):
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+    
+        layer_test(
+            convolutional.SeparableConv2D,
+            kwargs={'filters': filters,
+                    'kernel_size': (3, 3),
+                    'padding': padding,
+                    'strides': strides,
+                    'depth_multiplier': multiplier,
+                    'dilation_rate': dilation_rate},
+>           input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:396: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.SeparableConv2D object at 0x000001EFD2105438>
+input_shape = (2, 7, 6, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_convolution_3d[valid-strides0] _____________________
+
+padding = 'valid', strides = (1, 1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x000001EFD89DC6D8>
+input_shape = (2, 9, 8, 8, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_convolution_3d[valid-strides1] _____________________
+
+padding = 'valid', strides = (2, 2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x000001EFD20A4F28>
+input_shape = (2, 9, 8, 8, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_convolution_3d[same-strides2] ______________________
+
+padding = 'same', strides = (1, 1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x000001EFD1E6A390>
+input_shape = (2, 9, 8, 8, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+_____________________ test_convolution_3d_additional_args _____________________
+
+    def test_convolution_3d_additional_args():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        padding = 'valid'
+        strides = (2, 2, 2)
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': (1, 2, 3),
+                           'padding': padding,
+                           'activation': None,
+                           'kernel_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'kernel_constraint': 'max_norm',
+                           'bias_constraint': 'max_norm',
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:548: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x000001EFD8B7C908>
+input_shape = (2, 9, 8, 8, 3)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________________ test_conv_float64[input_shape0-Conv1D] ____________________
+
+input_shape = (2, 4, 2)
+conv_class = <class 'keras.layers.convolutional.Conv1D'>
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='CNTK does not support float64')
+    @pytest.mark.parametrize(
+        'input_shape,conv_class',
+        [((2, 4, 2), convolutional.Conv1D),
+         ((2, 4, 4, 2), convolutional.Conv2D),
+         ((2, 4, 4, 4, 2), convolutional.Conv3D)]
+    )
+    def test_conv_float64(input_shape, conv_class):
+        kernel_size = 3
+        strides = 1
+        filters = 3
+        K.set_floatx('float64')
+        layer_test(conv_class,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': 'valid',
+                           'strides': strides},
+>                  input_shape=input_shape)
+
+convolutional_test.py:1138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv1D object at 0x000001EFD209C860>
+input_shape = (2, 4, 2)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________________ test_conv_float64[input_shape1-Conv2D] ____________________
+
+input_shape = (2, 4, 4, 2)
+conv_class = <class 'keras.layers.convolutional.Conv2D'>
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='CNTK does not support float64')
+    @pytest.mark.parametrize(
+        'input_shape,conv_class',
+        [((2, 4, 2), convolutional.Conv1D),
+         ((2, 4, 4, 2), convolutional.Conv2D),
+         ((2, 4, 4, 4, 2), convolutional.Conv3D)]
+    )
+    def test_conv_float64(input_shape, conv_class):
+        kernel_size = 3
+        strides = 1
+        filters = 3
+        K.set_floatx('float64')
+        layer_test(conv_class,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': 'valid',
+                           'strides': strides},
+>                  input_shape=input_shape)
+
+convolutional_test.py:1138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2D object at 0x000001EFD1FE99E8>
+input_shape = (2, 4, 4, 2)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+___________________ test_conv_float64[input_shape2-Conv3D] ____________________
+
+input_shape = (2, 4, 4, 4, 2)
+conv_class = <class 'keras.layers.convolutional.Conv3D'>
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='CNTK does not support float64')
+    @pytest.mark.parametrize(
+        'input_shape,conv_class',
+        [((2, 4, 2), convolutional.Conv1D),
+         ((2, 4, 4, 2), convolutional.Conv2D),
+         ((2, 4, 4, 4, 2), convolutional.Conv3D)]
+    )
+    def test_conv_float64(input_shape, conv_class):
+        kernel_size = 3
+        strides = 1
+        filters = 3
+        K.set_floatx('float64')
+        layer_test(conv_class,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': 'valid',
+                           'strides': strides},
+>                  input_shape=input_shape)
+
+convolutional_test.py:1138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x000001EFD20830F0>
+input_shape = (2, 4, 4, 4, 2)
+
+    def compute_output_shape(self, input_shape):
+        if self.data_format == 'XXchannels_lastXX':
+            space = input_shape[1:-1]
+        elif self.data_format == 'channels_first':
+            space = input_shape[2:]
+        new_space = []
+>       for i in range(len(space)):
+E       UnboundLocalError: local variable 'space' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:197: UnboundLocalError
+=========================== short test summary info ===========================
+FAILED convolutional_test.py::test_causal_dilated_conv[layer_kwargs0-4-expected_output0]
+FAILED convolutional_test.py::test_causal_dilated_conv[layer_kwargs1-4-expected_output1]
+FAILED convolutional_test.py::test_causal_dilated_conv[layer_kwargs2-10-expected_output2]
+FAILED convolutional_test.py::test_conv_1d[valid-1] - UnboundLocalError: loca...
+FAILED convolutional_test.py::test_conv_1d[valid-2] - UnboundLocalError: loca...
+FAILED convolutional_test.py::test_conv_1d[same-1] - UnboundLocalError: local...
+FAILED convolutional_test.py::test_conv_1d_dilation - UnboundLocalError: loca...
+FAILED convolutional_test.py::test_convolution_2d_channels_last - UnboundLoca...
+FAILED convolutional_test.py::test_convolution_2d_dilation - UnboundLocalErro...
+FAILED convolutional_test.py::test_separable_conv_1d[valid-1-1-1] - UnboundLo...
+FAILED convolutional_test.py::test_separable_conv_1d[valid-1-1-2] - UnboundLo...
+FAILED convolutional_test.py::test_separable_conv_1d[valid-1-2-1] - UnboundLo...
+FAILED convolutional_test.py::test_separable_conv_1d[valid-1-2-2] - UnboundLo...
+FAILED convolutional_test.py::test_separable_conv_1d[valid-2-1-1] - UnboundLo...
+FAILED convolutional_test.py::test_separable_conv_1d[valid-2-2-1] - UnboundLo...
+FAILED convolutional_test.py::test_separable_conv_1d[same-1-1-1] - UnboundLoc...
+FAILED convolutional_test.py::test_separable_conv_1d[same-1-1-2] - UnboundLoc...
+FAILED convolutional_test.py::test_separable_conv_1d[same-1-2-1] - UnboundLoc...
+FAILED convolutional_test.py::test_separable_conv_1d[same-1-2-2] - UnboundLoc...
+FAILED convolutional_test.py::test_separable_conv_2d[valid-strides0-1-dilation_rate0]
+FAILED convolutional_test.py::test_separable_conv_2d[valid-strides1-1-dilation_rate1]
+FAILED convolutional_test.py::test_separable_conv_2d[valid-strides2-1-dilation_rate2]
+FAILED convolutional_test.py::test_separable_conv_2d[valid-strides3-2-dilation_rate3]
+FAILED convolutional_test.py::test_separable_conv_2d[valid-strides4-2-dilation_rate4]
+FAILED convolutional_test.py::test_separable_conv_2d[valid-strides5-1-dilation_rate5]
+FAILED convolutional_test.py::test_separable_conv_2d[valid-strides6-2-dilation_rate6]
+FAILED convolutional_test.py::test_separable_conv_2d[same-strides7-1-dilation_rate7]
+FAILED convolutional_test.py::test_separable_conv_2d[same-strides8-1-dilation_rate8]
+FAILED convolutional_test.py::test_separable_conv_2d[same-strides9-1-dilation_rate9]
+FAILED convolutional_test.py::test_separable_conv_2d[same-strides10-2-dilation_rate10]
+FAILED convolutional_test.py::test_separable_conv_2d[same-strides11-2-dilation_rate11]
+FAILED convolutional_test.py::test_convolution_3d[valid-strides0] - UnboundLo...
+FAILED convolutional_test.py::test_convolution_3d[valid-strides1] - UnboundLo...
+FAILED convolutional_test.py::test_convolution_3d[same-strides2] - UnboundLoc...
+FAILED convolutional_test.py::test_convolution_3d_additional_args - UnboundLo...
+FAILED convolutional_test.py::test_conv_float64[input_shape0-Conv1D] - Unboun...
+FAILED convolutional_test.py::test_conv_float64[input_shape1-Conv2D] - Unboun...
+FAILED convolutional_test.py::test_conv_float64[input_shape2-Conv3D] - Unboun...
+======================= 38 failed, 72 passed in 20.98s ========================

@@ -1,0 +1,4019 @@
+2020-10-03 17:04:07.997952: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 110 items
+
+convolutional_test.py FFFFFFFFFFFFF..................................... [ 45%]
+..............FFFF.........F.............................FFF             [100%]
+
+================================== FAILURES ===================================
+_________ test_causal_dilated_conv[layer_kwargs0-4-expected_output0] __________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B0EFD3908>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 5, 1) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 2, 4, 1) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (1) is not a multiple of input depth of filter (4) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,5,1], [1,2,4,1].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+layer_kwargs = {'dilation_rate': 1, 'filters': 1, 'kernel_initializer': 'ones', 'kernel_size': 2, ...}
+input_length = 4, expected_output = [[[0], [1], [3], [5]]]
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    @pytest.mark.parametrize(
+        'layer_kwargs,input_length,expected_output',
+        [
+            # Causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[0], [1], [3], [5]]]),
+            # Non-causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'valid',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[1], [3], [5]]]),
+            # Causal dilated with larger kernel size
+            ({'filters': 1, 'kernel_size': 3, 'dilation_rate': 2, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             10, np.float32([[[0], [1], [2], [4], [6], [9], [12], [15], [18], [21]]])),
+        ]
+    )
+    def test_causal_dilated_conv(layer_kwargs, input_length, expected_output):
+        input_data = np.reshape(np.arange(input_length, dtype='float32'),
+                                (1, input_length, 1))
+        layer_test(convolutional.Conv1D, input_data=input_data,
+>                  kwargs=layer_kwargs, expected_output=expected_output)
+
+convolutional_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:163: in call
+    dilation_rate=self.dilation_rate[0])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3671: in conv1d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1681: in conv1d
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B0EFD3908>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 5, 1) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 2, 4, 1) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (1) is not a multiple of input depth of filter (4) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,5,1], [1,2,4,1].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+_________ test_causal_dilated_conv[layer_kwargs1-4-expected_output1] __________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B11606F60>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 4, 1) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 2, 4, 1) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (1) is not a multiple of input depth of filter (4) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,4,1], [1,2,4,1].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+layer_kwargs = {'dilation_rate': 1, 'filters': 1, 'kernel_initializer': 'ones', 'kernel_size': 2, ...}
+input_length = 4, expected_output = [[[1], [3], [5]]]
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    @pytest.mark.parametrize(
+        'layer_kwargs,input_length,expected_output',
+        [
+            # Causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[0], [1], [3], [5]]]),
+            # Non-causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'valid',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[1], [3], [5]]]),
+            # Causal dilated with larger kernel size
+            ({'filters': 1, 'kernel_size': 3, 'dilation_rate': 2, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             10, np.float32([[[0], [1], [2], [4], [6], [9], [12], [15], [18], [21]]])),
+        ]
+    )
+    def test_causal_dilated_conv(layer_kwargs, input_length, expected_output):
+        input_data = np.reshape(np.arange(input_length, dtype='float32'),
+                                (1, input_length, 1))
+        layer_test(convolutional.Conv1D, input_data=input_data,
+>                  kwargs=layer_kwargs, expected_output=expected_output)
+
+convolutional_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:163: in call
+    dilation_rate=self.dilation_rate[0])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3671: in conv1d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1681: in conv1d
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B11606F60>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 4, 1) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 2, 4, 1) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (1) is not a multiple of input depth of filter (4) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,4,1], [1,2,4,1].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+_________ test_causal_dilated_conv[layer_kwargs2-10-expected_output2] _________
+
+layer_kwargs = {'dilation_rate': 2, 'filters': 1, 'kernel_initializer': 'ones', 'kernel_size': 3, ...}
+input_length = 10
+expected_output = array([[[ 0.],
+        [ 1.],
+        [ 2.],
+        [ 4.],
+        [ 6.],
+        [ 9.],
+        [12.],
+        [15.],
+        [18.],
+        [21.]]], dtype=float32)
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    @pytest.mark.parametrize(
+        'layer_kwargs,input_length,expected_output',
+        [
+            # Causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[0], [1], [3], [5]]]),
+            # Non-causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'valid',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[1], [3], [5]]]),
+            # Causal dilated with larger kernel size
+            ({'filters': 1, 'kernel_size': 3, 'dilation_rate': 2, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             10, np.float32([[[0], [1], [2], [4], [6], [9], [12], [15], [18], [21]]])),
+        ]
+    )
+    def test_causal_dilated_conv(layer_kwargs, input_length, expected_output):
+        input_data = np.reshape(np.arange(input_length, dtype='float32'),
+                                (1, input_length, 1))
+        layer_test(convolutional.Conv1D, input_data=input_data,
+>                  kwargs=layer_kwargs, expected_output=expected_output)
+
+convolutional_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:163: in call
+    dilation_rate=self.dilation_rate[0])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3671: in conv1d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1025: in convolution_internal
+    data_format=data_format)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.ops.nn_ops.Convolution object at 0x0000021B12146D68>
+input_shape = TensorShape([Dimension(None), Dimension(14), Dimension(1)])
+filter_shape = TensorShape([Dimension(3), Dimension(10), Dimension(1)])
+padding = 'VALID', strides = [1], dilation_rate = [2]
+name = 'conv1d_1/convolution/', data_format = 'NWC'
+
+    def __init__(self,
+                 input_shape,
+                 filter_shape,
+                 padding,
+                 strides=None,
+                 dilation_rate=None,
+                 name=None,
+                 data_format=None):
+      """Helper function for convolution."""
+      num_total_dims = filter_shape.ndims
+      if num_total_dims is None:
+        num_total_dims = input_shape.ndims
+      if num_total_dims is None:
+        raise ValueError("rank of input or filter must be known")
+    
+      num_spatial_dims = num_total_dims - 2
+    
+      try:
+        input_shape.with_rank(num_spatial_dims + 2)
+      except ValueError:
+        raise ValueError(
+            "input tensor must have rank %d" % (num_spatial_dims + 2))
+    
+      try:
+        filter_shape.with_rank(num_spatial_dims + 2)
+      except ValueError:
+        raise ValueError(
+            "filter tensor must have rank %d" % (num_spatial_dims + 2))
+    
+      if data_format is None or not data_format.startswith("NC"):
+        input_channels_dim = tensor_shape.dimension_at_index(
+            input_shape, num_spatial_dims + 1)
+        spatial_dims = range(1, num_spatial_dims + 1)
+      else:
+        input_channels_dim = tensor_shape.dimension_at_index(input_shape, 1)
+        spatial_dims = range(2, num_spatial_dims + 2)
+    
+      if not input_channels_dim.is_compatible_with(
+          filter_shape[num_spatial_dims]):
+        raise ValueError(
+            "number of input channels does not match corresponding dimension of "
+            "filter, {} != {}".format(input_channels_dim,
+>                                     filter_shape[num_spatial_dims]))
+E       ValueError: number of input channels does not match corresponding dimension of filter, 1 != 10
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1088: ValueError
+____________________________ test_conv_1d[valid-1] ____________________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B10EDBD68>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 8, 2) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 3, 8, 3) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (2) is not a multiple of input depth of filter (8) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,8,2], [1,3,8,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+padding = 'valid', strides = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         if not (padding == 'same' and strides != 1)]
+    )
+    def test_conv_1d(padding, strides):
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:163: in call
+    dilation_rate=self.dilation_rate[0])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3671: in conv1d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1681: in conv1d
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B10EDBD68>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 8, 2) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 3, 8, 3) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (2) is not a multiple of input depth of filter (8) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,8,2], [1,3,8,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+____________________________ test_conv_1d[valid-2] ____________________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1222F208>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 2
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 8, 2) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 3, 8, 3) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (2) is not a multiple of input depth of filter (8) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,8,2], [1,3,8,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+padding = 'valid', strides = 2
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         if not (padding == 'same' and strides != 1)]
+    )
+    def test_conv_1d(padding, strides):
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:163: in call
+    dilation_rate=self.dilation_rate[0])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3671: in conv1d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1681: in conv1d
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1222F208>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 2
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 8, 2) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 3, 8, 3) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (2) is not a multiple of input depth of filter (8) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,8,2], [1,3,8,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+____________________________ test_conv_1d[same-1] _____________________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B111D6128>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 8, 2) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 3, 8, 3) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (2) is not a multiple of input depth of filter (8) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,8,2], [1,3,8,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+padding = 'same', strides = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         if not (padding == 'same' and strides != 1)]
+    )
+    def test_conv_1d(padding, strides):
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:163: in call
+    dilation_rate=self.dilation_rate[0])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3671: in conv1d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1681: in conv1d
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B111D6128>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 8, 2) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 3, 8, 3) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (2) is not a multiple of input depth of filter (8) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,8,2], [1,3,8,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+____________________________ test_conv_1d_dilation ____________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    def test_conv_1d_dilation():
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+        padding = _convolution_paddings[-1]
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'dilation_rate': 2},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:163: in call
+    dilation_rate=self.dilation_rate[0])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3671: in conv1d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1025: in convolution_internal
+    data_format=data_format)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.ops.nn_ops.Convolution object at 0x0000021B123C5AC8>
+input_shape = TensorShape([Dimension(None), Dimension(8), Dimension(2)])
+filter_shape = TensorShape([Dimension(3), Dimension(8), Dimension(3)])
+padding = 'SAME', strides = [1], dilation_rate = [2]
+name = 'conv1d_1/convolution/', data_format = 'NWC'
+
+    def __init__(self,
+                 input_shape,
+                 filter_shape,
+                 padding,
+                 strides=None,
+                 dilation_rate=None,
+                 name=None,
+                 data_format=None):
+      """Helper function for convolution."""
+      num_total_dims = filter_shape.ndims
+      if num_total_dims is None:
+        num_total_dims = input_shape.ndims
+      if num_total_dims is None:
+        raise ValueError("rank of input or filter must be known")
+    
+      num_spatial_dims = num_total_dims - 2
+    
+      try:
+        input_shape.with_rank(num_spatial_dims + 2)
+      except ValueError:
+        raise ValueError(
+            "input tensor must have rank %d" % (num_spatial_dims + 2))
+    
+      try:
+        filter_shape.with_rank(num_spatial_dims + 2)
+      except ValueError:
+        raise ValueError(
+            "filter tensor must have rank %d" % (num_spatial_dims + 2))
+    
+      if data_format is None or not data_format.startswith("NC"):
+        input_channels_dim = tensor_shape.dimension_at_index(
+            input_shape, num_spatial_dims + 1)
+        spatial_dims = range(1, num_spatial_dims + 1)
+      else:
+        input_channels_dim = tensor_shape.dimension_at_index(input_shape, 1)
+        spatial_dims = range(2, num_spatial_dims + 2)
+    
+      if not input_channels_dim.is_compatible_with(
+          filter_shape[num_spatial_dims]):
+        raise ValueError(
+            "number of input channels does not match corresponding dimension of "
+            "filter, {} != {}".format(input_channels_dim,
+>                                     filter_shape[num_spatial_dims]))
+E       ValueError: number of input channels does not match corresponding dimension of filter, 2 != 8
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1088: ValueError
+_________________________ test_conv_1d_channels_first _________________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1120EFD0>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 2, 1, 8) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 3, 8, 3) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (2) is not a multiple of input depth of filter (8) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,2,1,8], [1,3,8,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+    def test_conv_1d_channels_first():
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'data_format': 'channels_first'},
+>                  input_shape=(batch_size, input_dim, steps))
+
+convolutional_test.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:163: in call
+    dilation_rate=self.dilation_rate[0])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3671: in conv1d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1681: in conv1d
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1120EFD0>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 2, 1, 8) dtype=float32>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 3, 8, 3) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (2) is not a multiple of input depth of filter (8) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,2,1,8], [1,3,8,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 17:04:17.791388: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-03 17:04:17.922896: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:04:17.924616: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:04:17.930316: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:04:17.936038: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:04:17.937836: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:04:17.943868: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:04:17.948021: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:04:17.960294: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:04:17.961261: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:04:17.961978: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-03 17:04:17.976162: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:04:17.976732: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:04:17.977071: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:04:17.977413: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:04:17.977749: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:04:17.978095: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:04:17.978437: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:04:17.978780: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:04:17.979608: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:04:19.081594: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 17:04:19.082007: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 17:04:19.082244: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 17:04:19.083025: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_____________________ test_convolution_2d[strides0-valid] _____________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1120E160>
+node_def = name: "conv2d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 3, 7, 6) dtype=float32>, <tf.Tensor 'conv2d_1/convolution/ReadVariableOp:0' shape=(3, 2, 6, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (3) is not a multiple of input depth of filter (6) for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,3,7,6], [3,2,6,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+strides = (1, 1), padding = 'valid'
+
+    @pytest.mark.parametrize(
+        'strides,padding',
+        [(strides, padding)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         if not (padding == 'same' and strides != (1, 1))]
+    )
+    def test_convolution_2d(strides, padding):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides,
+                           'data_format': 'channels_first'},
+>                  input_shape=(num_samples, stack_size, num_row, num_col))
+
+convolutional_test.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:171: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3717: in conv2d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1120E160>
+node_def = name: "conv2d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 3, 7, 6) dtype=float32>, <tf.Tensor 'conv2d_1/convolution/ReadVariableOp:0' shape=(3, 2, 6, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (3) is not a multiple of input depth of filter (6) for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,3,7,6], [3,2,6,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+_____________________ test_convolution_2d[strides1-valid] _____________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B123571D0>
+node_def = name: "conv2d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 2
+      i: 2
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 3, 7, 6) dtype=float32>, <tf.Tensor 'conv2d_1/convolution/ReadVariableOp:0' shape=(3, 2, 6, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (3) is not a multiple of input depth of filter (6) for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,3,7,6], [3,2,6,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+strides = (2, 2), padding = 'valid'
+
+    @pytest.mark.parametrize(
+        'strides,padding',
+        [(strides, padding)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         if not (padding == 'same' and strides != (1, 1))]
+    )
+    def test_convolution_2d(strides, padding):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides,
+                           'data_format': 'channels_first'},
+>                  input_shape=(num_samples, stack_size, num_row, num_col))
+
+convolutional_test.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:171: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3717: in conv2d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B123571D0>
+node_def = name: "conv2d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 2
+      i: 2
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 3, 7, 6) dtype=float32>, <tf.Tensor 'conv2d_1/convolution/ReadVariableOp:0' shape=(3, 2, 6, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (3) is not a multiple of input depth of filter (6) for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,3,7,6], [3,2,6,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+_____________________ test_convolution_2d[strides2-same] ______________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B11E51128>
+node_def = name: "conv2d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 3, 7, 6) dtype=float32>, <tf.Tensor 'conv2d_1/convolution/ReadVariableOp:0' shape=(3, 2, 6, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (3) is not a multiple of input depth of filter (6) for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,3,7,6], [3,2,6,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+strides = (1, 1), padding = 'same'
+
+    @pytest.mark.parametrize(
+        'strides,padding',
+        [(strides, padding)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         if not (padding == 'same' and strides != (1, 1))]
+    )
+    def test_convolution_2d(strides, padding):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides,
+                           'data_format': 'channels_first'},
+>                  input_shape=(num_samples, stack_size, num_row, num_col))
+
+convolutional_test.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:171: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3717: in conv2d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B11E51128>
+node_def = name: "conv2d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 3, 7, 6) dtype=float32>, <tf.Tensor 'conv2d_1/convolution/ReadVariableOp:0' shape=(3, 2, 6, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (3) is not a multiple of input depth of filter (6) for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,3,7,6], [3,2,6,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+______________________ test_convolution_2d_channels_last ______________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B10DDEBA8>
+node_def = name: "conv2d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 2
+      i: 2
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 7, 6, 3) dtype=float32>, <tf.Tensor 'conv2d_1/convolution/ReadVariableOp:0' shape=(3, 3, 7, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (3) is not a multiple of input depth of filter (7) for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,7,6,3], [3,3,7,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+    def test_convolution_2d_channels_last():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+        padding = 'valid'
+        strides = (2, 2)
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'data_format': 'channels_last',
+                           'activation': None,
+                           'kernel_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'kernel_constraint': 'max_norm',
+                           'bias_constraint': 'max_norm',
+                           'strides': strides},
+>                  input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:171: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3717: in conv2d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B10DDEBA8>
+node_def = name: "conv2d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...{
+      i: 1
+      i: 2
+      i: 2
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 7, 6, 3) dtype=float32>, <tf.Tensor 'conv2d_1/convolution/ReadVariableOp:0' shape=(3, 3, 7, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (3) is not a multiple of input depth of filter (7) for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,7,6,3], [3,3,7,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+________________________ test_convolution_2d_dilation _________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only supports dilated conv on GPU')
+    def test_convolution_2d_dilation():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+        padding = 'valid'
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'dilation_rate': (2, 2)},
+>                  input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:171: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3717: in conv2d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1025: in convolution_internal
+    data_format=data_format)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.ops.nn_ops.Convolution object at 0x0000021B11F5DCF8>
+input_shape = TensorShape([Dimension(None), Dimension(7), Dimension(6), Dimension(3)])
+filter_shape = TensorShape([Dimension(3), Dimension(2), Dimension(7), Dimension(2)])
+padding = 'VALID', strides = [1, 1], dilation_rate = [2, 2]
+name = 'conv2d_1/convolution/', data_format = 'NHWC'
+
+    def __init__(self,
+                 input_shape,
+                 filter_shape,
+                 padding,
+                 strides=None,
+                 dilation_rate=None,
+                 name=None,
+                 data_format=None):
+      """Helper function for convolution."""
+      num_total_dims = filter_shape.ndims
+      if num_total_dims is None:
+        num_total_dims = input_shape.ndims
+      if num_total_dims is None:
+        raise ValueError("rank of input or filter must be known")
+    
+      num_spatial_dims = num_total_dims - 2
+    
+      try:
+        input_shape.with_rank(num_spatial_dims + 2)
+      except ValueError:
+        raise ValueError(
+            "input tensor must have rank %d" % (num_spatial_dims + 2))
+    
+      try:
+        filter_shape.with_rank(num_spatial_dims + 2)
+      except ValueError:
+        raise ValueError(
+            "filter tensor must have rank %d" % (num_spatial_dims + 2))
+    
+      if data_format is None or not data_format.startswith("NC"):
+        input_channels_dim = tensor_shape.dimension_at_index(
+            input_shape, num_spatial_dims + 1)
+        spatial_dims = range(1, num_spatial_dims + 1)
+      else:
+        input_channels_dim = tensor_shape.dimension_at_index(input_shape, 1)
+        spatial_dims = range(2, num_spatial_dims + 2)
+    
+      if not input_channels_dim.is_compatible_with(
+          filter_shape[num_spatial_dims]):
+        raise ValueError(
+            "number of input channels does not match corresponding dimension of "
+            "filter, {} != {}".format(input_channels_dim,
+>                                     filter_shape[num_spatial_dims]))
+E       ValueError: number of input channels does not match corresponding dimension of filter, 3 != 7
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1088: ValueError
+_____________________ test_convolution_3d[valid-strides0] _____________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B10DAC860>
+node_def = name: "conv3d_1/convolution"
+op: "Conv3D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>, <tf.Tensor 'conv3d_1/convolution/ReadVariableOp:0' shape=(3, 3, 3, 9, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (3) is not a multiple of input depth of filter (9) for 'conv3d_1/convolution' (op: 'Conv3D') with input shapes: [?,9,8,8,3], [3,3,3,9,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+padding = 'valid', strides = (1, 1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1553: in conv3d
+    dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B10DAC860>
+node_def = name: "conv3d_1/convolution"
+op: "Conv3D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>, <tf.Tensor 'conv3d_1/convolution/ReadVariableOp:0' shape=(3, 3, 3, 9, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (3) is not a multiple of input depth of filter (9) for 'conv3d_1/convolution' (op: 'Conv3D') with input shapes: [?,9,8,8,3], [3,3,3,9,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+_____________________ test_convolution_3d[valid-strides1] _____________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1243C240>
+node_def = name: "conv3d_1/convolution"
+op: "Conv3D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 2
+      i: 2
+      i: 2
+      i: 1
+    }
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>, <tf.Tensor 'conv3d_1/convolution/ReadVariableOp:0' shape=(3, 3, 3, 9, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (3) is not a multiple of input depth of filter (9) for 'conv3d_1/convolution' (op: 'Conv3D') with input shapes: [?,9,8,8,3], [3,3,3,9,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+padding = 'valid', strides = (2, 2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1553: in conv3d
+    dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1243C240>
+node_def = name: "conv3d_1/convolution"
+op: "Conv3D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 2
+      i: 2
+      i: 2
+      i: 1
+    }
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>, <tf.Tensor 'conv3d_1/convolution/ReadVariableOp:0' shape=(3, 3, 3, 9, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (3) is not a multiple of input depth of filter (9) for 'conv3d_1/convolution' (op: 'Conv3D') with input shapes: [?,9,8,8,3], [3,3,3,9,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+_____________________ test_convolution_3d[same-strides2] ______________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1243CD30>
+node_def = name: "conv3d_1/convolution"
+op: "Conv3D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>, <tf.Tensor 'conv3d_1/convolution/ReadVariableOp:0' shape=(3, 3, 3, 9, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (3) is not a multiple of input depth of filter (9) for 'conv3d_1/convolution' (op: 'Conv3D') with input shapes: [?,9,8,8,3], [3,3,3,9,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+padding = 'same', strides = (1, 1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1553: in conv3d
+    dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1243CD30>
+node_def = name: "conv3d_1/convolution"
+op: "Conv3D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>, <tf.Tensor 'conv3d_1/convolution/ReadVariableOp:0' shape=(3, 3, 3, 9, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (3) is not a multiple of input depth of filter (9) for 'conv3d_1/convolution' (op: 'Conv3D') with input shapes: [?,9,8,8,3], [3,3,3,9,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+_____________________ test_convolution_3d_additional_args _____________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1273A358>
+node_def = name: "conv3d_1/convolution"
+op: "Conv3D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 2
+      i: 2
+      i: 2
+      i: 1
+    }
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>, <tf.Tensor 'conv3d_1/convolution/ReadVariableOp:0' shape=(1, 2, 3, 9, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (3) is not a multiple of input depth of filter (9) for 'conv3d_1/convolution' (op: 'Conv3D') with input shapes: [?,9,8,8,3], [1,2,3,9,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+    def test_convolution_3d_additional_args():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        padding = 'valid'
+        strides = (2, 2, 2)
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': (1, 2, 3),
+                           'padding': padding,
+                           'activation': None,
+                           'kernel_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'kernel_constraint': 'max_norm',
+                           'bias_constraint': 'max_norm',
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:548: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1553: in conv3d
+    dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B1273A358>
+node_def = name: "conv3d_1/convolution"
+op: "Conv3D"
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+attr {
+  key: "data_for...
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 2
+      i: 2
+      i: 2
+      i: 1
+    }
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>, <tf.Tensor 'conv3d_1/convolution/ReadVariableOp:0' shape=(1, 2, 3, 9, 2) dtype=float32>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (3) is not a multiple of input depth of filter (9) for 'conv3d_1/convolution' (op: 'Conv3D') with input shapes: [?,9,8,8,3], [1,2,3,9,2].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+______ test_conv3d_transpose[valid-out_padding9-strides9-channels_last] _______
+
+padding = 'valid', out_padding = (1, 1, 1), strides = (2, 2, 2)
+data_format = 'channels_last'
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides,data_format',
+        [(padding, out_padding, strides, data_format)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0, 0), (1, 1, 1)]
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         for data_format in ['channels_first', 'channels_last']
+         if (not (padding == 'same' and strides != (1, 1, 1))
+             and not (strides == (1, 1, 1) and out_padding == (1, 1, 1)))]
+    )
+    def test_conv3d_transpose(padding, out_padding, strides, data_format):
+        filters = 2
+        stack_size = 3
+        num_depth = 7
+        num_row = 5
+        num_col = 6
+    
+        layer_test(
+            convolutional.Conv3DTranspose,
+            kwargs={'filters': filters,
+                    'kernel_size': 3,
+                    'padding': padding,
+                    'output_padding': out_padding,
+                    'strides': strides,
+                    'data_format': data_format},
+            input_shape=(None, num_depth, num_row, num_col, stack_size),
+>           fixed_batch_size=True)
+
+convolutional_test.py:577: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+layer_cls = <class 'keras.layers.convolutional.Conv3DTranspose'>
+kwargs = {'data_format': 'channels_last', 'filters': 2, 'kernel_size': 3, 'output_padding': (1, 1, 1), ...}
+input_shape = (None, 7, 5, 6, 3), input_dtype = 'float32'
+input_data = array([[[[[1.2511955 , 2.0713904 , 5.55885   ],
+          [9.935465  , 1.1950661 , 8.729176  ],
+          [6.760627  ,...6 ],
+          [1.4000262 , 4.913854  , 7.5609927 ],
+          [5.8209705 , 4.21317   , 3.7606869 ]]]]], dtype=float32)
+expected_output = None, expected_output_dtype = 'float32'
+fixed_batch_size = True
+
+    def layer_test(layer_cls, kwargs={}, input_shape=None, input_dtype=None,
+                   input_data=None, expected_output=None,
+                   expected_output_dtype=None, fixed_batch_size=False):
+        """Test routine for a layer with a single input tensor
+        and single output tensor.
+        """
+        # generate input data
+        if input_data is None:
+            assert input_shape
+            if not input_dtype:
+                input_dtype = K.floatx()
+            input_data_shape = list(input_shape)
+            for i, e in enumerate(input_data_shape):
+                if e is None:
+                    input_data_shape[i] = np.random.randint(1, 4)
+            input_data = (10 * np.random.random(input_data_shape))
+            input_data = input_data.astype(input_dtype)
+        else:
+            if input_shape is None:
+                input_shape = input_data.shape
+            if input_dtype is None:
+                input_dtype = input_data.dtype
+        if expected_output_dtype is None:
+            expected_output_dtype = input_dtype
+    
+        # instantiation
+        layer = layer_cls(**kwargs)
+    
+        # test get_weights , set_weights at layer level
+        weights = layer.get_weights()
+        layer.set_weights(weights)
+    
+        expected_output_shape = layer.compute_output_shape(input_shape)
+    
+        # test in functional API
+        if fixed_batch_size:
+            x = Input(batch_shape=input_shape, dtype=input_dtype)
+        else:
+            x = Input(shape=input_shape[1:], dtype=input_dtype)
+        y = layer(x)
+        assert K.dtype(y) == expected_output_dtype
+    
+        # check with the functional API
+        model = Model(x, y)
+    
+        actual_output = model.predict(input_data)
+        actual_output_shape = actual_output.shape
+        for expected_dim, actual_dim in zip(expected_output_shape,
+                                            actual_output_shape):
+            if expected_dim is not None:
+                assert expected_dim == actual_dim
+    
+        if expected_output is not None:
+            assert_allclose(actual_output, expected_output, rtol=1e-3)
+    
+        # test serialization, weight setting at model level
+        model_config = model.get_config()
+        recovered_model = model.__class__.from_config(model_config)
+        if model.weights:
+            weights = model.get_weights()
+            recovered_model.set_weights(weights)
+            _output = recovered_model.predict(input_data)
+>           assert_allclose(_output, actual_output, rtol=1e-3)
+E           AssertionError: 
+E           Not equal to tolerance rtol=0.001, atol=0
+E           
+E           Mismatched elements: 1 / 10752 (0.0093%)
+E           Max absolute difference: 9.536743e-07
+E           Max relative difference: 0.0010582
+E            x: array([[[[[ 4.846108e-01,  9.730862e-03],
+E                     [ 1.295543e+00, -8.749745e-01],
+E                     [ 1.862444e-01,  4.515444e-01],...
+E            y: array([[[[[ 4.846108e-01,  9.730862e-03],
+E                     [ 1.295543e+00, -8.749745e-01],
+E                     [ 1.862444e-01,  4.515444e-01],...
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:117: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 17:04:45.119590: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:04:45.120178: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:04:45.120523: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:04:45.120866: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:04:45.121202: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:04:45.121548: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:04:45.121891: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:04:45.122262: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:04:45.122862: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:04:45.123193: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 17:04:45.123567: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 17:04:45.123799: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 17:04:45.124364: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+___________________ test_conv_float64[input_shape0-Conv1D] ____________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B113B1978>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_DOUBLE
+  }
+}
+attr {
+  key: "data_fo...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 4, 2) dtype=float64>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 3, 4, 3) dtype=float64>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (2) is not a multiple of input depth of filter (4) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,4,2], [1,3,4,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+input_shape = (2, 4, 2)
+conv_class = <class 'keras.layers.convolutional.Conv1D'>
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='CNTK does not support float64')
+    @pytest.mark.parametrize(
+        'input_shape,conv_class',
+        [((2, 4, 2), convolutional.Conv1D),
+         ((2, 4, 4, 2), convolutional.Conv2D),
+         ((2, 4, 4, 4, 2), convolutional.Conv3D)]
+    )
+    def test_conv_float64(input_shape, conv_class):
+        kernel_size = 3
+        strides = 1
+        filters = 3
+        K.set_floatx('float64')
+        layer_test(conv_class,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': 'valid',
+                           'strides': strides},
+>                  input_shape=input_shape)
+
+convolutional_test.py:1138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:163: in call
+    dilation_rate=self.dilation_rate[0])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3671: in conv1d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1681: in conv1d
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B113B1978>
+node_def = name: "conv1d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_DOUBLE
+  }
+}
+attr {
+  key: "data_fo...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'conv1d_1/convolution/ExpandDims:0' shape=(?, 1, 4, 2) dtype=float64>, <tf.Tensor 'conv1d_1/convolution/ExpandDims_1:0' shape=(1, 3, 4, 3) dtype=float64>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (2) is not a multiple of input depth of filter (4) for 'conv1d_1/convolution' (op: 'Conv2D') with input shapes: [?,1,4,2], [1,3,4,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+___________________ test_conv_float64[input_shape1-Conv2D] ____________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B2776F0B8>
+node_def = name: "conv2d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_DOUBLE
+  }
+}
+attr {
+  key: "data_fo...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 4, 4, 2) dtype=float64>, <tf.Tensor 'conv2d_1/convolution/ReadVariableOp:0' shape=(3, 3, 4, 3) dtype=float64>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (2) is not a multiple of input depth of filter (4) for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,4,4,2], [3,3,4,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+input_shape = (2, 4, 4, 2)
+conv_class = <class 'keras.layers.convolutional.Conv2D'>
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='CNTK does not support float64')
+    @pytest.mark.parametrize(
+        'input_shape,conv_class',
+        [((2, 4, 2), convolutional.Conv1D),
+         ((2, 4, 4, 2), convolutional.Conv2D),
+         ((2, 4, 4, 4, 2), convolutional.Conv3D)]
+    )
+    def test_conv_float64(input_shape, conv_class):
+        kernel_size = 3
+        strides = 1
+        filters = 3
+        K.set_floatx('float64')
+        layer_test(conv_class,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': 'valid',
+                           'strides': strides},
+>                  input_shape=input_shape)
+
+convolutional_test.py:1138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:171: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3717: in conv2d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021B2776F0B8>
+node_def = name: "conv2d_1/convolution"
+op: "Conv2D"
+attr {
+  key: "T"
+  value {
+    type: DT_DOUBLE
+  }
+}
+attr {
+  key: "data_fo...{
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 4, 4, 2) dtype=float64>, <tf.Tensor 'conv2d_1/convolution/ReadVariableOp:0' shape=(3, 3, 4, 3) dtype=float64>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (2) is not a multiple of input depth of filter (4) for 'conv2d_1/convolution' (op: 'Conv2D') with input shapes: [?,4,4,2], [3,3,4,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+___________________ test_conv_float64[input_shape2-Conv3D] ____________________
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021DA1864240>
+node_def = name: "conv3d_1/convolution"
+op: "Conv3D"
+attr {
+  key: "T"
+  value {
+    type: DT_DOUBLE
+  }
+}
+attr {
+  key: "data_fo...
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 4, 4, 4, 2) dtype=float64>, <tf.Tensor 'conv3d_1/convolution/ReadVariableOp:0' shape=(3, 3, 3, 4, 3) dtype=float64>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+>       c_op = c_api.TF_FinishOperation(op_desc)
+E       tensorflow.python.framework.errors_impl.InvalidArgumentError: Depth of input (2) is not a multiple of input depth of filter (4) for 'conv3d_1/convolution' (op: 'Conv3D') with input shapes: [?,4,4,4,2], [3,3,3,4,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1607: InvalidArgumentError
+
+During handling of the above exception, another exception occurred:
+
+input_shape = (2, 4, 4, 4, 2)
+conv_class = <class 'keras.layers.convolutional.Conv3D'>
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='CNTK does not support float64')
+    @pytest.mark.parametrize(
+        'input_shape,conv_class',
+        [((2, 4, 2), convolutional.Conv1D),
+         ((2, 4, 4, 2), convolutional.Conv2D),
+         ((2, 4, 4, 4, 2), convolutional.Conv3D)]
+    )
+    def test_conv_float64(input_shape, conv_class):
+        kernel_size = 3
+        strides = 1
+        filters = 3
+        K.set_floatx('float64')
+        layer_test(conv_class,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': 'valid',
+                           'strides': strides},
+>                  input_shape=input_shape)
+
+convolutional_test.py:1138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1553: in conv3d
+    dilations=dilations, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:794: in _apply_op_helper
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:507: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3357: in create_op
+    attrs, op_def, compute_device)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3426: in _create_op_internal
+    op_def=op_def)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1770: in __init__
+    control_input_ops)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = <tensorflow.python.framework.ops.Graph object at 0x0000021DA1864240>
+node_def = name: "conv3d_1/convolution"
+op: "Conv3D"
+attr {
+  key: "T"
+  value {
+    type: DT_DOUBLE
+  }
+}
+attr {
+  key: "data_fo...
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+inputs = [<tf.Tensor 'input_1:0' shape=(?, 4, 4, 4, 2) dtype=float64>, <tf.Tensor 'conv3d_1/convolution/ReadVariableOp:0' shape=(3, 3, 3, 4, 3) dtype=float64>]
+control_inputs = []
+
+    def _create_c_op(graph, node_def, inputs, control_inputs):
+      """Creates a TF_Operation.
+    
+      Args:
+        graph: a `Graph`.
+        node_def: `node_def_pb2.NodeDef` for the operation to create.
+        inputs: A list of `Tensor`s (corresponding to scalar inputs) and lists of
+          `Tensor`s (corresponding to sequence inputs, e.g. "int64 * N",
+          "list(int64)"). The length of the list should be equal to the number of
+          inputs specified by this operation's op def.
+        control_inputs: A list of `Operation`s to set as control dependencies.
+    
+      Returns:
+        A wrapped TF_Operation*.
+      """
+      # pylint: disable=protected-access
+      op_desc = c_api.TF_NewOperation(graph._c_graph, compat.as_str(node_def.op),
+                                      compat.as_str(node_def.name))
+      if node_def.device:
+        c_api.TF_SetDevice(op_desc, compat.as_str(node_def.device))
+      # Add inputs
+      for op_input in inputs:
+        if isinstance(op_input, (list, tuple)):
+          c_api.TF_AddInputList(op_desc, [t._as_tf_output() for t in op_input])
+        else:
+          c_api.TF_AddInput(op_desc, op_input._as_tf_output())
+    
+      # Add control inputs
+      for control_input in control_inputs:
+        c_api.TF_AddControlInput(op_desc, control_input._c_op)
+      # pylint: enable=protected-access
+    
+      # Add attrs
+      for name, attr_value in node_def.attr.items():
+        serialized = attr_value.SerializeToString()
+        # TODO(skyewm): this creates and deletes a new TF_Status for every attr.
+        # It might be worth creating a convenient way to re-use the same status.
+        c_api.TF_SetAttrValueProto(op_desc, compat.as_str(name), serialized)
+    
+      try:
+        c_op = c_api.TF_FinishOperation(op_desc)
+      except errors.InvalidArgumentError as e:
+        # Convert to ValueError for backwards compatibility.
+>       raise ValueError(str(e))
+E       ValueError: Depth of input (2) is not a multiple of input depth of filter (4) for 'conv3d_1/convolution' (op: 'Conv3D') with input shapes: [?,4,4,4,2], [3,3,3,4,3].
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1610: ValueError
+=========================== short test summary info ===========================
+FAILED convolutional_test.py::test_causal_dilated_conv[layer_kwargs0-4-expected_output0]
+FAILED convolutional_test.py::test_causal_dilated_conv[layer_kwargs1-4-expected_output1]
+FAILED convolutional_test.py::test_causal_dilated_conv[layer_kwargs2-10-expected_output2]
+FAILED convolutional_test.py::test_conv_1d[valid-1] - ValueError: Depth of in...
+FAILED convolutional_test.py::test_conv_1d[valid-2] - ValueError: Depth of in...
+FAILED convolutional_test.py::test_conv_1d[same-1] - ValueError: Depth of inp...
+FAILED convolutional_test.py::test_conv_1d_dilation - ValueError: number of i...
+FAILED convolutional_test.py::test_conv_1d_channels_first - ValueError: Depth...
+FAILED convolutional_test.py::test_convolution_2d[strides0-valid] - ValueErro...
+FAILED convolutional_test.py::test_convolution_2d[strides1-valid] - ValueErro...
+FAILED convolutional_test.py::test_convolution_2d[strides2-same] - ValueError...
+FAILED convolutional_test.py::test_convolution_2d_channels_last - ValueError:...
+FAILED convolutional_test.py::test_convolution_2d_dilation - ValueError: numb...
+FAILED convolutional_test.py::test_convolution_3d[valid-strides0] - ValueErro...
+FAILED convolutional_test.py::test_convolution_3d[valid-strides1] - ValueErro...
+FAILED convolutional_test.py::test_convolution_3d[same-strides2] - ValueError...
+FAILED convolutional_test.py::test_convolution_3d_additional_args - ValueErro...
+FAILED convolutional_test.py::test_conv3d_transpose[valid-out_padding9-strides9-channels_last]
+FAILED convolutional_test.py::test_conv_float64[input_shape0-Conv1D] - ValueE...
+FAILED convolutional_test.py::test_conv_float64[input_shape1-Conv2D] - ValueE...
+FAILED convolutional_test.py::test_conv_float64[input_shape2-Conv3D] - ValueE...
+======================= 21 failed, 89 passed in 39.17s ========================

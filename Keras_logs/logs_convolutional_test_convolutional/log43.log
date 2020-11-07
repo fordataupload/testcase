@@ -1,0 +1,659 @@
+2020-10-03 17:13:06.735897: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 110 items
+
+convolutional_test.py .......FFFF.......................F.............F. [ 45%]
+............................................................             [100%]
+
+================================== FAILURES ===================================
+_________________________ test_conv_1d_channels_first _________________________
+
+    def test_conv_1d_channels_first():
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'data_format': 'channels_first'},
+>                  input_shape=(batch_size, input_dim, steps))
+
+convolutional_test.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+layer_cls = <class 'keras.layers.convolutional.Conv1D'>
+kwargs = {'data_format': 'channels_first', 'filters': 3, 'kernel_size': 3}
+input_shape = (2, 2, 8), input_dtype = 'float32'
+input_data = array([[[6.386341  , 1.9555869 , 3.608374  , 1.2169931 , 8.98178   ,
+         4.282824  , 2.2099378 , 0.07457177],
+   ...98377  , 9.126945  , 8.360488  , 6.8211737 , 9.515029  ,
+         6.0522733 , 0.6468619 , 3.599232  ]]], dtype=float32)
+expected_output = None, expected_output_dtype = 'float32'
+fixed_batch_size = False
+
+    def layer_test(layer_cls, kwargs={}, input_shape=None, input_dtype=None,
+                   input_data=None, expected_output=None,
+                   expected_output_dtype=None, fixed_batch_size=False):
+        """Test routine for a layer with a single input tensor
+        and single output tensor.
+        """
+        # generate input data
+        if input_data is None:
+            assert input_shape
+            if not input_dtype:
+                input_dtype = K.floatx()
+            input_data_shape = list(input_shape)
+            for i, e in enumerate(input_data_shape):
+                if e is None:
+                    input_data_shape[i] = np.random.randint(1, 4)
+            input_data = (10 * np.random.random(input_data_shape))
+            input_data = input_data.astype(input_dtype)
+        else:
+            if input_shape is None:
+                input_shape = input_data.shape
+            if input_dtype is None:
+                input_dtype = input_data.dtype
+        if expected_output_dtype is None:
+            expected_output_dtype = input_dtype
+    
+        # instantiation
+        layer = layer_cls(**kwargs)
+    
+        # test get_weights , set_weights at layer level
+        weights = layer.get_weights()
+        layer.set_weights(weights)
+    
+        expected_output_shape = layer.compute_output_shape(input_shape)
+    
+        # test in functional API
+        if fixed_batch_size:
+            x = Input(batch_shape=input_shape, dtype=input_dtype)
+        else:
+            x = Input(shape=input_shape[1:], dtype=input_dtype)
+        y = layer(x)
+        assert K.dtype(y) == expected_output_dtype
+    
+        # check with the functional API
+        model = Model(x, y)
+    
+        actual_output = model.predict(input_data)
+        actual_output_shape = actual_output.shape
+        for expected_dim, actual_dim in zip(expected_output_shape,
+>                                           actual_output_shape):
+E                                           TypeError: zip argument #1 must support iteration
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:103: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 17:13:16.810899: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:13:16.811716: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:13:16.812207: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:13:16.812694: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:13:16.813175: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:13:16.813658: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:13:16.814148: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:13:16.814640: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:13:16.815410: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:13:16.815842: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 17:13:16.816339: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 17:13:16.816649: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 17:13:16.817340: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_____________________ test_convolution_2d[strides0-valid] _____________________
+
+strides = (1, 1), padding = 'valid'
+
+    @pytest.mark.parametrize(
+        'strides,padding',
+        [(strides, padding)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         if not (padding == 'same' and strides != (1, 1))]
+    )
+    def test_convolution_2d(strides, padding):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides,
+                           'data_format': 'channels_first'},
+>                  input_shape=(num_samples, stack_size, num_row, num_col))
+
+convolutional_test.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+layer_cls = <class 'keras.layers.convolutional.Conv2D'>
+kwargs = {'data_format': 'channels_first', 'filters': 2, 'kernel_size': (3, 2), 'padding': 'valid', ...}
+input_shape = (2, 3, 7, 6), input_dtype = 'float32'
+input_data = array([[[[7.149049  , 3.9087875 , 8.740417  , 5.635     , 0.3811837 ,
+          1.7040801 ],
+         [1.3015972 , 1.4...7398  ],
+         [9.965156  , 9.90631   , 8.68836   , 2.7088952 , 5.91303   ,
+          5.053587  ]]]], dtype=float32)
+expected_output = None, expected_output_dtype = 'float32'
+fixed_batch_size = False
+
+    def layer_test(layer_cls, kwargs={}, input_shape=None, input_dtype=None,
+                   input_data=None, expected_output=None,
+                   expected_output_dtype=None, fixed_batch_size=False):
+        """Test routine for a layer with a single input tensor
+        and single output tensor.
+        """
+        # generate input data
+        if input_data is None:
+            assert input_shape
+            if not input_dtype:
+                input_dtype = K.floatx()
+            input_data_shape = list(input_shape)
+            for i, e in enumerate(input_data_shape):
+                if e is None:
+                    input_data_shape[i] = np.random.randint(1, 4)
+            input_data = (10 * np.random.random(input_data_shape))
+            input_data = input_data.astype(input_dtype)
+        else:
+            if input_shape is None:
+                input_shape = input_data.shape
+            if input_dtype is None:
+                input_dtype = input_data.dtype
+        if expected_output_dtype is None:
+            expected_output_dtype = input_dtype
+    
+        # instantiation
+        layer = layer_cls(**kwargs)
+    
+        # test get_weights , set_weights at layer level
+        weights = layer.get_weights()
+        layer.set_weights(weights)
+    
+        expected_output_shape = layer.compute_output_shape(input_shape)
+    
+        # test in functional API
+        if fixed_batch_size:
+            x = Input(batch_shape=input_shape, dtype=input_dtype)
+        else:
+            x = Input(shape=input_shape[1:], dtype=input_dtype)
+        y = layer(x)
+        assert K.dtype(y) == expected_output_dtype
+    
+        # check with the functional API
+        model = Model(x, y)
+    
+        actual_output = model.predict(input_data)
+        actual_output_shape = actual_output.shape
+        for expected_dim, actual_dim in zip(expected_output_shape,
+>                                           actual_output_shape):
+E                                           TypeError: zip argument #1 must support iteration
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:103: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 17:13:18.204869: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:13:18.205462: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:13:18.205812: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:13:18.206159: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:13:18.206502: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:13:18.206842: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:13:18.207191: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:13:18.207541: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:13:18.208150: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:13:18.208486: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 17:13:18.208865: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 17:13:18.209101: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 17:13:18.209649: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_____________________ test_convolution_2d[strides1-valid] _____________________
+
+strides = (2, 2), padding = 'valid'
+
+    @pytest.mark.parametrize(
+        'strides,padding',
+        [(strides, padding)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         if not (padding == 'same' and strides != (1, 1))]
+    )
+    def test_convolution_2d(strides, padding):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides,
+                           'data_format': 'channels_first'},
+>                  input_shape=(num_samples, stack_size, num_row, num_col))
+
+convolutional_test.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+layer_cls = <class 'keras.layers.convolutional.Conv2D'>
+kwargs = {'data_format': 'channels_first', 'filters': 2, 'kernel_size': (3, 2), 'padding': 'valid', ...}
+input_shape = (2, 3, 7, 6), input_dtype = 'float32'
+input_data = array([[[[1.786085  , 1.3780676 , 6.7582545 , 3.7809322 , 0.8181774 ,
+          1.3476733 ],
+         [3.725565  , 9.0...800197],
+         [8.171264  , 5.138328  , 2.1390555 , 4.3872275 , 6.327693  ,
+          8.360332  ]]]], dtype=float32)
+expected_output = None, expected_output_dtype = 'float32'
+fixed_batch_size = False
+
+    def layer_test(layer_cls, kwargs={}, input_shape=None, input_dtype=None,
+                   input_data=None, expected_output=None,
+                   expected_output_dtype=None, fixed_batch_size=False):
+        """Test routine for a layer with a single input tensor
+        and single output tensor.
+        """
+        # generate input data
+        if input_data is None:
+            assert input_shape
+            if not input_dtype:
+                input_dtype = K.floatx()
+            input_data_shape = list(input_shape)
+            for i, e in enumerate(input_data_shape):
+                if e is None:
+                    input_data_shape[i] = np.random.randint(1, 4)
+            input_data = (10 * np.random.random(input_data_shape))
+            input_data = input_data.astype(input_dtype)
+        else:
+            if input_shape is None:
+                input_shape = input_data.shape
+            if input_dtype is None:
+                input_dtype = input_data.dtype
+        if expected_output_dtype is None:
+            expected_output_dtype = input_dtype
+    
+        # instantiation
+        layer = layer_cls(**kwargs)
+    
+        # test get_weights , set_weights at layer level
+        weights = layer.get_weights()
+        layer.set_weights(weights)
+    
+        expected_output_shape = layer.compute_output_shape(input_shape)
+    
+        # test in functional API
+        if fixed_batch_size:
+            x = Input(batch_shape=input_shape, dtype=input_dtype)
+        else:
+            x = Input(shape=input_shape[1:], dtype=input_dtype)
+        y = layer(x)
+        assert K.dtype(y) == expected_output_dtype
+    
+        # check with the functional API
+        model = Model(x, y)
+    
+        actual_output = model.predict(input_data)
+        actual_output_shape = actual_output.shape
+        for expected_dim, actual_dim in zip(expected_output_shape,
+>                                           actual_output_shape):
+E                                           TypeError: zip argument #1 must support iteration
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:103: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 17:13:18.340515: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:13:18.341119: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:13:18.341469: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:13:18.341812: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:13:18.342151: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:13:18.342492: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:13:18.342835: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:13:18.343181: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:13:18.343741: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:13:18.344060: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 17:13:18.344410: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 17:13:18.344629: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 17:13:18.345150: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_____________________ test_convolution_2d[strides2-same] ______________________
+
+strides = (1, 1), padding = 'same'
+
+    @pytest.mark.parametrize(
+        'strides,padding',
+        [(strides, padding)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         if not (padding == 'same' and strides != (1, 1))]
+    )
+    def test_convolution_2d(strides, padding):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides,
+                           'data_format': 'channels_first'},
+>                  input_shape=(num_samples, stack_size, num_row, num_col))
+
+convolutional_test.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+layer_cls = <class 'keras.layers.convolutional.Conv2D'>
+kwargs = {'data_format': 'channels_first', 'filters': 2, 'kernel_size': (3, 2), 'padding': 'same', ...}
+input_shape = (2, 3, 7, 6), input_dtype = 'float32'
+input_data = array([[[[8.029165  , 3.129347  , 2.3064234 , 2.2718742 , 9.011707  ,
+          9.715894  ],
+         [7.638829  , 4.4...85713 ],
+         [6.126624  , 7.837048  , 2.6949325 , 9.242741  , 0.54448575,
+          1.9685968 ]]]], dtype=float32)
+expected_output = None, expected_output_dtype = 'float32'
+fixed_batch_size = False
+
+    def layer_test(layer_cls, kwargs={}, input_shape=None, input_dtype=None,
+                   input_data=None, expected_output=None,
+                   expected_output_dtype=None, fixed_batch_size=False):
+        """Test routine for a layer with a single input tensor
+        and single output tensor.
+        """
+        # generate input data
+        if input_data is None:
+            assert input_shape
+            if not input_dtype:
+                input_dtype = K.floatx()
+            input_data_shape = list(input_shape)
+            for i, e in enumerate(input_data_shape):
+                if e is None:
+                    input_data_shape[i] = np.random.randint(1, 4)
+            input_data = (10 * np.random.random(input_data_shape))
+            input_data = input_data.astype(input_dtype)
+        else:
+            if input_shape is None:
+                input_shape = input_data.shape
+            if input_dtype is None:
+                input_dtype = input_data.dtype
+        if expected_output_dtype is None:
+            expected_output_dtype = input_dtype
+    
+        # instantiation
+        layer = layer_cls(**kwargs)
+    
+        # test get_weights , set_weights at layer level
+        weights = layer.get_weights()
+        layer.set_weights(weights)
+    
+        expected_output_shape = layer.compute_output_shape(input_shape)
+    
+        # test in functional API
+        if fixed_batch_size:
+            x = Input(batch_shape=input_shape, dtype=input_dtype)
+        else:
+            x = Input(shape=input_shape[1:], dtype=input_dtype)
+        y = layer(x)
+        assert K.dtype(y) == expected_output_dtype
+    
+        # check with the functional API
+        model = Model(x, y)
+    
+        actual_output = model.predict(input_data)
+        actual_output_shape = actual_output.shape
+        for expected_dim, actual_dim in zip(expected_output_shape,
+>                                           actual_output_shape):
+E                                           TypeError: zip argument #1 must support iteration
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:103: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 17:13:18.472718: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:13:18.473311: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:13:18.473663: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:13:18.474019: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:13:18.474389: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:13:18.474765: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:13:18.475138: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:13:18.475512: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:13:18.476100: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:13:18.476418: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 17:13:18.476773: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 17:13:18.476993: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 17:13:18.477528: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+___________________ test_separable_conv_1d_additional_args ____________________
+
+    def test_separable_conv_1d_additional_args():
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_step = 9
+        padding = 'valid'
+        multiplier = 2
+    
+        layer_test(convolutional.SeparableConv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'data_format': 'channels_first',
+                           'activation': None,
+                           'depthwise_regularizer': 'l2',
+                           'pointwise_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'pointwise_constraint': 'unit_norm',
+                           'depthwise_constraint': 'unit_norm',
+                           'strides': 1,
+                           'use_bias': True,
+                           'depth_multiplier': multiplier},
+>                  input_shape=(num_samples, stack_size, num_step))
+
+convolutional_test.py:357: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+layer_cls = <class 'keras.layers.convolutional.SeparableConv1D'>
+kwargs = {'activation': None, 'activity_regularizer': 'l2', 'bias_regularizer': 'l2', 'data_format': 'channels_first', ...}
+input_shape = (2, 3, 9), input_dtype = 'float32'
+input_data = array([[[9.165626  , 3.2451558 , 8.986368  , 5.8250995 , 8.703192  ,
+         0.09717092, 6.1888585 , 3.8271208 , 3.41...16455  , 3.4636714 , 9.853872  , 1.5790291 ,
+         0.28279966, 7.932107  , 7.8576355 , 3.8501978 ]]], dtype=float32)
+expected_output = None, expected_output_dtype = 'float32'
+fixed_batch_size = False
+
+    def layer_test(layer_cls, kwargs={}, input_shape=None, input_dtype=None,
+                   input_data=None, expected_output=None,
+                   expected_output_dtype=None, fixed_batch_size=False):
+        """Test routine for a layer with a single input tensor
+        and single output tensor.
+        """
+        # generate input data
+        if input_data is None:
+            assert input_shape
+            if not input_dtype:
+                input_dtype = K.floatx()
+            input_data_shape = list(input_shape)
+            for i, e in enumerate(input_data_shape):
+                if e is None:
+                    input_data_shape[i] = np.random.randint(1, 4)
+            input_data = (10 * np.random.random(input_data_shape))
+            input_data = input_data.astype(input_dtype)
+        else:
+            if input_shape is None:
+                input_shape = input_data.shape
+            if input_dtype is None:
+                input_dtype = input_data.dtype
+        if expected_output_dtype is None:
+            expected_output_dtype = input_dtype
+    
+        # instantiation
+        layer = layer_cls(**kwargs)
+    
+        # test get_weights , set_weights at layer level
+        weights = layer.get_weights()
+        layer.set_weights(weights)
+    
+        expected_output_shape = layer.compute_output_shape(input_shape)
+    
+        # test in functional API
+        if fixed_batch_size:
+            x = Input(batch_shape=input_shape, dtype=input_dtype)
+        else:
+            x = Input(shape=input_shape[1:], dtype=input_dtype)
+        y = layer(x)
+        assert K.dtype(y) == expected_output_dtype
+    
+        # check with the functional API
+        model = Model(x, y)
+    
+        actual_output = model.predict(input_data)
+        actual_output_shape = actual_output.shape
+        for expected_dim, actual_dim in zip(expected_output_shape,
+>                                           actual_output_shape):
+E                                           TypeError: zip argument #1 must support iteration
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:103: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 17:13:24.085864: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:13:24.086467: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:13:24.086824: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:13:24.087171: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:13:24.087512: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:13:24.087859: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:13:24.088212: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:13:24.088589: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:13:24.089193: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:13:24.089536: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 17:13:24.089913: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 17:13:24.090148: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 17:13:24.090694: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+___________________ test_separable_conv_2d_additional_args ____________________
+
+    def test_separable_conv_2d_additional_args():
+        num_samples = 2
+        filters = 6
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+        padding = 'valid'
+        strides = (2, 2)
+        multiplier = 2
+    
+        layer_test(convolutional.SeparableConv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'data_format': 'channels_first',
+                           'activation': None,
+                           'depthwise_regularizer': 'l2',
+                           'pointwise_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'pointwise_constraint': 'unit_norm',
+                           'depthwise_constraint': 'unit_norm',
+                           'strides': strides,
+                           'depth_multiplier': multiplier},
+>                  input_shape=(num_samples, stack_size, num_row, num_col))
+
+convolutional_test.py:423: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+layer_cls = <class 'keras.layers.convolutional.SeparableConv2D'>
+kwargs = {'activation': None, 'activity_regularizer': 'l2', 'bias_regularizer': 'l2', 'data_format': 'channels_first', ...}
+input_shape = (2, 3, 7, 6), input_dtype = 'float32'
+input_data = array([[[[3.6512685 , 9.430906  , 0.0566147 , 7.654199  , 0.35852078,
+          7.4758606 ],
+         [8.915851  , 9.5...458964],
+         [7.522965  , 5.307589  , 3.3758755 , 4.09812   , 6.7429647 ,
+          7.7009096 ]]]], dtype=float32)
+expected_output = None, expected_output_dtype = 'float32'
+fixed_batch_size = False
+
+    def layer_test(layer_cls, kwargs={}, input_shape=None, input_dtype=None,
+                   input_data=None, expected_output=None,
+                   expected_output_dtype=None, fixed_batch_size=False):
+        """Test routine for a layer with a single input tensor
+        and single output tensor.
+        """
+        # generate input data
+        if input_data is None:
+            assert input_shape
+            if not input_dtype:
+                input_dtype = K.floatx()
+            input_data_shape = list(input_shape)
+            for i, e in enumerate(input_data_shape):
+                if e is None:
+                    input_data_shape[i] = np.random.randint(1, 4)
+            input_data = (10 * np.random.random(input_data_shape))
+            input_data = input_data.astype(input_dtype)
+        else:
+            if input_shape is None:
+                input_shape = input_data.shape
+            if input_dtype is None:
+                input_dtype = input_data.dtype
+        if expected_output_dtype is None:
+            expected_output_dtype = input_dtype
+    
+        # instantiation
+        layer = layer_cls(**kwargs)
+    
+        # test get_weights , set_weights at layer level
+        weights = layer.get_weights()
+        layer.set_weights(weights)
+    
+        expected_output_shape = layer.compute_output_shape(input_shape)
+    
+        # test in functional API
+        if fixed_batch_size:
+            x = Input(batch_shape=input_shape, dtype=input_dtype)
+        else:
+            x = Input(shape=input_shape[1:], dtype=input_dtype)
+        y = layer(x)
+        assert K.dtype(y) == expected_output_dtype
+    
+        # check with the functional API
+        model = Model(x, y)
+    
+        actual_output = model.predict(input_data)
+        actual_output_shape = actual_output.shape
+        for expected_dim, actual_dim in zip(expected_output_shape,
+>                                           actual_output_shape):
+E                                           TypeError: zip argument #1 must support iteration
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:103: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 17:13:26.827965: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:13:26.828555: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:13:26.828906: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:13:26.829250: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:13:26.829589: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:13:26.829930: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:13:26.830275: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:13:26.830619: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:13:26.831176: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:13:26.831523: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 17:13:26.831899: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 17:13:26.832146: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 17:13:26.832699: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED convolutional_test.py::test_conv_1d_channels_first - TypeError: zip ar...
+FAILED convolutional_test.py::test_convolution_2d[strides0-valid] - TypeError...
+FAILED convolutional_test.py::test_convolution_2d[strides1-valid] - TypeError...
+FAILED convolutional_test.py::test_convolution_2d[strides2-same] - TypeError:...
+FAILED convolutional_test.py::test_separable_conv_1d_additional_args - TypeEr...
+FAILED convolutional_test.py::test_separable_conv_2d_additional_args - TypeEr...
+======================= 6 failed, 104 passed in 28.37s ========================

@@ -1,0 +1,154 @@
+2020-10-03 16:50:16.035761: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 110 items
+
+convolutional_test.py .................................................. [ 45%]
+.....................F......................................             [100%]
+
+================================== FAILURES ===================================
+__________ test_conv3d_transpose[valid-None-strides3-channels_last] ___________
+
+padding = 'valid', out_padding = None, strides = (2, 2, 2)
+data_format = 'channels_last'
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides,data_format',
+        [(padding, out_padding, strides, data_format)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0, 0), (1, 1, 1)]
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         for data_format in ['channels_first', 'channels_last']
+         if (not (padding == 'same' and strides != (1, 1, 1))
+             and not (strides == (1, 1, 1) and out_padding == (1, 1, 1)))]
+    )
+    def test_conv3d_transpose(padding, out_padding, strides, data_format):
+        filters = 2
+        stack_size = 3
+        num_depth = 7
+        num_row = 5
+        num_col = 6
+    
+        layer_test(
+            convolutional.Conv3DTranspose,
+            kwargs={'filters': filters,
+                    'kernel_size': 3,
+                    'padding': padding,
+                    'output_padding': out_padding,
+                    'strides': strides,
+                    'data_format': data_format},
+            input_shape=(None, num_depth, num_row, num_col, stack_size),
+>           fixed_batch_size=True)
+
+convolutional_test.py:577: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+layer_cls = <class 'keras.layers.convolutional.Conv3DTranspose'>
+kwargs = {'data_format': 'channels_last', 'filters': 2, 'kernel_size': 3, 'output_padding': None, ...}
+input_shape = (None, 7, 5, 6, 3), input_dtype = 'float32'
+input_data = array([[[[[8.989047  , 5.744418  , 6.280761  ],
+          [0.5161428 , 2.0205803 , 2.5560877 ],
+          [3.980025  ,...  ],
+          [9.591163  , 0.5144099 , 7.901256  ],
+          [6.8912497 , 8.626579  , 4.8165803 ]]]]], dtype=float32)
+expected_output = None, expected_output_dtype = 'float32'
+fixed_batch_size = True
+
+    def layer_test(layer_cls, kwargs={}, input_shape=None, input_dtype=None,
+                   input_data=None, expected_output=None,
+                   expected_output_dtype=None, fixed_batch_size=False):
+        """Test routine for a layer with a single input tensor
+        and single output tensor.
+        """
+        # generate input data
+        if input_data is None:
+            assert input_shape
+            if not input_dtype:
+                input_dtype = K.floatx()
+            input_data_shape = list(input_shape)
+            for i, e in enumerate(input_data_shape):
+                if e is None:
+                    input_data_shape[i] = np.random.randint(1, 4)
+            input_data = (10 * np.random.random(input_data_shape))
+            input_data = input_data.astype(input_dtype)
+        else:
+            if input_shape is None:
+                input_shape = input_data.shape
+            if input_dtype is None:
+                input_dtype = input_data.dtype
+        if expected_output_dtype is None:
+            expected_output_dtype = input_dtype
+    
+        # instantiation
+        layer = layer_cls(**kwargs)
+    
+        # test get_weights , set_weights at layer level
+        weights = layer.get_weights()
+        layer.set_weights(weights)
+    
+        expected_output_shape = layer.compute_output_shape(input_shape)
+    
+        # test in functional API
+        if fixed_batch_size:
+            x = Input(batch_shape=input_shape, dtype=input_dtype)
+        else:
+            x = Input(shape=input_shape[1:], dtype=input_dtype)
+        y = layer(x)
+        assert K.dtype(y) == expected_output_dtype
+    
+        # check with the functional API
+        model = Model(x, y)
+    
+        actual_output = model.predict(input_data)
+        actual_output_shape = actual_output.shape
+        for expected_dim, actual_dim in zip(expected_output_shape,
+                                            actual_output_shape):
+            if expected_dim is not None:
+                assert expected_dim == actual_dim
+    
+        if expected_output is not None:
+            assert_allclose(actual_output, expected_output, rtol=1e-3)
+    
+        # test serialization, weight setting at model level
+        model_config = model.get_config()
+        recovered_model = model.__class__.from_config(model_config)
+        if model.weights:
+            weights = model.get_weights()
+            recovered_model.set_weights(weights)
+            _output = recovered_model.predict(input_data)
+>           assert_allclose(_output, actual_output, rtol=1e-3)
+E           AssertionError: 
+E           Not equal to tolerance rtol=0.001, atol=0
+E           
+E           Mismatched elements: 1 / 8580 (0.0117%)
+E           Max absolute difference: 4.7683716e-07
+E           Max relative difference: 0.00222222
+E            x: array([[[[[-4.658187e-01, -3.194301e-02],
+E                     [-5.947191e-01, -2.478942e+00],
+E                     [ 2.609324e-01, -3.608850e-02],...
+E            y: array([[[[[-4.658187e-01, -3.194301e-02],
+E                     [-5.947191e-01, -2.478942e+00],
+E                     [ 2.609324e-01, -3.608850e-02],...
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:117: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 16:50:41.536613: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 16:50:41.537280: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 16:50:41.537673: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 16:50:41.538060: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 16:50:41.538422: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 16:50:41.538787: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 16:50:41.539158: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 16:50:41.539533: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 16:50:41.540156: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 16:50:41.540474: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 16:50:41.540850: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 16:50:41.541074: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 16:50:41.541647: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED convolutional_test.py::test_conv3d_transpose[valid-None-strides3-channels_last]
+======================= 1 failed, 109 passed in 28.87s ========================

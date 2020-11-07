@@ -1,0 +1,3717 @@
+2020-10-03 17:08:55.729450: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 110 items
+
+convolutional_test.py FFFFFFFFFFFFF..................................... [ 45%]
+..............FFFF.......................................FFF             [100%]
+
+================================== FAILURES ===================================
+_________ test_causal_dilated_conv[layer_kwargs0-4-expected_output0] __________
+
+layer_kwargs = {'dilation_rate': 1, 'filters': 1, 'kernel_initializer': 'ones', 'kernel_size': 2, ...}
+input_length = 4, expected_output = [[[0], [1], [3], [5]]]
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    @pytest.mark.parametrize(
+        'layer_kwargs,input_length,expected_output',
+        [
+            # Causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[0], [1], [3], [5]]]),
+            # Non-causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'valid',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[1], [3], [5]]]),
+            # Causal dilated with larger kernel size
+            ({'filters': 1, 'kernel_size': 3, 'dilation_rate': 2, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             10, np.float32([[[0], [1], [2], [4], [6], [9], [12], [15], [18], [21]]])),
+        ]
+    )
+    def test_causal_dilated_conv(layer_kwargs, input_length, expected_output):
+        input_data = np.reshape(np.arange(input_length, dtype='float32'),
+                                (1, input_length, 1))
+        layer_test(convolutional.Conv1D, input_data=input_data,
+>                  kwargs=layer_kwargs, expected_output=expected_output)
+
+convolutional_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3966: in conv3d
+    padding = _preprocess_padding(padding)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+padding = 'causal'
+
+    def _preprocess_padding(padding):
+        """Convert keras' padding to tensorflow's padding.
+    
+        # Arguments
+            padding: string, `"same"` or `"valid"`.
+    
+        # Returns
+            a string, `"SAME"` or `"VALID"`.
+    
+        # Raises
+            ValueError: if `padding` is invalid.
+        """
+        if padding == 'same':
+            padding = 'SAME'
+        elif padding == 'valid':
+            padding = 'VALID'
+        else:
+>           raise ValueError('Invalid padding: ' + str(padding))
+E           ValueError: Invalid padding: causal
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3621: ValueError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+_________ test_causal_dilated_conv[layer_kwargs1-4-expected_output1] __________
+
+layer_kwargs = {'dilation_rate': 1, 'filters': 1, 'kernel_initializer': 'ones', 'kernel_size': 2, ...}
+input_length = 4, expected_output = [[[1], [3], [5]]]
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    @pytest.mark.parametrize(
+        'layer_kwargs,input_length,expected_output',
+        [
+            # Causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[0], [1], [3], [5]]]),
+            # Non-causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'valid',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[1], [3], [5]]]),
+            # Causal dilated with larger kernel size
+            ({'filters': 1, 'kernel_size': 3, 'dilation_rate': 2, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             10, np.float32([[[0], [1], [2], [4], [6], [9], [12], [15], [18], [21]]])),
+        ]
+    )
+    def test_causal_dilated_conv(layer_kwargs, input_length, expected_output):
+        input_data = np.reshape(np.arange(input_length, dtype='float32'),
+                                (1, input_length, 1))
+        layer_test(convolutional.Conv1D, input_data=input_data,
+>                  kwargs=layer_kwargs, expected_output=expected_output)
+
+convolutional_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = <tf.Tensor 'input_1:0' shape=(?, 4, 1) dtype=float32>
+filters = <tf.Variable 'conv1d_1/kernel:0' shape=(2, 1, 1) dtype=float32>
+stride = [1, 1, 1], padding = 'VALID', use_cudnn_on_gpu = None
+data_format = 'NDHWC', name = 'conv1d_1/convolution_1/', input = None
+dilations = [1, 1, 1]
+
+    @tf_export(v1=["nn.conv1d"])
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NCHW` for data_format is deprecated, use `NCW` instead",
+        warn_once=True,
+        data_format="NCHW")
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NHWC` for data_format is deprecated, use `NWC` instead",
+        warn_once=True,
+        data_format="NHWC")
+    def conv1d(
+        value=None,
+        filters=None,
+        stride=None,
+        padding=None,
+        use_cudnn_on_gpu=None,
+        data_format=None,
+        name=None,
+        input=None,  # pylint: disable=redefined-builtin
+        dilations=None):
+      r"""Computes a 1-D convolution given 3-D input and filter tensors.
+    
+      Given an input tensor of shape
+        [batch, in_width, in_channels]
+      if data_format is "NWC", or
+        [batch, in_channels, in_width]
+      if data_format is "NCW",
+      and a filter / kernel tensor of shape
+      [filter_width, in_channels, out_channels], this op reshapes
+      the arguments to pass them to conv2d to perform the equivalent
+      convolution operation.
+    
+      Internally, this op reshapes the input tensors and invokes `tf.nn.conv2d`.
+      For example, if `data_format` does not start with "NC", a tensor of shape
+        [batch, in_width, in_channels]
+      is reshaped to
+        [batch, 1, in_width, in_channels],
+      and the filter is reshaped to
+        [1, filter_width, in_channels, out_channels].
+      The result is then reshaped back to
+        [batch, out_width, out_channels]
+      \(where out_width is a function of the stride and padding as in conv2d\) and
+      returned to the caller.
+    
+      Args:
+        value: A 3D `Tensor`.  Must be of type `float16`, `float32`, or `float64`.
+        filters: A 3D `Tensor`.  Must have the same type as `value`.
+        stride: An int or list of `ints` that has length `1` or `3`.  The number of
+          entries by which the filter is moved right at each step.
+        padding: 'SAME' or 'VALID'
+        use_cudnn_on_gpu: An optional `bool`.  Defaults to `True`.
+        data_format: An optional `string` from `"NWC", "NCW"`.  Defaults to `"NWC"`,
+          the data is stored in the order of [batch, in_width, in_channels].  The
+          `"NCW"` format stores data as [batch, in_channels, in_width].
+        name: A name for the operation (optional).
+        input: Alias for value.
+        dilations: An int or list of `ints` that has length `1` or `3` which
+          defaults to 1. The dilation factor for each dimension of input. If set to
+          k > 1, there will be k-1 skipped cells between each filter element on that
+          dimension. Dilations in the batch and depth dimensions must be 1.
+    
+      Returns:
+        A `Tensor`.  Has the same type as input.
+    
+      Raises:
+        ValueError: if `data_format` is invalid.
+      """
+      value = deprecation.deprecated_argument_lookup("input", input, "value", value)
+      with ops.name_scope(name, "conv1d", [value, filters]) as name:
+        # Reshape the input tensor to [batch, 1, in_width, in_channels]
+        if data_format is None or data_format == "NHWC" or data_format == "NWC":
+          data_format = "NHWC"
+          spatial_start_dim = 1
+          channel_index = 2
+        elif data_format == "NCHW" or data_format == "NCW":
+          data_format = "NCHW"
+          spatial_start_dim = 2
+          channel_index = 1
+        else:
+>         raise ValueError("data_format must be \"NWC\" or \"NCW\".")
+E         ValueError: data_format must be "NWC" or "NCW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1667: ValueError
+_________ test_causal_dilated_conv[layer_kwargs2-10-expected_output2] _________
+
+layer_kwargs = {'dilation_rate': 2, 'filters': 1, 'kernel_initializer': 'ones', 'kernel_size': 3, ...}
+input_length = 10
+expected_output = array([[[ 0.],
+        [ 1.],
+        [ 2.],
+        [ 4.],
+        [ 6.],
+        [ 9.],
+        [12.],
+        [15.],
+        [18.],
+        [21.]]], dtype=float32)
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    @pytest.mark.parametrize(
+        'layer_kwargs,input_length,expected_output',
+        [
+            # Causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[0], [1], [3], [5]]]),
+            # Non-causal
+            ({'filters': 1, 'kernel_size': 2, 'dilation_rate': 1, 'padding': 'valid',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             4, [[[1], [3], [5]]]),
+            # Causal dilated with larger kernel size
+            ({'filters': 1, 'kernel_size': 3, 'dilation_rate': 2, 'padding': 'causal',
+              'kernel_initializer': 'ones', 'use_bias': False},
+             10, np.float32([[[0], [1], [2], [4], [6], [9], [12], [15], [18], [21]]])),
+        ]
+    )
+    def test_causal_dilated_conv(layer_kwargs, input_length, expected_output):
+        input_data = np.reshape(np.arange(input_length, dtype='float32'),
+                                (1, input_length, 1))
+        layer_test(convolutional.Conv1D, input_data=input_data,
+>                  kwargs=layer_kwargs, expected_output=expected_output)
+
+convolutional_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3966: in conv3d
+    padding = _preprocess_padding(padding)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+padding = 'causal'
+
+    def _preprocess_padding(padding):
+        """Convert keras' padding to tensorflow's padding.
+    
+        # Arguments
+            padding: string, `"same"` or `"valid"`.
+    
+        # Returns
+            a string, `"SAME"` or `"VALID"`.
+    
+        # Raises
+            ValueError: if `padding` is invalid.
+        """
+        if padding == 'same':
+            padding = 'SAME'
+        elif padding == 'valid':
+            padding = 'VALID'
+        else:
+>           raise ValueError('Invalid padding: ' + str(padding))
+E           ValueError: Invalid padding: causal
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3621: ValueError
+____________________________ test_conv_1d[valid-1] ____________________________
+
+padding = 'valid', strides = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         if not (padding == 'same' and strides != 1)]
+    )
+    def test_conv_1d(padding, strides):
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = <tf.Tensor 'input_1:0' shape=(?, 8, 2) dtype=float32>
+filters = <tf.Variable 'conv1d_1/kernel:0' shape=(3, 2, 3) dtype=float32>
+stride = [1, 1, 1], padding = 'VALID', use_cudnn_on_gpu = None
+data_format = 'NDHWC', name = 'conv1d_1/convolution_1/', input = None
+dilations = [1, 1, 1]
+
+    @tf_export(v1=["nn.conv1d"])
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NCHW` for data_format is deprecated, use `NCW` instead",
+        warn_once=True,
+        data_format="NCHW")
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NHWC` for data_format is deprecated, use `NWC` instead",
+        warn_once=True,
+        data_format="NHWC")
+    def conv1d(
+        value=None,
+        filters=None,
+        stride=None,
+        padding=None,
+        use_cudnn_on_gpu=None,
+        data_format=None,
+        name=None,
+        input=None,  # pylint: disable=redefined-builtin
+        dilations=None):
+      r"""Computes a 1-D convolution given 3-D input and filter tensors.
+    
+      Given an input tensor of shape
+        [batch, in_width, in_channels]
+      if data_format is "NWC", or
+        [batch, in_channels, in_width]
+      if data_format is "NCW",
+      and a filter / kernel tensor of shape
+      [filter_width, in_channels, out_channels], this op reshapes
+      the arguments to pass them to conv2d to perform the equivalent
+      convolution operation.
+    
+      Internally, this op reshapes the input tensors and invokes `tf.nn.conv2d`.
+      For example, if `data_format` does not start with "NC", a tensor of shape
+        [batch, in_width, in_channels]
+      is reshaped to
+        [batch, 1, in_width, in_channels],
+      and the filter is reshaped to
+        [1, filter_width, in_channels, out_channels].
+      The result is then reshaped back to
+        [batch, out_width, out_channels]
+      \(where out_width is a function of the stride and padding as in conv2d\) and
+      returned to the caller.
+    
+      Args:
+        value: A 3D `Tensor`.  Must be of type `float16`, `float32`, or `float64`.
+        filters: A 3D `Tensor`.  Must have the same type as `value`.
+        stride: An int or list of `ints` that has length `1` or `3`.  The number of
+          entries by which the filter is moved right at each step.
+        padding: 'SAME' or 'VALID'
+        use_cudnn_on_gpu: An optional `bool`.  Defaults to `True`.
+        data_format: An optional `string` from `"NWC", "NCW"`.  Defaults to `"NWC"`,
+          the data is stored in the order of [batch, in_width, in_channels].  The
+          `"NCW"` format stores data as [batch, in_channels, in_width].
+        name: A name for the operation (optional).
+        input: Alias for value.
+        dilations: An int or list of `ints` that has length `1` or `3` which
+          defaults to 1. The dilation factor for each dimension of input. If set to
+          k > 1, there will be k-1 skipped cells between each filter element on that
+          dimension. Dilations in the batch and depth dimensions must be 1.
+    
+      Returns:
+        A `Tensor`.  Has the same type as input.
+    
+      Raises:
+        ValueError: if `data_format` is invalid.
+      """
+      value = deprecation.deprecated_argument_lookup("input", input, "value", value)
+      with ops.name_scope(name, "conv1d", [value, filters]) as name:
+        # Reshape the input tensor to [batch, 1, in_width, in_channels]
+        if data_format is None or data_format == "NHWC" or data_format == "NWC":
+          data_format = "NHWC"
+          spatial_start_dim = 1
+          channel_index = 2
+        elif data_format == "NCHW" or data_format == "NCW":
+          data_format = "NCHW"
+          spatial_start_dim = 2
+          channel_index = 1
+        else:
+>         raise ValueError("data_format must be \"NWC\" or \"NCW\".")
+E         ValueError: data_format must be "NWC" or "NCW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1667: ValueError
+____________________________ test_conv_1d[valid-2] ____________________________
+
+padding = 'valid', strides = 2
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         if not (padding == 'same' and strides != 1)]
+    )
+    def test_conv_1d(padding, strides):
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = <tf.Tensor 'input_1:0' shape=(?, 8, 2) dtype=float32>
+filters = <tf.Variable 'conv1d_1/kernel:0' shape=(3, 2, 3) dtype=float32>
+stride = [1, 2, 1], padding = 'VALID', use_cudnn_on_gpu = None
+data_format = 'NDHWC', name = 'conv1d_1/convolution_1/', input = None
+dilations = [1, 1, 1]
+
+    @tf_export(v1=["nn.conv1d"])
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NCHW` for data_format is deprecated, use `NCW` instead",
+        warn_once=True,
+        data_format="NCHW")
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NHWC` for data_format is deprecated, use `NWC` instead",
+        warn_once=True,
+        data_format="NHWC")
+    def conv1d(
+        value=None,
+        filters=None,
+        stride=None,
+        padding=None,
+        use_cudnn_on_gpu=None,
+        data_format=None,
+        name=None,
+        input=None,  # pylint: disable=redefined-builtin
+        dilations=None):
+      r"""Computes a 1-D convolution given 3-D input and filter tensors.
+    
+      Given an input tensor of shape
+        [batch, in_width, in_channels]
+      if data_format is "NWC", or
+        [batch, in_channels, in_width]
+      if data_format is "NCW",
+      and a filter / kernel tensor of shape
+      [filter_width, in_channels, out_channels], this op reshapes
+      the arguments to pass them to conv2d to perform the equivalent
+      convolution operation.
+    
+      Internally, this op reshapes the input tensors and invokes `tf.nn.conv2d`.
+      For example, if `data_format` does not start with "NC", a tensor of shape
+        [batch, in_width, in_channels]
+      is reshaped to
+        [batch, 1, in_width, in_channels],
+      and the filter is reshaped to
+        [1, filter_width, in_channels, out_channels].
+      The result is then reshaped back to
+        [batch, out_width, out_channels]
+      \(where out_width is a function of the stride and padding as in conv2d\) and
+      returned to the caller.
+    
+      Args:
+        value: A 3D `Tensor`.  Must be of type `float16`, `float32`, or `float64`.
+        filters: A 3D `Tensor`.  Must have the same type as `value`.
+        stride: An int or list of `ints` that has length `1` or `3`.  The number of
+          entries by which the filter is moved right at each step.
+        padding: 'SAME' or 'VALID'
+        use_cudnn_on_gpu: An optional `bool`.  Defaults to `True`.
+        data_format: An optional `string` from `"NWC", "NCW"`.  Defaults to `"NWC"`,
+          the data is stored in the order of [batch, in_width, in_channels].  The
+          `"NCW"` format stores data as [batch, in_channels, in_width].
+        name: A name for the operation (optional).
+        input: Alias for value.
+        dilations: An int or list of `ints` that has length `1` or `3` which
+          defaults to 1. The dilation factor for each dimension of input. If set to
+          k > 1, there will be k-1 skipped cells between each filter element on that
+          dimension. Dilations in the batch and depth dimensions must be 1.
+    
+      Returns:
+        A `Tensor`.  Has the same type as input.
+    
+      Raises:
+        ValueError: if `data_format` is invalid.
+      """
+      value = deprecation.deprecated_argument_lookup("input", input, "value", value)
+      with ops.name_scope(name, "conv1d", [value, filters]) as name:
+        # Reshape the input tensor to [batch, 1, in_width, in_channels]
+        if data_format is None or data_format == "NHWC" or data_format == "NWC":
+          data_format = "NHWC"
+          spatial_start_dim = 1
+          channel_index = 2
+        elif data_format == "NCHW" or data_format == "NCW":
+          data_format = "NCHW"
+          spatial_start_dim = 2
+          channel_index = 1
+        else:
+>         raise ValueError("data_format must be \"NWC\" or \"NCW\".")
+E         ValueError: data_format must be "NWC" or "NCW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1667: ValueError
+____________________________ test_conv_1d[same-1] _____________________________
+
+padding = 'same', strides = 1
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [1, 2]
+         if not (padding == 'same' and strides != 1)]
+    )
+    def test_conv_1d(padding, strides):
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = <tf.Tensor 'input_1:0' shape=(?, 8, 2) dtype=float32>
+filters = <tf.Variable 'conv1d_1/kernel:0' shape=(3, 2, 3) dtype=float32>
+stride = [1, 1, 1], padding = 'SAME', use_cudnn_on_gpu = None
+data_format = 'NDHWC', name = 'conv1d_1/convolution_1/', input = None
+dilations = [1, 1, 1]
+
+    @tf_export(v1=["nn.conv1d"])
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NCHW` for data_format is deprecated, use `NCW` instead",
+        warn_once=True,
+        data_format="NCHW")
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NHWC` for data_format is deprecated, use `NWC` instead",
+        warn_once=True,
+        data_format="NHWC")
+    def conv1d(
+        value=None,
+        filters=None,
+        stride=None,
+        padding=None,
+        use_cudnn_on_gpu=None,
+        data_format=None,
+        name=None,
+        input=None,  # pylint: disable=redefined-builtin
+        dilations=None):
+      r"""Computes a 1-D convolution given 3-D input and filter tensors.
+    
+      Given an input tensor of shape
+        [batch, in_width, in_channels]
+      if data_format is "NWC", or
+        [batch, in_channels, in_width]
+      if data_format is "NCW",
+      and a filter / kernel tensor of shape
+      [filter_width, in_channels, out_channels], this op reshapes
+      the arguments to pass them to conv2d to perform the equivalent
+      convolution operation.
+    
+      Internally, this op reshapes the input tensors and invokes `tf.nn.conv2d`.
+      For example, if `data_format` does not start with "NC", a tensor of shape
+        [batch, in_width, in_channels]
+      is reshaped to
+        [batch, 1, in_width, in_channels],
+      and the filter is reshaped to
+        [1, filter_width, in_channels, out_channels].
+      The result is then reshaped back to
+        [batch, out_width, out_channels]
+      \(where out_width is a function of the stride and padding as in conv2d\) and
+      returned to the caller.
+    
+      Args:
+        value: A 3D `Tensor`.  Must be of type `float16`, `float32`, or `float64`.
+        filters: A 3D `Tensor`.  Must have the same type as `value`.
+        stride: An int or list of `ints` that has length `1` or `3`.  The number of
+          entries by which the filter is moved right at each step.
+        padding: 'SAME' or 'VALID'
+        use_cudnn_on_gpu: An optional `bool`.  Defaults to `True`.
+        data_format: An optional `string` from `"NWC", "NCW"`.  Defaults to `"NWC"`,
+          the data is stored in the order of [batch, in_width, in_channels].  The
+          `"NCW"` format stores data as [batch, in_channels, in_width].
+        name: A name for the operation (optional).
+        input: Alias for value.
+        dilations: An int or list of `ints` that has length `1` or `3` which
+          defaults to 1. The dilation factor for each dimension of input. If set to
+          k > 1, there will be k-1 skipped cells between each filter element on that
+          dimension. Dilations in the batch and depth dimensions must be 1.
+    
+      Returns:
+        A `Tensor`.  Has the same type as input.
+    
+      Raises:
+        ValueError: if `data_format` is invalid.
+      """
+      value = deprecation.deprecated_argument_lookup("input", input, "value", value)
+      with ops.name_scope(name, "conv1d", [value, filters]) as name:
+        # Reshape the input tensor to [batch, 1, in_width, in_channels]
+        if data_format is None or data_format == "NHWC" or data_format == "NWC":
+          data_format = "NHWC"
+          spatial_start_dim = 1
+          channel_index = 2
+        elif data_format == "NCHW" or data_format == "NCW":
+          data_format = "NCHW"
+          spatial_start_dim = 2
+          channel_index = 1
+        else:
+>         raise ValueError("data_format must be \"NWC\" or \"NCW\".")
+E         ValueError: data_format must be "NWC" or "NCW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1667: ValueError
+____________________________ test_conv_1d_dilation ____________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only support dilated conv on GPU')
+    def test_conv_1d_dilation():
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+        padding = _convolution_paddings[-1]
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'dilation_rate': 2},
+>                  input_shape=(batch_size, steps, input_dim))
+
+convolutional_test.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1025: in convolution_internal
+    data_format=data_format)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1107: in __init__
+    data_format=data_format)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:588: in __init__
+    self.op = build_op(num_spatial_dims, "VALID")
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1116: in _build_op
+    name=self.name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.ops.nn_ops._NonAtrousConvolution object at 0x000001A504325D30>
+input_shape = TensorShape([Dimension(None), Dimension(8), Dimension(2)])
+filter_shape = TensorShape([Dimension(3), Dimension(2), Dimension(3)])
+padding = 'VALID', data_format = 'NDHWC', strides = array([1])
+name = 'conv1d_1/convolution_1/'
+
+    def __init__(
+        self,
+        input_shape,
+        filter_shape,  # pylint: disable=redefined-builtin
+        padding,
+        data_format=None,
+        strides=None,
+        name=None):
+      filter_shape = filter_shape.with_rank(input_shape.ndims)
+      self.padding = padding
+      self.name = name
+      input_shape = input_shape.with_rank(filter_shape.ndims)
+      if input_shape.ndims is None:
+        raise ValueError("Rank of convolution must be known")
+      if input_shape.ndims < 3 or input_shape.ndims > 5:
+        raise ValueError(
+            "`input` and `filter` must have rank at least 3 and at most 5")
+      conv_dims = input_shape.ndims - 2
+      if strides is None:
+        strides = [1] * conv_dims
+      elif len(strides) != conv_dims:
+        raise ValueError("len(strides)=%d, but should be %d" % (len(strides),
+                                                                conv_dims))
+      if conv_dims == 1:
+        # conv1d uses the 2-d data format names
+        if data_format is None:
+          data_format = "NWC"
+        elif data_format not in {"NCW", "NWC", "NCHW", "NHWC"}:
+>         raise ValueError("data_format must be \"NWC\" or \"NCW\".")
+E         ValueError: data_format must be "NWC" or "NCW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:190: ValueError
+_________________________ test_conv_1d_channels_first _________________________
+
+    def test_conv_1d_channels_first():
+        batch_size = 2
+        steps = 8
+        input_dim = 2
+        kernel_size = 3
+        filters = 3
+    
+        layer_test(convolutional.Conv1D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'data_format': 'channels_first'},
+>                  input_shape=(batch_size, input_dim, steps))
+
+convolutional_test.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = <tf.Tensor 'input_1:0' shape=(?, 2, 8) dtype=float32>
+filters = <tf.Variable 'conv1d_1/kernel:0' shape=(3, 2, 3) dtype=float32>
+stride = [1, 1, 1], padding = 'VALID', use_cudnn_on_gpu = None
+data_format = 'NCDHW', name = 'conv1d_1/convolution_1/', input = None
+dilations = [1, 1, 1]
+
+    @tf_export(v1=["nn.conv1d"])
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NCHW` for data_format is deprecated, use `NCW` instead",
+        warn_once=True,
+        data_format="NCHW")
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NHWC` for data_format is deprecated, use `NWC` instead",
+        warn_once=True,
+        data_format="NHWC")
+    def conv1d(
+        value=None,
+        filters=None,
+        stride=None,
+        padding=None,
+        use_cudnn_on_gpu=None,
+        data_format=None,
+        name=None,
+        input=None,  # pylint: disable=redefined-builtin
+        dilations=None):
+      r"""Computes a 1-D convolution given 3-D input and filter tensors.
+    
+      Given an input tensor of shape
+        [batch, in_width, in_channels]
+      if data_format is "NWC", or
+        [batch, in_channels, in_width]
+      if data_format is "NCW",
+      and a filter / kernel tensor of shape
+      [filter_width, in_channels, out_channels], this op reshapes
+      the arguments to pass them to conv2d to perform the equivalent
+      convolution operation.
+    
+      Internally, this op reshapes the input tensors and invokes `tf.nn.conv2d`.
+      For example, if `data_format` does not start with "NC", a tensor of shape
+        [batch, in_width, in_channels]
+      is reshaped to
+        [batch, 1, in_width, in_channels],
+      and the filter is reshaped to
+        [1, filter_width, in_channels, out_channels].
+      The result is then reshaped back to
+        [batch, out_width, out_channels]
+      \(where out_width is a function of the stride and padding as in conv2d\) and
+      returned to the caller.
+    
+      Args:
+        value: A 3D `Tensor`.  Must be of type `float16`, `float32`, or `float64`.
+        filters: A 3D `Tensor`.  Must have the same type as `value`.
+        stride: An int or list of `ints` that has length `1` or `3`.  The number of
+          entries by which the filter is moved right at each step.
+        padding: 'SAME' or 'VALID'
+        use_cudnn_on_gpu: An optional `bool`.  Defaults to `True`.
+        data_format: An optional `string` from `"NWC", "NCW"`.  Defaults to `"NWC"`,
+          the data is stored in the order of [batch, in_width, in_channels].  The
+          `"NCW"` format stores data as [batch, in_channels, in_width].
+        name: A name for the operation (optional).
+        input: Alias for value.
+        dilations: An int or list of `ints` that has length `1` or `3` which
+          defaults to 1. The dilation factor for each dimension of input. If set to
+          k > 1, there will be k-1 skipped cells between each filter element on that
+          dimension. Dilations in the batch and depth dimensions must be 1.
+    
+      Returns:
+        A `Tensor`.  Has the same type as input.
+    
+      Raises:
+        ValueError: if `data_format` is invalid.
+      """
+      value = deprecation.deprecated_argument_lookup("input", input, "value", value)
+      with ops.name_scope(name, "conv1d", [value, filters]) as name:
+        # Reshape the input tensor to [batch, 1, in_width, in_channels]
+        if data_format is None or data_format == "NHWC" or data_format == "NWC":
+          data_format = "NHWC"
+          spatial_start_dim = 1
+          channel_index = 2
+        elif data_format == "NCHW" or data_format == "NCW":
+          data_format = "NCHW"
+          spatial_start_dim = 2
+          channel_index = 1
+        else:
+>         raise ValueError("data_format must be \"NWC\" or \"NCW\".")
+E         ValueError: data_format must be "NWC" or "NCW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1667: ValueError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 17:09:01.699730: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-03 17:09:01.833341: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:09:01.835362: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:09:01.841049: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:09:01.846816: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:09:01.848632: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:09:01.855020: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:09:01.859066: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:09:01.871273: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:09:01.872266: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:09:01.872947: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-03 17:09:01.888235: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 17:09:01.888795: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 17:09:01.889144: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 17:09:01.889489: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 17:09:01.889825: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 17:09:01.890164: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 17:09:01.890511: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 17:09:01.890855: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 17:09:01.891700: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 17:09:02.961465: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 17:09:02.961879: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 17:09:02.962124: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 17:09:02.962947: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_____________________ test_convolution_2d[strides0-valid] _____________________
+
+strides = (1, 1), padding = 'valid'
+
+    @pytest.mark.parametrize(
+        'strides,padding',
+        [(strides, padding)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         if not (padding == 'same' and strides != (1, 1))]
+    )
+    def test_convolution_2d(strides, padding):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides,
+                           'data_format': 'channels_first'},
+>                  input_shape=(num_samples, stack_size, num_row, num_col))
+
+convolutional_test.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001A57C98DE80>
+op_type_name = 'Conv2D', name = 'conv2d_1/convolution_1/', keywords = {}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001A57C998860>
+op_def = name: "Conv2D"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "filter"
+  type_attr: "T"
+}
+output_a...: "dilations"
+  type: "list(int)"
+  default_value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001A5042E09E8>
+deprecation_version = 0, default_type_attr_map = {}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+                  preferred_dtype=default_dtype)
+            except TypeError as err:
+              if dtype is None:
+                raise err
+              else:
+                raise TypeError(
+                    "Expected %s passed to parameter '%s' of op '%s', got %s of "
+                    "type '%s' instead. Error: %s" %
+                    (dtypes.as_dtype(dtype).name, input_arg.name, op_type_name,
+                     repr(values), type(values).__name__, err))
+            except ValueError:
+              # What type does convert_to_tensor think it has?
+              try:
+                observed = ops.internal_convert_to_tensor(
+                    values, as_ref=input_arg.is_ref).dtype.name
+              except ValueError as err:
+                raise ValueError(
+                    "Tried to convert '%s' to a tensor and failed. Error: %s" %
+                    (input_name, err))
+              prefix = ("Input '%s' of '%s' Op has type %s that does not match" %
+                        (input_name, op_type_name, observed))
+              if input_arg.type != types_pb2.DT_INVALID:
+                raise TypeError("%s expected type of %s." %
+                                (prefix, dtypes.as_dtype(input_arg.type).name))
+              else:
+                # Update the maps with the default, if needed.
+                k = input_arg.type_attr
+                if k in default_type_attr_map:
+                  if k not in attrs:
+                    attrs[k] = default_type_attr_map[k]
+                    if k not in inferred_from:
+                      inferred_from[k] = "Default in OpDef"
+    
+                raise TypeError(
+                    "%s type %s of argument '%s'." %
+                    (prefix, dtypes.as_dtype(attrs[input_arg.type_attr]).name,
+                     inferred_from[input_arg.type_attr]))
+    
+            types = [values.dtype]
+            inputs.append(values)
+          base_types = [x.base_dtype for x in types]
+    
+          if input_arg.number_attr:
+            # <number-attr> * <type> or <number-attr> * <type-attr>
+            if input_arg.number_attr in attrs:
+              if len(values) != attrs[input_arg.number_attr]:
+                raise ValueError(
+                    "List argument '%s' to '%s' Op with length %d must match "
+                    "length %d of argument '%s'." %
+                    (input_name, op_type_name, len(values),
+                     attrs[input_arg.number_attr],
+                     inferred_from[input_arg.number_attr]))
+            else:
+              attrs[input_arg.number_attr] = len(values)
+              inferred_from[input_arg.number_attr] = input_name
+              num_attr = _Attr(op_def, input_arg.number_attr)
+              if num_attr.has_minimum and len(values) < num_attr.minimum:
+                raise ValueError(
+                    "List argument '%s' to '%s' Op with length %d shorter "
+                    "than minimum length %d." %
+                    (input_name, op_type_name, len(values), num_attr.minimum))
+            # All tensors must have the same base type.
+            if any(bt != base_types[0] for bt in base_types):
+              raise TypeError(
+                  "All tensors passed to '%s' of '%s' Op "
+                  "must have the same type." %
+                  (input_name, op_type_name))
+            if input_arg.type != types_pb2.DT_INVALID:
+              # <number-attr> * <type> case
+              if base_types and base_types[0] != input_arg.type:
+                assert False, "Unreachable"
+            elif input_arg.type_attr in attrs:
+              # <number-attr> * <type-attr> case, where <type-attr> already
+              # has an inferred value.
+              if base_types and base_types[0] != attrs[input_arg.type_attr]:
+                assert False, "Unreachable"
+            else:
+              # <number-attr> * <type-attr> case, where we are now setting
+              # the <type-attr> based on this input
+              if not base_types:
+                raise TypeError(
+                    "Don't know how to infer type variable from empty input "
+                    "list passed to input '%s' of '%s' Op." %
+                    (input_name, op_type_name))
+              attrs[input_arg.type_attr] = base_types[0]
+              inferred_from[input_arg.type_attr] = input_name
+              type_attr = _Attr(op_def, input_arg.type_attr)
+              _SatisfiesTypeConstraint(base_types[0], type_attr,
+                                       param_name=input_name)
+          elif input_arg.type_attr:
+            # <type-attr>
+            attr_value = base_types[0]
+            if input_arg.type_attr in attrs:
+              if attrs[input_arg.type_attr] != attr_value:
+                raise TypeError(
+                    "Input '%s' of '%s' Op has type %s that does not "
+                    "match type %s of argument '%s'." %
+                    (input_name, op_type_name, dtypes.as_dtype(attr_value).name,
+                     dtypes.as_dtype(attrs[input_arg.type_attr]).name,
+                     inferred_from[input_arg.type_attr]))
+            else:
+              for base_type in base_types:
+                _SatisfiesTypeConstraint(base_type,
+                                         _Attr(op_def, input_arg.type_attr),
+                                         param_name=input_name)
+              attrs[input_arg.type_attr] = attr_value
+              inferred_from[input_arg.type_attr] = input_name
+          elif input_arg.type_list_attr:
+            # <type-list-attr>
+            attr_value = base_types
+            if input_arg.type_list_attr in attrs:
+              if attrs[input_arg.type_list_attr] != attr_value:
+                raise TypeError(
+                    "Input '%s' of '%s' Op has type list of %s that does not "
+                    "match type list %s of argument '%s'." %
+                    (input_name, op_type_name,
+                     ", ".join(dtypes.as_dtype(x).name for x in attr_value),
+                     ", ".join(dtypes.as_dtype(x).name
+                               for x in attrs[input_arg.type_list_attr]),
+                     inferred_from[input_arg.type_list_attr]))
+            else:
+              for base_type in base_types:
+                _SatisfiesTypeConstraint(base_type,
+                                         _Attr(op_def, input_arg.type_list_attr),
+                                         param_name=input_name)
+              attrs[input_arg.type_list_attr] = attr_value
+              inferred_from[input_arg.type_list_attr] = input_name
+          else:
+            # single Tensor with specified type
+            if base_types[0] != input_arg.type:
+              assert False, "Unreachable"
+    
+          if input_arg.is_ref:
+            if not all(x._is_ref_dtype for x in types):  # pylint: disable=protected-access
+              raise TypeError(
+                  ("'%s' Op requires that input '%s' be a mutable tensor "
+                   "(e.g.: a tf.Variable)") % (op_type_name, input_name))
+            input_types.extend(types)
+          else:
+            input_types.extend(base_types)
+    
+        # Process remaining attrs
+        for attr in op_def.attr:
+          # Skip attrs that have already had their values inferred
+          if attr.name in attrs:
+            if attr.name in keywords:
+              raise TypeError(
+                  "Should not specify value for inferred attr '%s'." % attr.name)
+            continue
+          if attr.name in keywords:
+            attrs[attr.name] = keywords.pop(attr.name)
+          elif attr.name + "_" in keywords:
+            # Attrs whose names match Python keywords have an extra '_'
+            # appended, so we must check for that as well.
+            attrs[attr.name] = keywords.pop(attr.name + "_")
+          else:
+            raise TypeError("No argument for attr " + attr.name)
+    
+        # Convert attr values to AttrValue protos.
+        attr_protos = {}
+        for attr_def in op_def.attr:
+          key = attr_def.name
+          value = attrs[key]
+          attr_value = attr_value_pb2.AttrValue()
+          if attr_def.HasField("default_value") and value is None:
+            attr_value.CopyFrom(attr_def.default_value)
+            attr_protos[key] = attr_value
+            continue
+          if attr_def.type.startswith("list("):
+            if not _IsListValue(value):
+              raise TypeError("Expected list for attr " + key)
+            if attr_def.has_minimum:
+              if len(value) < attr_def.minimum:
+                raise ValueError("Attr '%s' of '%s' Op passed list of length %d "
+                                 "less than minimum %d." %
+                                 (key, op_type_name, len(value),
+                                  attr_def.minimum))
+            attr_value.list.SetInParent()
+          if attr_def.type == "string":
+            attr_value.s = _MakeStr(value, key)
+            if attr_def.HasField("allowed_values"):
+              if attr_value.s not in attr_def.allowed_values.list.s:
+                raise ValueError(
+                    "Attr '%s' of '%s' Op passed string '%s' not in: \"%s\"." %
+                    (key, op_type_name, compat.as_text(attr_value.s),
+                     '", "'.join(map(compat.as_text,
+>                                    attr_def.allowed_values.list.s))))
+E               ValueError: Attr 'data_format' of 'Conv2D' Op passed string 'NCDHW' not in: "NHWC", "NCHW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:714: ValueError
+_____________________ test_convolution_2d[strides1-valid] _____________________
+
+strides = (2, 2), padding = 'valid'
+
+    @pytest.mark.parametrize(
+        'strides,padding',
+        [(strides, padding)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         if not (padding == 'same' and strides != (1, 1))]
+    )
+    def test_convolution_2d(strides, padding):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides,
+                           'data_format': 'channels_first'},
+>                  input_shape=(num_samples, stack_size, num_row, num_col))
+
+convolutional_test.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001A57C98DE80>
+op_type_name = 'Conv2D', name = 'conv2d_1/convolution_1/', keywords = {}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001A57C998860>
+op_def = name: "Conv2D"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "filter"
+  type_attr: "T"
+}
+output_a...: "dilations"
+  type: "list(int)"
+  default_value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001A5042E0B38>
+deprecation_version = 0, default_type_attr_map = {}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+                  preferred_dtype=default_dtype)
+            except TypeError as err:
+              if dtype is None:
+                raise err
+              else:
+                raise TypeError(
+                    "Expected %s passed to parameter '%s' of op '%s', got %s of "
+                    "type '%s' instead. Error: %s" %
+                    (dtypes.as_dtype(dtype).name, input_arg.name, op_type_name,
+                     repr(values), type(values).__name__, err))
+            except ValueError:
+              # What type does convert_to_tensor think it has?
+              try:
+                observed = ops.internal_convert_to_tensor(
+                    values, as_ref=input_arg.is_ref).dtype.name
+              except ValueError as err:
+                raise ValueError(
+                    "Tried to convert '%s' to a tensor and failed. Error: %s" %
+                    (input_name, err))
+              prefix = ("Input '%s' of '%s' Op has type %s that does not match" %
+                        (input_name, op_type_name, observed))
+              if input_arg.type != types_pb2.DT_INVALID:
+                raise TypeError("%s expected type of %s." %
+                                (prefix, dtypes.as_dtype(input_arg.type).name))
+              else:
+                # Update the maps with the default, if needed.
+                k = input_arg.type_attr
+                if k in default_type_attr_map:
+                  if k not in attrs:
+                    attrs[k] = default_type_attr_map[k]
+                    if k not in inferred_from:
+                      inferred_from[k] = "Default in OpDef"
+    
+                raise TypeError(
+                    "%s type %s of argument '%s'." %
+                    (prefix, dtypes.as_dtype(attrs[input_arg.type_attr]).name,
+                     inferred_from[input_arg.type_attr]))
+    
+            types = [values.dtype]
+            inputs.append(values)
+          base_types = [x.base_dtype for x in types]
+    
+          if input_arg.number_attr:
+            # <number-attr> * <type> or <number-attr> * <type-attr>
+            if input_arg.number_attr in attrs:
+              if len(values) != attrs[input_arg.number_attr]:
+                raise ValueError(
+                    "List argument '%s' to '%s' Op with length %d must match "
+                    "length %d of argument '%s'." %
+                    (input_name, op_type_name, len(values),
+                     attrs[input_arg.number_attr],
+                     inferred_from[input_arg.number_attr]))
+            else:
+              attrs[input_arg.number_attr] = len(values)
+              inferred_from[input_arg.number_attr] = input_name
+              num_attr = _Attr(op_def, input_arg.number_attr)
+              if num_attr.has_minimum and len(values) < num_attr.minimum:
+                raise ValueError(
+                    "List argument '%s' to '%s' Op with length %d shorter "
+                    "than minimum length %d." %
+                    (input_name, op_type_name, len(values), num_attr.minimum))
+            # All tensors must have the same base type.
+            if any(bt != base_types[0] for bt in base_types):
+              raise TypeError(
+                  "All tensors passed to '%s' of '%s' Op "
+                  "must have the same type." %
+                  (input_name, op_type_name))
+            if input_arg.type != types_pb2.DT_INVALID:
+              # <number-attr> * <type> case
+              if base_types and base_types[0] != input_arg.type:
+                assert False, "Unreachable"
+            elif input_arg.type_attr in attrs:
+              # <number-attr> * <type-attr> case, where <type-attr> already
+              # has an inferred value.
+              if base_types and base_types[0] != attrs[input_arg.type_attr]:
+                assert False, "Unreachable"
+            else:
+              # <number-attr> * <type-attr> case, where we are now setting
+              # the <type-attr> based on this input
+              if not base_types:
+                raise TypeError(
+                    "Don't know how to infer type variable from empty input "
+                    "list passed to input '%s' of '%s' Op." %
+                    (input_name, op_type_name))
+              attrs[input_arg.type_attr] = base_types[0]
+              inferred_from[input_arg.type_attr] = input_name
+              type_attr = _Attr(op_def, input_arg.type_attr)
+              _SatisfiesTypeConstraint(base_types[0], type_attr,
+                                       param_name=input_name)
+          elif input_arg.type_attr:
+            # <type-attr>
+            attr_value = base_types[0]
+            if input_arg.type_attr in attrs:
+              if attrs[input_arg.type_attr] != attr_value:
+                raise TypeError(
+                    "Input '%s' of '%s' Op has type %s that does not "
+                    "match type %s of argument '%s'." %
+                    (input_name, op_type_name, dtypes.as_dtype(attr_value).name,
+                     dtypes.as_dtype(attrs[input_arg.type_attr]).name,
+                     inferred_from[input_arg.type_attr]))
+            else:
+              for base_type in base_types:
+                _SatisfiesTypeConstraint(base_type,
+                                         _Attr(op_def, input_arg.type_attr),
+                                         param_name=input_name)
+              attrs[input_arg.type_attr] = attr_value
+              inferred_from[input_arg.type_attr] = input_name
+          elif input_arg.type_list_attr:
+            # <type-list-attr>
+            attr_value = base_types
+            if input_arg.type_list_attr in attrs:
+              if attrs[input_arg.type_list_attr] != attr_value:
+                raise TypeError(
+                    "Input '%s' of '%s' Op has type list of %s that does not "
+                    "match type list %s of argument '%s'." %
+                    (input_name, op_type_name,
+                     ", ".join(dtypes.as_dtype(x).name for x in attr_value),
+                     ", ".join(dtypes.as_dtype(x).name
+                               for x in attrs[input_arg.type_list_attr]),
+                     inferred_from[input_arg.type_list_attr]))
+            else:
+              for base_type in base_types:
+                _SatisfiesTypeConstraint(base_type,
+                                         _Attr(op_def, input_arg.type_list_attr),
+                                         param_name=input_name)
+              attrs[input_arg.type_list_attr] = attr_value
+              inferred_from[input_arg.type_list_attr] = input_name
+          else:
+            # single Tensor with specified type
+            if base_types[0] != input_arg.type:
+              assert False, "Unreachable"
+    
+          if input_arg.is_ref:
+            if not all(x._is_ref_dtype for x in types):  # pylint: disable=protected-access
+              raise TypeError(
+                  ("'%s' Op requires that input '%s' be a mutable tensor "
+                   "(e.g.: a tf.Variable)") % (op_type_name, input_name))
+            input_types.extend(types)
+          else:
+            input_types.extend(base_types)
+    
+        # Process remaining attrs
+        for attr in op_def.attr:
+          # Skip attrs that have already had their values inferred
+          if attr.name in attrs:
+            if attr.name in keywords:
+              raise TypeError(
+                  "Should not specify value for inferred attr '%s'." % attr.name)
+            continue
+          if attr.name in keywords:
+            attrs[attr.name] = keywords.pop(attr.name)
+          elif attr.name + "_" in keywords:
+            # Attrs whose names match Python keywords have an extra '_'
+            # appended, so we must check for that as well.
+            attrs[attr.name] = keywords.pop(attr.name + "_")
+          else:
+            raise TypeError("No argument for attr " + attr.name)
+    
+        # Convert attr values to AttrValue protos.
+        attr_protos = {}
+        for attr_def in op_def.attr:
+          key = attr_def.name
+          value = attrs[key]
+          attr_value = attr_value_pb2.AttrValue()
+          if attr_def.HasField("default_value") and value is None:
+            attr_value.CopyFrom(attr_def.default_value)
+            attr_protos[key] = attr_value
+            continue
+          if attr_def.type.startswith("list("):
+            if not _IsListValue(value):
+              raise TypeError("Expected list for attr " + key)
+            if attr_def.has_minimum:
+              if len(value) < attr_def.minimum:
+                raise ValueError("Attr '%s' of '%s' Op passed list of length %d "
+                                 "less than minimum %d." %
+                                 (key, op_type_name, len(value),
+                                  attr_def.minimum))
+            attr_value.list.SetInParent()
+          if attr_def.type == "string":
+            attr_value.s = _MakeStr(value, key)
+            if attr_def.HasField("allowed_values"):
+              if attr_value.s not in attr_def.allowed_values.list.s:
+                raise ValueError(
+                    "Attr '%s' of '%s' Op passed string '%s' not in: \"%s\"." %
+                    (key, op_type_name, compat.as_text(attr_value.s),
+                     '", "'.join(map(compat.as_text,
+>                                    attr_def.allowed_values.list.s))))
+E               ValueError: Attr 'data_format' of 'Conv2D' Op passed string 'NCDHW' not in: "NHWC", "NCHW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:714: ValueError
+_____________________ test_convolution_2d[strides2-same] ______________________
+
+strides = (1, 1), padding = 'same'
+
+    @pytest.mark.parametrize(
+        'strides,padding',
+        [(strides, padding)
+         for padding in _convolution_paddings
+         for strides in [(1, 1), (2, 2)]
+         if not (padding == 'same' and strides != (1, 1))]
+    )
+    def test_convolution_2d(strides, padding):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'strides': strides,
+                           'data_format': 'channels_first'},
+>                  input_shape=(num_samples, stack_size, num_row, num_col))
+
+convolutional_test.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001A57C98DE80>
+op_type_name = 'Conv2D', name = 'conv2d_1/convolution_1/', keywords = {}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001A57C998860>
+op_def = name: "Conv2D"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "filter"
+  type_attr: "T"
+}
+output_a...: "dilations"
+  type: "list(int)"
+  default_value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001A5482A5198>
+deprecation_version = 0, default_type_attr_map = {}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+                  preferred_dtype=default_dtype)
+            except TypeError as err:
+              if dtype is None:
+                raise err
+              else:
+                raise TypeError(
+                    "Expected %s passed to parameter '%s' of op '%s', got %s of "
+                    "type '%s' instead. Error: %s" %
+                    (dtypes.as_dtype(dtype).name, input_arg.name, op_type_name,
+                     repr(values), type(values).__name__, err))
+            except ValueError:
+              # What type does convert_to_tensor think it has?
+              try:
+                observed = ops.internal_convert_to_tensor(
+                    values, as_ref=input_arg.is_ref).dtype.name
+              except ValueError as err:
+                raise ValueError(
+                    "Tried to convert '%s' to a tensor and failed. Error: %s" %
+                    (input_name, err))
+              prefix = ("Input '%s' of '%s' Op has type %s that does not match" %
+                        (input_name, op_type_name, observed))
+              if input_arg.type != types_pb2.DT_INVALID:
+                raise TypeError("%s expected type of %s." %
+                                (prefix, dtypes.as_dtype(input_arg.type).name))
+              else:
+                # Update the maps with the default, if needed.
+                k = input_arg.type_attr
+                if k in default_type_attr_map:
+                  if k not in attrs:
+                    attrs[k] = default_type_attr_map[k]
+                    if k not in inferred_from:
+                      inferred_from[k] = "Default in OpDef"
+    
+                raise TypeError(
+                    "%s type %s of argument '%s'." %
+                    (prefix, dtypes.as_dtype(attrs[input_arg.type_attr]).name,
+                     inferred_from[input_arg.type_attr]))
+    
+            types = [values.dtype]
+            inputs.append(values)
+          base_types = [x.base_dtype for x in types]
+    
+          if input_arg.number_attr:
+            # <number-attr> * <type> or <number-attr> * <type-attr>
+            if input_arg.number_attr in attrs:
+              if len(values) != attrs[input_arg.number_attr]:
+                raise ValueError(
+                    "List argument '%s' to '%s' Op with length %d must match "
+                    "length %d of argument '%s'." %
+                    (input_name, op_type_name, len(values),
+                     attrs[input_arg.number_attr],
+                     inferred_from[input_arg.number_attr]))
+            else:
+              attrs[input_arg.number_attr] = len(values)
+              inferred_from[input_arg.number_attr] = input_name
+              num_attr = _Attr(op_def, input_arg.number_attr)
+              if num_attr.has_minimum and len(values) < num_attr.minimum:
+                raise ValueError(
+                    "List argument '%s' to '%s' Op with length %d shorter "
+                    "than minimum length %d." %
+                    (input_name, op_type_name, len(values), num_attr.minimum))
+            # All tensors must have the same base type.
+            if any(bt != base_types[0] for bt in base_types):
+              raise TypeError(
+                  "All tensors passed to '%s' of '%s' Op "
+                  "must have the same type." %
+                  (input_name, op_type_name))
+            if input_arg.type != types_pb2.DT_INVALID:
+              # <number-attr> * <type> case
+              if base_types and base_types[0] != input_arg.type:
+                assert False, "Unreachable"
+            elif input_arg.type_attr in attrs:
+              # <number-attr> * <type-attr> case, where <type-attr> already
+              # has an inferred value.
+              if base_types and base_types[0] != attrs[input_arg.type_attr]:
+                assert False, "Unreachable"
+            else:
+              # <number-attr> * <type-attr> case, where we are now setting
+              # the <type-attr> based on this input
+              if not base_types:
+                raise TypeError(
+                    "Don't know how to infer type variable from empty input "
+                    "list passed to input '%s' of '%s' Op." %
+                    (input_name, op_type_name))
+              attrs[input_arg.type_attr] = base_types[0]
+              inferred_from[input_arg.type_attr] = input_name
+              type_attr = _Attr(op_def, input_arg.type_attr)
+              _SatisfiesTypeConstraint(base_types[0], type_attr,
+                                       param_name=input_name)
+          elif input_arg.type_attr:
+            # <type-attr>
+            attr_value = base_types[0]
+            if input_arg.type_attr in attrs:
+              if attrs[input_arg.type_attr] != attr_value:
+                raise TypeError(
+                    "Input '%s' of '%s' Op has type %s that does not "
+                    "match type %s of argument '%s'." %
+                    (input_name, op_type_name, dtypes.as_dtype(attr_value).name,
+                     dtypes.as_dtype(attrs[input_arg.type_attr]).name,
+                     inferred_from[input_arg.type_attr]))
+            else:
+              for base_type in base_types:
+                _SatisfiesTypeConstraint(base_type,
+                                         _Attr(op_def, input_arg.type_attr),
+                                         param_name=input_name)
+              attrs[input_arg.type_attr] = attr_value
+              inferred_from[input_arg.type_attr] = input_name
+          elif input_arg.type_list_attr:
+            # <type-list-attr>
+            attr_value = base_types
+            if input_arg.type_list_attr in attrs:
+              if attrs[input_arg.type_list_attr] != attr_value:
+                raise TypeError(
+                    "Input '%s' of '%s' Op has type list of %s that does not "
+                    "match type list %s of argument '%s'." %
+                    (input_name, op_type_name,
+                     ", ".join(dtypes.as_dtype(x).name for x in attr_value),
+                     ", ".join(dtypes.as_dtype(x).name
+                               for x in attrs[input_arg.type_list_attr]),
+                     inferred_from[input_arg.type_list_attr]))
+            else:
+              for base_type in base_types:
+                _SatisfiesTypeConstraint(base_type,
+                                         _Attr(op_def, input_arg.type_list_attr),
+                                         param_name=input_name)
+              attrs[input_arg.type_list_attr] = attr_value
+              inferred_from[input_arg.type_list_attr] = input_name
+          else:
+            # single Tensor with specified type
+            if base_types[0] != input_arg.type:
+              assert False, "Unreachable"
+    
+          if input_arg.is_ref:
+            if not all(x._is_ref_dtype for x in types):  # pylint: disable=protected-access
+              raise TypeError(
+                  ("'%s' Op requires that input '%s' be a mutable tensor "
+                   "(e.g.: a tf.Variable)") % (op_type_name, input_name))
+            input_types.extend(types)
+          else:
+            input_types.extend(base_types)
+    
+        # Process remaining attrs
+        for attr in op_def.attr:
+          # Skip attrs that have already had their values inferred
+          if attr.name in attrs:
+            if attr.name in keywords:
+              raise TypeError(
+                  "Should not specify value for inferred attr '%s'." % attr.name)
+            continue
+          if attr.name in keywords:
+            attrs[attr.name] = keywords.pop(attr.name)
+          elif attr.name + "_" in keywords:
+            # Attrs whose names match Python keywords have an extra '_'
+            # appended, so we must check for that as well.
+            attrs[attr.name] = keywords.pop(attr.name + "_")
+          else:
+            raise TypeError("No argument for attr " + attr.name)
+    
+        # Convert attr values to AttrValue protos.
+        attr_protos = {}
+        for attr_def in op_def.attr:
+          key = attr_def.name
+          value = attrs[key]
+          attr_value = attr_value_pb2.AttrValue()
+          if attr_def.HasField("default_value") and value is None:
+            attr_value.CopyFrom(attr_def.default_value)
+            attr_protos[key] = attr_value
+            continue
+          if attr_def.type.startswith("list("):
+            if not _IsListValue(value):
+              raise TypeError("Expected list for attr " + key)
+            if attr_def.has_minimum:
+              if len(value) < attr_def.minimum:
+                raise ValueError("Attr '%s' of '%s' Op passed list of length %d "
+                                 "less than minimum %d." %
+                                 (key, op_type_name, len(value),
+                                  attr_def.minimum))
+            attr_value.list.SetInParent()
+          if attr_def.type == "string":
+            attr_value.s = _MakeStr(value, key)
+            if attr_def.HasField("allowed_values"):
+              if attr_value.s not in attr_def.allowed_values.list.s:
+                raise ValueError(
+                    "Attr '%s' of '%s' Op passed string '%s' not in: \"%s\"." %
+                    (key, op_type_name, compat.as_text(attr_value.s),
+                     '", "'.join(map(compat.as_text,
+>                                    attr_def.allowed_values.list.s))))
+E               ValueError: Attr 'data_format' of 'Conv2D' Op passed string 'NCDHW' not in: "NHWC", "NCHW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:714: ValueError
+______________________ test_convolution_2d_channels_last ______________________
+
+    def test_convolution_2d_channels_last():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 7
+        num_col = 6
+        padding = 'valid'
+        strides = (2, 2)
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'data_format': 'channels_last',
+                           'activation': None,
+                           'kernel_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'kernel_constraint': 'max_norm',
+                           'bias_constraint': 'max_norm',
+                           'strides': strides},
+>                  input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001A57C98DE80>
+op_type_name = 'Conv2D', name = 'conv2d_1/convolution_1/', keywords = {}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001A57C998860>
+op_def = name: "Conv2D"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "filter"
+  type_attr: "T"
+}
+output_a...: "dilations"
+  type: "list(int)"
+  default_value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001A503FC1DA0>
+deprecation_version = 0, default_type_attr_map = {}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+                  preferred_dtype=default_dtype)
+            except TypeError as err:
+              if dtype is None:
+                raise err
+              else:
+                raise TypeError(
+                    "Expected %s passed to parameter '%s' of op '%s', got %s of "
+                    "type '%s' instead. Error: %s" %
+                    (dtypes.as_dtype(dtype).name, input_arg.name, op_type_name,
+                     repr(values), type(values).__name__, err))
+            except ValueError:
+              # What type does convert_to_tensor think it has?
+              try:
+                observed = ops.internal_convert_to_tensor(
+                    values, as_ref=input_arg.is_ref).dtype.name
+              except ValueError as err:
+                raise ValueError(
+                    "Tried to convert '%s' to a tensor and failed. Error: %s" %
+                    (input_name, err))
+              prefix = ("Input '%s' of '%s' Op has type %s that does not match" %
+                        (input_name, op_type_name, observed))
+              if input_arg.type != types_pb2.DT_INVALID:
+                raise TypeError("%s expected type of %s." %
+                                (prefix, dtypes.as_dtype(input_arg.type).name))
+              else:
+                # Update the maps with the default, if needed.
+                k = input_arg.type_attr
+                if k in default_type_attr_map:
+                  if k not in attrs:
+                    attrs[k] = default_type_attr_map[k]
+                    if k not in inferred_from:
+                      inferred_from[k] = "Default in OpDef"
+    
+                raise TypeError(
+                    "%s type %s of argument '%s'." %
+                    (prefix, dtypes.as_dtype(attrs[input_arg.type_attr]).name,
+                     inferred_from[input_arg.type_attr]))
+    
+            types = [values.dtype]
+            inputs.append(values)
+          base_types = [x.base_dtype for x in types]
+    
+          if input_arg.number_attr:
+            # <number-attr> * <type> or <number-attr> * <type-attr>
+            if input_arg.number_attr in attrs:
+              if len(values) != attrs[input_arg.number_attr]:
+                raise ValueError(
+                    "List argument '%s' to '%s' Op with length %d must match "
+                    "length %d of argument '%s'." %
+                    (input_name, op_type_name, len(values),
+                     attrs[input_arg.number_attr],
+                     inferred_from[input_arg.number_attr]))
+            else:
+              attrs[input_arg.number_attr] = len(values)
+              inferred_from[input_arg.number_attr] = input_name
+              num_attr = _Attr(op_def, input_arg.number_attr)
+              if num_attr.has_minimum and len(values) < num_attr.minimum:
+                raise ValueError(
+                    "List argument '%s' to '%s' Op with length %d shorter "
+                    "than minimum length %d." %
+                    (input_name, op_type_name, len(values), num_attr.minimum))
+            # All tensors must have the same base type.
+            if any(bt != base_types[0] for bt in base_types):
+              raise TypeError(
+                  "All tensors passed to '%s' of '%s' Op "
+                  "must have the same type." %
+                  (input_name, op_type_name))
+            if input_arg.type != types_pb2.DT_INVALID:
+              # <number-attr> * <type> case
+              if base_types and base_types[0] != input_arg.type:
+                assert False, "Unreachable"
+            elif input_arg.type_attr in attrs:
+              # <number-attr> * <type-attr> case, where <type-attr> already
+              # has an inferred value.
+              if base_types and base_types[0] != attrs[input_arg.type_attr]:
+                assert False, "Unreachable"
+            else:
+              # <number-attr> * <type-attr> case, where we are now setting
+              # the <type-attr> based on this input
+              if not base_types:
+                raise TypeError(
+                    "Don't know how to infer type variable from empty input "
+                    "list passed to input '%s' of '%s' Op." %
+                    (input_name, op_type_name))
+              attrs[input_arg.type_attr] = base_types[0]
+              inferred_from[input_arg.type_attr] = input_name
+              type_attr = _Attr(op_def, input_arg.type_attr)
+              _SatisfiesTypeConstraint(base_types[0], type_attr,
+                                       param_name=input_name)
+          elif input_arg.type_attr:
+            # <type-attr>
+            attr_value = base_types[0]
+            if input_arg.type_attr in attrs:
+              if attrs[input_arg.type_attr] != attr_value:
+                raise TypeError(
+                    "Input '%s' of '%s' Op has type %s that does not "
+                    "match type %s of argument '%s'." %
+                    (input_name, op_type_name, dtypes.as_dtype(attr_value).name,
+                     dtypes.as_dtype(attrs[input_arg.type_attr]).name,
+                     inferred_from[input_arg.type_attr]))
+            else:
+              for base_type in base_types:
+                _SatisfiesTypeConstraint(base_type,
+                                         _Attr(op_def, input_arg.type_attr),
+                                         param_name=input_name)
+              attrs[input_arg.type_attr] = attr_value
+              inferred_from[input_arg.type_attr] = input_name
+          elif input_arg.type_list_attr:
+            # <type-list-attr>
+            attr_value = base_types
+            if input_arg.type_list_attr in attrs:
+              if attrs[input_arg.type_list_attr] != attr_value:
+                raise TypeError(
+                    "Input '%s' of '%s' Op has type list of %s that does not "
+                    "match type list %s of argument '%s'." %
+                    (input_name, op_type_name,
+                     ", ".join(dtypes.as_dtype(x).name for x in attr_value),
+                     ", ".join(dtypes.as_dtype(x).name
+                               for x in attrs[input_arg.type_list_attr]),
+                     inferred_from[input_arg.type_list_attr]))
+            else:
+              for base_type in base_types:
+                _SatisfiesTypeConstraint(base_type,
+                                         _Attr(op_def, input_arg.type_list_attr),
+                                         param_name=input_name)
+              attrs[input_arg.type_list_attr] = attr_value
+              inferred_from[input_arg.type_list_attr] = input_name
+          else:
+            # single Tensor with specified type
+            if base_types[0] != input_arg.type:
+              assert False, "Unreachable"
+    
+          if input_arg.is_ref:
+            if not all(x._is_ref_dtype for x in types):  # pylint: disable=protected-access
+              raise TypeError(
+                  ("'%s' Op requires that input '%s' be a mutable tensor "
+                   "(e.g.: a tf.Variable)") % (op_type_name, input_name))
+            input_types.extend(types)
+          else:
+            input_types.extend(base_types)
+    
+        # Process remaining attrs
+        for attr in op_def.attr:
+          # Skip attrs that have already had their values inferred
+          if attr.name in attrs:
+            if attr.name in keywords:
+              raise TypeError(
+                  "Should not specify value for inferred attr '%s'." % attr.name)
+            continue
+          if attr.name in keywords:
+            attrs[attr.name] = keywords.pop(attr.name)
+          elif attr.name + "_" in keywords:
+            # Attrs whose names match Python keywords have an extra '_'
+            # appended, so we must check for that as well.
+            attrs[attr.name] = keywords.pop(attr.name + "_")
+          else:
+            raise TypeError("No argument for attr " + attr.name)
+    
+        # Convert attr values to AttrValue protos.
+        attr_protos = {}
+        for attr_def in op_def.attr:
+          key = attr_def.name
+          value = attrs[key]
+          attr_value = attr_value_pb2.AttrValue()
+          if attr_def.HasField("default_value") and value is None:
+            attr_value.CopyFrom(attr_def.default_value)
+            attr_protos[key] = attr_value
+            continue
+          if attr_def.type.startswith("list("):
+            if not _IsListValue(value):
+              raise TypeError("Expected list for attr " + key)
+            if attr_def.has_minimum:
+              if len(value) < attr_def.minimum:
+                raise ValueError("Attr '%s' of '%s' Op passed list of length %d "
+                                 "less than minimum %d." %
+                                 (key, op_type_name, len(value),
+                                  attr_def.minimum))
+            attr_value.list.SetInParent()
+          if attr_def.type == "string":
+            attr_value.s = _MakeStr(value, key)
+            if attr_def.HasField("allowed_values"):
+              if attr_value.s not in attr_def.allowed_values.list.s:
+                raise ValueError(
+                    "Attr '%s' of '%s' Op passed string '%s' not in: \"%s\"." %
+                    (key, op_type_name, compat.as_text(attr_value.s),
+                     '", "'.join(map(compat.as_text,
+>                                    attr_def.allowed_values.list.s))))
+E               ValueError: Attr 'data_format' of 'Conv2D' Op passed string 'NDHWC' not in: "NHWC", "NCHW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:714: ValueError
+________________________ test_convolution_2d_dilation _________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only supports dilated conv on GPU')
+    def test_convolution_2d_dilation():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        kernel_size = (3, 2)
+        num_row = 7
+        num_col = 6
+        padding = 'valid'
+    
+        layer_test(convolutional.Conv2D,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': padding,
+                           'dilation_rate': (2, 2)},
+>                  input_shape=(num_samples, num_row, num_col, stack_size))
+
+convolutional_test.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1025: in convolution_internal
+    data_format=data_format)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1107: in __init__
+    data_format=data_format)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:588: in __init__
+    self.op = build_op(num_spatial_dims, "VALID")
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1116: in _build_op
+    name=self.name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.ops.nn_ops._NonAtrousConvolution object at 0x000001A503F3C208>
+input_shape = TensorShape([Dimension(None), Dimension(7), Dimension(6), Dimension(3)])
+filter_shape = TensorShape([Dimension(3), Dimension(2), Dimension(3), Dimension(2)])
+padding = 'VALID', data_format = 'NDHWC', strides = array([1, 1])
+name = 'conv2d_1/convolution_1/'
+
+    def __init__(
+        self,
+        input_shape,
+        filter_shape,  # pylint: disable=redefined-builtin
+        padding,
+        data_format=None,
+        strides=None,
+        name=None):
+      filter_shape = filter_shape.with_rank(input_shape.ndims)
+      self.padding = padding
+      self.name = name
+      input_shape = input_shape.with_rank(filter_shape.ndims)
+      if input_shape.ndims is None:
+        raise ValueError("Rank of convolution must be known")
+      if input_shape.ndims < 3 or input_shape.ndims > 5:
+        raise ValueError(
+            "`input` and `filter` must have rank at least 3 and at most 5")
+      conv_dims = input_shape.ndims - 2
+      if strides is None:
+        strides = [1] * conv_dims
+      elif len(strides) != conv_dims:
+        raise ValueError("len(strides)=%d, but should be %d" % (len(strides),
+                                                                conv_dims))
+      if conv_dims == 1:
+        # conv1d uses the 2-d data format names
+        if data_format is None:
+          data_format = "NWC"
+        elif data_format not in {"NCW", "NWC", "NCHW", "NHWC"}:
+          raise ValueError("data_format must be \"NWC\" or \"NCW\".")
+        self.strides = strides[0]
+        self.data_format = data_format
+        self.conv_op = self._conv1d
+      elif conv_dims == 2:
+        if data_format is None or data_format == "NHWC":
+          data_format = "NHWC"
+          strides = [1] + list(strides) + [1]
+        elif data_format == "NCHW":
+          strides = [1, 1] + list(strides)
+        else:
+>         raise ValueError("data_format must be \"NHWC\" or \"NCHW\".")
+E         ValueError: data_format must be "NHWC" or "NCHW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:201: ValueError
+_____________________ test_convolution_3d[valid-strides0] _____________________
+
+padding = 'valid', strides = (1, 1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x000001A54828D940>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>
+
+    def call(self, inputs):
+        if self.rank == 1:
+            outputs = K.conv1d(
+                inputs,
+                self.kernel,
+                strides=self.strides[0],
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate[0])
+        if self.rank == 2:
+            outputs = K.conv2d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+        if self.rank != 3:
+            outputs = K.conv3d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+    
+        if self.use_bias:
+            outputs = K.bias_add(
+>               outputs,
+                self.bias,
+                data_format=self.data_format)
+E           UnboundLocalError: local variable 'outputs' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:183: UnboundLocalError
+_____________________ test_convolution_3d[valid-strides1] _____________________
+
+padding = 'valid', strides = (2, 2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x000001A504463048>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>
+
+    def call(self, inputs):
+        if self.rank == 1:
+            outputs = K.conv1d(
+                inputs,
+                self.kernel,
+                strides=self.strides[0],
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate[0])
+        if self.rank == 2:
+            outputs = K.conv2d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+        if self.rank != 3:
+            outputs = K.conv3d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+    
+        if self.use_bias:
+            outputs = K.bias_add(
+>               outputs,
+                self.bias,
+                data_format=self.data_format)
+E           UnboundLocalError: local variable 'outputs' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:183: UnboundLocalError
+_____________________ test_convolution_3d[same-strides2] ______________________
+
+padding = 'same', strides = (1, 1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x000001A5042ABB00>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>
+
+    def call(self, inputs):
+        if self.rank == 1:
+            outputs = K.conv1d(
+                inputs,
+                self.kernel,
+                strides=self.strides[0],
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate[0])
+        if self.rank == 2:
+            outputs = K.conv2d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+        if self.rank != 3:
+            outputs = K.conv3d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+    
+        if self.use_bias:
+            outputs = K.bias_add(
+>               outputs,
+                self.bias,
+                data_format=self.data_format)
+E           UnboundLocalError: local variable 'outputs' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:183: UnboundLocalError
+_____________________ test_convolution_3d_additional_args _____________________
+
+    def test_convolution_3d_additional_args():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        padding = 'valid'
+        strides = (2, 2, 2)
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': (1, 2, 3),
+                           'padding': padding,
+                           'activation': None,
+                           'kernel_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'kernel_constraint': 'max_norm',
+                           'bias_constraint': 'max_norm',
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:548: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x000001A50AAC4550>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>
+
+    def call(self, inputs):
+        if self.rank == 1:
+            outputs = K.conv1d(
+                inputs,
+                self.kernel,
+                strides=self.strides[0],
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate[0])
+        if self.rank == 2:
+            outputs = K.conv2d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+        if self.rank != 3:
+            outputs = K.conv3d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+    
+        if self.use_bias:
+            outputs = K.bias_add(
+>               outputs,
+                self.bias,
+                data_format=self.data_format)
+E           UnboundLocalError: local variable 'outputs' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:183: UnboundLocalError
+___________________ test_conv_float64[input_shape0-Conv1D] ____________________
+
+input_shape = (2, 4, 2)
+conv_class = <class 'keras.layers.convolutional.Conv1D'>
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='CNTK does not support float64')
+    @pytest.mark.parametrize(
+        'input_shape,conv_class',
+        [((2, 4, 2), convolutional.Conv1D),
+         ((2, 4, 4, 2), convolutional.Conv2D),
+         ((2, 4, 4, 4, 2), convolutional.Conv3D)]
+    )
+    def test_conv_float64(input_shape, conv_class):
+        kernel_size = 3
+        strides = 1
+        filters = 3
+        K.set_floatx('float64')
+        layer_test(conv_class,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': 'valid',
+                           'strides': strides},
+>                  input_shape=input_shape)
+
+convolutional_test.py:1138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\util\deprecation.py:574: in new_func
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = <tf.Tensor 'input_1:0' shape=(?, 4, 2) dtype=float64>
+filters = <tf.Variable 'conv1d_1/kernel:0' shape=(3, 2, 3) dtype=float64>
+stride = [1, 1, 1], padding = 'VALID', use_cudnn_on_gpu = None
+data_format = 'NDHWC', name = 'conv1d_1/convolution_1/', input = None
+dilations = [1, 1, 1]
+
+    @tf_export(v1=["nn.conv1d"])
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NCHW` for data_format is deprecated, use `NCW` instead",
+        warn_once=True,
+        data_format="NCHW")
+    @deprecation.deprecated_arg_values(
+        None,
+        "`NHWC` for data_format is deprecated, use `NWC` instead",
+        warn_once=True,
+        data_format="NHWC")
+    def conv1d(
+        value=None,
+        filters=None,
+        stride=None,
+        padding=None,
+        use_cudnn_on_gpu=None,
+        data_format=None,
+        name=None,
+        input=None,  # pylint: disable=redefined-builtin
+        dilations=None):
+      r"""Computes a 1-D convolution given 3-D input and filter tensors.
+    
+      Given an input tensor of shape
+        [batch, in_width, in_channels]
+      if data_format is "NWC", or
+        [batch, in_channels, in_width]
+      if data_format is "NCW",
+      and a filter / kernel tensor of shape
+      [filter_width, in_channels, out_channels], this op reshapes
+      the arguments to pass them to conv2d to perform the equivalent
+      convolution operation.
+    
+      Internally, this op reshapes the input tensors and invokes `tf.nn.conv2d`.
+      For example, if `data_format` does not start with "NC", a tensor of shape
+        [batch, in_width, in_channels]
+      is reshaped to
+        [batch, 1, in_width, in_channels],
+      and the filter is reshaped to
+        [1, filter_width, in_channels, out_channels].
+      The result is then reshaped back to
+        [batch, out_width, out_channels]
+      \(where out_width is a function of the stride and padding as in conv2d\) and
+      returned to the caller.
+    
+      Args:
+        value: A 3D `Tensor`.  Must be of type `float16`, `float32`, or `float64`.
+        filters: A 3D `Tensor`.  Must have the same type as `value`.
+        stride: An int or list of `ints` that has length `1` or `3`.  The number of
+          entries by which the filter is moved right at each step.
+        padding: 'SAME' or 'VALID'
+        use_cudnn_on_gpu: An optional `bool`.  Defaults to `True`.
+        data_format: An optional `string` from `"NWC", "NCW"`.  Defaults to `"NWC"`,
+          the data is stored in the order of [batch, in_width, in_channels].  The
+          `"NCW"` format stores data as [batch, in_channels, in_width].
+        name: A name for the operation (optional).
+        input: Alias for value.
+        dilations: An int or list of `ints` that has length `1` or `3` which
+          defaults to 1. The dilation factor for each dimension of input. If set to
+          k > 1, there will be k-1 skipped cells between each filter element on that
+          dimension. Dilations in the batch and depth dimensions must be 1.
+    
+      Returns:
+        A `Tensor`.  Has the same type as input.
+    
+      Raises:
+        ValueError: if `data_format` is invalid.
+      """
+      value = deprecation.deprecated_argument_lookup("input", input, "value", value)
+      with ops.name_scope(name, "conv1d", [value, filters]) as name:
+        # Reshape the input tensor to [batch, 1, in_width, in_channels]
+        if data_format is None or data_format == "NHWC" or data_format == "NWC":
+          data_format = "NHWC"
+          spatial_start_dim = 1
+          channel_index = 2
+        elif data_format == "NCHW" or data_format == "NCW":
+          data_format = "NCHW"
+          spatial_start_dim = 2
+          channel_index = 1
+        else:
+>         raise ValueError("data_format must be \"NWC\" or \"NCW\".")
+E         ValueError: data_format must be "NWC" or "NCW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1667: ValueError
+___________________ test_conv_float64[input_shape1-Conv2D] ____________________
+
+input_shape = (2, 4, 4, 2)
+conv_class = <class 'keras.layers.convolutional.Conv2D'>
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='CNTK does not support float64')
+    @pytest.mark.parametrize(
+        'input_shape,conv_class',
+        [((2, 4, 2), convolutional.Conv1D),
+         ((2, 4, 4, 2), convolutional.Conv2D),
+         ((2, 4, 4, 4, 2), convolutional.Conv3D)]
+    )
+    def test_conv_float64(input_shape, conv_class):
+        kernel_size = 3
+        strides = 1
+        filters = 3
+        K.set_floatx('float64')
+        layer_test(conv_class,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': 'valid',
+                           'strides': strides},
+>                  input_shape=input_shape)
+
+convolutional_test.py:1138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:179: in call
+    dilation_rate=self.dilation_rate)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3980: in conv3d
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:898: in convolution
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\nn_ops.py:1009: in convolution_internal
+    name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gen_nn_ops.py:1071: in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.framework.op_def_library.OpDefLibrary object at 0x000001A57C98DE80>
+op_type_name = 'Conv2D', name = 'conv2d_1/convolution_1/', keywords = {}
+op_info = <tensorflow.python.framework.op_def_library._OpInfo object at 0x000001A57C998860>
+op_def = name: "Conv2D"
+input_arg {
+  name: "input"
+  type_attr: "T"
+}
+input_arg {
+  name: "filter"
+  type_attr: "T"
+}
+output_a...: "dilations"
+  type: "list(int)"
+  default_value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+
+g = <tensorflow.python.framework.ops.Graph object at 0x000001A54824D240>
+deprecation_version = 0, default_type_attr_map = {}
+
+    def _apply_op_helper(self, op_type_name, name=None, **keywords):
+      """Implementation of apply_op that returns output_structure, op."""
+      op_info = self._ops.get(op_type_name, None)
+      if op_info is None:
+        raise RuntimeError("Unrecognized Op name " + op_type_name)
+      op_def = op_info.op_def
+    
+      # Determine the graph context.
+      try:
+        # Need to flatten all the arguments into a list.
+        # pylint: disable=protected-access
+        g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
+        # pylint: enable=protected-access
+      except AssertionError as e:
+        raise RuntimeError(
+            "Cannot determine graph for Op '%s' due to: %s"
+            % (op_type_name, e.message))
+    
+      # Default name if not specified.
+      if name is None:
+        name = op_type_name
+    
+      # Check for deprecation
+      deprecation_version = op_def.deprecation.version
+      if deprecation_version:
+        producer = g.graph_def_versions.producer
+        if producer >= deprecation_version:
+          raise NotImplementedError(
+              ("Op %s is not available in GraphDef version %d. "
+               "It has been removed in version %d. %s.") %
+              (op_type_name, producer, deprecation_version,
+               op_def.deprecation.explanation))
+    
+      # Fill in the list of default types for all "type" attrs.  This
+      # will be used to choose a preferred dtype to convert to in the
+      # absence of input type information.
+      #
+      # TODO(b/31302892): Currently the defaults don't work in the right
+      # way if you have two inputs, one of whose type resolution depends
+      # on the other.  Handling this will require restructuring this code
+      # significantly.
+      default_type_attr_map = {}
+      for attr_def in op_def.attr:
+        if attr_def.type != "type":
+          continue
+        key = attr_def.name
+        if attr_def.HasField("default_value"):
+          default_type_attr_map[key] = dtypes.as_dtype(
+              attr_def.default_value.type)
+    
+      # Requires that op_def has passed validation (using the C++
+      # ValidateOpDef() from ../framework/op_def_util.h).
+      attrs = {}
+      inputs = []
+      input_types = []
+      with g.as_default(), ops.name_scope(name) as scope:
+    
+        # Perform input type inference
+        inferred_from = {}
+        for input_arg in op_def.input_arg:
+          input_name = input_arg.name
+          if input_name in keywords:
+            values = keywords.pop(input_name)
+          elif input_name + "_" in keywords:
+            # Handle the case where the name is a keyword or built-in
+            # for Python so we use the name + _ instead.
+            input_name += "_"
+            values = keywords.pop(input_name)
+          else:
+            raise TypeError("No argument for input " + input_name)
+    
+          # Goals:
+          # * Convert values to Tensors if it contains constants.
+          # * Verify that values is a list if that matches the input_arg's
+          #   type.
+          # * If the input_arg's type is determined by attrs, either set
+          #   those attrs and validate those attr values are legal (if
+          #   they have not yet been set) or validate the input matches
+          #   the type indicated by the attrs (if they have already been
+          #   inferred via an earlier input).
+          # * If the input_arg has an explicit type, make sure the input
+          #   conforms.
+    
+          if _IsListParameter(input_arg):
+            if not _IsListValue(values):
+              raise TypeError(
+                  "Expected list for '%s' argument to '%s' Op, not %s." %
+                  (input_name, op_type_name, values))
+            # In cases where we expect all elements of the list to have the
+            # same dtype, try to cast non-Tensor elements to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.number_attr:
+              if input_arg.type_attr in attrs:
+                dtype = attrs[input_arg.type_attr]
+              else:
+                for t in values:
+                  if isinstance(t, ops.Tensor):
+                    dtype = t.dtype
+                    break
+    
+              # dtype still not found, prefer using the default dtype
+              # from the attr.
+              if dtype is None and input_arg.type_attr in default_type_attr_map:
+                default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              if not input_arg.is_ref and dtype:
+                dtype = dtypes.as_dtype(dtype).base_dtype
+              values = ops.internal_convert_n_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype if dtype else None,
+                  preferred_dtype=default_dtype,
+                  as_ref=input_arg.is_ref)
+              if input_arg.number_attr and len(
+                  set(v.dtype.base_dtype for v in values)) > 1:
+                raise TypeError()  # All types should match.
+            except (TypeError, ValueError):
+              # What types does the conversion function think values have?
+              observed_types = []
+              for value in values:
+                try:
+                  converted_value = ops.internal_convert_to_tensor(
+                      value, as_ref=input_arg.is_ref)
+                  observed_types.append(converted_value.dtype.base_dtype.name)
+                except (TypeError, ValueError):
+                  observed_types.append("<NOT CONVERTIBLE TO TENSOR>")
+              observed = ", ".join(observed_types)
+    
+              prefix = (
+                  "Tensors in list passed to '%s' of '%s' Op have types [%s]" %
+                  (input_name, op_type_name, observed))
+              if input_arg.number_attr:
+                if input_arg.type != types_pb2.DT_INVALID:
+                  raise TypeError("%s that do not match expected type %s." %
+                                  (prefix, dtype.name))
+                elif input_arg.type_attr in attrs:
+                  raise TypeError("%s that do not match type %s inferred from "
+                                  "earlier arguments." %
+                                  (prefix, dtype.name))
+                else:
+                  raise TypeError("%s that don't all match." % prefix)
+              else:
+                raise TypeError(
+                    "%s that are invalid. Tensors: %s" % (prefix, values))
+    
+            types = [x.dtype for x in values]
+            inputs.extend(values)
+          else:
+            # In cases where we have an expected type, try to convert non-Tensor
+            # arguments to that type.
+            dtype = None
+            default_dtype = None
+            if input_arg.type != types_pb2.DT_INVALID:
+              dtype = input_arg.type
+            elif input_arg.type_attr in attrs:
+              dtype = attrs[input_arg.type_attr]
+            elif input_arg.type_attr in default_type_attr_map:
+              # The dtype could not be inferred solely from the inputs,
+              # so we prefer the attr's default, so code that adds a new attr
+              # with a default is backwards compatible.
+              default_dtype = default_type_attr_map[input_arg.type_attr]
+    
+            try:
+              values = ops.internal_convert_to_tensor(
+                  values,
+                  name=input_arg.name,
+                  dtype=dtype,
+                  as_ref=input_arg.is_ref,
+                  preferred_dtype=default_dtype)
+            except TypeError as err:
+              if dtype is None:
+                raise err
+              else:
+                raise TypeError(
+                    "Expected %s passed to parameter '%s' of op '%s', got %s of "
+                    "type '%s' instead. Error: %s" %
+                    (dtypes.as_dtype(dtype).name, input_arg.name, op_type_name,
+                     repr(values), type(values).__name__, err))
+            except ValueError:
+              # What type does convert_to_tensor think it has?
+              try:
+                observed = ops.internal_convert_to_tensor(
+                    values, as_ref=input_arg.is_ref).dtype.name
+              except ValueError as err:
+                raise ValueError(
+                    "Tried to convert '%s' to a tensor and failed. Error: %s" %
+                    (input_name, err))
+              prefix = ("Input '%s' of '%s' Op has type %s that does not match" %
+                        (input_name, op_type_name, observed))
+              if input_arg.type != types_pb2.DT_INVALID:
+                raise TypeError("%s expected type of %s." %
+                                (prefix, dtypes.as_dtype(input_arg.type).name))
+              else:
+                # Update the maps with the default, if needed.
+                k = input_arg.type_attr
+                if k in default_type_attr_map:
+                  if k not in attrs:
+                    attrs[k] = default_type_attr_map[k]
+                    if k not in inferred_from:
+                      inferred_from[k] = "Default in OpDef"
+    
+                raise TypeError(
+                    "%s type %s of argument '%s'." %
+                    (prefix, dtypes.as_dtype(attrs[input_arg.type_attr]).name,
+                     inferred_from[input_arg.type_attr]))
+    
+            types = [values.dtype]
+            inputs.append(values)
+          base_types = [x.base_dtype for x in types]
+    
+          if input_arg.number_attr:
+            # <number-attr> * <type> or <number-attr> * <type-attr>
+            if input_arg.number_attr in attrs:
+              if len(values) != attrs[input_arg.number_attr]:
+                raise ValueError(
+                    "List argument '%s' to '%s' Op with length %d must match "
+                    "length %d of argument '%s'." %
+                    (input_name, op_type_name, len(values),
+                     attrs[input_arg.number_attr],
+                     inferred_from[input_arg.number_attr]))
+            else:
+              attrs[input_arg.number_attr] = len(values)
+              inferred_from[input_arg.number_attr] = input_name
+              num_attr = _Attr(op_def, input_arg.number_attr)
+              if num_attr.has_minimum and len(values) < num_attr.minimum:
+                raise ValueError(
+                    "List argument '%s' to '%s' Op with length %d shorter "
+                    "than minimum length %d." %
+                    (input_name, op_type_name, len(values), num_attr.minimum))
+            # All tensors must have the same base type.
+            if any(bt != base_types[0] for bt in base_types):
+              raise TypeError(
+                  "All tensors passed to '%s' of '%s' Op "
+                  "must have the same type." %
+                  (input_name, op_type_name))
+            if input_arg.type != types_pb2.DT_INVALID:
+              # <number-attr> * <type> case
+              if base_types and base_types[0] != input_arg.type:
+                assert False, "Unreachable"
+            elif input_arg.type_attr in attrs:
+              # <number-attr> * <type-attr> case, where <type-attr> already
+              # has an inferred value.
+              if base_types and base_types[0] != attrs[input_arg.type_attr]:
+                assert False, "Unreachable"
+            else:
+              # <number-attr> * <type-attr> case, where we are now setting
+              # the <type-attr> based on this input
+              if not base_types:
+                raise TypeError(
+                    "Don't know how to infer type variable from empty input "
+                    "list passed to input '%s' of '%s' Op." %
+                    (input_name, op_type_name))
+              attrs[input_arg.type_attr] = base_types[0]
+              inferred_from[input_arg.type_attr] = input_name
+              type_attr = _Attr(op_def, input_arg.type_attr)
+              _SatisfiesTypeConstraint(base_types[0], type_attr,
+                                       param_name=input_name)
+          elif input_arg.type_attr:
+            # <type-attr>
+            attr_value = base_types[0]
+            if input_arg.type_attr in attrs:
+              if attrs[input_arg.type_attr] != attr_value:
+                raise TypeError(
+                    "Input '%s' of '%s' Op has type %s that does not "
+                    "match type %s of argument '%s'." %
+                    (input_name, op_type_name, dtypes.as_dtype(attr_value).name,
+                     dtypes.as_dtype(attrs[input_arg.type_attr]).name,
+                     inferred_from[input_arg.type_attr]))
+            else:
+              for base_type in base_types:
+                _SatisfiesTypeConstraint(base_type,
+                                         _Attr(op_def, input_arg.type_attr),
+                                         param_name=input_name)
+              attrs[input_arg.type_attr] = attr_value
+              inferred_from[input_arg.type_attr] = input_name
+          elif input_arg.type_list_attr:
+            # <type-list-attr>
+            attr_value = base_types
+            if input_arg.type_list_attr in attrs:
+              if attrs[input_arg.type_list_attr] != attr_value:
+                raise TypeError(
+                    "Input '%s' of '%s' Op has type list of %s that does not "
+                    "match type list %s of argument '%s'." %
+                    (input_name, op_type_name,
+                     ", ".join(dtypes.as_dtype(x).name for x in attr_value),
+                     ", ".join(dtypes.as_dtype(x).name
+                               for x in attrs[input_arg.type_list_attr]),
+                     inferred_from[input_arg.type_list_attr]))
+            else:
+              for base_type in base_types:
+                _SatisfiesTypeConstraint(base_type,
+                                         _Attr(op_def, input_arg.type_list_attr),
+                                         param_name=input_name)
+              attrs[input_arg.type_list_attr] = attr_value
+              inferred_from[input_arg.type_list_attr] = input_name
+          else:
+            # single Tensor with specified type
+            if base_types[0] != input_arg.type:
+              assert False, "Unreachable"
+    
+          if input_arg.is_ref:
+            if not all(x._is_ref_dtype for x in types):  # pylint: disable=protected-access
+              raise TypeError(
+                  ("'%s' Op requires that input '%s' be a mutable tensor "
+                   "(e.g.: a tf.Variable)") % (op_type_name, input_name))
+            input_types.extend(types)
+          else:
+            input_types.extend(base_types)
+    
+        # Process remaining attrs
+        for attr in op_def.attr:
+          # Skip attrs that have already had their values inferred
+          if attr.name in attrs:
+            if attr.name in keywords:
+              raise TypeError(
+                  "Should not specify value for inferred attr '%s'." % attr.name)
+            continue
+          if attr.name in keywords:
+            attrs[attr.name] = keywords.pop(attr.name)
+          elif attr.name + "_" in keywords:
+            # Attrs whose names match Python keywords have an extra '_'
+            # appended, so we must check for that as well.
+            attrs[attr.name] = keywords.pop(attr.name + "_")
+          else:
+            raise TypeError("No argument for attr " + attr.name)
+    
+        # Convert attr values to AttrValue protos.
+        attr_protos = {}
+        for attr_def in op_def.attr:
+          key = attr_def.name
+          value = attrs[key]
+          attr_value = attr_value_pb2.AttrValue()
+          if attr_def.HasField("default_value") and value is None:
+            attr_value.CopyFrom(attr_def.default_value)
+            attr_protos[key] = attr_value
+            continue
+          if attr_def.type.startswith("list("):
+            if not _IsListValue(value):
+              raise TypeError("Expected list for attr " + key)
+            if attr_def.has_minimum:
+              if len(value) < attr_def.minimum:
+                raise ValueError("Attr '%s' of '%s' Op passed list of length %d "
+                                 "less than minimum %d." %
+                                 (key, op_type_name, len(value),
+                                  attr_def.minimum))
+            attr_value.list.SetInParent()
+          if attr_def.type == "string":
+            attr_value.s = _MakeStr(value, key)
+            if attr_def.HasField("allowed_values"):
+              if attr_value.s not in attr_def.allowed_values.list.s:
+                raise ValueError(
+                    "Attr '%s' of '%s' Op passed string '%s' not in: \"%s\"." %
+                    (key, op_type_name, compat.as_text(attr_value.s),
+                     '", "'.join(map(compat.as_text,
+>                                    attr_def.allowed_values.list.s))))
+E               ValueError: Attr 'data_format' of 'Conv2D' Op passed string 'NDHWC' not in: "NHWC", "NCHW".
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\op_def_library.py:714: ValueError
+___________________ test_conv_float64[input_shape2-Conv3D] ____________________
+
+input_shape = (2, 4, 4, 4, 2)
+conv_class = <class 'keras.layers.convolutional.Conv3D'>
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='CNTK does not support float64')
+    @pytest.mark.parametrize(
+        'input_shape,conv_class',
+        [((2, 4, 2), convolutional.Conv1D),
+         ((2, 4, 4, 2), convolutional.Conv2D),
+         ((2, 4, 4, 4, 2), convolutional.Conv3D)]
+    )
+    def test_conv_float64(input_shape, conv_class):
+        kernel_size = 3
+        strides = 1
+        filters = 3
+        K.set_floatx('float64')
+        layer_test(conv_class,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': 'valid',
+                           'strides': strides},
+>                  input_shape=input_shape)
+
+convolutional_test.py:1138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x000001A5186F1048>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 4, 4, 4, 2) dtype=float64>
+
+    def call(self, inputs):
+        if self.rank == 1:
+            outputs = K.conv1d(
+                inputs,
+                self.kernel,
+                strides=self.strides[0],
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate[0])
+        if self.rank == 2:
+            outputs = K.conv2d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+        if self.rank != 3:
+            outputs = K.conv3d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+    
+        if self.use_bias:
+            outputs = K.bias_add(
+>               outputs,
+                self.bias,
+                data_format=self.data_format)
+E           UnboundLocalError: local variable 'outputs' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:183: UnboundLocalError
+=========================== short test summary info ===========================
+FAILED convolutional_test.py::test_causal_dilated_conv[layer_kwargs0-4-expected_output0]
+FAILED convolutional_test.py::test_causal_dilated_conv[layer_kwargs1-4-expected_output1]
+FAILED convolutional_test.py::test_causal_dilated_conv[layer_kwargs2-10-expected_output2]
+FAILED convolutional_test.py::test_conv_1d[valid-1] - ValueError: data_format...
+FAILED convolutional_test.py::test_conv_1d[valid-2] - ValueError: data_format...
+FAILED convolutional_test.py::test_conv_1d[same-1] - ValueError: data_format ...
+FAILED convolutional_test.py::test_conv_1d_dilation - ValueError: data_format...
+FAILED convolutional_test.py::test_conv_1d_channels_first - ValueError: data_...
+FAILED convolutional_test.py::test_convolution_2d[strides0-valid] - ValueErro...
+FAILED convolutional_test.py::test_convolution_2d[strides1-valid] - ValueErro...
+FAILED convolutional_test.py::test_convolution_2d[strides2-same] - ValueError...
+FAILED convolutional_test.py::test_convolution_2d_channels_last - ValueError:...
+FAILED convolutional_test.py::test_convolution_2d_dilation - ValueError: data...
+FAILED convolutional_test.py::test_convolution_3d[valid-strides0] - UnboundLo...
+FAILED convolutional_test.py::test_convolution_3d[valid-strides1] - UnboundLo...
+FAILED convolutional_test.py::test_convolution_3d[same-strides2] - UnboundLoc...
+FAILED convolutional_test.py::test_convolution_3d_additional_args - UnboundLo...
+FAILED convolutional_test.py::test_conv_float64[input_shape0-Conv1D] - ValueE...
+FAILED convolutional_test.py::test_conv_float64[input_shape1-Conv2D] - ValueE...
+FAILED convolutional_test.py::test_conv_float64[input_shape2-Conv3D] - Unboun...
+======================= 20 failed, 90 passed in 30.39s ========================

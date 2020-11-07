@@ -1,0 +1,443 @@
+2020-10-03 17:14:49.210484: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 110 items
+
+convolutional_test.py ..............FFFFFFFFF........................... [ 45%]
+............................................................             [100%]
+
+================================== FAILURES ===================================
+_________________ test_conv2d_transpose[valid-None-strides0] __________________
+
+padding = 'valid', out_padding = None, strides = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000002C7D6B45F98>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 5:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+>                            '; Received input shape:', str(input_shape))
+E           ValueError: ('Inputs should have rank 4; Received input shape:', '(2, 5, 6, 3)')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:780: ValueError
+_________________ test_conv2d_transpose[valid-None-strides1] __________________
+
+padding = 'valid', out_padding = None, strides = (2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000002C7E49D8518>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 5:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+>                            '; Received input shape:', str(input_shape))
+E           ValueError: ('Inputs should have rank 4; Received input shape:', '(2, 5, 6, 3)')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:780: ValueError
+_____________ test_conv2d_transpose[valid-out_padding2-strides2] ______________
+
+padding = 'valid', out_padding = (0, 0), strides = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000002C7D6B35588>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 5:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+>                            '; Received input shape:', str(input_shape))
+E           ValueError: ('Inputs should have rank 4; Received input shape:', '(2, 5, 6, 3)')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:780: ValueError
+_____________ test_conv2d_transpose[valid-out_padding3-strides3] ______________
+
+padding = 'valid', out_padding = (0, 0), strides = (2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000002C7E4B061D0>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 5:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+>                            '; Received input shape:', str(input_shape))
+E           ValueError: ('Inputs should have rank 4; Received input shape:', '(2, 5, 6, 3)')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:780: ValueError
+_____________ test_conv2d_transpose[valid-out_padding4-strides4] ______________
+
+padding = 'valid', out_padding = (1, 1), strides = (2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000002C7E49A2160>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 5:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+>                            '; Received input shape:', str(input_shape))
+E           ValueError: ('Inputs should have rank 4; Received input shape:', '(2, 5, 6, 3)')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:780: ValueError
+__________________ test_conv2d_transpose[same-None-strides5] __________________
+
+padding = 'same', out_padding = None, strides = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000002C7E4C440F0>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 5:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+>                            '; Received input shape:', str(input_shape))
+E           ValueError: ('Inputs should have rank 4; Received input shape:', '(2, 5, 6, 3)')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:780: ValueError
+______________ test_conv2d_transpose[same-out_padding6-strides6] ______________
+
+padding = 'same', out_padding = (0, 0), strides = (1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,out_padding,strides',
+        [(padding, out_padding, strides)
+         for padding in _convolution_paddings
+         for out_padding in [None, (0, 0), (1, 1)]
+         for strides in [(1, 1), (2, 2)]
+         if (not (padding == 'same' and strides != (1, 1))
+             and not(strides == (1, 1) and out_padding == (1, 1)))]
+    )
+    def test_conv2d_transpose(padding, out_padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'output_padding': out_padding,
+                           'strides': strides,
+                           'data_format': 'channels_last'},
+                   input_shape=(num_samples, num_row, num_col, stack_size),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000002C7E4B07048>
+input_shape = (2, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 5:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+>                            '; Received input shape:', str(input_shape))
+E           ValueError: ('Inputs should have rank 4; Received input shape:', '(2, 5, 6, 3)')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:780: ValueError
+_______________________ test_conv2d_transpose_dilation ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk' and load_backend.dev.type() == 0),
+                        reason='cntk only supports dilated conv transpose on GPU')
+    def test_conv2d_transpose_dilation():
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': 2,
+                           'kernel_size': 3,
+                           'padding': 'same',
+                           'data_format': 'channels_last',
+                           'dilation_rate': (2, 2)},
+>                  input_shape=(2, 5, 6, 3))
+
+convolutional_test.py:226: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000002C7E4C5AC88>
+input_shape = (None, 5, 6, 3)
+
+    def build(self, input_shape):
+        if len(input_shape) != 5:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+>                            '; Received input shape:', str(input_shape))
+E           ValueError: ('Inputs should have rank 4; Received input shape:', '(None, 5, 6, 3)')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:780: ValueError
+____________________ test_conv2d_transpose_channels_first _____________________
+
+    def test_conv2d_transpose_channels_first():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        num_row = 5
+        num_col = 6
+        padding = 'valid'
+        strides = (2, 2)
+    
+        layer_test(convolutional.Conv2DTranspose,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'data_format': 'channels_first',
+                           'activation': None,
+                           'kernel_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'kernel_constraint': 'max_norm',
+                           'bias_constraint': 'max_norm',
+                           'strides': strides},
+                   input_shape=(num_samples, stack_size, num_row, num_col),
+>                  fixed_batch_size=True)
+
+convolutional_test.py:268: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:463: in __call__
+    self.build(unpack_singleton(input_shapes))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv2DTranspose object at 0x000002C7E49A1978>
+input_shape = (2, 3, 5, 6)
+
+    def build(self, input_shape):
+        if len(input_shape) != 5:
+            raise ValueError('Inputs should have rank ' +
+                             str(4) +
+>                            '; Received input shape:', str(input_shape))
+E           ValueError: ('Inputs should have rank 4; Received input shape:', '(2, 3, 5, 6)')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:780: ValueError
+=========================== short test summary info ===========================
+FAILED convolutional_test.py::test_conv2d_transpose[valid-None-strides0] - Va...
+FAILED convolutional_test.py::test_conv2d_transpose[valid-None-strides1] - Va...
+FAILED convolutional_test.py::test_conv2d_transpose[valid-out_padding2-strides2]
+FAILED convolutional_test.py::test_conv2d_transpose[valid-out_padding3-strides3]
+FAILED convolutional_test.py::test_conv2d_transpose[valid-out_padding4-strides4]
+FAILED convolutional_test.py::test_conv2d_transpose[same-None-strides5] - Val...
+FAILED convolutional_test.py::test_conv2d_transpose[same-out_padding6-strides6]
+FAILED convolutional_test.py::test_conv2d_transpose_dilation - ValueError: ('...
+FAILED convolutional_test.py::test_conv2d_transpose_channels_first - ValueErr...
+======================= 9 failed, 101 passed in 27.99s ========================

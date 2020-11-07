@@ -1,0 +1,383 @@
+2020-10-03 17:09:31.515825: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 110 items
+
+convolutional_test.py .................................................. [ 45%]
+..............FFFF.........................................F             [100%]
+
+================================== FAILURES ===================================
+_____________________ test_convolution_3d[valid-strides0] _____________________
+
+padding = 'valid', strides = (1, 1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x0000021BF84F56A0>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>
+
+    def call(self, inputs):
+        if self.rank == 1:
+            outputs = K.conv1d(
+                inputs,
+                self.kernel,
+                strides=self.strides[0],
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate[0])
+        if self.rank == 2:
+            outputs = K.conv2d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+        if self.rank == 4:
+            outputs = K.conv3d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+    
+        if self.use_bias:
+            outputs = K.bias_add(
+>               outputs,
+                self.bias,
+                data_format=self.data_format)
+E           UnboundLocalError: local variable 'outputs' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:183: UnboundLocalError
+_____________________ test_convolution_3d[valid-strides1] _____________________
+
+padding = 'valid', strides = (2, 2, 2)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x0000021E236BFA90>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>
+
+    def call(self, inputs):
+        if self.rank == 1:
+            outputs = K.conv1d(
+                inputs,
+                self.kernel,
+                strides=self.strides[0],
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate[0])
+        if self.rank == 2:
+            outputs = K.conv2d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+        if self.rank == 4:
+            outputs = K.conv3d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+    
+        if self.use_bias:
+            outputs = K.bias_add(
+>               outputs,
+                self.bias,
+                data_format=self.data_format)
+E           UnboundLocalError: local variable 'outputs' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:183: UnboundLocalError
+_____________________ test_convolution_3d[same-strides2] ______________________
+
+padding = 'same', strides = (1, 1, 1)
+
+    @pytest.mark.parametrize(
+        'padding,strides',
+        [(padding, strides)
+         for padding in _convolution_paddings
+         for strides in [(1, 1, 1), (2, 2, 2)]
+         if not (padding == 'same' and strides != (1, 1, 1))]
+    )
+    def test_convolution_3d(padding, strides):
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': 3,
+                           'padding': padding,
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x0000021E3CF61358>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>
+
+    def call(self, inputs):
+        if self.rank == 1:
+            outputs = K.conv1d(
+                inputs,
+                self.kernel,
+                strides=self.strides[0],
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate[0])
+        if self.rank == 2:
+            outputs = K.conv2d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+        if self.rank == 4:
+            outputs = K.conv3d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+    
+        if self.use_bias:
+            outputs = K.bias_add(
+>               outputs,
+                self.bias,
+                data_format=self.data_format)
+E           UnboundLocalError: local variable 'outputs' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:183: UnboundLocalError
+_____________________ test_convolution_3d_additional_args _____________________
+
+    def test_convolution_3d_additional_args():
+        num_samples = 2
+        filters = 2
+        stack_size = 3
+        padding = 'valid'
+        strides = (2, 2, 2)
+    
+        input_len_dim1 = 9
+        input_len_dim2 = 8
+        input_len_dim3 = 8
+    
+        layer_test(convolutional.Convolution3D,
+                   kwargs={'filters': filters,
+                           'kernel_size': (1, 2, 3),
+                           'padding': padding,
+                           'activation': None,
+                           'kernel_regularizer': 'l2',
+                           'bias_regularizer': 'l2',
+                           'activity_regularizer': 'l2',
+                           'kernel_constraint': 'max_norm',
+                           'bias_constraint': 'max_norm',
+                           'strides': strides},
+                   input_shape=(num_samples,
+                                input_len_dim1, input_len_dim2, input_len_dim3,
+>                               stack_size))
+
+convolutional_test.py:548: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x0000021E3D00D2B0>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 9, 8, 8, 3) dtype=float32>
+
+    def call(self, inputs):
+        if self.rank == 1:
+            outputs = K.conv1d(
+                inputs,
+                self.kernel,
+                strides=self.strides[0],
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate[0])
+        if self.rank == 2:
+            outputs = K.conv2d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+        if self.rank == 4:
+            outputs = K.conv3d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+    
+        if self.use_bias:
+            outputs = K.bias_add(
+>               outputs,
+                self.bias,
+                data_format=self.data_format)
+E           UnboundLocalError: local variable 'outputs' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:183: UnboundLocalError
+___________________ test_conv_float64[input_shape2-Conv3D] ____________________
+
+input_shape = (2, 4, 4, 4, 2)
+conv_class = <class 'keras.layers.convolutional.Conv3D'>
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='CNTK does not support float64')
+    @pytest.mark.parametrize(
+        'input_shape,conv_class',
+        [((2, 4, 2), convolutional.Conv1D),
+         ((2, 4, 4, 2), convolutional.Conv2D),
+         ((2, 4, 4, 4, 2), convolutional.Conv3D)]
+    )
+    def test_conv_float64(input_shape, conv_class):
+        kernel_size = 3
+        strides = 1
+        filters = 3
+        K.set_floatx('float64')
+        layer_test(conv_class,
+                   kwargs={'filters': filters,
+                           'kernel_size': kernel_size,
+                           'padding': 'valid',
+                           'strides': strides},
+>                  input_shape=input_shape)
+
+convolutional_test.py:1138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.convolutional.Conv3D object at 0x0000021E436245C0>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 4, 4, 4, 2) dtype=float64>
+
+    def call(self, inputs):
+        if self.rank == 1:
+            outputs = K.conv1d(
+                inputs,
+                self.kernel,
+                strides=self.strides[0],
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate[0])
+        if self.rank == 2:
+            outputs = K.conv2d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+        if self.rank == 4:
+            outputs = K.conv3d(
+                inputs,
+                self.kernel,
+                strides=self.strides,
+                padding=self.padding,
+                data_format=self.data_format,
+                dilation_rate=self.dilation_rate)
+    
+        if self.use_bias:
+            outputs = K.bias_add(
+>               outputs,
+                self.bias,
+                data_format=self.data_format)
+E           UnboundLocalError: local variable 'outputs' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\convolutional.py:183: UnboundLocalError
+=========================== short test summary info ===========================
+FAILED convolutional_test.py::test_convolution_3d[valid-strides0] - UnboundLo...
+FAILED convolutional_test.py::test_convolution_3d[valid-strides1] - UnboundLo...
+FAILED convolutional_test.py::test_convolution_3d[same-strides2] - UnboundLoc...
+FAILED convolutional_test.py::test_convolution_3d_additional_args - UnboundLo...
+FAILED convolutional_test.py::test_conv_float64[input_shape2-Conv3D] - Unboun...
+======================= 5 failed, 105 passed in 26.94s ========================
