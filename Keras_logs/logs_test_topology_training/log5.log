@@ -1,0 +1,177 @@
+2020-10-05 15:46:30.645951: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:46:34.406316: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-05 15:46:34.528896: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:46:34.530963: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:46:34.536920: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:46:34.542721: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:46:34.544528: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:46:34.550860: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:46:34.555158: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:46:34.567482: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:46:34.568458: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:46:34.569226: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-05 15:46:34.582538: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:46:34.583110: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:46:34.583454: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:46:34.583793: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:46:34.584129: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:46:34.584479: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:46:34.584821: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:46:34.585164: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:46:34.586005: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:46:35.723942: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-05 15:46:35.724358: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-05 15:46:35.724598: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-05 15:46:35.725404: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 31 items
+
+test_topology.py ......................FF.......                         [100%]
+
+================================== FAILURES ===================================
+_______________________ test_recursion_with_bn_and_loss _______________________
+
+    def test_recursion_with_bn_and_loss():
+        model1 = Sequential([
+            layers.Dense(5, input_dim=5, activity_regularizer='l1'),
+            layers.BatchNormalization(),
+            layers.Dense(5),
+        ])
+    
+        print('NEW MODEL')
+        inputs = layers.Input(shape=(5,))
+        outputs = model1(inputs)
+        model2 = Model(inputs=inputs, outputs=outputs)
+    
+        assert len(model1.updates) == 2
+        assert len(model2.updates) == 2
+        assert len(model1.losses) == 1
+        assert len(model2.losses) == 1, model2.layers[1]._per_input_losses
+    
+        model1.compile(optimizer='sgd', loss='categorical_crossentropy')
+        model2.compile(optimizer='sgd', loss='categorical_crossentropy')
+    
+        x = np.ones((3, 5))
+        y = np.ones((3, 5))
+>       model1.fit(x, y, verbose=0, epochs=1)
+
+test_topology.py:660: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:145: in fit_loop
+    model.reset_metrics()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x000002409452B048>
+
+    def reset_metrics(self):
+        """Resets the state of metrics."""
+        metrics = None
+>       for m in metrics:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:279: TypeError
+---------------------------- Captured stdout call -----------------------------
+NEW MODEL
+---------------------------- Captured stderr call -----------------------------
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_grad.py:1424: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+2020-10-05 15:46:42.114175: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:46:42.114727: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:46:42.115077: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:46:42.115423: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:46:42.115768: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:46:42.116111: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:46:42.116464: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:46:42.116815: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:46:42.117377: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:46:42.117690: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-05 15:46:42.118042: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-05 15:46:42.118260: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-05 15:46:42.118745: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:323 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_grad.py:1424: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+_____________ test_activity_regularization_with_model_composition _____________
+
+    def test_activity_regularization_with_model_composition():
+    
+        def reg(x):
+            return K.sum(x)
+    
+        net_a_input = Input((2,))
+        net_a = net_a_input
+        net_a = Dense(2, kernel_initializer='ones',
+                      use_bias=False,
+                      activity_regularizer=reg)(net_a)
+        model_a = Model([net_a_input], [net_a])
+    
+        net_b_input = Input((2,))
+        net_b = model_a(net_b_input)
+        model_b = Model([net_b_input], [net_b])
+    
+        model_b.compile(optimizer='sgd', loss=None)
+        x = np.ones((1, 2))
+>       loss = model_b.evaluate(x)
+
+test_topology.py:682: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1361: in evaluate
+    callbacks=callbacks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:368: in test_loop
+    model.reset_metrics()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x00000240C9BCE940>
+
+    def reset_metrics(self):
+        """Resets the state of metrics."""
+        metrics = None
+>       for m in metrics:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:279: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-05 15:46:42.517502: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:46:42.518093: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:46:42.518445: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:46:42.518790: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:46:42.519130: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:46:42.519476: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:46:42.519822: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:46:42.520172: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:46:42.520737: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:46:42.521051: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-05 15:46:42.521403: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-05 15:46:42.521621: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-05 15:46:42.522106: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+test_topology.py::test_recursion
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:190: UserWarning: Model inputs must come from `keras.layers.Input` (thus holding past layer metadata), they cannot be the output of a previous non-Input layer. Here, a tensor specified as input to your model was not an Input tensor, it was generated by layer dense_1.
+  Note that input tensors are instantiated via `tensor = keras.layers.Input(shape)`.
+  The tensor that caused the issue was: dense_1_12/BiasAdd:0
+    str(x.name))
+
+test_topology.py::test_activity_regularization_with_model_composition
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output model_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to model_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED test_topology.py::test_recursion_with_bn_and_loss - TypeError: 'NoneTy...
+FAILED test_topology.py::test_activity_regularization_with_model_composition
+================== 2 failed, 29 passed, 2 warnings in 7.72s ===================

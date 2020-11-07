@@ -1,0 +1,196 @@
+2020-10-05 15:53:55.028287: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:53:57.585649: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-05 15:53:57.718640: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:53:57.720345: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:53:57.724711: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:53:57.729064: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:53:57.730759: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:53:57.735491: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:53:57.738875: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:53:57.748763: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:53:57.749750: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:53:57.750510: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-05 15:53:57.764646: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:53:57.765227: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:53:57.765594: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:53:57.765940: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:53:57.766276: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:53:57.766617: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:53:57.766961: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:53:57.767310: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:53:57.768187: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:53:58.720174: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-05 15:53:58.720585: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-05 15:53:58.720818: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-05 15:53:58.721605: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 31 items
+
+test_topology.py .......................F.......                         [100%]
+
+================================== FAILURES ===================================
+_____________ test_activity_regularization_with_model_composition _____________
+
+    def test_activity_regularization_with_model_composition():
+    
+        def reg(x):
+            return K.sum(x)
+    
+        net_a_input = Input((2,))
+        net_a = net_a_input
+        net_a = Dense(2, kernel_initializer='ones',
+                      use_bias=False,
+                      activity_regularizer=reg)(net_a)
+        model_a = Model([net_a_input], [net_a])
+    
+        net_b_input = Input((2,))
+        net_b = model_a(net_b_input)
+        model_b = Model([net_b_input], [net_b])
+    
+        model_b.compile(optimizer='sgd', loss=None)
+        x = np.ones((1, 2))
+>       loss = model_b.evaluate(x)
+
+test_topology.py:682: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1361: in evaluate
+    callbacks=callbacks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x0000024FB5286198>, f = None
+ins = [array([[1., 1.]])], batch_size = 32, verbose = 1, steps = None
+callbacks = <keras.callbacks.callbacks.CallbackList object at 0x0000024FB5286DD8>
+
+    def test_loop(model, f, ins,
+                  batch_size=None,
+                  verbose=0,
+                  steps=None,
+                  callbacks=None):
+        """Abstract method to loop over some data in batches.
+    
+        # Arguments
+            model: Keras model instance.
+            f: Keras function returning a list of tensors.
+            ins: list of tensors to be fed to `f`.
+            batch_size: integer batch size or `None`.
+            verbose: verbosity mode.
+            steps: Total number of steps (batches of samples)
+                before declaring predictions finished.
+                Ignored with the default value of `None`.
+            callbacks: List of callbacks or an instance of
+                `keras.callbacks.CallbackList` to be called during evaluation.
+    
+        # Returns
+            Scalar loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+    
+        model.reset_metrics()
+        num_samples = check_num_samples(ins,
+                                        batch_size=batch_size,
+                                        steps=steps,
+                                        steps_name='steps')
+    
+        # Check if callbacks have not been already configured
+        if not isinstance(callbacks, cbks.CallbackList):
+            callbacks = cbks.CallbackList(callbacks)
+            callback_model = model._get_callback_model()
+            callbacks.set_model(callback_model)
+            callback_metrics = list(model.metrics_names)
+            callback_params = {
+                'batch_size': batch_size,
+                'steps': steps,
+                'samples': num_samples,
+                'verbose': verbose,
+                'metrics': callback_metrics,
+            }
+            callbacks.set_params(callback_params)
+    
+        outs = []
+        if verbose == 1:
+            if steps is not None:
+                progbar = Progbar(target=steps)
+            else:
+                progbar = Progbar(target=num_samples)
+    
+        # To prevent a slowdown,
+        # we find beforehand the arrays that need conversion.
+        feed = (model._feed_inputs +
+                model._feed_targets +
+                model._feed_sample_weights)
+        indices_for_conversion_to_dense = []
+        for i in range(len(feed)):
+            if issparse(ins[i]) and not K.is_sparse(feed[i]):
+                indices_for_conversion_to_dense.append(i)
+    
+        callbacks.model.stop_training = False
+        callbacks._call_begin_hook('test')
+    
+        if steps is not None:
+            for step in range(steps):
+                batch_logs = {'batch': step, 'size': 1}
+                callbacks._call_batch_hook('test', 'begin', step, batch_logs)
+                batch_outs = f(ins)
+                if isinstance(batch_outs, list):
+                    if step == 0:
+                        outs.extend([0.] * len(batch_outs))
+                    for i, batch_out in enumerate(batch_outs):
+                        if i == 0:  # Index 0 == `Loss`
+                            outs[i] = float(batch_out)
+                        else:
+                            outs[i] += float(batch_out)
+                else:
+                    if step == 0:
+                        outs.append(0.)
+                    outs[0] += float(batch_outs)
+    
+                for l, o in zip(model.metrics_names, batch_outs):
+                    batch_logs[l] = o
+                callbacks._call_batch_hook('test', 'end', step, batch_logs)
+    
+                if verbose == 1:
+                    progbar.update(step + 1)
+            outs[0] /= steps  # Index 0 == `Loss`
+        else:
+            batches = make_batches(num_samples, batch_size)
+            index_array = np.arange(num_samples)
+            for batch_index, (batch_start, batch_end) in enumerate(batches):
+                batch_ids = index_array[batch_start:batch_end]
+                if isinstance(ins[-1], int):
+                    # Do not slice the training phase flag.
+                    ins_batch = slice_arrays(ins[:-1], batch_ids) + [ins[-1]]
+                else:
+                    ins_batch = slice_arrays(ins, batch_ids)
+                for i in indices_for_conversion_to_dense:
+                    ins_batch[i] = ins_batch[i].toarray()
+    
+                batch_logs = {'batch': batch_index, 'size': len(batch_ids)}
+                callbacks._call_batch_hook('test', 'begin', batch_index, batch_logs)
+>               batch_outs = f(ins_batch)
+E               TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:449: TypeError
+============================== warnings summary ===============================
+test_topology.py::test_recursion
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:190: UserWarning: Model inputs must come from `keras.layers.Input` (thus holding past layer metadata), they cannot be the output of a previous non-Input layer. Here, a tensor specified as input to your model was not an Input tensor, it was generated by layer dense_1.
+  Note that input tensors are instantiated via `tensor = keras.layers.Input(shape)`.
+  The tensor that caused the issue was: dense_1_12/BiasAdd:0
+    str(x.name))
+
+test_topology.py::test_activity_regularization_with_model_composition
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output model_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to model_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED test_topology.py::test_activity_regularization_with_model_composition
+================== 1 failed, 30 passed, 2 warnings in 7.65s ===================

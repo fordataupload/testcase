@@ -1,0 +1,89 @@
+2020-10-05 15:53:41.070016: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:53:43.709373: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-05 15:53:43.846302: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:53:43.852768: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:53:43.867040: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:53:43.873901: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:53:43.875809: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:53:43.888263: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:53:43.899439: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:53:43.922526: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:53:43.924154: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:53:43.925484: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-05 15:53:43.941607: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:53:43.942272: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:53:43.942708: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:53:43.943140: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:53:43.943567: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:53:43.943993: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:53:43.944423: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:53:43.944853: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:53:43.945866: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:53:45.039029: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-05 15:53:45.039441: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-05 15:53:45.039660: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-05 15:53:45.040455: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 31 items
+
+test_topology.py .......................F.......                         [100%]
+
+================================== FAILURES ===================================
+_____________ test_activity_regularization_with_model_composition _____________
+
+    def test_activity_regularization_with_model_composition():
+    
+        def reg(x):
+            return K.sum(x)
+    
+        net_a_input = Input((2,))
+        net_a = net_a_input
+        net_a = Dense(2, kernel_initializer='ones',
+                      use_bias=False,
+                      activity_regularizer=reg)(net_a)
+        model_a = Model([net_a_input], [net_a])
+    
+        net_b_input = Input((2,))
+        net_b = model_a(net_b_input)
+        model_b = Model([net_b_input], [net_b])
+    
+        model_b.compile(optimizer='sgd', loss=None)
+        x = np.ones((1, 2))
+>       loss = model_b.evaluate(x)
+
+test_topology.py:682: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1355: in evaluate
+    self._make_test_function()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x0000023E351F7198>
+
+    def _make_test_function(self):
+        if  hasattr(self, 'test_function'):
+>           raise RuntimeError('You must compile your model before using it.')
+E           RuntimeError: You must compile your model before using it.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:337: RuntimeError
+============================== warnings summary ===============================
+test_topology.py::test_recursion
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:190: UserWarning: Model inputs must come from `keras.layers.Input` (thus holding past layer metadata), they cannot be the output of a previous non-Input layer. Here, a tensor specified as input to your model was not an Input tensor, it was generated by layer dense_1.
+  Note that input tensors are instantiated via `tensor = keras.layers.Input(shape)`.
+  The tensor that caused the issue was: dense_1_12/BiasAdd:0
+    str(x.name))
+
+test_topology.py::test_activity_regularization_with_model_composition
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output model_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to model_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED test_topology.py::test_activity_regularization_with_model_composition
+================== 1 failed, 30 passed, 2 warnings in 8.01s ===================

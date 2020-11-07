@@ -1,0 +1,329 @@
+2020-10-05 15:50:36.685867: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:50:40.330814: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-05 15:50:40.484099: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:50:40.486241: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:50:40.492460: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:50:40.498375: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:50:40.500382: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:50:40.507380: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:50:40.512213: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:50:40.524925: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:50:40.526051: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:50:40.527129: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-05 15:50:40.537343: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:50:40.537972: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:50:40.538338: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:50:40.538683: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:50:40.539023: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:50:40.539369: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:50:40.539712: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:50:40.540057: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:50:40.540870: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:50:41.632698: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-05 15:50:41.633120: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-05 15:50:41.633353: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-05 15:50:41.634141: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 31 items
+
+test_topology.py .........F............FF.....F.                         [100%]
+
+================================== FAILURES ===================================
+___________________________ test_multi_input_layer ____________________________
+
+    def test_multi_input_layer():
+        ####################################################
+        # test multi-input layer
+        a = Input(shape=(32,), name='input_a')
+        b = Input(shape=(32,), name='input_b')
+    
+        dense = Dense(16, name='dense_1')
+        a_2 = dense(a)
+        b_2 = dense(b)
+    
+        merged = layers.concatenate([a_2, b_2], name='merge')
+        assert merged._keras_shape == (None, 16 * 2)
+        merge_layer, merge_node_index, merge_tensor_index = merged._keras_history
+    
+        assert merge_node_index == 0
+        assert merge_tensor_index == 0
+    
+        assert len(merge_layer._inbound_nodes) == 1
+        assert len(merge_layer._outbound_nodes) == 0
+    
+        assert len(merge_layer._inbound_nodes[0].input_tensors) == 2
+        assert len(merge_layer._inbound_nodes[0].inbound_layers) == 2
+    
+        c = Dense(64, name='dense_2')(merged)
+        d = Dense(5, name='dense_3')(c)
+    
+        model = Model(inputs=[a, b], outputs=[c, d], name='model')
+        assert len(model.layers) == 6
+        expected_shapes = [(None, 64), (None, 5)]
+        assert model.compute_output_shape([(None, 32), (None, 32)]) == expected_shapes
+        assert model.compute_mask([a, b], [None, None]) == [None, None]
+        assert model.compute_output_shape([(None, 32), (None, 32)]) == expected_shapes
+    
+        # we don't check names of first 2 layers (inputs) because
+        # ordering of same-level layers is not fixed
+        expected_names = ['dense_1', 'merge', 'dense_2', 'dense_3']
+        assert [l.name for l in model.layers][2:] == expected_names
+        assert [l.name for l in model._input_layers] == ['input_a', 'input_b']
+        assert [l.name for l in model._output_layers] == ['dense_2', 'dense_3']
+    
+        # actually run model
+        fn = K.function(model.inputs, model.outputs)
+        input_a_np = np.random.random((10, 32))
+        input_b_np = np.random.random((10, 32))
+        fn_outputs = fn([input_a_np, input_b_np])
+        assert [x.shape for x in fn_outputs] == [(10, 64), (10, 5)]
+    
+        # test get_source_inputs
+        source_inputs = get_source_inputs(c)
+        assert source_inputs[0] is a
+        assert source_inputs[1] is b
+    
+        # serialization / deserialization
+        json_config = model.to_json()
+        recreated_model = model_from_json(json_config)
+>       recreated_model.compile('rmsprop', 'mse')
+
+test_topology.py:308: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:222: in compile
+    masks=masks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001EBA28D5EF0>
+outputs = [<tf.Tensor 'dense_2_1/BiasAdd:0' shape=(?, 64) dtype=float32>, <tf.Tensor 'dense_3_1/BiasAdd:0' shape=(?, 5) dtype=float32>]
+targets = [<tf.Tensor 'dense_2_target:0' shape=(?, ?) dtype=float32>, <tf.Tensor 'dense_3_target:0' shape=(?, ?) dtype=float32>]
+skip_target_masks = None
+sample_weights = [<tf.Tensor 'dense_2_sample_weights:0' shape=(?,) dtype=float32>, <tf.Tensor 'dense_3_sample_weights:0' shape=(?,) dtype=float32>]
+masks = [None, None]
+
+    def _handle_metrics(self,
+                        outputs,
+                        targets=None,
+                        skip_target_masks=None,
+                        sample_weights=None,
+                        masks=None):
+        """Handles calling metric functions.
+    
+        # Arguments
+            outputs: List of outputs (predictions).
+            targets: List of targets.
+            skip_target_masks: Optional. List of boolean for whether the
+                corresponding target should be ignored or not.
+            sample_weights: Optional list of sample weight arrays.
+            masks: List of computed output mask values.
+        """
+        skip_target_masks = None
+        with K.name_scope('metrics'):
+            # Invoke all metrics added using `compile`.
+            for i in range(len(outputs)):
+>               if skip_target_masks[i]:
+E               TypeError: 'NoneType' object is not subscriptable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:864: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-05 15:50:43.063749: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:50:43.064336: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:50:43.064685: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:50:43.065026: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:50:43.065364: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:50:43.065707: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:50:43.066051: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:50:43.066397: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:50:43.066960: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:50:43.067271: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-05 15:50:43.067619: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-05 15:50:43.067836: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-05 15:50:43.068329: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_______________________ test_recursion_with_bn_and_loss _______________________
+
+    def test_recursion_with_bn_and_loss():
+        model1 = Sequential([
+            layers.Dense(5, input_dim=5, activity_regularizer='l1'),
+            layers.BatchNormalization(),
+            layers.Dense(5),
+        ])
+    
+        print('NEW MODEL')
+        inputs = layers.Input(shape=(5,))
+        outputs = model1(inputs)
+        model2 = Model(inputs=inputs, outputs=outputs)
+    
+        assert len(model1.updates) == 2
+        assert len(model2.updates) == 2
+        assert len(model1.losses) == 1
+        assert len(model2.losses) == 1, model2.layers[1]._per_input_losses
+    
+>       model1.compile(optimizer='sgd', loss='categorical_crossentropy')
+
+test_topology.py:655: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:222: in compile
+    masks=masks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x000001EE35DD82E8>
+outputs = [<tf.Tensor 'dense_2/BiasAdd:0' shape=(?, 5) dtype=float32>]
+targets = [<tf.Tensor 'dense_2_target:0' shape=(?, ?) dtype=float32>]
+skip_target_masks = None
+sample_weights = [<tf.Tensor 'dense_2_sample_weights:0' shape=(?,) dtype=float32>]
+masks = [None]
+
+    def _handle_metrics(self,
+                        outputs,
+                        targets=None,
+                        skip_target_masks=None,
+                        sample_weights=None,
+                        masks=None):
+        """Handles calling metric functions.
+    
+        # Arguments
+            outputs: List of outputs (predictions).
+            targets: List of targets.
+            skip_target_masks: Optional. List of boolean for whether the
+                corresponding target should be ignored or not.
+            sample_weights: Optional list of sample weight arrays.
+            masks: List of computed output mask values.
+        """
+        skip_target_masks = None
+        with K.name_scope('metrics'):
+            # Invoke all metrics added using `compile`.
+            for i in range(len(outputs)):
+>               if skip_target_masks[i]:
+E               TypeError: 'NoneType' object is not subscriptable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:864: TypeError
+---------------------------- Captured stdout call -----------------------------
+NEW MODEL
+_____________ test_activity_regularization_with_model_composition _____________
+
+    def test_activity_regularization_with_model_composition():
+    
+        def reg(x):
+            return K.sum(x)
+    
+        net_a_input = Input((2,))
+        net_a = net_a_input
+        net_a = Dense(2, kernel_initializer='ones',
+                      use_bias=False,
+                      activity_regularizer=reg)(net_a)
+        model_a = Model([net_a_input], [net_a])
+    
+        net_b_input = Input((2,))
+        net_b = model_a(net_b_input)
+        model_b = Model([net_b_input], [net_b])
+    
+>       model_b.compile(optimizer='sgd', loss=None)
+
+test_topology.py:680: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:222: in compile
+    masks=masks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001EE35DFB320>
+outputs = [<tf.Tensor 'model_1/dense_1/MatMul:0' shape=(?, 2) dtype=float32>]
+targets = [None], skip_target_masks = None, sample_weights = [None]
+masks = [None]
+
+    def _handle_metrics(self,
+                        outputs,
+                        targets=None,
+                        skip_target_masks=None,
+                        sample_weights=None,
+                        masks=None):
+        """Handles calling metric functions.
+    
+        # Arguments
+            outputs: List of outputs (predictions).
+            targets: List of targets.
+            skip_target_masks: Optional. List of boolean for whether the
+                corresponding target should be ignored or not.
+            sample_weights: Optional list of sample weight arrays.
+            masks: List of computed output mask values.
+        """
+        skip_target_masks = None
+        with K.name_scope('metrics'):
+            # Invoke all metrics added using `compile`.
+            for i in range(len(outputs)):
+>               if skip_target_masks[i]:
+E               TypeError: 'NoneType' object is not subscriptable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:864: TypeError
+____________________ test_constant_initializer_with_numpy _____________________
+
+    def test_constant_initializer_with_numpy():
+        model = Sequential()
+        model.add(Dense(2, input_shape=(3,),
+                        kernel_initializer=Constant(1.)))
+        model.add(Dense(3))
+>       model.compile(loss='mse', optimizer='sgd', metrics=['acc'])
+
+test_topology.py:833: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:222: in compile
+    masks=masks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x000001EE304E3A90>
+outputs = [<tf.Tensor 'dense_2/BiasAdd:0' shape=(?, 3) dtype=float32>]
+targets = [<tf.Tensor 'dense_2_target:0' shape=(?, ?) dtype=float32>]
+skip_target_masks = None
+sample_weights = [<tf.Tensor 'dense_2_sample_weights:0' shape=(?,) dtype=float32>]
+masks = [None]
+
+    def _handle_metrics(self,
+                        outputs,
+                        targets=None,
+                        skip_target_masks=None,
+                        sample_weights=None,
+                        masks=None):
+        """Handles calling metric functions.
+    
+        # Arguments
+            outputs: List of outputs (predictions).
+            targets: List of targets.
+            skip_target_masks: Optional. List of boolean for whether the
+                corresponding target should be ignored or not.
+            sample_weights: Optional list of sample weight arrays.
+            masks: List of computed output mask values.
+        """
+        skip_target_masks = None
+        with K.name_scope('metrics'):
+            # Invoke all metrics added using `compile`.
+            for i in range(len(outputs)):
+>               if skip_target_masks[i]:
+E               TypeError: 'NoneType' object is not subscriptable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:864: TypeError
+============================== warnings summary ===============================
+test_topology.py::test_recursion
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:190: UserWarning: Model inputs must come from `keras.layers.Input` (thus holding past layer metadata), they cannot be the output of a previous non-Input layer. Here, a tensor specified as input to your model was not an Input tensor, it was generated by layer dense_1.
+  Note that input tensors are instantiated via `tensor = keras.layers.Input(shape)`.
+  The tensor that caused the issue was: dense_1_12/BiasAdd:0
+    str(x.name))
+
+test_topology.py::test_activity_regularization_with_model_composition
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output model_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to model_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED test_topology.py::test_multi_input_layer - TypeError: 'NoneType' objec...
+FAILED test_topology.py::test_recursion_with_bn_and_loss - TypeError: 'NoneTy...
+FAILED test_topology.py::test_activity_regularization_with_model_composition
+FAILED test_topology.py::test_constant_initializer_with_numpy - TypeError: 'N...
+================== 4 failed, 27 passed, 2 warnings in 7.04s ===================

@@ -1,0 +1,190 @@
+2020-10-05 15:52:02.681089: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:52:05.291481: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-05 15:52:05.423939: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:52:05.425693: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:52:05.431279: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:52:05.437096: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:52:05.438944: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:52:05.445265: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:52:05.449512: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:52:05.461716: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:52:05.462740: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:52:05.463536: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-05 15:52:05.478261: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:52:05.479157: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:52:05.479693: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:52:05.480052: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:52:05.480400: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:52:05.480756: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:52:05.481114: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:52:05.481472: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:52:05.482360: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:52:06.547012: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-05 15:52:06.547427: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-05 15:52:06.547672: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-05 15:52:06.548474: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 31 items
+
+test_topology.py .......................F.......                         [100%]
+
+================================== FAILURES ===================================
+_____________ test_activity_regularization_with_model_composition _____________
+
+    def test_activity_regularization_with_model_composition():
+    
+        def reg(x):
+            return K.sum(x)
+    
+        net_a_input = Input((2,))
+        net_a = net_a_input
+        net_a = Dense(2, kernel_initializer='ones',
+                      use_bias=False,
+                      activity_regularizer=reg)(net_a)
+        model_a = Model([net_a_input], [net_a])
+    
+        net_b_input = Input((2,))
+        net_b = model_a(net_b_input)
+        model_b = Model([net_b_input], [net_b])
+    
+        model_b.compile(optimizer='sgd', loss=None)
+        x = np.ones((1, 2))
+>       loss = model_b.evaluate(x)
+
+test_topology.py:682: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001F4B5A80FD0>
+x = array([[1., 1.]]), y = None, batch_size = 32, verbose = 1
+sample_weight = None, steps = None, callbacks = None, max_queue_size = 10
+workers = 1, use_multiprocessing = False
+
+    def evaluate(self,
+                 x=None,
+                 y=None,
+                 batch_size=None,
+                 verbose=1,
+                 sample_weight=None,
+                 steps=None,
+                 callbacks=None,
+                 max_queue_size=10,
+                 workers=1,
+                 use_multiprocessing=False):
+        """Returns the loss value & metrics values for the model in test mode.
+    
+        Computation is done in batches.
+    
+        # Arguments
+            x: Input data. It could be:
+                - A Numpy array (or array-like), or a list of arrays
+                  (in case the model has multiple inputs).
+                - A dict mapping input names to the corresponding
+                  array/tensors, if the model has named inputs.
+                - A generator or `keras.utils.Sequence` returning
+                  `(inputs, targets)` or `(inputs, targets, sample weights)`.
+                - None (default) if feeding from framework-native
+                  tensors (e.g. TensorFlow data tensors).
+            y: Target data. Like the input data `x`,
+                it could be either Numpy array(s), framework-native tensor(s),
+                list of Numpy arrays (if the model has multiple outputs) or
+                None (default) if feeding from framework-native tensors
+                (e.g. TensorFlow data tensors).
+                If output layers in the model are named, you can also pass a
+                dictionary mapping output names to Numpy arrays.
+                If `x` is a generator, or `keras.utils.Sequence` instance,
+                `y` should not be specified (since targets will be obtained
+                from `x`).
+            batch_size: Integer or `None`.
+                Number of samples per gradient update.
+                If unspecified, `batch_size` will default to 32.
+                Do not specify the `batch_size` if your data is in the
+                form of symbolic tensors, generators, or
+                `keras.utils.Sequence` instances (since they generate batches).
+            verbose: 0 or 1. Verbosity mode.
+                0 = silent, 1 = progress bar.
+            sample_weight: Optional Numpy array of weights for
+                the test samples, used for weighting the loss function.
+                You can either pass a flat (1D)
+                Numpy array with the same length as the input samples
+                (1:1 mapping between weights and samples),
+                or in the case of temporal data,
+                you can pass a 2D array with shape
+                `(samples, sequence_length)`,
+                to apply a different weight to every timestep of every sample.
+                In this case you should make sure to specify
+                `sample_weight_mode="temporal"` in `compile()`.
+            steps: Integer or `None`.
+                Total number of steps (batches of samples)
+                before declaring the evaluation round finished.
+                Ignored with the default value of `None`.
+            callbacks: List of `keras.callbacks.Callback` instances.
+                List of callbacks to apply during evaluation.
+                See [callbacks](/callbacks).
+            max_queue_size: Integer. Used for generator or `keras.utils.Sequence`
+                input only. Maximum size for the generator queue.
+                If unspecified, `max_queue_size` will default to 10.
+            workers: Integer. Used for generator or `keras.utils.Sequence` input
+                only. Maximum number of processes to spin up when using
+                process-based threading. If unspecified, `workers` will default
+                to 1. If 0, will execute the generator on the main thread.
+            use_multiprocessing: Boolean. Used for generator or
+                `keras.utils.Sequence` input only. If `True`, use process-based
+                threading. If unspecified, `use_multiprocessing` will default to
+                `False`. Note that because this implementation relies on
+                multiprocessing, you should not pass non-picklable arguments to
+                the generator as they can't be passed easily to children processes.
+    
+        # Raises
+            ValueError: in case of invalid arguments.
+    
+        # Returns
+            Scalar test loss (if the model has a single output and no metrics)
+            or list of scalars (if the model has multiple outputs
+            and/or metrics). The attribute `model.metrics_names` will give you
+            the display labels for the scalar outputs.
+        """
+    
+        batch_size = self._validate_or_infer_batch_size(batch_size, steps, x)
+    
+        # Case 1: generator-like. Input is Python generator, or Sequence object.
+        if training_utils.is_generator_or_sequence(x):
+            training_utils.check_generator_arguments(y, sample_weight)
+            return self.evaluate_generator(
+                x,
+                steps=steps,
+                verbose=verbose,
+                callbacks=callbacks,
+                max_queue_size=max_queue_size,
+                workers=workers,
+                use_multiprocessing=use_multiprocessing)
+    
+        # Case 2: Symbolic tensors or Numpy array-like.
+        if x is None or y is None and steps is None:
+>           raise ValueError('If evaluating from data tensors, '
+                             'you should specify the `steps` '
+                             'argument.')
+E           ValueError: If evaluating from data tensors, you should specify the `steps` argument.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1342: ValueError
+============================== warnings summary ===============================
+test_topology.py::test_recursion
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:190: UserWarning: Model inputs must come from `keras.layers.Input` (thus holding past layer metadata), they cannot be the output of a previous non-Input layer. Here, a tensor specified as input to your model was not an Input tensor, it was generated by layer dense_1.
+  Note that input tensors are instantiated via `tensor = keras.layers.Input(shape)`.
+  The tensor that caused the issue was: dense_1_12/BiasAdd:0
+    str(x.name))
+
+test_topology.py::test_activity_regularization_with_model_composition
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output model_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to model_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED test_topology.py::test_activity_regularization_with_model_composition
+================== 1 failed, 30 passed, 2 warnings in 7.76s ===================

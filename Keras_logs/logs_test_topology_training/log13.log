@@ -1,0 +1,508 @@
+2020-10-05 15:48:23.710660: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:48:27.437672: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-05 15:48:27.560744: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:48:27.562651: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:48:27.568376: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:48:27.574127: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:48:27.575998: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:48:27.582468: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:48:27.586623: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:48:27.598915: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:48:27.599868: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:48:27.600630: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-05 15:48:27.614273: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-05 15:48:27.614852: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-05 15:48:27.615197: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-05 15:48:27.615539: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-05 15:48:27.615877: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-05 15:48:27.616226: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-05 15:48:27.616574: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-05 15:48:27.616917: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-05 15:48:27.617748: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-05 15:48:28.682506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-05 15:48:28.682995: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-05 15:48:28.683232: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-05 15:48:28.684103: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 31 items
+
+test_topology.py ......................FF.......                         [100%]
+
+================================== FAILURES ===================================
+_______________________ test_recursion_with_bn_and_loss _______________________
+
+    def test_recursion_with_bn_and_loss():
+        model1 = Sequential([
+            layers.Dense(5, input_dim=5, activity_regularizer='l1'),
+            layers.BatchNormalization(),
+            layers.Dense(5),
+        ])
+    
+        print('NEW MODEL')
+        inputs = layers.Input(shape=(5,))
+        outputs = model1(inputs)
+        model2 = Model(inputs=inputs, outputs=outputs)
+    
+        assert len(model1.updates) == 2
+        assert len(model2.updates) == 2
+        assert len(model1.losses) == 1
+        assert len(model2.losses) == 1, model2.layers[1]._per_input_losses
+    
+        model1.compile(optimizer='sgd', loss='categorical_crossentropy')
+        model2.compile(optimizer='sgd', loss='categorical_crossentropy')
+    
+        x = np.ones((3, 5))
+        y = np.ones((3, 5))
+>       model1.fit(x, y, verbose=0, epochs=1)
+
+test_topology.py:660: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x000001CE355DAF60>
+x = [array([[1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1.]])]
+y = [array([[1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1.]])]
+sample_weight = None, class_weight = None, check_array_lengths = True
+batch_size = 32
+
+    def _standardize_user_data(self, x,
+                               y=None,
+                               sample_weight=None,
+                               class_weight=None,
+                               check_array_lengths=True,
+                               batch_size=None):
+        all_inputs = []
+        if not self.built:
+            # We need to use `x` to set the model inputs.
+            # We type-check that `x` and `y` are either single arrays
+            # or lists of arrays.
+            if isinstance(x, (list, tuple)):
+                if not all(isinstance(v, np.ndarray) or
+                           K.is_tensor(v) for v in x):
+                    raise ValueError('Please provide as model inputs '
+                                     'either a single '
+                                     'array or a list of arrays. '
+                                     'You passed: x=' + str(x))
+                all_inputs += list(x)
+            elif isinstance(x, dict):
+                raise ValueError('Please do not pass a dictionary '
+                                 'as model inputs.')
+            else:
+                if not isinstance(x, np.ndarray) and not K.is_tensor(x):
+                    raise ValueError('Please provide as model inputs '
+                                     'either a single '
+                                     'array or a list of arrays. '
+                                     'You passed: x=' + str(x))
+                all_inputs.append(x)
+    
+            # Build the model using the retrieved inputs (value or symbolic).
+            # If values, then in symbolic-mode placeholders will be created
+            # to match the value shapes.
+            if not self.inputs:
+                self._set_inputs(x)
+    
+        if y is not None:
+            if not self.optimizer:
+                raise RuntimeError('You must compile a model before '
+                                   'training/testing. '
+                                   'Use `model.compile(optimizer, loss)`.')
+            if not self._is_compiled:
+                # On-the-fly compilation of the model.
+                # We need to use `y` to set the model targets.
+                if isinstance(y, (list, tuple)):
+                    if not all(isinstance(v, np.ndarray) or
+                               K.is_tensor(v) for v in y):
+                        raise ValueError('Please provide as model targets '
+                                         'either a single '
+                                         'array or a list of arrays. '
+                                         'You passed: y=' + str(y))
+                elif isinstance(y, dict):
+                    raise ValueError('Please do not pass a dictionary '
+                                     'as model targets.')
+                else:
+                    if not isinstance(y, np.ndarray) and not K.is_tensor(y):
+                        raise ValueError('Please provide as model targets '
+                                         'either a single '
+                                         'array or a list of arrays. '
+                                         'You passed: y=' + str(y))
+                # Typecheck that all inputs are *either* value *or* symbolic.
+                if y is not None:
+                    all_inputs += to_list(y, allow_tuple=True)
+                if any(K.is_tensor(v) for v in all_inputs):
+                    if not all(K.is_tensor(v) for v in all_inputs):
+                        raise ValueError('Do not pass inputs that mix Numpy '
+                                         'arrays and symbolic tensors. '
+                                         'You passed: x=' + str(x) +
+                                         '; y=' + str(y))
+    
+                # Handle target tensors if any passed.
+                y = to_list(y, allow_tuple=True)
+                target_tensors = [v for v in y if K.is_tensor(v)]
+                if not target_tensors:
+                    target_tensors = None
+                self.compile(optimizer=self.optimizer,
+                             loss=self.loss,
+                             metrics=self._compile_metrics,
+                             weighted_metrics=self._compile_weighted_metrics,
+                             loss_weights=self.loss_weights,
+                             target_tensors=target_tensors)
+    
+        # If `x` and `y` were all symbolic,
+        # then the model should not be fed any inputs and targets.
+        # Note: in this case, `any` and `all` are equivalent since we disallow
+        # mixed symbolic/value inputs.
+        if any(K.is_tensor(v) for v in all_inputs):
+            return [], [], []
+    
+        # What follows is input validation and standardization to list format,
+        # in the case where all inputs are value arrays.
+    
+        if not self._is_graph_network:
+            # Case: symbolic-mode subclassed network.
+            # Do not do shape validation.
+            feed_input_names = self._feed_input_names
+            feed_input_shapes = None
+        else:
+            # Case: symbolic-mode graph network.
+            # In this case, we run extensive shape validation checks.
+            feed_input_names = self._feed_input_names
+            feed_input_shapes = self._feed_input_shapes
+    
+        # Standardize the inputs.
+        x = training_utils.standardize_input_data(
+            x,
+            feed_input_names,
+            feed_input_shapes,
+            check_batch_axis=False,  # Don't enforce the batch size.
+            exception_prefix='input')
+    
+        if y is not None:
+            if not self._is_graph_network:
+                feed_output_names = self._feed_output_names
+                feed_output_shapes = None
+                # Sample weighting not supported in this case.
+                # TODO: consider supporting it.
+                feed_sample_weight_modes = [None for _ in self.outputs]
+            else:
+                feed_output_names = self._feed_output_names
+                feed_sample_weight_modes = self._feed_sample_weight_modes
+                feed_output_shapes = []
+                for output_shape, loss_fn in zip(self._feed_output_shapes,
+                                                 self._feed_loss_fns):
+                    if ((isinstance(loss_fn, losses.LossFunctionWrapper) and
+                         loss_fn.fn == losses.sparse_categorical_crossentropy)) or (
+                            isinstance(
+                                loss_fn, losses.SparseCategoricalCrossentropy)):
+                        if K.image_data_format() == 'channels_first' and len(
+                                output_shape) in [4, 5]:
+                            feed_output_shapes.append(
+                                (output_shape[0], 1) + output_shape[2:])
+                        else:
+                            feed_output_shapes.append(output_shape[:-1] + (1,))
+                    elif (not isinstance(loss_fn, losses.Loss) or
+                            (isinstance(loss_fn, losses.LossFunctionWrapper) and
+                             (getattr(losses, loss_fn.fn.__name__, None) is None))):
+                        # If the given loss is not an instance of the `Loss` class
+                        # (custom class) or if the loss function that is wrapped is
+                        # not in the `losses` module, then it is a user-defined loss
+                        # and we make no assumptions about it.
+                        feed_output_shapes.append(None)
+                    else:
+                        feed_output_shapes.append(output_shape)
+    
+            # Standardize the outputs.
+            y = training_utils.standardize_input_data(
+                y,
+                feed_output_names,
+                feed_output_shapes,
+                check_batch_axis=False,  # Don't enforce the batch size.
+                exception_prefix='target')
+    
+            # Generate sample-wise weight values given the `sample_weight` and
+            # `class_weight` arguments.
+            sample_weights = training_utils.standardize_sample_weights(
+                sample_weight, feed_output_names)
+            class_weights = training_utils.standardize_class_weights(
+                class_weight, feed_output_names)
+            sample_weights = [
+                training_utils.standardize_weights(ref, sw, cw, mode)
+                for (ref, sw, cw, mode) in
+                zip(y, sample_weights, class_weights,
+                    feed_sample_weight_modes)
+            ]
+            # Check that all arrays have the same length.
+            if check_array_lengths:
+                training_utils.check_array_length_consistency(x, y, sample_weights)
+            if self._is_graph_network:
+                # Additional checks to avoid users mistakenly
+                # using improper loss fns.
+                training_utils.check_loss_and_target_compatibility(
+                    y, self._feed_loss_fns, feed_output_shapes)
+        else:
+            y = []
+            sample_weights = []
+    
+        if self.stateful or batch_size:
+            # Check that for stateful networks, number of samples is a multiple
+            # of the static batch size.
+            if x[0].shape[0] % batch_size != 0:
+                raise ValueError('In a stateful network, '
+                                 'you should only pass inputs with '
+                                 'a number of samples that can be '
+                                 'divided by the batch size. Found: ' +
+>                                str(x[0].shape[0]) + ' samples')
+E               ValueError: In a stateful network, you should only pass inputs with a number of samples that can be divided by the batch size. Found: 3 samples
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:655: ValueError
+---------------------------- Captured stdout call -----------------------------
+NEW MODEL
+_____________ test_activity_regularization_with_model_composition _____________
+
+    def test_activity_regularization_with_model_composition():
+    
+        def reg(x):
+            return K.sum(x)
+    
+        net_a_input = Input((2,))
+        net_a = net_a_input
+        net_a = Dense(2, kernel_initializer='ones',
+                      use_bias=False,
+                      activity_regularizer=reg)(net_a)
+        model_a = Model([net_a_input], [net_a])
+    
+        net_b_input = Input((2,))
+        net_b = model_a(net_b_input)
+        model_b = Model([net_b_input], [net_b])
+    
+        model_b.compile(optimizer='sgd', loss=None)
+        x = np.ones((1, 2))
+>       loss = model_b.evaluate(x)
+
+test_topology.py:682: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1349: in evaluate
+    batch_size=batch_size)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x000001CE355DA400>
+x = [array([[1., 1.]])], y = [], sample_weight = None, class_weight = None
+check_array_lengths = True, batch_size = 32
+
+    def _standardize_user_data(self, x,
+                               y=None,
+                               sample_weight=None,
+                               class_weight=None,
+                               check_array_lengths=True,
+                               batch_size=None):
+        all_inputs = []
+        if not self.built:
+            # We need to use `x` to set the model inputs.
+            # We type-check that `x` and `y` are either single arrays
+            # or lists of arrays.
+            if isinstance(x, (list, tuple)):
+                if not all(isinstance(v, np.ndarray) or
+                           K.is_tensor(v) for v in x):
+                    raise ValueError('Please provide as model inputs '
+                                     'either a single '
+                                     'array or a list of arrays. '
+                                     'You passed: x=' + str(x))
+                all_inputs += list(x)
+            elif isinstance(x, dict):
+                raise ValueError('Please do not pass a dictionary '
+                                 'as model inputs.')
+            else:
+                if not isinstance(x, np.ndarray) and not K.is_tensor(x):
+                    raise ValueError('Please provide as model inputs '
+                                     'either a single '
+                                     'array or a list of arrays. '
+                                     'You passed: x=' + str(x))
+                all_inputs.append(x)
+    
+            # Build the model using the retrieved inputs (value or symbolic).
+            # If values, then in symbolic-mode placeholders will be created
+            # to match the value shapes.
+            if not self.inputs:
+                self._set_inputs(x)
+    
+        if y is not None:
+            if not self.optimizer:
+                raise RuntimeError('You must compile a model before '
+                                   'training/testing. '
+                                   'Use `model.compile(optimizer, loss)`.')
+            if not self._is_compiled:
+                # On-the-fly compilation of the model.
+                # We need to use `y` to set the model targets.
+                if isinstance(y, (list, tuple)):
+                    if not all(isinstance(v, np.ndarray) or
+                               K.is_tensor(v) for v in y):
+                        raise ValueError('Please provide as model targets '
+                                         'either a single '
+                                         'array or a list of arrays. '
+                                         'You passed: y=' + str(y))
+                elif isinstance(y, dict):
+                    raise ValueError('Please do not pass a dictionary '
+                                     'as model targets.')
+                else:
+                    if not isinstance(y, np.ndarray) and not K.is_tensor(y):
+                        raise ValueError('Please provide as model targets '
+                                         'either a single '
+                                         'array or a list of arrays. '
+                                         'You passed: y=' + str(y))
+                # Typecheck that all inputs are *either* value *or* symbolic.
+                if y is not None:
+                    all_inputs += to_list(y, allow_tuple=True)
+                if any(K.is_tensor(v) for v in all_inputs):
+                    if not all(K.is_tensor(v) for v in all_inputs):
+                        raise ValueError('Do not pass inputs that mix Numpy '
+                                         'arrays and symbolic tensors. '
+                                         'You passed: x=' + str(x) +
+                                         '; y=' + str(y))
+    
+                # Handle target tensors if any passed.
+                y = to_list(y, allow_tuple=True)
+                target_tensors = [v for v in y if K.is_tensor(v)]
+                if not target_tensors:
+                    target_tensors = None
+                self.compile(optimizer=self.optimizer,
+                             loss=self.loss,
+                             metrics=self._compile_metrics,
+                             weighted_metrics=self._compile_weighted_metrics,
+                             loss_weights=self.loss_weights,
+                             target_tensors=target_tensors)
+    
+        # If `x` and `y` were all symbolic,
+        # then the model should not be fed any inputs and targets.
+        # Note: in this case, `any` and `all` are equivalent since we disallow
+        # mixed symbolic/value inputs.
+        if any(K.is_tensor(v) for v in all_inputs):
+            return [], [], []
+    
+        # What follows is input validation and standardization to list format,
+        # in the case where all inputs are value arrays.
+    
+        if not self._is_graph_network:
+            # Case: symbolic-mode subclassed network.
+            # Do not do shape validation.
+            feed_input_names = self._feed_input_names
+            feed_input_shapes = None
+        else:
+            # Case: symbolic-mode graph network.
+            # In this case, we run extensive shape validation checks.
+            feed_input_names = self._feed_input_names
+            feed_input_shapes = self._feed_input_shapes
+    
+        # Standardize the inputs.
+        x = training_utils.standardize_input_data(
+            x,
+            feed_input_names,
+            feed_input_shapes,
+            check_batch_axis=False,  # Don't enforce the batch size.
+            exception_prefix='input')
+    
+        if y is not None:
+            if not self._is_graph_network:
+                feed_output_names = self._feed_output_names
+                feed_output_shapes = None
+                # Sample weighting not supported in this case.
+                # TODO: consider supporting it.
+                feed_sample_weight_modes = [None for _ in self.outputs]
+            else:
+                feed_output_names = self._feed_output_names
+                feed_sample_weight_modes = self._feed_sample_weight_modes
+                feed_output_shapes = []
+                for output_shape, loss_fn in zip(self._feed_output_shapes,
+                                                 self._feed_loss_fns):
+                    if ((isinstance(loss_fn, losses.LossFunctionWrapper) and
+                         loss_fn.fn == losses.sparse_categorical_crossentropy)) or (
+                            isinstance(
+                                loss_fn, losses.SparseCategoricalCrossentropy)):
+                        if K.image_data_format() == 'channels_first' and len(
+                                output_shape) in [4, 5]:
+                            feed_output_shapes.append(
+                                (output_shape[0], 1) + output_shape[2:])
+                        else:
+                            feed_output_shapes.append(output_shape[:-1] + (1,))
+                    elif (not isinstance(loss_fn, losses.Loss) or
+                            (isinstance(loss_fn, losses.LossFunctionWrapper) and
+                             (getattr(losses, loss_fn.fn.__name__, None) is None))):
+                        # If the given loss is not an instance of the `Loss` class
+                        # (custom class) or if the loss function that is wrapped is
+                        # not in the `losses` module, then it is a user-defined loss
+                        # and we make no assumptions about it.
+                        feed_output_shapes.append(None)
+                    else:
+                        feed_output_shapes.append(output_shape)
+    
+            # Standardize the outputs.
+            y = training_utils.standardize_input_data(
+                y,
+                feed_output_names,
+                feed_output_shapes,
+                check_batch_axis=False,  # Don't enforce the batch size.
+                exception_prefix='target')
+    
+            # Generate sample-wise weight values given the `sample_weight` and
+            # `class_weight` arguments.
+            sample_weights = training_utils.standardize_sample_weights(
+                sample_weight, feed_output_names)
+            class_weights = training_utils.standardize_class_weights(
+                class_weight, feed_output_names)
+            sample_weights = [
+                training_utils.standardize_weights(ref, sw, cw, mode)
+                for (ref, sw, cw, mode) in
+                zip(y, sample_weights, class_weights,
+                    feed_sample_weight_modes)
+            ]
+            # Check that all arrays have the same length.
+            if check_array_lengths:
+                training_utils.check_array_length_consistency(x, y, sample_weights)
+            if self._is_graph_network:
+                # Additional checks to avoid users mistakenly
+                # using improper loss fns.
+                training_utils.check_loss_and_target_compatibility(
+                    y, self._feed_loss_fns, feed_output_shapes)
+        else:
+            y = []
+            sample_weights = []
+    
+        if self.stateful or batch_size:
+            # Check that for stateful networks, number of samples is a multiple
+            # of the static batch size.
+            if x[0].shape[0] % batch_size != 0:
+                raise ValueError('In a stateful network, '
+                                 'you should only pass inputs with '
+                                 'a number of samples that can be '
+                                 'divided by the batch size. Found: ' +
+>                                str(x[0].shape[0]) + ' samples')
+E               ValueError: In a stateful network, you should only pass inputs with a number of samples that can be divided by the batch size. Found: 1 samples
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:655: ValueError
+============================== warnings summary ===============================
+test_topology.py::test_recursion
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:190: UserWarning: Model inputs must come from `keras.layers.Input` (thus holding past layer metadata), they cannot be the output of a previous non-Input layer. Here, a tensor specified as input to your model was not an Input tensor, it was generated by layer dense_1.
+  Note that input tensors are instantiated via `tensor = keras.layers.Input(shape)`.
+  The tensor that caused the issue was: dense_1_12/BiasAdd:0
+    str(x.name))
+
+test_topology.py::test_activity_regularization_with_model_composition
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output model_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to model_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED test_topology.py::test_recursion_with_bn_and_loss - ValueError: In a s...
+FAILED test_topology.py::test_activity_regularization_with_model_composition
+================== 2 failed, 29 passed, 2 warnings in 7.37s ===================
