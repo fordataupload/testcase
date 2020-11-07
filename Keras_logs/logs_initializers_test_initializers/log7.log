@@ -1,0 +1,71 @@
+2020-10-03 16:28:02.768241: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 36 items
+
+initializers_test.py ....................FFF........F....                [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_orthogonal[FC] _____________________________
+
+tensor_shape = (200, 100)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_orthogonal(tensor_shape):
+>       _runner(initializers.orthogonal(), tensor_shape,
+                target_mean=0.)
+E       TypeError: 'NoneType' object is not callable
+
+initializers_test.py:103: TypeError
+____________________________ test_orthogonal[CONV] ____________________________
+
+tensor_shape = (25, 25, 20, 20)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_orthogonal(tensor_shape):
+>       _runner(initializers.orthogonal(), tensor_shape,
+                target_mean=0.)
+E       TypeError: 'NoneType' object is not callable
+
+initializers_test.py:103: TypeError
+_______________ test_orthogonal_init_does_not_affect_global_rng _______________
+
+    def test_orthogonal_init_does_not_affect_global_rng():
+        np.random.seed(1337)
+        before = np.random.randint(0, 100, size=10)
+    
+        np.random.seed(1337)
+>       init = initializers.orthogonal(seed=9876)
+E       TypeError: 'NoneType' object is not callable
+
+initializers_test.py:112: TypeError
+________________________ test_statefulness[orthogonal] ________________________
+
+initializer = None
+
+    @pytest.mark.parametrize('initializer',
+                             [initializers.orthogonal,
+                              initializers.uniform,
+                              initializers.normal,
+                              initializers.truncated_normal,
+                              initializers.VarianceScaling],
+                             ids=['orthogonal',
+                                  'uniform',
+                                  'normal',
+                                  'truncated_normal',
+                                  'variance_scaling'])
+    def test_statefulness(initializer):
+        # Test that calling a same seeded random initializer
+        # in succession results in different values.
+>       init = initializer(seed=1337)
+E       TypeError: 'NoneType' object is not callable
+
+initializers_test.py:159: TypeError
+=========================== short test summary info ===========================
+FAILED initializers_test.py::test_orthogonal[FC] - TypeError: 'NoneType' obje...
+FAILED initializers_test.py::test_orthogonal[CONV] - TypeError: 'NoneType' ob...
+FAILED initializers_test.py::test_orthogonal_init_does_not_affect_global_rng
+FAILED initializers_test.py::test_statefulness[orthogonal] - TypeError: 'None...
+======================== 4 failed, 32 passed in 4.20s =========================

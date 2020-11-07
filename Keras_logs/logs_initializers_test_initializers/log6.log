@@ -1,0 +1,89 @@
+2020-10-03 16:27:52.296205: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 36 items
+
+initializers_test.py .......................FFFF.........                [100%]
+
+================================== FAILURES ===================================
+______________________________ test_identity[FC] ______________________________
+
+tensor_shape = (100, 100)
+
+    @pytest.mark.parametrize('tensor_shape',
+                             [(100, 100), (10, 20), (30, 80), (1, 2, 3, 4)],
+                             ids=['FC', 'RNN', 'RNN_INVALID', 'CONV'])
+    def test_identity(tensor_shape):
+        target_mean = (1. * min(tensor_shape)) / (tensor_shape[0] * tensor_shape[1])
+        if len(tensor_shape) > 2:
+            with pytest.raises(ValueError):
+                _runner(initializers.identity(), tensor_shape,
+                        target_mean=target_mean, target_max=1.)
+        else:
+>           _runner(initializers.identity(), tensor_shape,
+                    target_mean=target_mean, target_max=1.)
+E           TypeError: 'NoneType' object is not callable
+
+initializers_test.py:129: TypeError
+_____________________________ test_identity[RNN] ______________________________
+
+tensor_shape = (10, 20)
+
+    @pytest.mark.parametrize('tensor_shape',
+                             [(100, 100), (10, 20), (30, 80), (1, 2, 3, 4)],
+                             ids=['FC', 'RNN', 'RNN_INVALID', 'CONV'])
+    def test_identity(tensor_shape):
+        target_mean = (1. * min(tensor_shape)) / (tensor_shape[0] * tensor_shape[1])
+        if len(tensor_shape) > 2:
+            with pytest.raises(ValueError):
+                _runner(initializers.identity(), tensor_shape,
+                        target_mean=target_mean, target_max=1.)
+        else:
+>           _runner(initializers.identity(), tensor_shape,
+                    target_mean=target_mean, target_max=1.)
+E           TypeError: 'NoneType' object is not callable
+
+initializers_test.py:129: TypeError
+_________________________ test_identity[RNN_INVALID] __________________________
+
+tensor_shape = (30, 80)
+
+    @pytest.mark.parametrize('tensor_shape',
+                             [(100, 100), (10, 20), (30, 80), (1, 2, 3, 4)],
+                             ids=['FC', 'RNN', 'RNN_INVALID', 'CONV'])
+    def test_identity(tensor_shape):
+        target_mean = (1. * min(tensor_shape)) / (tensor_shape[0] * tensor_shape[1])
+        if len(tensor_shape) > 2:
+            with pytest.raises(ValueError):
+                _runner(initializers.identity(), tensor_shape,
+                        target_mean=target_mean, target_max=1.)
+        else:
+>           _runner(initializers.identity(), tensor_shape,
+                    target_mean=target_mean, target_max=1.)
+E           TypeError: 'NoneType' object is not callable
+
+initializers_test.py:129: TypeError
+_____________________________ test_identity[CONV] _____________________________
+
+tensor_shape = (1, 2, 3, 4)
+
+    @pytest.mark.parametrize('tensor_shape',
+                             [(100, 100), (10, 20), (30, 80), (1, 2, 3, 4)],
+                             ids=['FC', 'RNN', 'RNN_INVALID', 'CONV'])
+    def test_identity(tensor_shape):
+        target_mean = (1. * min(tensor_shape)) / (tensor_shape[0] * tensor_shape[1])
+        if len(tensor_shape) > 2:
+            with pytest.raises(ValueError):
+>               _runner(initializers.identity(), tensor_shape,
+                        target_mean=target_mean, target_max=1.)
+E               TypeError: 'NoneType' object is not callable
+
+initializers_test.py:126: TypeError
+=========================== short test summary info ===========================
+FAILED initializers_test.py::test_identity[FC] - TypeError: 'NoneType' object...
+FAILED initializers_test.py::test_identity[RNN] - TypeError: 'NoneType' objec...
+FAILED initializers_test.py::test_identity[RNN_INVALID] - TypeError: 'NoneTyp...
+FAILED initializers_test.py::test_identity[CONV] - TypeError: 'NoneType' obje...
+======================== 4 failed, 32 passed in 4.71s =========================

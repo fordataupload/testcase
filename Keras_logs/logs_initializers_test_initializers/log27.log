@@ -1,0 +1,184 @@
+2020-10-03 16:31:06.255268: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 36 items
+
+initializers_test.py .......................FFF..........                [100%]
+
+================================== FAILURES ===================================
+______________________________ test_identity[FC] ______________________________
+
+tensor_shape = (100, 100)
+
+    @pytest.mark.parametrize('tensor_shape',
+                             [(100, 100), (10, 20), (30, 80), (1, 2, 3, 4)],
+                             ids=['FC', 'RNN', 'RNN_INVALID', 'CONV'])
+    def test_identity(tensor_shape):
+        target_mean = (1. * min(tensor_shape)) / (tensor_shape[0] * tensor_shape[1])
+        if len(tensor_shape) > 2:
+            with pytest.raises(ValueError):
+                _runner(initializers.identity(), tensor_shape,
+                        target_mean=target_mean, target_max=1.)
+        else:
+            _runner(initializers.identity(), tensor_shape,
+>                   target_mean=target_mean, target_max=1.)
+
+initializers_test.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+init = <keras.initializers.Identity object at 0x00000237834B0828>
+shape = (100, 100), target_mean = 0.01, target_std = None, target_max = 1.0
+target_min = None
+
+    def _runner(init, shape, target_mean=None, target_std=None,
+                target_max=None, target_min=None):
+        variable = K.variable(init(shape))
+        output = K.get_value(variable)
+        lim = 3e-2
+        if target_std is not None:
+            assert abs(output.std() - target_std) < lim
+        if target_mean is not None:
+            assert abs(output.mean() - target_mean) < lim
+        if target_max is not None:
+>           assert abs(output.max() - target_max) < lim
+E           assert 1.0 < 0.03
+E            +  where 1.0 = abs((2.0 - 1.0))
+E            +    where 2.0 = <built-in method max of numpy.ndarray object at 0x00000237833473A0>()
+E            +      where <built-in method max of numpy.ndarray object at 0x00000237833473A0> = array([[2., 0., 0., ..., 0., 0., 0.],\n       [0., 2., 0., ..., 0., 0., 0.],\n       [0., 0., 2., ..., 0., 0., 0.],\n    ..., 0., 0., ..., 2., 0., 0.],\n       [0., 0., 0., ..., 0., 2., 0.],\n       [0., 0., 0., ..., 0., 0., 2.]], dtype=float32).max
+
+initializers_test.py:24: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 16:31:11.834464: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 16:31:11.835300: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 16:31:11.835827: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 16:31:11.836347: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 16:31:11.836860: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 16:31:11.837374: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 16:31:11.837893: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 16:31:11.838407: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 16:31:11.839235: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 16:31:11.839693: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 16:31:11.840232: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 16:31:11.840557: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 16:31:11.841264: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_____________________________ test_identity[RNN] ______________________________
+
+tensor_shape = (10, 20)
+
+    @pytest.mark.parametrize('tensor_shape',
+                             [(100, 100), (10, 20), (30, 80), (1, 2, 3, 4)],
+                             ids=['FC', 'RNN', 'RNN_INVALID', 'CONV'])
+    def test_identity(tensor_shape):
+        target_mean = (1. * min(tensor_shape)) / (tensor_shape[0] * tensor_shape[1])
+        if len(tensor_shape) > 2:
+            with pytest.raises(ValueError):
+                _runner(initializers.identity(), tensor_shape,
+                        target_mean=target_mean, target_max=1.)
+        else:
+            _runner(initializers.identity(), tensor_shape,
+>                   target_mean=target_mean, target_max=1.)
+
+initializers_test.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+init = <keras.initializers.Identity object at 0x0000023A2234CF60>
+shape = (10, 20), target_mean = 0.05, target_std = None, target_max = 1.0
+target_min = None
+
+    def _runner(init, shape, target_mean=None, target_std=None,
+                target_max=None, target_min=None):
+        variable = K.variable(init(shape))
+        output = K.get_value(variable)
+        lim = 3e-2
+        if target_std is not None:
+            assert abs(output.std() - target_std) < lim
+        if target_mean is not None:
+>           assert abs(output.mean() - target_mean) < lim
+E           assert 0.05000000149011612 < 0.03
+E            +  where 0.05000000149011612 = abs((0.1 - 0.05))
+E            +    where 0.1 = <built-in method mean of numpy.ndarray object at 0x0000023A224F2670>()
+E            +      where <built-in method mean of numpy.ndarray object at 0x0000023A224F2670> = array([[2., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,\n        0., 0., 0., 0.],\n       [0., 2., 0., 0..., 0.],\n       [0., 0., 0., 0., 0., 0., 0., 0., 0., 2., 0., 0., 0., 0., 0., 0.,\n        0., 0., 0., 0.]], dtype=float32).mean
+
+initializers_test.py:22: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 16:31:12.829105: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 16:31:12.829685: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 16:31:12.830029: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 16:31:12.830371: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 16:31:12.830708: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 16:31:12.831062: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 16:31:12.831413: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 16:31:12.831763: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 16:31:12.832347: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 16:31:12.832662: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 16:31:12.833018: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 16:31:12.833237: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 16:31:12.833747: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_________________________ test_identity[RNN_INVALID] __________________________
+
+tensor_shape = (30, 80)
+
+    @pytest.mark.parametrize('tensor_shape',
+                             [(100, 100), (10, 20), (30, 80), (1, 2, 3, 4)],
+                             ids=['FC', 'RNN', 'RNN_INVALID', 'CONV'])
+    def test_identity(tensor_shape):
+        target_mean = (1. * min(tensor_shape)) / (tensor_shape[0] * tensor_shape[1])
+        if len(tensor_shape) > 2:
+            with pytest.raises(ValueError):
+                _runner(initializers.identity(), tensor_shape,
+                        target_mean=target_mean, target_max=1.)
+        else:
+            _runner(initializers.identity(), tensor_shape,
+>                   target_mean=target_mean, target_max=1.)
+
+initializers_test.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+init = <keras.initializers.Identity object at 0x0000023A224F7DD8>
+shape = (30, 80), target_mean = 0.0125, target_std = None, target_max = 1.0
+target_min = None
+
+    def _runner(init, shape, target_mean=None, target_std=None,
+                target_max=None, target_min=None):
+        variable = K.variable(init(shape))
+        output = K.get_value(variable)
+        lim = 3e-2
+        if target_std is not None:
+            assert abs(output.std() - target_std) < lim
+        if target_mean is not None:
+            assert abs(output.mean() - target_mean) < lim
+        if target_max is not None:
+>           assert abs(output.max() - target_max) < lim
+E           assert 1.0 < 0.03
+E            +  where 1.0 = abs((2.0 - 1.0))
+E            +    where 2.0 = <built-in method max of numpy.ndarray object at 0x0000023A22562A30>()
+E            +      where <built-in method max of numpy.ndarray object at 0x0000023A22562A30> = array([[2., 0., 0., ..., 0., 0., 0.],\n       [0., 2., 0., ..., 0., 0., 0.],\n       [0., 0., 2., ..., 0., 0., 0.],\n    ..., 0., 0., ..., 0., 0., 0.],\n       [0., 0., 0., ..., 0., 0., 0.],\n       [0., 0., 0., ..., 0., 0., 0.]], dtype=float32).max
+
+initializers_test.py:24: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 16:31:12.894415: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 16:31:12.894991: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 16:31:12.895357: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 16:31:12.895706: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 16:31:12.896042: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 16:31:12.896389: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 16:31:12.896731: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 16:31:12.897073: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 16:31:12.897649: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 16:31:12.897964: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 16:31:12.898326: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 16:31:12.898545: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 16:31:12.899132: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED initializers_test.py::test_identity[FC] - assert 1.0 < 0.03
+FAILED initializers_test.py::test_identity[RNN] - assert 0.05000000149011612 ...
+FAILED initializers_test.py::test_identity[RNN_INVALID] - assert 1.0 < 0.03
+======================== 3 failed, 33 passed in 4.34s =========================

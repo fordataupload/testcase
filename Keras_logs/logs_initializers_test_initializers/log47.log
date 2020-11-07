@@ -1,0 +1,112 @@
+2020-10-03 16:34:07.761761: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 36 items
+
+initializers_test.py FF..............................F...                [100%]
+
+================================== FAILURES ===================================
+______________________________ test_uniform[FC] _______________________________
+
+tensor_shape = (200, 100)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_uniform(tensor_shape):
+        _runner(initializers.RandomUniform(minval=-1, maxval=1), tensor_shape,
+>               target_mean=0., target_max=1, target_min=-1)
+
+initializers_test.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+initializers_test.py:16: in _runner
+    variable = K.variable(init(shape))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.RandomUniform object at 0x000002BEE6F859E8>
+shape = (200, 100), dtype = None
+
+    def __call__(self, shape, dtype=None):
+        x = K.random_uniform(shape, self.minval, self.maxval,
+                             dtype=dtype, seed=self.seed)
+        if self.seed is  None:
+>           self.seed += 1
+E           TypeError: unsupported operand type(s) for +=: 'NoneType' and 'int'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:117: TypeError
+_____________________________ test_uniform[CONV] ______________________________
+
+tensor_shape = (25, 25, 20, 20)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_uniform(tensor_shape):
+        _runner(initializers.RandomUniform(minval=-1, maxval=1), tensor_shape,
+>               target_mean=0., target_max=1, target_min=-1)
+
+initializers_test.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+initializers_test.py:16: in _runner
+    variable = K.variable(init(shape))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.RandomUniform object at 0x000002BEE7B3DCF8>
+shape = (25, 25, 20, 20), dtype = None
+
+    def __call__(self, shape, dtype=None):
+        x = K.random_uniform(shape, self.minval, self.maxval,
+                             dtype=dtype, seed=self.seed)
+        if self.seed is  None:
+>           self.seed += 1
+E           TypeError: unsupported operand type(s) for +=: 'NoneType' and 'int'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:117: TypeError
+_________________________ test_statefulness[uniform] __________________________
+
+initializer = <class 'keras.initializers.RandomUniform'>
+
+    @pytest.mark.parametrize('initializer',
+                             [initializers.orthogonal,
+                              initializers.uniform,
+                              initializers.normal,
+                              initializers.truncated_normal,
+                              initializers.VarianceScaling],
+                             ids=['orthogonal',
+                                  'uniform',
+                                  'normal',
+                                  'truncated_normal',
+                                  'variance_scaling'])
+    def test_statefulness(initializer):
+        # Test that calling a same seeded random initializer
+        # in succession results in different values.
+        init = initializer(seed=1337)
+        samples = [init((2, 2)) for _ in range(2)]
+        samples = [K.get_value(K.variable(x)) for x in samples]
+>       assert np.mean(np.abs(samples[0] - samples[1])) > 0.
+E       AssertionError: assert 0.0 > 0.0
+E        +  where 0.0 = <function mean at 0x000002BEDEDBB620>(array([[0., 0.],\n       [0., 0.]], dtype=float32))
+E        +    where <function mean at 0x000002BEDEDBB620> = np.mean
+E        +    and   array([[0., 0.],\n       [0., 0.]], dtype=float32) = <ufunc 'absolute'>((array([[-0.02842846,  0.0409245 ],\n       [-0.02760386, -0.03162803]], dtype=float32) - array([[-0.02842846,  0.0409245 ],\n       [-0.02760386, -0.03162803]], dtype=float32)))
+E        +      where <ufunc 'absolute'> = np.abs
+
+initializers_test.py:162: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 16:34:14.952056: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 16:34:14.952629: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 16:34:14.952977: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 16:34:14.953325: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 16:34:14.953661: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 16:34:14.954005: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 16:34:14.954349: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 16:34:14.954709: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 16:34:14.955292: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 16:34:14.955593: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 16:34:14.955948: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 16:34:14.956170: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 16:34:14.956696: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED initializers_test.py::test_uniform[FC] - TypeError: unsupported operan...
+FAILED initializers_test.py::test_uniform[CONV] - TypeError: unsupported oper...
+FAILED initializers_test.py::test_statefulness[uniform] - AssertionError: ass...
+======================== 3 failed, 33 passed in 4.34s =========================

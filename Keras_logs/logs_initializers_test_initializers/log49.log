@@ -1,0 +1,473 @@
+2020-10-03 16:34:27.385090: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 36 items
+
+initializers_test.py ........FFFFFFFFFFFF...............F                [100%]
+
+================================== FAILURES ===================================
+___________________________ test_lecun_uniform[FC] ____________________________
+
+tensor_shape = (200, 100)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_lecun_uniform(tensor_shape):
+        fan_in, _ = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(1. / fan_in)
+>       _runner(initializers.lecun_uniform(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:328: in lecun_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025F94E074A8>
+scale = 1.0, mode = 'fan_in', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_in')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+__________________________ test_lecun_uniform[CONV] ___________________________
+
+tensor_shape = (25, 25, 20, 20)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_lecun_uniform(tensor_shape):
+        fan_in, _ = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(1. / fan_in)
+>       _runner(initializers.lecun_uniform(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:328: in lecun_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAD5B9B0>
+scale = 1.0, mode = 'fan_in', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_in')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+___________________________ test_glorot_uniform[FC] ___________________________
+
+tensor_shape = (200, 100)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_glorot_uniform(tensor_shape):
+        fan_in, fan_out = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(2. / (fan_in + fan_out))
+>       _runner(initializers.glorot_uniform(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAEF5EB8>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+__________________________ test_glorot_uniform[CONV] __________________________
+
+tensor_shape = (25, 25, 20, 20)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_glorot_uniform(tensor_shape):
+        fan_in, fan_out = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(2. / (fan_in + fan_out))
+>       _runner(initializers.glorot_uniform(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:376: in glorot_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAD5BEF0>
+scale = 1.0, mode = 'fan_avg', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+_____________________________ test_he_uniform[FC] _____________________________
+
+tensor_shape = (200, 100)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_he_uniform(tensor_shape):
+        fan_in, _ = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(2. / fan_in)
+>       _runner(initializers.he_uniform(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:445: in he_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAF9E438>
+scale = 2.0, mode = 'fan_in', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_in')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+____________________________ test_he_uniform[CONV] ____________________________
+
+tensor_shape = (25, 25, 20, 20)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_he_uniform(tensor_shape):
+        fan_in, _ = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(2. / fan_in)
+>       _runner(initializers.he_uniform(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:445: in he_uniform
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAEF5668>
+scale = 2.0, mode = 'fan_in', distribution = 'uniform', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_in')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+____________________________ test_lecun_normal[FC] ____________________________
+
+tensor_shape = (200, 100)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_lecun_normal(tensor_shape):
+        fan_in, _ = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(1. / fan_in)
+>       _runner(initializers.lecun_normal(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:422: in lecun_normal
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAEF23C8>
+scale = 1.0, mode = 'fan_in', distribution = 'normal', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_in')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+___________________________ test_lecun_normal[CONV] ___________________________
+
+tensor_shape = (25, 25, 20, 20)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_lecun_normal(tensor_shape):
+        fan_in, _ = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(1. / fan_in)
+>       _runner(initializers.lecun_normal(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:422: in lecun_normal
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAF1E3C8>
+scale = 1.0, mode = 'fan_in', distribution = 'normal', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_in')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+___________________________ test_glorot_normal[FC] ____________________________
+
+tensor_shape = (200, 100)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_glorot_normal(tensor_shape):
+        fan_in, fan_out = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(2. / (fan_in + fan_out))
+>       _runner(initializers.glorot_normal(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:352: in glorot_normal
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAEEA908>
+scale = 1.0, mode = 'fan_avg', distribution = 'normal', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+__________________________ test_glorot_normal[CONV] ___________________________
+
+tensor_shape = (25, 25, 20, 20)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_glorot_normal(tensor_shape):
+        fan_in, fan_out = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(2. / (fan_in + fan_out))
+>       _runner(initializers.glorot_normal(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:352: in glorot_normal
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAEE0198>
+scale = 1.0, mode = 'fan_avg', distribution = 'normal', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_avg')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+_____________________________ test_he_normal[FC] ______________________________
+
+tensor_shape = (200, 100)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_he_normal(tensor_shape):
+        fan_in, _ = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(2. / fan_in)
+>       _runner(initializers.he_normal(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:399: in he_normal
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAEF5B38>
+scale = 2.0, mode = 'fan_in', distribution = 'normal', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_in')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+____________________________ test_he_normal[CONV] _____________________________
+
+tensor_shape = (25, 25, 20, 20)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_he_normal(tensor_shape):
+        fan_in, _ = initializers._compute_fans(tensor_shape)
+        std = np.sqrt(2. / fan_in)
+>       _runner(initializers.he_normal(), tensor_shape,
+                target_mean=0., target_std=std)
+
+initializers_test.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:399: in he_normal
+    seed=seed)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAF35668>
+scale = 2.0, mode = 'fan_in', distribution = 'normal', seed = None
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_in')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+_____________________ test_statefulness[variance_scaling] _____________________
+
+initializer = <class 'keras.initializers.VarianceScaling'>
+
+    @pytest.mark.parametrize('initializer',
+                             [initializers.orthogonal,
+                              initializers.uniform,
+                              initializers.normal,
+                              initializers.truncated_normal,
+                              initializers.VarianceScaling],
+                             ids=['orthogonal',
+                                  'uniform',
+                                  'normal',
+                                  'truncated_normal',
+                                  'variance_scaling'])
+    def test_statefulness(initializer):
+        # Test that calling a same seeded random initializer
+        # in succession results in different values.
+>       init = initializer(seed=1337)
+
+initializers_test.py:159: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.VarianceScaling object at 0x0000025FDAF2CC18>
+scale = 1.0, mode = 'fan_in', distribution = 'normal', seed = 1337
+
+    def __init__(self, scale=1.0,
+                 mode='fan_in',
+                 distribution='normal',
+                 seed=None):
+        if scale <= 0.:
+            raise ValueError('`scale` must be a positive float. Got:', scale)
+        mode = mode.lower()
+        if mode  in {'fan_in', 'fan_out', 'fan_avg'}:
+            raise ValueError('Invalid `mode` argument: '
+                             'expected on of {"fan_in", "fan_out", "fan_avg"} '
+>                            'but got', mode)
+E           ValueError: ('Invalid `mode` argument: expected on of {"fan_in", "fan_out", "fan_avg"} but got', 'fan_in')
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:199: ValueError
+=========================== short test summary info ===========================
+FAILED initializers_test.py::test_lecun_uniform[FC] - ValueError: ('Invalid `...
+FAILED initializers_test.py::test_lecun_uniform[CONV] - ValueError: ('Invalid...
+FAILED initializers_test.py::test_glorot_uniform[FC] - ValueError: ('Invalid ...
+FAILED initializers_test.py::test_glorot_uniform[CONV] - ValueError: ('Invali...
+FAILED initializers_test.py::test_he_uniform[FC] - ValueError: ('Invalid `mod...
+FAILED initializers_test.py::test_he_uniform[CONV] - ValueError: ('Invalid `m...
+FAILED initializers_test.py::test_lecun_normal[FC] - ValueError: ('Invalid `m...
+FAILED initializers_test.py::test_lecun_normal[CONV] - ValueError: ('Invalid ...
+FAILED initializers_test.py::test_glorot_normal[FC] - ValueError: ('Invalid `...
+FAILED initializers_test.py::test_glorot_normal[CONV] - ValueError: ('Invalid...
+FAILED initializers_test.py::test_he_normal[FC] - ValueError: ('Invalid `mode...
+FAILED initializers_test.py::test_he_normal[CONV] - ValueError: ('Invalid `mo...
+FAILED initializers_test.py::test_statefulness[variance_scaling] - ValueError...
+======================== 13 failed, 23 passed in 4.23s ========================

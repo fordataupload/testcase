@@ -1,0 +1,36 @@
+2020-10-03 16:26:55.430193: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 36 items
+
+initializers_test.py ...........................FF.......                [100%]
+
+================================== FAILURES ===================================
+________________________________ test_zero[FC] ________________________________
+
+tensor_shape = (200, 100)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_zero(tensor_shape):
+>       _runner(initializers.zeros(), tensor_shape,
+                target_mean=0., target_max=0.)
+E       TypeError: 'NoneType' object is not callable
+
+initializers_test.py:135: TypeError
+_______________________________ test_zero[CONV] _______________________________
+
+tensor_shape = (25, 25, 20, 20)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_zero(tensor_shape):
+>       _runner(initializers.zeros(), tensor_shape,
+                target_mean=0., target_max=0.)
+E       TypeError: 'NoneType' object is not callable
+
+initializers_test.py:135: TypeError
+=========================== short test summary info ===========================
+FAILED initializers_test.py::test_zero[FC] - TypeError: 'NoneType' object is ...
+FAILED initializers_test.py::test_zero[CONV] - TypeError: 'NoneType' object i...
+======================== 2 failed, 34 passed in 4.50s =========================

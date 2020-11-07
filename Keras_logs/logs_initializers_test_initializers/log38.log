@@ -1,0 +1,170 @@
+2020-10-03 16:32:43.964620: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras
+plugins: flaky-3.7.0
+collected 36 items
+
+initializers_test.py ....................FFF........F....                [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_orthogonal[FC] _____________________________
+
+tensor_shape = (200, 100)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_orthogonal(tensor_shape):
+        _runner(initializers.orthogonal(), tensor_shape,
+>               target_mean=0.)
+
+initializers_test.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+initializers_test.py:16: in _runner
+    variable = K.variable(init(shape))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.Orthogonal object at 0x0000022287317F60>
+shape = (200, 100), dtype = None
+
+    def __call__(self, shape, dtype=None):
+        num_rows = 2
+        for dim in shape[:-1]:
+            num_rows *= dim
+        num_cols = shape[-1]
+        flat_shape = (num_rows, num_cols)
+        rng = np.random
+        if self.seed is not None:
+            rng = np.random.RandomState(self.seed)
+            self.seed += 1
+        a = rng.normal(0.0, 1.0, flat_shape)
+        u, _, v = np.linalg.svd(a, full_matrices=False)
+        # Pick the one with the correct shape.
+        q = u if u.shape == flat_shape else v
+>       q = q.reshape(shape)
+E       ValueError: cannot reshape array of size 40000 into shape (200,100)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:271: ValueError
+____________________________ test_orthogonal[CONV] ____________________________
+
+tensor_shape = (25, 25, 20, 20)
+
+    @pytest.mark.parametrize('tensor_shape', [FC_SHAPE, CONV_SHAPE], ids=['FC', 'CONV'])
+    def test_orthogonal(tensor_shape):
+        _runner(initializers.orthogonal(), tensor_shape,
+>               target_mean=0.)
+
+initializers_test.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+initializers_test.py:16: in _runner
+    variable = K.variable(init(shape))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.Orthogonal object at 0x00000222CD345F98>
+shape = (25, 25, 20, 20), dtype = None
+
+    def __call__(self, shape, dtype=None):
+        num_rows = 2
+        for dim in shape[:-1]:
+            num_rows *= dim
+        num_cols = shape[-1]
+        flat_shape = (num_rows, num_cols)
+        rng = np.random
+        if self.seed is not None:
+            rng = np.random.RandomState(self.seed)
+            self.seed += 1
+        a = rng.normal(0.0, 1.0, flat_shape)
+        u, _, v = np.linalg.svd(a, full_matrices=False)
+        # Pick the one with the correct shape.
+        q = u if u.shape == flat_shape else v
+>       q = q.reshape(shape)
+E       ValueError: cannot reshape array of size 500000 into shape (25,25,20,20)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:271: ValueError
+_______________ test_orthogonal_init_does_not_affect_global_rng _______________
+
+    def test_orthogonal_init_does_not_affect_global_rng():
+        np.random.seed(1337)
+        before = np.random.randint(0, 100, size=10)
+    
+        np.random.seed(1337)
+        init = initializers.orthogonal(seed=9876)
+>       init(shape=(10, 5))
+
+initializers_test.py:113: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.Orthogonal object at 0x00000222CD4EACC0>
+shape = (10, 5), dtype = None
+
+    def __call__(self, shape, dtype=None):
+        num_rows = 2
+        for dim in shape[:-1]:
+            num_rows *= dim
+        num_cols = shape[-1]
+        flat_shape = (num_rows, num_cols)
+        rng = np.random
+        if self.seed is not None:
+            rng = np.random.RandomState(self.seed)
+            self.seed += 1
+        a = rng.normal(0.0, 1.0, flat_shape)
+        u, _, v = np.linalg.svd(a, full_matrices=False)
+        # Pick the one with the correct shape.
+        q = u if u.shape == flat_shape else v
+>       q = q.reshape(shape)
+E       ValueError: cannot reshape array of size 100 into shape (10,5)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:271: ValueError
+________________________ test_statefulness[orthogonal] ________________________
+
+initializer = <class 'keras.initializers.Orthogonal'>
+
+    @pytest.mark.parametrize('initializer',
+                             [initializers.orthogonal,
+                              initializers.uniform,
+                              initializers.normal,
+                              initializers.truncated_normal,
+                              initializers.VarianceScaling],
+                             ids=['orthogonal',
+                                  'uniform',
+                                  'normal',
+                                  'truncated_normal',
+                                  'variance_scaling'])
+    def test_statefulness(initializer):
+        # Test that calling a same seeded random initializer
+        # in succession results in different values.
+        init = initializer(seed=1337)
+>       samples = [init((2, 2)) for _ in range(2)]
+
+initializers_test.py:160: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+initializers_test.py:160: in <listcomp>
+    samples = [init((2, 2)) for _ in range(2)]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.initializers.Orthogonal object at 0x00000222CD529DA0>
+shape = (2, 2), dtype = None
+
+    def __call__(self, shape, dtype=None):
+        num_rows = 2
+        for dim in shape[:-1]:
+            num_rows *= dim
+        num_cols = shape[-1]
+        flat_shape = (num_rows, num_cols)
+        rng = np.random
+        if self.seed is not None:
+            rng = np.random.RandomState(self.seed)
+            self.seed += 1
+        a = rng.normal(0.0, 1.0, flat_shape)
+        u, _, v = np.linalg.svd(a, full_matrices=False)
+        # Pick the one with the correct shape.
+        q = u if u.shape == flat_shape else v
+>       q = q.reshape(shape)
+E       ValueError: cannot reshape array of size 8 into shape (2,2)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\initializers.py:271: ValueError
+=========================== short test summary info ===========================
+FAILED initializers_test.py::test_orthogonal[FC] - ValueError: cannot reshape...
+FAILED initializers_test.py::test_orthogonal[CONV] - ValueError: cannot resha...
+FAILED initializers_test.py::test_orthogonal_init_does_not_affect_global_rng
+FAILED initializers_test.py::test_statefulness[orthogonal] - ValueError: cann...
+======================== 4 failed, 32 passed in 4.80s =========================
