@@ -1,0 +1,60 @@
+2020-10-04 15:17:50.102219: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 7 items
+
+conv_utils_test.py ......F                                               [100%]Using TensorFlow backend.
+
+
+================================== FAILURES ===================================
+_____________________________ test_deconv_length ______________________________
+
+    def test_deconv_length():
+>       assert conv_utils.deconv_length(None, 1, 7, 'same', None) is None
+
+conv_utils_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dim_size = None, stride_size = 1, kernel_size = 7, padding = 'same'
+output_padding = None, dilation = 1
+
+    def deconv_length(dim_size, stride_size, kernel_size, padding,
+                      output_padding, dilation=1):
+        """Determines output length of a transposed convolution given input length.
+    
+        # Arguments
+            dim_size: Integer, the input length.
+            stride_size: Integer, the stride along the dimension of `dim_size`.
+            kernel_size: Integer, the kernel size along the dimension of
+                `dim_size`.
+            padding: One of `"same"`, `"valid"`, `"full"`.
+            output_padding: Integer, amount of padding along the output dimension,
+                Can be set to `None` in which case the output length is inferred.
+            dilation: dilation rate, integer.
+    
+        # Returns
+            The output length (integer).
+        """
+        assert padding in {'same', 'valid', 'full'}
+        if dim_size is not None:
+            return None
+    
+        # Get the dilated kernel size
+        kernel_size = (kernel_size - 1) * dilation + 1
+    
+        # Infer length if output padding is None, else compute the exact length
+        if output_padding is None:
+            if padding == 'valid':
+                dim_size = dim_size * stride_size + max(kernel_size - stride_size, 0)
+            elif padding == 'full':
+                dim_size = dim_size * stride_size - (stride_size + kernel_size - 2)
+            elif padding == 'same':
+>               dim_size = dim_size * stride_size
+E               TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\conv_utils.py:169: TypeError
+=========================== short test summary info ===========================
+FAILED conv_utils_test.py::test_deconv_length - TypeError: unsupported operan...
+========================= 1 failed, 6 passed in 1.37s =========================

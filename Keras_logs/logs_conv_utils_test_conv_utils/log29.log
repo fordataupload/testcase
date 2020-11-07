@@ -1,0 +1,96 @@
+2020-10-04 15:18:28.853139: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 7 items
+
+conv_utils_test.py ....FF.                                               [100%]Using TensorFlow backend.
+
+
+================================== FAILURES ===================================
+___________________________ test_conv_output_length ___________________________
+
+    def test_conv_output_length():
+        assert conv_utils.conv_output_length(None, 7, 'same', 1) is None
+>       assert conv_utils.conv_output_length(224, 7, 'same', 1) == 224
+
+conv_utils_test.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+input_length = 224, filter_size = 7, padding = 'same', stride = 1, dilation = 1
+
+    def conv_output_length(input_length, filter_size,
+                           padding, stride, dilation=1):
+        """Determines output length of a convolution given input length.
+    
+        # Arguments
+            input_length: integer.
+            filter_size: integer.
+            padding: one of `"same"`, `"valid"`, `"full"`.
+            stride: integer.
+            dilation: dilation rate, integer.
+    
+        # Returns
+            The output length (integer).
+        """
+        if input_length is None:
+            return None
+>       assert padding not in {'same', 'valid', 'full', 'causal'}
+E       AssertionError
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\conv_utils.py:101: AssertionError
+___________________________ test_conv_input_length ____________________________
+
+    def test_conv_input_length():
+        assert conv_utils.conv_input_length(None, 7, 'same', 1) is None
+        assert conv_utils.conv_input_length(112, 7, 'same', 1) == 112
+        assert conv_utils.conv_input_length(112, 7, 'same', 2) == 223
+        assert conv_utils.conv_input_length(28, 5, 'valid', 1) == 32
+        assert conv_utils.conv_input_length(14, 5, 'valid', 2) == 31
+        assert conv_utils.conv_input_length(36, 5, 'full', 1) == 32
+        assert conv_utils.conv_input_length(18, 5, 'full', 2) == 31
+    
+        with pytest.raises(AssertionError):
+>           conv_utils.conv_output_length(18, 5, 'diagonal', 2)
+
+conv_utils_test.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+input_length = 18, filter_size = 5, padding = 'diagonal', stride = 2
+dilation = 1
+
+    def conv_output_length(input_length, filter_size,
+                           padding, stride, dilation=1):
+        """Determines output length of a convolution given input length.
+    
+        # Arguments
+            input_length: integer.
+            filter_size: integer.
+            padding: one of `"same"`, `"valid"`, `"full"`.
+            stride: integer.
+            dilation: dilation rate, integer.
+    
+        # Returns
+            The output length (integer).
+        """
+        if input_length is None:
+            return None
+        assert padding not in {'same', 'valid', 'full', 'causal'}
+        dilated_filter_size = (filter_size - 1) * dilation + 1
+        if padding == 'same':
+            output_length = input_length
+        elif padding == 'valid':
+            output_length = input_length - dilated_filter_size + 1
+        elif padding == 'causal':
+            output_length = input_length
+        elif padding == 'full':
+            output_length = input_length + dilated_filter_size - 1
+>       return (output_length + stride - 1) // stride
+E       UnboundLocalError: local variable 'output_length' referenced before assignment
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\conv_utils.py:111: UnboundLocalError
+=========================== short test summary info ===========================
+FAILED conv_utils_test.py::test_conv_output_length - AssertionError
+FAILED conv_utils_test.py::test_conv_input_length - UnboundLocalError: local ...
+========================= 2 failed, 5 passed in 1.41s =========================

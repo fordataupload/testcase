@@ -1,0 +1,26 @@
+2020-10-04 15:19:28.443765: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 7 items
+
+conv_utils_test.py ......F                                               [100%]Using TensorFlow backend.
+
+
+================================== FAILURES ===================================
+_____________________________ test_deconv_length ______________________________
+
+    def test_deconv_length():
+        assert conv_utils.deconv_length(None, 1, 7, 'same', None) is None
+        assert conv_utils.deconv_length(224, 1, 7, 'same', None) == 224
+        assert conv_utils.deconv_length(224, 2, 7, 'same', None) == 448
+>       assert conv_utils.deconv_length(32, 1, 5, 'valid', None) == 36
+E       AssertionError: assert 37 == 36
+E        +  where 37 = <function deconv_length at 0x000002191991E9D8>(32, 1, 5, 'valid', None)
+E        +    where <function deconv_length at 0x000002191991E9D8> = conv_utils.deconv_length
+
+conv_utils_test.py:66: AssertionError
+=========================== short test summary info ===========================
+FAILED conv_utils_test.py::test_deconv_length - AssertionError: assert 37 == 36
+========================= 1 failed, 6 passed in 0.95s =========================

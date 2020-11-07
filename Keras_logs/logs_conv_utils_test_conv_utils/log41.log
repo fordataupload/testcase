@@ -1,0 +1,56 @@
+2020-10-04 15:19:33.301893: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 7 items
+
+conv_utils_test.py F......                                               [100%]Using TensorFlow backend.
+
+
+================================== FAILURES ===================================
+____________________________ test_normalize_tuple _____________________________
+
+    def test_normalize_tuple():
+        assert conv_utils.normalize_tuple(5, 2, 'kernel_size') == (5, 5)
+>       assert conv_utils.normalize_tuple([7, 9], 2, 'kernel_size') == (7, 9)
+
+conv_utils_test.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = [7, 9], n = 2, name = 'kernel_size'
+
+    def normalize_tuple(value, n, name):
+        """Transforms a single int or iterable of ints into an int tuple.
+    
+        # Arguments
+            value: The value to validate and convert. Could be an int, or any iterable
+              of ints.
+            n: The size of the tuple to be returned.
+            name: The name of the argument being validated, e.g. `strides` or
+              `kernel_size`. This is only used to format error messages.
+    
+        # Returns
+            A tuple of n integers.
+    
+        # Raises
+            ValueError: If something else than an int/long or iterable thereof was
+            passed.
+        """
+        if isinstance(value, int):
+            return (value,) * n
+        else:
+            try:
+                value_tuple = tuple(value)
+            except TypeError:
+                raise ValueError('The `' + name + '` argument must be a tuple of ' +
+                                 str(n) + ' integers. Received: ' + str(value))
+            if len(value_tuple) == n:
+                raise ValueError('The `' + name + '` argument must be a tuple of ' +
+>                                str(n) + ' integers. Received: ' + str(value))
+E               ValueError: The `kernel_size` argument must be a tuple of 2 integers. Received: [7, 9]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\conv_utils.py:39: ValueError
+=========================== short test summary info ===========================
+FAILED conv_utils_test.py::test_normalize_tuple - ValueError: The `kernel_siz...
+========================= 1 failed, 6 passed in 1.41s =========================
