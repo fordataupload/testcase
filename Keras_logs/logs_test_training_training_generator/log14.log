@@ -1,0 +1,595 @@
+2020-10-04 14:39:50.568339: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ...F...s.......F..................                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_model_methods ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_model_methods():
+        model = get_model(num_outputs=2)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        # training/testing doesn't work before compiling.
+        with pytest.raises(RuntimeError):
+            model.train_on_batch([input_a_np, input_b_np],
+                                 [output_a_np, output_b_np])
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                   {'dense_1': output_a_np, 'dropout': output_b_np})
+    
+        # test fit
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np], epochs=1, batch_size=4)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np], epochs=1, batch_size=4)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        {'dense_1': output_a_np, 'dropout': output_b_np},
+                        epochs=1, batch_size=4)
+    
+        # test validation_split
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5)
+    
+        # test validation data
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4,
+                        validation_data=([input_a_np, input_b_np],
+                                         [output_a_np, output_b_np]))
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5,
+                        validation_data=({'input_a': input_a_np,
+                                          'input_b': input_b_np},
+                                         [output_a_np, output_b_np]))
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        {'dense_1': output_a_np, 'dropout': output_b_np},
+                        epochs=1, batch_size=4, validation_split=0.5,
+                        validation_data=(
+                            {'input_a': input_a_np, 'input_b': input_b_np},
+                            {'dense_1': output_a_np, 'dropout': output_b_np}))
+    
+        # test_on_batch
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                  [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                  {'dense_1': output_a_np, 'dropout': output_b_np})
+    
+        # predict_on_batch
+        out = model.predict_on_batch([input_a_np, input_b_np])
+        out = model.predict_on_batch({'input_a': input_a_np,
+                                      'input_b': input_b_np})
+    
+        # predict, evaluate
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        out = model.evaluate([input_a_np, input_b_np],
+                             [output_a_np, output_b_np],
+                             batch_size=4)
+        out = model.predict([input_a_np, input_b_np], batch_size=4)
+    
+        # with sample_weight
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        sample_weight = [None, np.random.random((10,))]
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np],
+                                   sample_weight=sample_weight)
+    
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np],
+                                  sample_weight=sample_weight)
+    
+        # test accuracy metric
+        model.compile(optimizer, loss, metrics=['acc'],
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        assert len(out) == 5
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == 5
+    
+        # this should also work
+        model.compile(optimizer, loss, metrics={'dense_1': 'acc'},
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        assert len(out) == 4
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == 4
+    
+        # and this as well
+        model.compile(optimizer, loss, metrics={'dense_1': ['acc']},
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        assert len(out) == 4
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == 4
+    
+        tracker_cb = TrackerCallback()
+    
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np], epochs=5, batch_size=4,
+                        initial_epoch=2, callbacks=[tracker_cb])
+        assert tracker_cb.trained_epochs == [2, 3, 4]
+    
+        # test starting from non-zero initial epoch for generator too
+        tracker_cb = TrackerCallback()
+    
+        @threadsafe_generator
+        def gen_data(batch_sz):
+            while True:
+                yield ([np.random.random((batch_sz, 3)),
+                        np.random.random((batch_sz, 3))],
+                       [np.random.random((batch_sz, 4)),
+                        np.random.random((batch_sz, 3))])
+    
+        out = model.fit_generator(gen_data(4), steps_per_epoch=3, epochs=5,
+                                  initial_epoch=2, callbacks=[tracker_cb])
+        assert tracker_cb.trained_epochs == [2, 3, 4]
+    
+        # test with a custom metric function
+        def mse(y_true, y_pred):
+            return K.mean(K.pow(y_true - y_pred, 2))
+    
+        model.compile(optimizer, loss, metrics=[mse],
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        out_len = 1 + 2 * (1 + 1)  # total loss + 2 outputs * (loss + metric)
+        assert len(out) == out_len
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == out_len
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        batch_size=4, epochs=1)
+        out = model.evaluate([input_a_np, input_b_np],
+                             [output_a_np, output_b_np],
+                             batch_size=4)
+        out = model.predict([input_a_np, input_b_np], batch_size=4)
+    
+        # enable verbose for evaluate_generator
+>       out = model.evaluate_generator(gen_data(4), steps=3, verbose=1)
+
+test_training.py:355: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1791: in evaluate_generator
+    verbose=verbose)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x000002834AC4D240>
+generator = <test_training.threadsafe_iter object at 0x000002835149EF28>
+steps = 3, callbacks = None, max_queue_size = 10, workers = 1
+use_multiprocessing = False, verbose = 1
+
+    def evaluate_generator(model, generator,
+                           steps=None,
+                           callbacks=None,
+                           max_queue_size=10,
+                           workers=1,
+                           use_multiprocessing=False,
+                           verbose=0):
+        """See docstring for `Model.evaluate_generator`."""
+        model._make_test_function()
+        model.reset_metrics()
+    
+        steps_done = 0
+        outs_per_batch = []
+        batch_sizes = []
+        use_sequence_api = is_sequence(generator)
+        if not use_sequence_api and use_multiprocessing and workers > 1:
+            warnings.warn(
+                UserWarning('Using a generator with `use_multiprocessing=True`'
+                            ' and multiple workers may duplicate your data.'
+                            ' Please consider using the `keras.utils.Sequence'
+                            ' class.'))
+        if steps is None:
+            if use_sequence_api:
+                steps = len(generator)
+            else:
+                raise ValueError('`steps=None` is only valid for a generator'
+                                 ' based on the `keras.utils.Sequence` class.'
+                                 ' Please specify `steps` or use the'
+                                 ' `keras.utils.Sequence` class.')
+        enqueuer = None
+    
+        # Check if callbacks have not been already configured
+        if isinstance(callbacks, cbks.CallbackList):
+            callbacks = cbks.CallbackList(callbacks)
+            callback_model = model._get_callback_model()
+            callbacks.set_model(callback_model)
+            callback_metrics = list(model.metrics_names)
+            callback_params = {
+                'steps': steps,
+                'verbose': verbose,
+                'metrics': callback_metrics,
+            }
+            callbacks.set_params(callback_params)
+    
+>       callbacks.model.stop_training = False
+E       AttributeError: 'NoneType' object has no attribute 'model'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:340: AttributeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.8494 - dense_1_loss: 0.5365 - dropout_loss: 0.6257
+10/10 [==============================] - 0s 2ms/step - loss: 0.9298 - dense_1_loss: 0.6546 - dropout_loss: 0.5663
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.9538 - dense_1_loss: 0.7150 - dropout_loss: 0.4775
+10/10 [==============================] - 0s 3ms/step - loss: 0.8929 - dense_1_loss: 0.5609 - dropout_loss: 0.6224
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.6157 - dense_1_loss: 0.3885 - dropout_loss: 0.4544
+10/10 [==============================] - 0s 2ms/step - loss: 0.8959 - dense_1_loss: 0.6189 - dropout_loss: 0.6194
+Train on 5 samples, validate on 5 samples
+Epoch 1/1
+
+4/5 [=======================>......] - ETA: 0s - loss: 1.2193 - dense_1_loss: 0.6091 - dropout_loss: 1.2203
+5/5 [==============================] - 0s 12ms/step - loss: 1.2723 - dense_1_loss: 0.8315 - dropout_loss: 1.0405 - val_loss: 0.5253 - val_dense_1_loss: 0.3278 - val_dropout_loss: 0.1237
+Train on 5 samples, validate on 5 samples
+Epoch 1/1
+
+4/5 [=======================>......] - ETA: 0s - loss: 1.1805 - dense_1_loss: 0.7738 - dropout_loss: 0.8134
+5/5 [==============================] - 0s 3ms/step - loss: 1.0372 - dense_1_loss: 0.5655 - dropout_loss: 0.5135 - val_loss: 0.5209 - val_dense_1_loss: 0.3247 - val_dropout_loss: 0.1237
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.9425 - dense_1_loss: 0.5481 - dropout_loss: 0.7888
+10/10 [==============================] - 0s 3ms/step - loss: 0.8341 - dense_1_loss: 0.5411 - dropout_loss: 0.5235 - val_loss: 0.6642 - val_dense_1_loss: 0.5202 - val_dropout_loss: 0.1793
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.6761 - dense_1_loss: 0.4678 - dropout_loss: 0.4167
+10/10 [==============================] - 0s 3ms/step - loss: 0.8429 - dense_1_loss: 0.5801 - dropout_loss: 0.5207 - val_loss: 0.6564 - val_dense_1_loss: 0.5132 - val_dropout_loss: 0.1793
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.7713 - dense_1_loss: 0.4161 - dropout_loss: 0.7102
+10/10 [==============================] - 0s 3ms/step - loss: 0.9386 - dense_1_loss: 0.5557 - dropout_loss: 0.8045 - val_loss: 0.6490 - val_dense_1_loss: 0.5063 - val_dropout_loss: 0.1793
+
+ 4/10 [===========>..................] - ETA: 0s
+10/10 [==============================] - 0s 2ms/step
+Epoch 3/5
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.1630 - dense_1_loss: 0.8127 - dropout_loss: 0.3503 - dense_1_acc: 0.0000e+00
+10/10 [==============================] - 0s 3ms/step - loss: 0.9453 - dense_1_loss: 0.5249 - dropout_loss: 0.3774 - dense_1_acc: 0.0000e+00
+Epoch 4/5
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.0427 - dense_1_loss: 0.5754 - dropout_loss: 0.4673 - dense_1_acc: 0.0000e+00
+10/10 [==============================] - 0s 2ms/step - loss: 1.0305 - dense_1_loss: 0.5081 - dropout_loss: 0.4782 - dense_1_acc: 0.0000e+00
+Epoch 5/5
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.0139 - dense_1_loss: 0.5951 - dropout_loss: 0.4188 - dense_1_acc: 0.0000e+00
+10/10 [==============================] - 0s 2ms/step - loss: 0.9666 - dense_1_loss: 0.6088 - dropout_loss: 0.3791 - dense_1_acc: 0.0000e+00
+Epoch 3/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 1.3558 - dense_1_loss: 0.9961 - dropout_loss: 0.3597 - dense_1_acc: 0.0000e+00
+3/3 [==============================] - 0s 10ms/step - loss: 0.9372 - dense_1_loss: 0.5223 - dropout_loss: 0.4149 - dense_1_acc: 0.1667
+Epoch 4/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 1.0605 - dense_1_loss: 0.2946 - dropout_loss: 0.7660 - dense_1_acc: 0.2500
+3/3 [==============================] - 0s 5ms/step - loss: 0.9305 - dense_1_loss: 0.3989 - dropout_loss: 0.5315 - dense_1_acc: 0.2500
+Epoch 5/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 1.0466 - dense_1_loss: 0.5103 - dropout_loss: 0.5363 - dense_1_acc: 0.2500
+3/3 [==============================] - 0s 5ms/step - loss: 0.8488 - dense_1_loss: 0.3874 - dropout_loss: 0.4614 - dense_1_acc: 0.2500
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.0626 - dense_1_loss: 0.6974 - dropout_loss: 0.3652 - dense_1_mse: 0.6974 - dropout_mse: 0.3652
+10/10 [==============================] - 0s 2ms/step - loss: 1.1063 - dense_1_loss: 0.6609 - dropout_loss: 0.4406 - dense_1_mse: 0.6609 - dropout_mse: 0.4406
+
+ 4/10 [===========>..................] - ETA: 0s
+10/10 [==============================] - 0s 2ms/step
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-04 14:39:53.937172: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 14:39:54.062575: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 14:39:54.063905: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 14:39:54.067439: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 14:39:54.070826: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 14:39:54.072476: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 14:39:54.077113: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 14:39:54.080259: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 14:39:54.089610: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 14:39:54.090534: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 14:39:54.091128: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 14:39:54.104824: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 14:39:54.105401: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 14:39:54.105745: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 14:39:54.106086: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 14:39:54.106424: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 14:39:54.106772: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 14:39:54.107115: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 14:39:54.107480: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 14:39:54.108468: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 14:39:55.040047: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 14:39:55.040460: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 14:39:55.040693: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 14:39:55.041433: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-04 14:39:55.603733: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+                    bias_regularizer='l2')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+    
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        input_a_np = np.random.random((10, 3))
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_a_np, None)
+        out = model.test_on_batch(input_a_np, None)
+        # fit
+        out = model.fit(input_a_np, None)
+        # evaluate
+        out = model.evaluate(input_a_np, None)
+    
+        # No dropout, external loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1')(a)
+        a_3 = Dense(4, name='dense_2')(a)
+    
+        model = Model(a, [a_2, a_3])
+        model.add_loss(K.mean(a_3 + a_2))
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_a_np, None)
+        out = model.test_on_batch(input_a_np, None)
+        # fit
+        out = model.fit(input_a_np, None)
+        # evaluate
+        out = model.evaluate(input_a_np, None)
+    
+        # Test fit with no external data at all.
+        if K.backend() == 'tensorflow':
+            import tensorflow as tf
+    
+            a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+            a_2 = Dense(4, name='dense_1')(a)
+            a_2 = Dropout(0.5, name='dropout')(a_2)
+            model = Model(a, a_2)
+            model.add_loss(K.mean(a_2))
+    
+            model.compile(optimizer='rmsprop',
+                          loss=None,
+                          metrics=['mean_squared_error'])
+    
+            # test train_on_batch
+            out = model.train_on_batch(None, None)
+            out = model.test_on_batch(None, None)
+            out = model.predict_on_batch(None)
+    
+            # test fit
+            with pytest.raises(ValueError):
+                out = model.fit(None, None, epochs=1, batch_size=10)
+            out = model.fit(None, None, epochs=1, steps_per_epoch=1)
+    
+            # define a generator to produce x=None and y=None
+            @threadsafe_generator
+            def data_tensors_generator():
+                while True:
+                    yield (None, None)
+    
+            generator = data_tensors_generator()
+    
+            # test fit_generator for framework-native data tensors
+            out = model.fit_generator(generator, epochs=1,
+                                      steps_per_epoch=3)
+    
+            # test evaluate_generator for framework-native data tensors
+>           out = model.evaluate_generator(generator, steps=3)
+
+test_training.py:1104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1791: in evaluate_generator
+    verbose=verbose)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x00000285B7867400>
+generator = <test_training.threadsafe_iter object at 0x00000285B88A39E8>
+steps = 3, callbacks = None, max_queue_size = 10, workers = 1
+use_multiprocessing = False, verbose = 0
+
+    def evaluate_generator(model, generator,
+                           steps=None,
+                           callbacks=None,
+                           max_queue_size=10,
+                           workers=1,
+                           use_multiprocessing=False,
+                           verbose=0):
+        """See docstring for `Model.evaluate_generator`."""
+        model._make_test_function()
+        model.reset_metrics()
+    
+        steps_done = 0
+        outs_per_batch = []
+        batch_sizes = []
+        use_sequence_api = is_sequence(generator)
+        if not use_sequence_api and use_multiprocessing and workers > 1:
+            warnings.warn(
+                UserWarning('Using a generator with `use_multiprocessing=True`'
+                            ' and multiple workers may duplicate your data.'
+                            ' Please consider using the `keras.utils.Sequence'
+                            ' class.'))
+        if steps is None:
+            if use_sequence_api:
+                steps = len(generator)
+            else:
+                raise ValueError('`steps=None` is only valid for a generator'
+                                 ' based on the `keras.utils.Sequence` class.'
+                                 ' Please specify `steps` or use the'
+                                 ' `keras.utils.Sequence` class.')
+        enqueuer = None
+    
+        # Check if callbacks have not been already configured
+        if isinstance(callbacks, cbks.CallbackList):
+            callbacks = cbks.CallbackList(callbacks)
+            callback_model = model._get_callback_model()
+            callbacks.set_model(callback_model)
+            callback_metrics = list(model.metrics_names)
+            callback_params = {
+                'steps': steps,
+                'verbose': verbose,
+                'metrics': callback_metrics,
+            }
+            callbacks.set_params(callback_params)
+    
+>       callbacks.model.stop_training = False
+E       AttributeError: 'NoneType' object has no attribute 'model'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:340: AttributeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.0460
+
+10/10 [==============================] - 0s 0us/step
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: -0.2640
+
+10/10 [==============================] - 0s 0us/step
+Epoch 1/1
+
+1/1 [==============================] - 0s 0us/step - loss: 0.3507
+Epoch 1/1
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.3744
+3/3 [==============================] - 0s 5ms/step - loss: 0.3334
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 14:40:10.251233: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 14:40:10.251827: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 14:40:10.252174: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 14:40:10.252519: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 14:40:10.252860: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 14:40:10.253199: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 14:40:10.253549: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 14:40:10.253902: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 14:40:10.254462: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 14:40:10.254772: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 14:40:10.255121: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 14:40:10.255337: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 14:40:10.255831: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods failed and was not selected for rerun.
+	<class 'AttributeError'>
+	'NoneType' object has no attribute 'model'
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:355>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1791>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:340>]
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_methods - AttributeError: 'NoneType' obje...
+FAILED test_training.py::test_model_with_external_loss - AttributeError: 'Non...
+============ 2 failed, 31 passed, 1 skipped, 5 warnings in 29.42s =============

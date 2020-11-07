@@ -1,0 +1,368 @@
+2020-10-04 13:59:28.641732: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ....F..s.................F........                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_fit_generator ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_fit_generator():
+        model = get_model(num_outputs=2)
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+        tracker_cb = TrackerCallback()
+        val_seq = RandomSequence(4)
+        out = model.fit_generator(generator=RandomSequence(3),
+                                  steps_per_epoch=3,
+                                  epochs=5,
+                                  initial_epoch=0,
+                                  validation_data=val_seq,
+                                  validation_steps=3,
+                                  max_queue_size=1,
+                                  callbacks=[tracker_cb])
+        assert tracker_cb.trained_epochs == [0, 1, 2, 3, 4]
+        assert tracker_cb.trained_batches == list(range(3)) * 5
+        assert len(val_seq.logs) <= 4 * 5
+    
+        tracker_cb = TrackerCallback()
+        val_seq = RandomSequence(4)
+        out = model.fit(RandomSequence(3),
+                        steps_per_epoch=3,
+                        epochs=5,
+                        initial_epoch=0,
+                        validation_data=val_seq,
+                        validation_steps=3,
+                        max_queue_size=1,
+                        callbacks=[tracker_cb])
+        assert tracker_cb.trained_epochs == [0, 1, 2, 3, 4]
+        assert tracker_cb.trained_batches == list(range(3)) * 5
+        assert len(val_seq.logs) <= 4 * 5
+    
+        # steps_per_epoch will be equal to len of sequence if it's unspecified
+        tracker_cb = TrackerCallback()
+        val_seq = RandomSequence(4)
+        out = model.fit_generator(generator=RandomSequence(3),
+                                  epochs=5,
+                                  initial_epoch=0,
+                                  validation_data=val_seq,
+                                  callbacks=[tracker_cb],
+                                  max_queue_size=1)
+        assert tracker_cb.trained_epochs == [0, 1, 2, 3, 4]
+        assert tracker_cb.trained_batches == list(range(12)) * 5
+>       assert 12 * 5 <= len(val_seq.logs) <= (12 * 5) + 2  # the queue may be full.
+E       assert (12 * 5) <= 0
+E        +  where 0 = len([])
+E        +    where [] = <test_training.RandomSequence object at 0x00000204ABAC8080>.logs
+
+test_training.py:520: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 1.0313 - dense_1_loss: 0.5680 - dropout_loss: 0.9265
+3/3 [==============================] - 0s 26ms/step - loss: 0.7972 - dense_1_loss: 0.5509 - dropout_loss: 0.4926
+Epoch 2/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.7157 - dense_1_loss: 0.3291 - dropout_loss: 0.7731
+3/3 [==============================] - 0s 5ms/step - loss: 0.7466 - dense_1_loss: 0.4903 - dropout_loss: 0.5126
+Epoch 3/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.6180 - dense_1_loss: 0.4931 - dropout_loss: 0.2499
+3/3 [==============================] - 0s 5ms/step - loss: 0.8650 - dense_1_loss: 0.5846 - dropout_loss: 0.5609
+Epoch 4/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.7946 - dense_1_loss: 0.6950 - dropout_loss: 0.1992
+3/3 [==============================] - 0s 5ms/step - loss: 0.6950 - dense_1_loss: 0.4641 - dropout_loss: 0.4617
+Epoch 5/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.6301 - dense_1_loss: 0.3628 - dropout_loss: 0.5347
+3/3 [==============================] - 0s 42ms/step - loss: 0.6851 - dense_1_loss: 0.4773 - dropout_loss: 0.4155
+Epoch 1/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 1.1887 - dense_1_loss: 0.6805 - dropout_loss: 1.0163
+3/3 [==============================] - 0s 5ms/step - loss: 0.9012 - dense_1_loss: 0.6055 - dropout_loss: 0.5913
+Epoch 2/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.6453 - dense_1_loss: 0.5204 - dropout_loss: 0.2498
+3/3 [==============================] - 0s 10ms/step - loss: 0.8333 - dense_1_loss: 0.5432 - dropout_loss: 0.5801
+Epoch 3/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.3002 - dense_1_loss: 0.2053 - dropout_loss: 0.1898
+3/3 [==============================] - 0s 5ms/step - loss: 0.6038 - dense_1_loss: 0.3724 - dropout_loss: 0.4627
+Epoch 4/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.3250 - dense_1_loss: 0.1928 - dropout_loss: 0.2644
+3/3 [==============================] - 0s 10ms/step - loss: 0.5386 - dense_1_loss: 0.3893 - dropout_loss: 0.2987
+Epoch 5/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.6439 - dense_1_loss: 0.3047 - dropout_loss: 0.6785
+3/3 [==============================] - 0s 36ms/step - loss: 0.6793 - dense_1_loss: 0.3645 - dropout_loss: 0.6296
+Epoch 1/5
+
+ 1/12 [=>............................] - ETA: 0s - loss: 0.5082 - dense_1_loss: 0.4160 - dropout_loss: 0.1843
+ 9/12 [=====================>........] - ETA: 0s - loss: 0.5904 - dense_1_loss: 0.3864 - dropout_loss: 0.4080
+12/12 [==============================] - 0s 7ms/step - loss: 0.6708 - dense_1_loss: 0.4472 - dropout_loss: 0.4474
+Epoch 2/5
+
+ 1/12 [=>............................] - ETA: 0s - loss: 0.4041 - dense_1_loss: 0.2375 - dropout_loss: 0.3331
+ 9/12 [=====================>........] - ETA: 0s - loss: 0.6817 - dense_1_loss: 0.4178 - dropout_loss: 0.5280
+12/12 [==============================] - 0s 7ms/step - loss: 0.6569 - dense_1_loss: 0.3989 - dropout_loss: 0.5160
+Epoch 3/5
+
+ 1/12 [=>............................] - ETA: 0s - loss: 0.9063 - dense_1_loss: 0.6240 - dropout_loss: 0.5646
+ 9/12 [=====================>........] - ETA: 0s - loss: 0.6414 - dense_1_loss: 0.3944 - dropout_loss: 0.4940
+12/12 [==============================] - 0s 7ms/step - loss: 0.6098 - dense_1_loss: 0.3812 - dropout_loss: 0.4572
+Epoch 4/5
+
+ 1/12 [=>............................] - ETA: 0s - loss: 0.5646 - dense_1_loss: 0.3561 - dropout_loss: 0.4170
+ 9/12 [=====================>........] - ETA: 0s - loss: 0.5000 - dense_1_loss: 0.2598 - dropout_loss: 0.4803
+12/12 [==============================] - 0s 7ms/step - loss: 0.5384 - dense_1_loss: 0.2762 - dropout_loss: 0.5245
+Epoch 5/5
+
+ 1/12 [=>............................] - ETA: 0s - loss: 0.3761 - dense_1_loss: 0.2679 - dropout_loss: 0.2165
+ 9/12 [=====================>........] - ETA: 0s - loss: 0.5647 - dense_1_loss: 0.3167 - dropout_loss: 0.4961
+12/12 [==============================] - 0s 7ms/step - loss: 0.5479 - dense_1_loss: 0.3213 - dropout_loss: 0.4533
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:59:37.739970: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:59:37.740566: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:59:37.740913: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:59:37.741257: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:59:37.741596: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:59:37.741938: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:59:37.742281: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:59:37.742630: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:59:37.743195: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:59:37.743505: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:59:37.743853: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:59:37.744069: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:59:37.744557: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.4091 - dense_1_loss: 0.2517 - dropout_loss: 0.3148
+3/3 [==============================] - 0s 26ms/step - loss: 0.6223 - dense_1_loss: 0.3515 - dropout_loss: 0.5417
+Epoch 2/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.6317 - dense_1_loss: 0.2867 - dropout_loss: 0.6900
+3/3 [==============================] - 0s 5ms/step - loss: 0.5432 - dense_1_loss: 0.3214 - dropout_loss: 0.4438
+Epoch 3/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.5765 - dense_1_loss: 0.1931 - dropout_loss: 0.7667
+3/3 [==============================] - 0s 5ms/step - loss: 0.5354 - dense_1_loss: 0.2663 - dropout_loss: 0.5384
+Epoch 4/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.6530 - dense_1_loss: 0.3547 - dropout_loss: 0.5966
+3/3 [==============================] - 0s 5ms/step - loss: 0.6408 - dense_1_loss: 0.3575 - dropout_loss: 0.5666
+Epoch 5/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.4050 - dense_1_loss: 0.2097 - dropout_loss: 0.3905
+3/3 [==============================] - 0s 42ms/step - loss: 0.5732 - dense_1_loss: 0.2475 - dropout_loss: 0.6513
+Epoch 1/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.4776 - dense_1_loss: 0.2403 - dropout_loss: 0.4747
+3/3 [==============================] - 0s 5ms/step - loss: 0.4691 - dense_1_loss: 0.2713 - dropout_loss: 0.3957
+Epoch 2/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.6182 - dense_1_loss: 0.2947 - dropout_loss: 0.6470
+3/3 [==============================] - 0s 5ms/step - loss: 0.5245 - dense_1_loss: 0.2751 - dropout_loss: 0.4987
+Epoch 3/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.7633 - dense_1_loss: 0.3973 - dropout_loss: 0.7321
+3/3 [==============================] - 0s 10ms/step - loss: 0.5635 - dense_1_loss: 0.2920 - dropout_loss: 0.5430
+Epoch 4/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.4252 - dense_1_loss: 0.2973 - dropout_loss: 0.2557
+3/3 [==============================] - 0s 5ms/step - loss: 0.5186 - dense_1_loss: 0.3044 - dropout_loss: 0.4286
+Epoch 5/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.4618 - dense_1_loss: 0.2917 - dropout_loss: 0.3403
+3/3 [==============================] - 0s 36ms/step - loss: 0.4593 - dense_1_loss: 0.2470 - dropout_loss: 0.4247
+Epoch 1/5
+
+ 1/12 [=>............................] - ETA: 0s - loss: 0.5921 - dense_1_loss: 0.3099 - dropout_loss: 0.5644
+10/12 [========================>.....] - ETA: 0s - loss: 0.5171 - dense_1_loss: 0.2746 - dropout_loss: 0.4851
+12/12 [==============================] - 0s 5ms/step - loss: 0.5355 - dense_1_loss: 0.2715 - dropout_loss: 0.5278
+Epoch 2/5
+
+ 1/12 [=>............................] - ETA: 0s - loss: 0.5331 - dense_1_loss: 0.3087 - dropout_loss: 0.4488
+ 9/12 [=====================>........] - ETA: 0s - loss: 0.4857 - dense_1_loss: 0.2209 - dropout_loss: 0.5296
+12/12 [==============================] - 0s 7ms/step - loss: 0.5021 - dense_1_loss: 0.2347 - dropout_loss: 0.5349
+Epoch 3/5
+
+ 1/12 [=>............................] - ETA: 0s - loss: 0.6735 - dense_1_loss: 0.2603 - dropout_loss: 0.8264
+ 9/12 [=====================>........] - ETA: 0s - loss: 0.5117 - dense_1_loss: 0.2196 - dropout_loss: 0.5843
+12/12 [==============================] - 0s 7ms/step - loss: 0.5067 - dense_1_loss: 0.2192 - dropout_loss: 0.5749
+Epoch 4/5
+
+ 1/12 [=>............................] - ETA: 0s - loss: 0.5549 - dense_1_loss: 0.1865 - dropout_loss: 0.7367
+ 8/12 [===================>..........] - ETA: 0s - loss: 0.5088 - dense_1_loss: 0.2625 - dropout_loss: 0.4927
+12/12 [==============================] - 0s 7ms/step - loss: 0.4814 - dense_1_loss: 0.2331 - dropout_loss: 0.4964
+Epoch 5/5
+
+ 1/12 [=>............................] - ETA: 0s - loss: 0.3820 - dense_1_loss: 0.1947 - dropout_loss: 0.3747
+ 9/12 [=====================>........] - ETA: 0s - loss: 0.5792 - dense_1_loss: 0.2881 - dropout_loss: 0.5823
+12/12 [==============================] - 0s 7ms/step - loss: 0.5536 - dense_1_loss: 0.2775 - dropout_loss: 0.5522
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:59:40.834024: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:59:40.834626: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:59:40.834973: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:59:40.835319: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:59:40.835654: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:59:40.835995: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:59:40.836343: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:59:40.836695: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:59:40.837333: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:59:40.837650: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:59:40.838001: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:59:40.838218: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:59:40.838748: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________________________ test_validation_freq _____________________________
+
+    def test_validation_freq():
+        model = Sequential([Dense(1)])
+        model.compile('sgd', 'mse')
+    
+        def _gen():
+            while True:
+                yield np.ones((2, 10)), np.ones((2, 1))
+    
+        x, y = np.ones((10, 10)), np.ones((10, 1))
+    
+        class ValCounter(Callback):
+    
+            def __init__(self):
+                self.val_runs = 0
+    
+            def on_test_begin(self, logs=None):
+                self.val_runs += 1
+    
+        # Test in training_arrays.py
+        val_counter = ValCounter()
+        model.fit(
+            x,
+            y,
+            batch_size=2,
+            epochs=4,
+            validation_data=(x, y),
+            validation_freq=2,
+            callbacks=[val_counter])
+        assert val_counter.val_runs == 2
+    
+        # Test in training_generator.py
+        val_counter = ValCounter()
+        model.fit_generator(
+            _gen(),
+            epochs=4,
+            steps_per_epoch=5,
+            validation_data=(x, y),
+            validation_freq=[4, 2, 2, 1],
+            callbacks=[val_counter])
+>       assert val_counter.val_runs == 3
+E       assert 0 == 3
+E        +  where 0 = <test_training.test_validation_freq.<locals>.ValCounter object at 0x00000204ABA5E4A8>.val_runs
+
+test_training.py:1732: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 21.6454
+10/10 [==============================] - 0s 6ms/step - loss: 10.1334
+Epoch 2/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 1.8043
+10/10 [==============================] - 0s 5ms/step - loss: 0.8447 - val_loss: 0.1504
+Epoch 3/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 0.1504
+10/10 [==============================] - 0s 3ms/step - loss: 0.0704
+Epoch 4/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 0.0125
+10/10 [==============================] - 0s 3ms/step - loss: 0.0059 - val_loss: 0.0010
+Epoch 1/4
+
+1/5 [=====>........................] - ETA: 0s - loss: 0.0010
+5/5 [==============================] - 0s 6ms/step - loss: 4.8925e-04
+Epoch 2/4
+
+1/5 [=====>........................] - ETA: 0s - loss: 8.7115e-05
+5/5 [==============================] - 0s 3ms/step - loss: 4.0783e-05
+Epoch 3/4
+
+1/5 [=====>........................] - ETA: 0s - loss: 7.2615e-06
+5/5 [==============================] - 0s 6ms/step - loss: 3.3996e-06
+Epoch 4/4
+
+1/5 [=====>........................] - ETA: 0s - loss: 6.0541e-07
+5/5 [==============================] - 0s 3ms/step - loss: 2.8344e-07
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:59:58.031912: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:59:58.032541: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:59:58.032903: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:59:58.033248: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:59:58.033586: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:59:58.033930: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:59:58.034275: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:59:58.034626: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:59:58.035188: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:59:58.035502: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:59:58.035851: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:59:58.036068: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:59:58.036592: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator failed (1 runs remaining out of 2).
+	<class 'AssertionError'>
+	assert (12 * 5) <= 0
+ +  where 0 = len([])
+ +    where [] = <test_training.RandomSequence object at 0x000002024BCE35F8>.logs
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:520>]
+test_fit_generator failed; it passed 0 out of the required 1 times.
+	<class 'AssertionError'>
+	assert (12 * 5) <= 0
+ +  where 0 = len([])
+ +    where [] = <test_training.RandomSequence object at 0x00000204ABAC8080>.logs
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:520>]
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_fit_generator - assert (12 * 5) <= 0
+FAILED test_training.py::test_validation_freq - assert 0 == 3
+============ 2 failed, 31 passed, 1 skipped, 7 warnings in 29.10s =============
