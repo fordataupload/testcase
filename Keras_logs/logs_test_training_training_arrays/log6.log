@@ -1,0 +1,656 @@
+2020-10-04 14:35:45.022327: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ...FF..s.......F.........F........                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_model_methods ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_model_methods():
+        model = get_model(num_outputs=2)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        # training/testing doesn't work before compiling.
+        with pytest.raises(RuntimeError):
+            model.train_on_batch([input_a_np, input_b_np],
+                                 [output_a_np, output_b_np])
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                   {'dense_1': output_a_np, 'dropout': output_b_np})
+    
+        # test fit
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np], epochs=1, batch_size=4)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np], epochs=1, batch_size=4)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        {'dense_1': output_a_np, 'dropout': output_b_np},
+                        epochs=1, batch_size=4)
+    
+        # test validation_split
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5)
+    
+        # test validation data
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4,
+                        validation_data=([input_a_np, input_b_np],
+                                         [output_a_np, output_b_np]))
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5,
+                        validation_data=({'input_a': input_a_np,
+                                          'input_b': input_b_np},
+                                         [output_a_np, output_b_np]))
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        {'dense_1': output_a_np, 'dropout': output_b_np},
+                        epochs=1, batch_size=4, validation_split=0.5,
+                        validation_data=(
+                            {'input_a': input_a_np, 'input_b': input_b_np},
+                            {'dense_1': output_a_np, 'dropout': output_b_np}))
+    
+        # test_on_batch
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                  [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                  {'dense_1': output_a_np, 'dropout': output_b_np})
+    
+        # predict_on_batch
+        out = model.predict_on_batch([input_a_np, input_b_np])
+        out = model.predict_on_batch({'input_a': input_a_np,
+                                      'input_b': input_b_np})
+    
+        # predict, evaluate
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        out = model.evaluate([input_a_np, input_b_np],
+                             [output_a_np, output_b_np],
+                             batch_size=4)
+        out = model.predict([input_a_np, input_b_np], batch_size=4)
+    
+        # with sample_weight
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        sample_weight = [None, np.random.random((10,))]
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np],
+                                   sample_weight=sample_weight)
+    
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np],
+                                  sample_weight=sample_weight)
+    
+        # test accuracy metric
+        model.compile(optimizer, loss, metrics=['acc'],
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        assert len(out) == 5
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == 5
+    
+        # this should also work
+        model.compile(optimizer, loss, metrics={'dense_1': 'acc'},
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        assert len(out) == 4
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == 4
+    
+        # and this as well
+        model.compile(optimizer, loss, metrics={'dense_1': ['acc']},
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        assert len(out) == 4
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == 4
+    
+        tracker_cb = TrackerCallback()
+    
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np], epochs=5, batch_size=4,
+                        initial_epoch=2, callbacks=[tracker_cb])
+        assert tracker_cb.trained_epochs == [2, 3, 4]
+    
+        # test starting from non-zero initial epoch for generator too
+        tracker_cb = TrackerCallback()
+    
+        @threadsafe_generator
+        def gen_data(batch_sz):
+            while True:
+                yield ([np.random.random((batch_sz, 3)),
+                        np.random.random((batch_sz, 3))],
+                       [np.random.random((batch_sz, 4)),
+                        np.random.random((batch_sz, 3))])
+    
+        out = model.fit_generator(gen_data(4), steps_per_epoch=3, epochs=5,
+>                                 initial_epoch=2, callbacks=[tracker_cb])
+
+test_training.py:322: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732: in fit_generator
+    initial_epoch=initial_epoch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:226: in fit_generator
+    callbacks._call_batch_hook('train', 'end', batch_index, batch_logs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:85: in _call_batch_hook
+    batch_hook(batch, logs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:366: in on_train_batch_end
+    self.on_batch_end(batch, logs=logs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.callbacks.callbacks.ProgbarLogger object at 0x000001E0C48AEB70>
+batch = 0
+logs = {'batch': 0, 'dense_1_acc': 0.75, 'dense_1_loss': 0.82596666, 'dropout_loss': 0.35245535, ...}
+
+    def on_batch_end(self, batch, logs=None):
+        logs = logs or {}
+        batch_size = logs.get('size', 0)
+        if self.use_steps:
+            self.seen += 1
+        else:
+            self.seen += batch_size
+    
+>       for k in self.params['metrics']:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:596: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.4598 - dense_1_loss: 1.2803 - dropout_loss: 0.3589
+10/10 [==============================] - 0s 3ms/step - loss: 1.5000 - dense_1_loss: 1.2356 - dropout_loss: 0.5312
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.8102 - dense_1_loss: 1.4644 - dropout_loss: 0.6917
+10/10 [==============================] - 0s 2ms/step - loss: 1.5370 - dense_1_loss: 1.1723 - dropout_loss: 0.6051
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.4414 - dense_1_loss: 1.2057 - dropout_loss: 0.4714
+10/10 [==============================] - 0s 2ms/step - loss: 1.4904 - dense_1_loss: 1.2508 - dropout_loss: 0.6354
+Train on 5 samples, validate on 5 samples
+Epoch 1/1
+
+4/5 [=======================>......] - ETA: 0s - loss: 1.9085 - dense_1_loss: 1.4262 - dropout_loss: 0.9646
+5/5 [==============================] - 0s 16ms/step - loss: 1.8452 - dense_1_loss: 1.4087 - dropout_loss: 0.6828 - val_loss: 1.0548 - val_dense_1_loss: 1.0482 - val_dropout_loss: 0.1485
+Train on 5 samples, validate on 5 samples
+Epoch 1/1
+
+4/5 [=======================>......] - ETA: 0s - loss: 1.7417 - dense_1_loss: 1.3231 - dropout_loss: 0.8372
+5/5 [==============================] - 0s 6ms/step - loss: 1.8315 - dense_1_loss: 1.5382 - dropout_loss: 0.8562 - val_loss: 1.0471 - val_dense_1_loss: 1.0399 - val_dropout_loss: 0.1485
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.6089 - dense_1_loss: 1.2527 - dropout_loss: 0.7125
+10/10 [==============================] - 0s 3ms/step - loss: 1.4420 - dense_1_loss: 1.0826 - dropout_loss: 0.4653 - val_loss: 1.2599 - val_dense_1_loss: 1.1242 - val_dropout_loss: 0.1695
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.6047 - dense_1_loss: 1.1753 - dropout_loss: 0.8588
+10/10 [==============================] - 0s 3ms/step - loss: 1.5104 - dense_1_loss: 1.1957 - dropout_loss: 0.6433 - val_loss: 1.2474 - val_dense_1_loss: 1.1119 - val_dropout_loss: 0.1695
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.6693 - dense_1_loss: 1.2595 - dropout_loss: 0.8196
+10/10 [==============================] - 0s 5ms/step - loss: 1.4793 - dense_1_loss: 1.0967 - dropout_loss: 0.5908 - val_loss: 1.2362 - val_dense_1_loss: 1.1008 - val_dropout_loss: 0.1695
+
+ 4/10 [===========>..................] - ETA: 0s
+10/10 [==============================] - 0s 2ms/step
+Epoch 3/5
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.1616 - dense_1_loss: 0.6061 - dropout_loss: 0.5555 - dense_1_acc: 0.2500
+10/10 [==============================] - 0s 2ms/step - loss: 1.3165 - dense_1_loss: 0.7155 - dropout_loss: 0.5710 - dense_1_acc: 0.3000
+Epoch 4/5
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.2858 - dense_1_loss: 0.6991 - dropout_loss: 0.5867 - dense_1_acc: 0.2500
+10/10 [==============================] - 0s 3ms/step - loss: 1.2636 - dense_1_loss: 0.6738 - dropout_loss: 0.5455 - dense_1_acc: 0.3000
+Epoch 5/5
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.8513 - dense_1_loss: 0.5846 - dropout_loss: 0.2666 - dense_1_acc: 0.5000
+10/10 [==============================] - 0s 2ms/step - loss: 1.1488 - dense_1_loss: 0.6908 - dropout_loss: 0.4927 - dense_1_acc: 0.3000
+Epoch 3/5
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-04 14:35:47.380553: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 14:35:47.512574: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 14:35:47.514457: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 14:35:47.519451: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 14:35:47.524031: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 14:35:47.525874: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 14:35:47.532150: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 14:35:47.536830: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 14:35:47.550831: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 14:35:47.552112: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 14:35:47.552944: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 14:35:47.565300: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 14:35:47.566026: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 14:35:47.566511: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 14:35:47.566966: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 14:35:47.567407: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 14:35:47.567901: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 14:35:47.568401: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 14:35:47.568904: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 14:35:47.570005: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 14:35:48.635288: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 14:35:48.635690: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 14:35:48.635909: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 14:35:48.636704: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-04 14:35:49.232777: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+_____________________________ test_fit_generator ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_fit_generator():
+        model = get_model(num_outputs=2)
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+        tracker_cb = TrackerCallback()
+        val_seq = RandomSequence(4)
+        out = model.fit_generator(generator=RandomSequence(3),
+                                  steps_per_epoch=3,
+                                  epochs=5,
+                                  initial_epoch=0,
+                                  validation_data=val_seq,
+                                  validation_steps=3,
+                                  max_queue_size=1,
+>                                 callbacks=[tracker_cb])
+
+test_training.py:490: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732: in fit_generator
+    initial_epoch=initial_epoch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:226: in fit_generator
+    callbacks._call_batch_hook('train', 'end', batch_index, batch_logs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:85: in _call_batch_hook
+    batch_hook(batch, logs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:366: in on_train_batch_end
+    self.on_batch_end(batch, logs=logs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.callbacks.callbacks.ProgbarLogger object at 0x000001E3333A2F98>
+batch = 0
+logs = {'batch': 0, 'dense_1_loss': 1.0303404, 'dropout_loss': 0.3266555, 'loss': 1.1936681, ...}
+
+    def on_batch_end(self, batch, logs=None):
+        logs = logs or {}
+        batch_size = logs.get('size', 0)
+        if self.use_steps:
+            self.seen += 1
+        else:
+            self.seen += batch_size
+    
+>       for k in self.params['metrics']:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:596: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/5
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 14:35:53.096917: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 14:35:53.097523: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 14:35:53.097869: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 14:35:53.098213: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 14:35:53.098576: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 14:35:53.098922: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 14:35:53.099271: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 14:35:53.099618: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 14:35:53.100203: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 14:35:53.100522: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 14:35:53.100880: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 14:35:53.101102: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 14:35:53.101623: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+                    bias_regularizer='l2')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+    
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        input_a_np = np.random.random((10, 3))
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_a_np, None)
+        out = model.test_on_batch(input_a_np, None)
+        # fit
+        out = model.fit(input_a_np, None)
+        # evaluate
+        out = model.evaluate(input_a_np, None)
+    
+        # No dropout, external loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1')(a)
+        a_3 = Dense(4, name='dense_2')(a)
+    
+        model = Model(a, [a_2, a_3])
+        model.add_loss(K.mean(a_3 + a_2))
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_a_np, None)
+        out = model.test_on_batch(input_a_np, None)
+        # fit
+        out = model.fit(input_a_np, None)
+        # evaluate
+        out = model.evaluate(input_a_np, None)
+    
+        # Test fit with no external data at all.
+        if K.backend() == 'tensorflow':
+            import tensorflow as tf
+    
+            a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+            a_2 = Dense(4, name='dense_1')(a)
+            a_2 = Dropout(0.5, name='dropout')(a_2)
+            model = Model(a, a_2)
+            model.add_loss(K.mean(a_2))
+    
+            model.compile(optimizer='rmsprop',
+                          loss=None,
+                          metrics=['mean_squared_error'])
+    
+            # test train_on_batch
+            out = model.train_on_batch(None, None)
+            out = model.test_on_batch(None, None)
+            out = model.predict_on_batch(None)
+    
+            # test fit
+            with pytest.raises(ValueError):
+                out = model.fit(None, None, epochs=1, batch_size=10)
+            out = model.fit(None, None, epochs=1, steps_per_epoch=1)
+    
+            # define a generator to produce x=None and y=None
+            @threadsafe_generator
+            def data_tensors_generator():
+                while True:
+                    yield (None, None)
+    
+            generator = data_tensors_generator()
+    
+            # test fit_generator for framework-native data tensors
+            out = model.fit_generator(generator, epochs=1,
+>                                     steps_per_epoch=3)
+
+test_training.py:1101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732: in fit_generator
+    initial_epoch=initial_epoch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:226: in fit_generator
+    callbacks._call_batch_hook('train', 'end', batch_index, batch_logs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:85: in _call_batch_hook
+    batch_hook(batch, logs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:366: in on_train_batch_end
+    self.on_batch_end(batch, logs=logs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.callbacks.callbacks.ProgbarLogger object at 0x000001E3336634A8>
+batch = 0, logs = {'batch': 0, 'loss': 0.40503788, 'size': 1}
+
+    def on_batch_end(self, batch, logs=None):
+        logs = logs or {}
+        batch_size = logs.get('size', 0)
+        if self.use_steps:
+            self.seen += 1
+        else:
+            self.seen += batch_size
+    
+>       for k in self.params['metrics']:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:596: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+10/10 [==============================] - 0s 0us/step - loss: 0.0544
+
+10/10 [==============================] - 0s 2ms/step
+Epoch 1/1
+
+10/10 [==============================] - 0s 2ms/step - loss: -0.0440
+
+10/10 [==============================] - 0s 0us/step
+Epoch 1/1
+
+1/1 [==============================] - 0s 0us/step - loss: 0.0827
+Epoch 1/1
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 14:35:58.319068: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 14:35:58.319674: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 14:35:58.320024: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 14:35:58.320367: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 14:35:58.320708: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 14:35:58.321055: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 14:35:58.321402: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 14:35:58.321760: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 14:35:58.322351: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 14:35:58.322661: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 14:35:58.323018: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 14:35:58.323242: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 14:35:58.323755: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________________________ test_validation_freq _____________________________
+
+    def test_validation_freq():
+        model = Sequential([Dense(1)])
+        model.compile('sgd', 'mse')
+    
+        def _gen():
+            while True:
+                yield np.ones((2, 10)), np.ones((2, 1))
+    
+        x, y = np.ones((10, 10)), np.ones((10, 1))
+    
+        class ValCounter(Callback):
+    
+            def __init__(self):
+                self.val_runs = 0
+    
+            def on_test_begin(self, logs=None):
+                self.val_runs += 1
+    
+        # Test in training_arrays.py
+        val_counter = ValCounter()
+        model.fit(
+            x,
+            y,
+            batch_size=2,
+            epochs=4,
+            validation_data=(x, y),
+            validation_freq=2,
+            callbacks=[val_counter])
+        assert val_counter.val_runs == 2
+    
+        # Test in training_generator.py
+        val_counter = ValCounter()
+        model.fit_generator(
+            _gen(),
+            epochs=4,
+            steps_per_epoch=5,
+            validation_data=(x, y),
+            validation_freq=[4, 2, 2, 1],
+>           callbacks=[val_counter])
+
+test_training.py:1731: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732: in fit_generator
+    initial_epoch=initial_epoch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:226: in fit_generator
+    callbacks._call_batch_hook('train', 'end', batch_index, batch_logs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:85: in _call_batch_hook
+    batch_hook(batch, logs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:366: in on_train_batch_end
+    self.on_batch_end(batch, logs=logs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.callbacks.callbacks.ProgbarLogger object at 0x000001E33566F320>
+batch = 0, logs = {'batch': 0, 'loss': 3.844389e-05, 'size': 2}
+
+    def on_batch_end(self, batch, logs=None):
+        logs = logs or {}
+        batch_size = logs.get('size', 0)
+        if self.use_steps:
+            self.seen += 1
+        else:
+            self.seen += batch_size
+    
+>       for k in self.params['metrics']:
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:596: TypeError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 0.7963
+10/10 [==============================] - 0s 6ms/step - loss: 0.3728
+Epoch 2/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 0.0664
+10/10 [==============================] - 0s 5ms/step - loss: 0.0311 - val_loss: 0.0055
+Epoch 3/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 0.0055
+10/10 [==============================] - 0s 2ms/step - loss: 0.0026
+Epoch 4/4
+
+ 2/10 [=====>........................] - ETA: 0s - loss: 4.6122e-04
+10/10 [==============================] - 0s 3ms/step - loss: 2.1592e-04 - val_loss: 3.8444e-05
+Epoch 1/4
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 14:36:08.681212: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 14:36:08.681804: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 14:36:08.682149: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 14:36:08.682518: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 14:36:08.682866: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 14:36:08.683212: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 14:36:08.683559: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 14:36:08.683959: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 14:36:08.684668: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 14:36:08.685072: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 14:36:08.685429: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 14:36:08.685670: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 14:36:08.686219: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods failed and was not selected for rerun.
+	<class 'TypeError'>
+	'NoneType' object is not iterable
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:322>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:226>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:85>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:366>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:596>]
+test_fit_generator failed and was not selected for rerun.
+	<class 'TypeError'>
+	'NoneType' object is not iterable
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:490>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:226>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:85>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:366>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\callbacks\callbacks.py:596>]
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_methods - TypeError: 'NoneType' object is...
+FAILED test_training.py::test_fit_generator - TypeError: 'NoneType' object is...
+FAILED test_training.py::test_model_with_external_loss - TypeError: 'NoneType...
+FAILED test_training.py::test_validation_freq - TypeError: 'NoneType' object ...
+============ 4 failed, 29 passed, 1 skipped, 5 warnings in 24.42s =============

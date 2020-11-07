@@ -1,0 +1,91 @@
+2020-10-04 14:51:50.521624: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py .....F.s..........................                      [100%]
+
+================================== FAILURES ===================================
+__________________________ test_fit_generator_shape ___________________________
+
+    def test_fit_generator_shape():
+        # predict_generator output shape behavior should be consistent
+        def expected_shape(batch_size, n_batches):
+            return (batch_size * n_batches, 4), (batch_size * n_batches, 3)
+    
+        model = get_model(num_outputs=2)
+        optimizer = 'rmsprop'
+        loss = 'mse'
+    
+        # Multiple outputs and one step.
+        batch_size = 5
+        sequence_length = 1
+        shape_0, shape_1 = expected_shape(batch_size, sequence_length)
+        out = model.predict_generator(
+            RandomSequence(batch_size, sequence_length=sequence_length))
+        assert np.shape(out[0]) == shape_0 and np.shape(out[1]) == shape_1
+    
+        out = model.predict(
+            RandomSequence(batch_size, sequence_length=sequence_length))
+        assert np.shape(out[0]) == shape_0 and np.shape(out[1]) == shape_1
+    
+        # Multiple outputs and multiple steps.
+        batch_size = 5
+        sequence_length = 2
+        shape_0, shape_1 = expected_shape(batch_size, sequence_length)
+        out = model.predict_generator(
+            RandomSequence(batch_size, sequence_length=sequence_length))
+>       assert np.shape(out[0]) == shape_0 and np.shape(out[1]) == shape_1
+E       assert ((5, 4) == (10, 4)
+E         At index 0 diff: 5 != 10
+E         Use -v to get the full diff)
+
+test_training.py:636: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 14:52:04.486240: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 14:52:04.486844: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 14:52:04.487197: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 14:52:04.487545: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 14:52:04.487884: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 14:52:04.488229: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 14:52:04.488573: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 14:52:04.488926: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 14:52:04.489531: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 14:52:04.489872: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 14:52:04.490245: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 14:52:04.490462: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 14:52:04.490978: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_fit_generator_shape - assert ((5, 4) == (10, 4)
+============ 1 failed, 32 passed, 1 skipped, 7 warnings in 30.21s =============

@@ -1,0 +1,226 @@
+2020-10-04 14:54:10.693865: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ....F..s..........................                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_fit_generator ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_fit_generator():
+        model = get_model(num_outputs=2)
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+        tracker_cb = TrackerCallback()
+        val_seq = RandomSequence(4)
+        out = model.fit_generator(generator=RandomSequence(3),
+                                  steps_per_epoch=3,
+                                  epochs=5,
+                                  initial_epoch=0,
+                                  validation_data=val_seq,
+                                  validation_steps=3,
+                                  max_queue_size=1,
+                                  callbacks=[tracker_cb])
+        assert tracker_cb.trained_epochs == [0, 1, 2, 3, 4]
+        assert tracker_cb.trained_batches == list(range(3)) * 5
+        assert len(val_seq.logs) <= 4 * 5
+    
+        tracker_cb = TrackerCallback()
+        val_seq = RandomSequence(4)
+        out = model.fit(RandomSequence(3),
+                        steps_per_epoch=3,
+                        epochs=5,
+                        initial_epoch=0,
+                        validation_data=val_seq,
+                        validation_steps=3,
+                        max_queue_size=1,
+                        callbacks=[tracker_cb])
+        assert tracker_cb.trained_epochs == [0, 1, 2, 3, 4]
+        assert tracker_cb.trained_batches == list(range(3)) * 5
+        assert len(val_seq.logs) <= 4 * 5
+    
+        # steps_per_epoch will be equal to len of sequence if it's unspecified
+        tracker_cb = TrackerCallback()
+        val_seq = RandomSequence(4)
+        out = model.fit_generator(generator=RandomSequence(3),
+                                  epochs=5,
+                                  initial_epoch=0,
+                                  validation_data=val_seq,
+                                  callbacks=[tracker_cb],
+>                                 max_queue_size=1)
+
+test_training.py:517: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732: in fit_generator
+    initial_epoch=initial_epoch)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+model = <keras.engine.training.Model object at 0x00000259F81A1358>
+generator = <test_training.RandomSequence object at 0x00000259F8266F98>
+steps_per_epoch = 12, epochs = 5, verbose = 1
+callbacks = [<test_training.TrackerCallback object at 0x00000259F81E51D0>]
+validation_data = <test_training.RandomSequence object at 0x00000259F8279CC0>
+validation_steps = None, validation_freq = 1, class_weight = None
+max_queue_size = 1, workers = 1, use_multiprocessing = False, shuffle = True
+initial_epoch = 0
+
+    def fit_generator(model,
+                      generator,
+                      steps_per_epoch=None,
+                      epochs=1,
+                      verbose=1,
+                      callbacks=None,
+                      validation_data=None,
+                      validation_steps=None,
+                      validation_freq=1,
+                      class_weight=None,
+                      max_queue_size=10,
+                      workers=1,
+                      use_multiprocessing=False,
+                      shuffle=True,
+                      initial_epoch=0):
+        """See docstring for `Model.fit_generator`."""
+        epoch = initial_epoch
+    
+        do_validation = bool(validation_data)
+        model._make_train_function()
+        if do_validation:
+            model._make_test_function()
+    
+        use_sequence_api = is_sequence(generator)
+        if not use_sequence_api and use_multiprocessing and workers > 1:
+            warnings.warn(
+                UserWarning('Using a generator with `use_multiprocessing=True`'
+                            ' and multiple workers may duplicate your data.'
+                            ' Please consider using the `keras.utils.Sequence'
+                            ' class.'))
+    
+        # if generator is instance of Sequence and steps_per_epoch are not provided -
+        # recompute steps_per_epoch after each epoch
+        recompute_steps_per_epoch = use_sequence_api and steps_per_epoch is None
+    
+        if steps_per_epoch is None:
+            if use_sequence_api:
+                steps_per_epoch = len(generator)
+            else:
+                raise ValueError('`steps_per_epoch=None` is only valid for a'
+                                 ' generator based on the '
+                                 '`keras.utils.Sequence`'
+                                 ' class. Please specify `steps_per_epoch` '
+                                 'or use the `keras.utils.Sequence` class.')
+    
+        # python 2 has 'next', 3 has '__next__'
+        # avoid any explicit version checks
+        val_use_sequence_api = is_sequence(validation_data)
+        val_gen = (hasattr(validation_data, 'next') or
+                   hasattr(validation_data, '__next__') or
+                   val_use_sequence_api)
+        if (val_gen and val_use_sequence_api and
+                not validation_steps):
+>           raise ValueError('`validation_steps=None` is only valid for a'
+                             ' generator based on the `keras.utils.Sequence`'
+                             ' class. Please specify `validation_steps` or use'
+                             ' the `keras.utils.Sequence` class.')
+E           ValueError: `validation_steps=None` is only valid for a generator based on the `keras.utils.Sequence` class. Please specify `validation_steps` or use the `keras.utils.Sequence` class.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:76: ValueError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.7459 - dense_1_loss: 0.5953 - dropout_loss: 0.3014
+3/3 [==============================] - 0s 47ms/step - loss: 0.7370 - dense_1_loss: 0.5294 - dropout_loss: 0.4152 - val_loss: 0.3848 - val_dense_1_loss: 0.4414 - val_dropout_loss: 0.1753
+Epoch 2/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.6657 - dense_1_loss: 0.4125 - dropout_loss: 0.5066
+3/3 [==============================] - 0s 16ms/step - loss: 0.7978 - dense_1_loss: 0.5671 - dropout_loss: 0.4613 - val_loss: 0.4235 - val_dense_1_loss: 0.5564 - val_dropout_loss: 0.1323
+Epoch 3/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 1.0358 - dense_1_loss: 0.8248 - dropout_loss: 0.4220
+3/3 [==============================] - 0s 10ms/step - loss: 0.9977 - dense_1_loss: 0.7266 - dropout_loss: 0.5421 - val_loss: 0.4763 - val_dense_1_loss: 0.5286 - val_dropout_loss: 0.1909
+Epoch 4/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.7654 - dense_1_loss: 0.4300 - dropout_loss: 0.6708
+3/3 [==============================] - 0s 10ms/step - loss: 0.9039 - dense_1_loss: 0.6167 - dropout_loss: 0.5742 - val_loss: 0.6169 - val_dense_1_loss: 0.6019 - val_dropout_loss: 0.1906
+Epoch 5/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.8271 - dense_1_loss: 0.5324 - dropout_loss: 0.5894
+3/3 [==============================] - 0s 42ms/step - loss: 0.8028 - dense_1_loss: 0.5703 - dropout_loss: 0.4650 - val_loss: 0.7074 - val_dense_1_loss: 0.5536 - val_dropout_loss: 0.1770
+Epoch 1/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.7873 - dense_1_loss: 0.6633 - dropout_loss: 0.2481
+3/3 [==============================] - 0s 16ms/step - loss: 0.7424 - dense_1_loss: 0.5569 - dropout_loss: 0.3710 - val_loss: 0.4747 - val_dense_1_loss: 0.4842 - val_dropout_loss: 0.1485
+Epoch 2/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.6674 - dense_1_loss: 0.5179 - dropout_loss: 0.2989
+3/3 [==============================] - 0s 16ms/step - loss: 0.6672 - dense_1_loss: 0.4093 - dropout_loss: 0.5157 - val_loss: 0.5486 - val_dense_1_loss: 0.5627 - val_dropout_loss: 0.1720
+Epoch 3/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.6175 - dense_1_loss: 0.4149 - dropout_loss: 0.4053
+3/3 [==============================] - 0s 16ms/step - loss: 0.5405 - dense_1_loss: 0.3570 - dropout_loss: 0.3669 - val_loss: 0.4933 - val_dense_1_loss: 0.4330 - val_dropout_loss: 0.1279
+Epoch 4/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.7324 - dense_1_loss: 0.5892 - dropout_loss: 0.2864
+3/3 [==============================] - 0s 16ms/step - loss: 0.7380 - dense_1_loss: 0.5672 - dropout_loss: 0.3415 - val_loss: 0.4866 - val_dense_1_loss: 0.5206 - val_dropout_loss: 0.1018
+Epoch 5/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.8993 - dense_1_loss: 0.5490 - dropout_loss: 0.7007
+3/3 [==============================] - 0s 42ms/step - loss: 0.7326 - dense_1_loss: 0.4761 - dropout_loss: 0.5130 - val_loss: 0.4405 - val_dense_1_loss: 0.4356 - val_dropout_loss: 0.2115
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 14:54:19.193289: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 14:54:19.193907: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 14:54:19.194253: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 14:54:19.194718: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 14:54:19.195142: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 14:54:19.195566: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 14:54:19.195981: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 14:54:19.196357: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 14:54:19.197036: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 14:54:19.197361: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 14:54:19.197722: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 14:54:19.197944: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 14:54:19.198473: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator failed and was not selected for rerun.
+	<class 'ValueError'>
+	`validation_steps=None` is only valid for a generator based on the `keras.utils.Sequence` class. Please specify `validation_steps` or use the `keras.utils.Sequence` class.
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:517>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:76>]
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_fit_generator - ValueError: `validation_steps=N...
+============ 1 failed, 32 passed, 1 skipped, 7 warnings in 26.81s =============
