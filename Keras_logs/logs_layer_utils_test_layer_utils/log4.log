@@ -1,0 +1,277 @@
+2020-10-04 18:15:15.703514: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 1 item
+
+layer_utils_test.py F                                                    [100%]
+
+================================== FAILURES ===================================
+____________________________ test_convert_weights _____________________________
+
+    def test_convert_weights():
+        def get_model(shape, data_format):
+            model = Sequential()
+            model.add(Conv2D(filters=2,
+                             kernel_size=(4, 3),
+                             input_shape=shape,
+                             data_format=data_format))
+            model.add(Flatten())
+            model.add(Dense(5))
+            return model
+    
+        for data_format in ['channels_first', 'channels_last']:
+            if data_format == 'channels_first':
+                shape = (3, 5, 5)
+                target_shape = (5, 5, 3)
+                prev_shape = (2, 3, 2)
+                flip = lambda x: np.flip(np.flip(x, axis=2), axis=3)
+                transpose = lambda x: np.transpose(x, (0, 2, 3, 1))
+                target_data_format = 'channels_last'
+            elif data_format == 'channels_last':
+                shape = (5, 5, 3)
+                target_shape = (3, 5, 5)
+                prev_shape = (2, 2, 3)
+                flip = lambda x: np.flip(np.flip(x, axis=1), axis=2)
+                transpose = lambda x: np.transpose(x, (0, 3, 1, 2))
+                target_data_format = 'channels_first'
+    
+>           model1 = get_model(shape, data_format)
+
+layer_utils_test.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+layer_utils_test.py:18: in get_model
+    data_format=data_format))
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\sequential.py:190: in add
+    self.build()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\sequential.py:229: in build
+    name=self.name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:241: in _init_graph_network
+    self.inputs, self.outputs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+inputs = [<tf.Tensor 'conv2d_1/BiasAdd:0' shape=(?, 2, 2, 3) dtype=float32>]
+outputs = [<tf.Tensor 'conv2d_1/BiasAdd:0' shape=(?, 2, 2, 3) dtype=float32>]
+
+    def _map_graph_network(inputs, outputs):
+        """Validates a network's topology and gather its layers and nodes.
+    
+        # Arguments
+            inputs: List of input tensors.
+            outputs: List of outputs tensors.
+    
+        # Returns
+            A tuple `(nodes, nodes_by_depth, layers, layers_by_depth)`.
+            - nodes: list of Node instances.
+            - nodes_by_depth: dict mapping ints (depth) to lists of node instances.
+            - layers: list of Layer instances.
+            - layers_by_depth: dict mapping ints (depth)
+                to lists of layer instances.
+    
+        # Raises
+            ValueError: In case the network is not valid (e.g. disconnected graph).
+        """
+        # Network_nodes: set of nodes included in the graph of layers
+        # (not all nodes included in the layers are relevant to the current graph).
+        network_nodes = set()  # ids of all nodes relevant to the Network
+        nodes_depths = {}  # dict {node: depth value}
+        layers_depths = {}  # dict {layer: depth value}
+        layer_indices = {}  # dict {layer: index in traversal}
+        nodes_in_decreasing_depth = []
+    
+        def build_map(tensor,
+                      finished_nodes,
+                      nodes_in_progress,
+                      layer,
+                      node_index,
+                      tensor_index):
+            """Builds a map of the graph of layers.
+    
+            This recursively updates the map `layer_indices`,
+            the list `nodes_in_decreasing_depth` and the set `network_nodes`.
+    
+            # Arguments
+                tensor: Some tensor in a graph.
+                finished_nodes: Set of nodes whose subgraphs have been traversed
+                    completely. Useful to prevent duplicated work.
+                nodes_in_progress: Set of nodes that are currently active on the
+                    recursion stack. Useful to detect cycles.
+                layer: Layer from which `tensor` comes from. If not provided,
+                    will be obtained from `tensor._keras_history`.
+                node_index: Node index from which `tensor` comes from.
+                tensor_index: Tensor_index from which `tensor` comes from.
+    
+            # Raises
+                ValueError: if a cycle is detected.
+            """
+            node = layer._inbound_nodes[node_index]
+    
+            # Prevent cycles.
+            if node in nodes_in_progress:
+                raise ValueError('The tensor ' + str(tensor) + ' at layer "' +
+                                 layer.name + '" is part of a cycle.')
+    
+            # Don't repeat work for shared subgraphs
+            if node in finished_nodes:
+                return
+    
+            node_key = _make_node_key(layer.name, node_index)
+            # Update network_nodes.
+            network_nodes.add(node_key)
+    
+            # Store the traversal order for layer sorting.
+            if layer not in layer_indices:
+                layer_indices[layer] = len(layer_indices)
+    
+            nodes_in_progress.add(node)
+    
+            # Propagate to all previous tensors connected to this node.
+            for i in range(len(node.inbound_layers)):
+                x = node.input_tensors[i]
+                layer = node.inbound_layers[i]
+                node_index = node.node_indices[i]
+                tensor_index = node.tensor_indices[i]
+                build_map(x, finished_nodes, nodes_in_progress, layer,
+                          node_index, tensor_index)
+    
+            finished_nodes.add(node)
+            nodes_in_progress.remove(node)
+            nodes_in_decreasing_depth.append(node)
+    
+        finished_nodes = set()
+        nodes_in_progress = set()
+        for x in outputs:
+            layer, node_index, tensor_index = x._keras_history
+            build_map(x, finished_nodes, nodes_in_progress,
+                      layer=layer,
+                      node_index=node_index,
+                      tensor_index=tensor_index)
+    
+        for node in reversed(nodes_in_decreasing_depth):
+            # If the depth is not set, the node has no outbound nodes (depth 0).
+            depth = nodes_depths.setdefault(node, 0)
+    
+            # Update the depth of the corresponding layer
+            previous_depth = layers_depths.get(node.outbound_layer, 0)
+            # If we've seen this layer before at a higher depth,
+            # we should use that depth instead of the node depth.
+            # This is necessary for shared layers that have inputs at different
+            # depth levels in the graph.
+            depth = max(depth, previous_depth)
+            layers_depths[node.outbound_layer] = depth
+            nodes_depths[node] = depth
+    
+            # Update the depth of inbound nodes.
+            # The "depth" of a node is the max of the depths
+            # of all layers it is connected to.
+            for i in range(len(node.inbound_layers)):
+                inbound_layer = node.inbound_layers[i]
+                node_index = node.node_indices[i]
+                inbound_node = inbound_layer._inbound_nodes[node_index]
+                previous_depth = nodes_depths.get(inbound_node, 0)
+                nodes_depths[inbound_node] = max(depth + 1, previous_depth)
+    
+        # Build a dict {depth: list of nodes with this depth}
+        nodes_by_depth = {}
+        for node, depth in nodes_depths.items():
+            if depth not in nodes_by_depth:
+                nodes_by_depth[depth] = []
+            nodes_by_depth[depth].append(node)
+    
+        # Build a dict {depth: list of layers with this depth}
+        layers_by_depth = {}
+        for layer, depth in layers_depths.items():
+            if depth not in layers_by_depth:
+                layers_by_depth[depth] = []
+            layers_by_depth[depth].append(layer)
+    
+        # Get sorted list of layer depths.
+        depth_keys = list(layers_by_depth.keys())
+        depth_keys.sort(reverse=True)
+    
+        # Set self.layers and self._layers_by_depth.
+        layers = []
+        for depth in depth_keys:
+            layers_for_depth = layers_by_depth[depth]
+            # Network.layers needs to have a deterministic order:
+            # here we order them by traversal order.
+            layers_for_depth.sort(key=lambda x: layer_indices[x])
+            layers.extend(layers_for_depth)
+    
+        # Get sorted list of node depths.
+        depth_keys = list(nodes_by_depth.keys())
+        depth_keys.sort(reverse=True)
+    
+        # Check that all tensors required are computable.
+        # computable_tensors: all tensors in the graph
+        # that can be computed from the inputs provided.
+        computable_tensors = []
+        for x in inputs:
+            computable_tensors.append(x)
+    
+        layers_with_complete_input = []  # To provide a better error msg.
+        for depth in depth_keys:
+            for node in nodes_by_depth[depth]:
+                layer = node.outbound_layer
+                if layer:
+                    for x in node.input_tensors:
+                        if id(x) not in [id(ct) for ct in computable_tensors]:
+                            raise ValueError('Graph disconnected: '
+                                             'cannot obtain value for tensor ' +
+                                             str(x) + ' at layer "' +
+                                             layer.name + '". '
+                                             'The following previous layers '
+                                             'were accessed without issue: ' +
+>                                            str(layers_with_complete_input))
+E                           ValueError: Graph disconnected: cannot obtain value for tensor Tensor("conv2d_1_input:0", shape=(?, 3, 5, 5), dtype=float32) at layer "conv2d_1_input". The following previous layers were accessed without issue: []
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:1511: ValueError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-04 18:15:19.645481: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 18:15:19.761505: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 18:15:19.763783: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 18:15:19.769542: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 18:15:19.773067: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 18:15:19.774715: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 18:15:19.779440: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 18:15:19.782638: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 18:15:19.791892: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 18:15:19.792823: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 18:15:19.793430: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 18:15:19.807315: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 18:15:19.807862: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 18:15:19.808203: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 18:15:19.808541: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 18:15:19.808882: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 18:15:19.809232: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 18:15:19.809578: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 18:15:19.809923: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 18:15:19.810748: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 18:15:20.761037: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 18:15:20.761456: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 18:15:20.761691: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 18:15:20.762428: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+============================== warnings summary ===============================
+layer_utils_test.py::test_convert_weights
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:190: UserWarning: Sequential inputs must come from `keras.layers.Input` (thus holding past layer metadata), they cannot be the output of a previous non-Input layer. Here, a tensor specified as input to your model was not an Input tensor, it was generated by layer conv2d_1.
+  Note that input tensors are instantiated via `tensor = keras.layers.Input(shape)`.
+  The tensor that caused the issue was: conv2d_1/BiasAdd:0
+    str(x.name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ===========================
+FAILED layer_utils_test.py::test_convert_weights - ValueError: Graph disconne...
+======================== 1 failed, 1 warning in 3.08s =========================

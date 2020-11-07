@@ -1,0 +1,124 @@
+2020-10-04 18:17:19.336536: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 1 item
+
+layer_utils_test.py F                                                    [100%]
+
+================================== FAILURES ===================================
+____________________________ test_convert_weights _____________________________
+
+    def test_convert_weights():
+        def get_model(shape, data_format):
+            model = Sequential()
+            model.add(Conv2D(filters=2,
+                             kernel_size=(4, 3),
+                             input_shape=shape,
+                             data_format=data_format))
+            model.add(Flatten())
+            model.add(Dense(5))
+            return model
+    
+        for data_format in ['channels_first', 'channels_last']:
+            if data_format == 'channels_first':
+                shape = (3, 5, 5)
+                target_shape = (5, 5, 3)
+                prev_shape = (2, 3, 2)
+                flip = lambda x: np.flip(np.flip(x, axis=2), axis=3)
+                transpose = lambda x: np.transpose(x, (0, 2, 3, 1))
+                target_data_format = 'channels_last'
+            elif data_format == 'channels_last':
+                shape = (5, 5, 3)
+                target_shape = (3, 5, 5)
+                prev_shape = (2, 2, 3)
+                flip = lambda x: np.flip(np.flip(x, axis=1), axis=2)
+                transpose = lambda x: np.transpose(x, (0, 3, 1, 2))
+                target_data_format = 'channels_first'
+    
+            model1 = get_model(shape, data_format)
+            model2 = get_model(target_shape, target_data_format)
+            conv = K.function([model1.input], [model1.layers[0].output])
+    
+            x = np.random.random((1,) + shape)
+    
+            # Test equivalence of convert_all_kernels_in_model
+            convout1 = conv([x])[0]
+>           layer_utils.convert_all_kernels_in_model(model1)
+
+layer_utils_test.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\layer_utils.py:214: in convert_all_kernels_in_model
+    converted_kernel = convert_kernel(original_kernel)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+kernel = array(None, dtype=object)
+
+    def convert_kernel(kernel):
+        """Converts a Numpy kernel matrix from Theano format to TensorFlow format.
+    
+        Also works reciprocally, since the transformation is its own inverse.
+    
+        # Arguments
+            kernel: Numpy array (3D, 4D or 5D).
+    
+        # Returns
+            The converted kernel.
+    
+        # Raises
+            ValueError: in case of invalid kernel shape or invalid data_format.
+        """
+        kernel = np.asarray(kernel)
+        if not 3 <= kernel.ndim <= 5:
+>           raise ValueError('Invalid kernel shape:', kernel.shape)
+E           ValueError: ('Invalid kernel shape:', ())
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\conv_utils.py:78: ValueError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-04 18:17:22.014377: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 18:17:22.148623: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 18:17:22.150249: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 18:17:22.153957: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 18:17:22.157289: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 18:17:22.158936: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 18:17:22.163790: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 18:17:22.167063: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 18:17:22.176167: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 18:17:22.177133: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 18:17:22.177750: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 18:17:22.192429: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 18:17:22.192985: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 18:17:22.193332: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 18:17:22.193675: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 18:17:22.194026: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 18:17:22.194387: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 18:17:22.194734: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 18:17:22.195093: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 18:17:22.195961: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 18:17:23.138106: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 18:17:23.138531: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 18:17:23.138751: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 18:17:23.139563: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-04 18:17:23.726445: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 18:17:25.800844: W tensorflow/stream_executor/cuda/redzone_allocator.cc:312] Internal: Invoking ptxas not supported on Windows
+Relying on driver to perform ptx compilation. This message will be only logged once.
+2020-10-04 18:17:25.823980: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+=========================== short test summary info ===========================
+FAILED layer_utils_test.py::test_convert_weights - ValueError: ('Invalid kern...
+============================== 1 failed in 5.25s ==============================

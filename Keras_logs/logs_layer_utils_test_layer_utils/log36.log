@@ -1,0 +1,114 @@
+2020-10-04 18:20:43.619577: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\utils
+plugins: flaky-3.7.0
+collected 1 item
+
+layer_utils_test.py F                                                    [100%]
+
+================================== FAILURES ===================================
+____________________________ test_convert_weights _____________________________
+
+    def test_convert_weights():
+        def get_model(shape, data_format):
+            model = Sequential()
+            model.add(Conv2D(filters=2,
+                             kernel_size=(4, 3),
+                             input_shape=shape,
+                             data_format=data_format))
+            model.add(Flatten())
+            model.add(Dense(5))
+            return model
+    
+        for data_format in ['channels_first', 'channels_last']:
+            if data_format == 'channels_first':
+                shape = (3, 5, 5)
+                target_shape = (5, 5, 3)
+                prev_shape = (2, 3, 2)
+                flip = lambda x: np.flip(np.flip(x, axis=2), axis=3)
+                transpose = lambda x: np.transpose(x, (0, 2, 3, 1))
+                target_data_format = 'channels_last'
+            elif data_format == 'channels_last':
+                shape = (5, 5, 3)
+                target_shape = (3, 5, 5)
+                prev_shape = (2, 2, 3)
+                flip = lambda x: np.flip(np.flip(x, axis=1), axis=2)
+                transpose = lambda x: np.transpose(x, (0, 3, 1, 2))
+                target_data_format = 'channels_first'
+    
+            model1 = get_model(shape, data_format)
+            model2 = get_model(target_shape, target_data_format)
+>           conv = K.function([model1.input], [model1.layers[0].output])
+
+layer_utils_test.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.sequential.Sequential object at 0x000001CB98F11128>
+
+    @property
+    def input(self):
+        """Retrieves the input tensor(s) of a layer.
+    
+        Only applicable if the layer has exactly one inbound node,
+        i.e. if it is connected to one incoming layer.
+    
+        # Returns
+            Input tensor or list of input tensors.
+    
+        # Raises
+            AttributeError: if the layer is connected to
+            more than one incoming layers.
+        """
+        if len(self._inbound_nodes) > 1:
+            raise AttributeError('Layer ' + self.name +
+                                 ' has multiple inbound nodes, '
+                                 'hence the notion of "layer input" '
+                                 'is ill-defined. '
+                                 'Use `get_input_at(node_index)` instead.')
+        elif not self._inbound_nodes:
+            raise AttributeError('Layer ' + self.name +
+>                                ' is not connected, no input to return.')
+E           AttributeError: Layer sequential_1 is not connected, no input to return.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:822: AttributeError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-04 18:20:47.602510: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 18:20:47.720227: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 18:20:47.721569: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 18:20:47.725066: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 18:20:47.728415: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 18:20:47.730107: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 18:20:47.736596: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 18:20:47.741434: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 18:20:47.753367: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 18:20:47.754555: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 18:20:47.755251: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 18:20:47.767506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 18:20:47.768360: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 18:20:47.768927: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 18:20:47.769493: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 18:20:47.770054: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 18:20:47.770619: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 18:20:47.771192: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 18:20:47.771764: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 18:20:47.772995: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 18:20:48.724852: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 18:20:48.725269: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 18:20:48.725507: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 18:20:48.726299: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+=========================== short test summary info ===========================
+FAILED layer_utils_test.py::test_convert_weights - AttributeError: Layer sequ...
+============================== 1 failed in 3.12s ==============================
