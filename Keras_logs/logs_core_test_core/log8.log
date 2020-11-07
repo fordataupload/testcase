@@ -1,0 +1,175 @@
+2020-10-03 15:13:42.753396: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ..............F                                             [100%]
+
+================================== FAILURES ===================================
+_______________ test_sequential_as_downstream_of_masking_layer ________________
+
+    def test_sequential_as_downstream_of_masking_layer():
+    
+        inputs = layers.Input(shape=(3, 4))
+        x = layers.Masking(mask_value=0., input_shape=(3, 4))(inputs)
+        s = Sequential()
+        s.add(layers.Dense(5, input_shape=(4,)))
+        s.add(layers.Activation('relu'))
+        x = layers.wrappers.TimeDistributed(s)(x)
+        model = Model(inputs=inputs, outputs=x)
+        model.compile(optimizer='rmsprop', loss='mse')
+        model_input = np.random.randint(low=1, high=5, size=(10, 3, 4))
+        for i in range(4):
+            model_input[i, i:, :] = 0.
+        model.fit(model_input,
+                  np.random.random((10, 3, 5)), epochs=1, batch_size=6)
+    
+        mask_outputs = [model.layers[1].compute_mask(model.layers[1].input)]
+        mask_outputs += [model.layers[2].compute_mask(model.layers[2].input,
+                                                      mask_outputs[-1])]
+>       func = K.function([model.input], mask_outputs)
+
+core_test.py:363: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:3009: in function
+    **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3678: in function
+    return GraphExecutionFunction(inputs, outputs, updates=updates, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3330: in __init__
+    with ops.control_dependencies([self.outputs[0]]):
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:5254: in control_dependencies
+    return get_default_graph().control_dependencies(control_inputs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:4688: in control_dependencies
+    c = self.as_graph_element(c)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3607: in as_graph_element
+    return self._as_graph_element_locked(obj, allow_tensor, allow_operation)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.framework.ops.Graph object at 0x000001F427A9E320>
+obj = None, allow_tensor = True, allow_operation = True
+
+    def _as_graph_element_locked(self, obj, allow_tensor, allow_operation):
+      """See `Graph.as_graph_element()` for details."""
+      # The vast majority of this function is figuring
+      # out what an API user might be doing wrong, so
+      # that we can give helpful error messages.
+      #
+      # Ideally, it would be nice to split it up, but we
+      # need context to generate nice error messages.
+    
+      if allow_tensor and allow_operation:
+        types_str = "Tensor or Operation"
+      elif allow_tensor:
+        types_str = "Tensor"
+      elif allow_operation:
+        types_str = "Operation"
+      else:
+        raise ValueError("allow_tensor and allow_operation can't both be False.")
+    
+      temp_obj = _as_graph_element(obj)
+      if temp_obj is not None:
+        obj = temp_obj
+    
+      # If obj appears to be a name...
+      if isinstance(obj, compat.bytes_or_text_types):
+        name = compat.as_str(obj)
+    
+        if ":" in name and allow_tensor:
+          # Looks like a Tensor name and can be a Tensor.
+          try:
+            op_name, out_n = name.split(":")
+            out_n = int(out_n)
+          except:
+            raise ValueError("The name %s looks a like a Tensor name, but is "
+                             "not a valid one. Tensor names must be of the "
+                             "form \"<op_name>:<output_index>\"." % repr(name))
+          if op_name in self._nodes_by_name:
+            op = self._nodes_by_name[op_name]
+          else:
+            raise KeyError("The name %s refers to a Tensor which does not "
+                           "exist. The operation, %s, does not exist in the "
+                           "graph." % (repr(name), repr(op_name)))
+          try:
+            return op.outputs[out_n]
+          except:
+            raise KeyError("The name %s refers to a Tensor which does not "
+                           "exist. The operation, %s, exists but only has "
+                           "%s outputs." %
+                           (repr(name), repr(op_name), len(op.outputs)))
+    
+        elif ":" in name and not allow_tensor:
+          # Looks like a Tensor name but can't be a Tensor.
+          raise ValueError("Name %s appears to refer to a Tensor, not a %s." %
+                           (repr(name), types_str))
+    
+        elif ":" not in name and allow_operation:
+          # Looks like an Operation name and can be an Operation.
+          if name not in self._nodes_by_name:
+            raise KeyError("The name %s refers to an Operation not in the "
+                           "graph." % repr(name))
+          return self._nodes_by_name[name]
+    
+        elif ":" not in name and not allow_operation:
+          # Looks like an Operation name but can't be an Operation.
+          if name in self._nodes_by_name:
+            # Yep, it's an Operation name
+            err_msg = ("The name %s refers to an Operation, not a %s." %
+                       (repr(name), types_str))
+          else:
+            err_msg = ("The name %s looks like an (invalid) Operation name, "
+                       "not a %s." % (repr(name), types_str))
+          err_msg += (" Tensor names must be of the form "
+                      "\"<op_name>:<output_index>\".")
+          raise ValueError(err_msg)
+    
+      elif isinstance(obj, Tensor) and allow_tensor:
+        # Actually obj is just the object it's referring to.
+        if obj.graph is not self:
+          raise ValueError("Tensor %s is not an element of this graph." % obj)
+        return obj
+      elif isinstance(obj, Operation) and allow_operation:
+        # Actually obj is just the object it's referring to.
+        if obj.graph is not self:
+          raise ValueError("Operation %s is not an element of this graph." % obj)
+        return obj
+      else:
+        # We give up!
+        raise TypeError("Can not convert a %s into a %s." %
+>                       (type(obj).__name__, types_str))
+E       TypeError: Can not convert a NoneType into a Tensor or Operation.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:3696: TypeError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 6/10 [=================>............] - ETA: 0s - loss: 1.2690
+10/10 [==============================] - 0s 6ms/step - loss: 1.4338
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:13:51.167089: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:13:51.167686: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:13:51.168039: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:13:51.168395: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:13:51.168731: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:13:51.169078: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:13:51.169420: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:13:51.169763: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:13:51.170338: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:13:51.170646: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:13:51.171010: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:13:51.171238: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:13:51.171743: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+2020-10-03 15:13:51.255436: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 0, topological sort failed with message: The graph couldn't be sorted in topological order.
+2020-10-03 15:13:51.256627: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 1, topological sort failed with message: The graph couldn't be sorted in topological order.
+2020-10-03 15:13:51.257772: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] layout failed: Invalid argument: The graph couldn't be sorted in topological order.
+2020-10-03 15:13:51.259057: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] model_pruner failed: Invalid argument: MutableGraphView::MutableGraphView error: node 'loss/time_distributed_1_loss/mean_squared_error/weighted_loss/concat' has self cycle fanin 'loss/time_distributed_1_loss/mean_squared_error/weighted_loss/concat'.
+2020-10-03 15:13:51.261776: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] remapper failed: Invalid argument: MutableGraphView::MutableGraphView error: node 'loss/time_distributed_1_loss/mean_squared_error/weighted_loss/concat' has self cycle fanin 'loss/time_distributed_1_loss/mean_squared_error/weighted_loss/concat'.
+2020-10-03 15:13:51.262973: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] arithmetic_optimizer failed: Invalid argument: The graph couldn't be sorted in topological order.
+2020-10-03 15:13:51.263818: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 0, topological sort failed with message: The graph couldn't be sorted in topological order.
+2020-10-03 15:13:51.264703: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 1, topological sort failed with message: The graph couldn't be sorted in topological order.
+=========================== short test summary info ===========================
+FAILED core_test.py::test_sequential_as_downstream_of_masking_layer - TypeErr...
+======================== 1 failed, 14 passed in 7.15s =========================

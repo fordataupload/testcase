@@ -1,0 +1,94 @@
+2020-10-03 15:19:18.347813: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ........F......                                             [100%]
+
+================================== FAILURES ===================================
+________________________________ test_flatten _________________________________
+
+    def test_flatten():
+    
+        def test_4d():
+            np_inp_channels_last = np.arange(24, dtype='float32').reshape(
+                                            (1, 4, 3, 2))
+    
+            np_output_cl = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_last'},
+                                      input_data=np_inp_channels_last)
+    
+            np_inp_channels_first = np.transpose(np_inp_channels_last,
+                                                 [0, 3, 1, 2])
+    
+            np_output_cf = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_first'},
+                                      input_data=np_inp_channels_first,
+                                      expected_output=np_output_cl)
+    
+        def test_3d():
+            np_inp_channels_last = np.arange(12, dtype='float32').reshape(
+                (1, 4, 3))
+    
+            np_output_cl = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_last'},
+                                      input_data=np_inp_channels_last)
+    
+            np_inp_channels_first = np.transpose(np_inp_channels_last,
+                                                 [0, 2, 1])
+    
+            np_output_cf = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_first'},
+                                      input_data=np_inp_channels_first,
+                                      expected_output=np_output_cl)
+    
+        def test_5d():
+            np_inp_channels_last = np.arange(120, dtype='float32').reshape(
+                (1, 5, 4, 3, 2))
+    
+            np_output_cl = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_last'},
+                                      input_data=np_inp_channels_last)
+    
+            np_inp_channels_first = np.transpose(np_inp_channels_last,
+                                                 [0, 4, 1, 2, 3])
+    
+            np_output_cf = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_first'},
+                                      input_data=np_inp_channels_first,
+                                      expected_output=np_output_cl)
+>       test_3d()
+
+core_test.py:145: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+core_test.py:117: in test_3d
+    input_data=np_inp_channels_last)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Flatten object at 0x000001E658D56A58>
+input_shape = (1, 4, 3)
+
+    def compute_output_shape(self, input_shape):
+        if  all(input_shape[1:]):
+            raise ValueError('The shape of the input to "Flatten" '
+                             'is not fully defined '
+>                            '(got ' + str(input_shape[1:]) + '). '
+                             'Make sure to pass a complete "input_shape" '
+                             'or "batch_input_shape" argument to the first '
+                             'layer in your model.')
+E           ValueError: The shape of the input to "Flatten" is not fully defined (got (4, 3)). Make sure to pass a complete "input_shape" or "batch_input_shape" argument to the first layer in your model.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:501: ValueError
+=========================== short test summary info ===========================
+FAILED core_test.py::test_flatten - ValueError: The shape of the input to "Fl...
+======================== 1 failed, 14 passed in 6.72s =========================

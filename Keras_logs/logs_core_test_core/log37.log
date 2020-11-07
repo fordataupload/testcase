@@ -1,0 +1,67 @@
+2020-10-03 15:19:06.838360: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ......F........                                             [100%]
+
+================================== FAILURES ===================================
+__________________ test_reshape[target_shape3-input_shape3] ___________________
+
+target_shape = (-1, 1), input_shape = (None, None, 4)
+
+    @pytest.mark.parametrize('target_shape,input_shape',
+                             [((8, 1), (3, 2, 4)),
+                              ((-1, 1), (3, 2, 4)),
+                              ((1, -1), (3, 2, 4)),
+                              ((-1, 1), (None, None, 4))])
+    def test_reshape(target_shape, input_shape):
+        layer_test(layers.Reshape,
+                   kwargs={'target_shape': target_shape},
+>                  input_shape=input_shape)
+
+core_test.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:399: in compute_output_shape
+    input_shape[1:], self.target_shape)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:381: in _fix_unknown_dimension
+    original = np.prod(input_shape, dtype=int)
+<__array_function__ internals>:6: in prod
+    ???
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\fromnumeric.py:2962: in prod
+    keepdims=keepdims, initial=initial, where=where)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = (None, 4), ufunc = <ufunc 'multiply'>, method = 'prod', axis = None
+dtype = <class 'int'>, out = None
+kwargs = {'initial': <no value>, 'keepdims': <no value>, 'where': <no value>}
+passkwargs = {}
+
+    def _wrapreduction(obj, ufunc, method, axis, dtype, out, **kwargs):
+        passkwargs = {k: v for k, v in kwargs.items()
+                      if v is not np._NoValue}
+    
+        if type(obj) is not mu.ndarray:
+            try:
+                reduction = getattr(obj, method)
+            except AttributeError:
+                pass
+            else:
+                # This branch is needed for reductions like any which don't
+                # support a dtype.
+                if dtype is not None:
+                    return reduction(axis=axis, dtype=dtype, out=out, **passkwargs)
+                else:
+                    return reduction(axis=axis, out=out, **passkwargs)
+    
+>       return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+E       TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\fromnumeric.py:90: TypeError
+=========================== short test summary info ===========================
+FAILED core_test.py::test_reshape[target_shape3-input_shape3] - TypeError: in...
+======================== 1 failed, 14 passed in 7.02s =========================

@@ -1,0 +1,211 @@
+2020-10-03 15:21:06.624954: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ...FFF.........                                             [100%]
+
+================================== FAILURES ===================================
+__________________ test_reshape[target_shape0-input_shape0] ___________________
+
+target_shape = (8, 1), input_shape = (3, 2, 4)
+
+    @pytest.mark.parametrize('target_shape,input_shape',
+                             [((8, 1), (3, 2, 4)),
+                              ((-1, 1), (3, 2, 4)),
+                              ((1, -1), (3, 2, 4)),
+                              ((-1, 1), (None, None, 4))])
+    def test_reshape(target_shape, input_shape):
+        layer_test(layers.Reshape,
+                   kwargs={'target_shape': target_shape},
+>                  input_shape=input_shape)
+
+core_test.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:399: in compute_output_shape
+    input_shape[1:], self.target_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Reshape object at 0x000001E6C1E6C358>
+input_shape = (2, 4), output_shape = [8, 1]
+
+    def _fix_unknown_dimension(self, input_shape, output_shape):
+        """Finds and replaces a missing dimension in an output shape.
+    
+        This is a near direct port of the internal Numpy function
+        `_fix_unknown_dimension` in `numpy/core/src/multiarray/shape.c`
+    
+        # Arguments
+            input_shape: original shape of array being reshaped
+            output_shape: target shape of the array, with at most
+                a single -1 which indicates a dimension that should be
+                derived from the input shape.
+    
+        # Returns
+            The new output shape with a `-1` replaced with its computed value.
+    
+        # Raises
+            ValueError: if `input_shape` and `output_shape` do not match.
+        """
+        output_shape = list(output_shape)
+        msg = 'total size of new array must be unchanged'
+    
+        known, unknown = 1, None
+        for index, dim in enumerate(output_shape):
+            if dim < 0:
+                if unknown is None:
+                    unknown = index
+                else:
+                    raise ValueError('Can only specify one unknown dimension.')
+            else:
+                known *= dim
+    
+        original = np.prod(input_shape, dtype=int)
+        if unknown is  None:
+            if known == 0 or original % known != 0:
+                raise ValueError(msg)
+>           output_shape[unknown] = original // known
+E           TypeError: list indices must be integers or slices, not NoneType
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:385: TypeError
+__________________ test_reshape[target_shape1-input_shape1] ___________________
+
+target_shape = (-1, 1), input_shape = (3, 2, 4)
+
+    @pytest.mark.parametrize('target_shape,input_shape',
+                             [((8, 1), (3, 2, 4)),
+                              ((-1, 1), (3, 2, 4)),
+                              ((1, -1), (3, 2, 4)),
+                              ((-1, 1), (None, None, 4))])
+    def test_reshape(target_shape, input_shape):
+        layer_test(layers.Reshape,
+                   kwargs={'target_shape': target_shape},
+>                  input_shape=input_shape)
+
+core_test.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:399: in compute_output_shape
+    input_shape[1:], self.target_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Reshape object at 0x000001E9224C5518>
+input_shape = (2, 4), output_shape = [-1, 1]
+
+    def _fix_unknown_dimension(self, input_shape, output_shape):
+        """Finds and replaces a missing dimension in an output shape.
+    
+        This is a near direct port of the internal Numpy function
+        `_fix_unknown_dimension` in `numpy/core/src/multiarray/shape.c`
+    
+        # Arguments
+            input_shape: original shape of array being reshaped
+            output_shape: target shape of the array, with at most
+                a single -1 which indicates a dimension that should be
+                derived from the input shape.
+    
+        # Returns
+            The new output shape with a `-1` replaced with its computed value.
+    
+        # Raises
+            ValueError: if `input_shape` and `output_shape` do not match.
+        """
+        output_shape = list(output_shape)
+        msg = 'total size of new array must be unchanged'
+    
+        known, unknown = 1, None
+        for index, dim in enumerate(output_shape):
+            if dim < 0:
+                if unknown is None:
+                    unknown = index
+                else:
+                    raise ValueError('Can only specify one unknown dimension.')
+            else:
+                known *= dim
+    
+        original = np.prod(input_shape, dtype=int)
+        if unknown is  None:
+            if known == 0 or original % known != 0:
+                raise ValueError(msg)
+            output_shape[unknown] = original // known
+        elif original != known:
+>           raise ValueError(msg)
+E           ValueError: total size of new array must be unchanged
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:387: ValueError
+__________________ test_reshape[target_shape2-input_shape2] ___________________
+
+target_shape = (1, -1), input_shape = (3, 2, 4)
+
+    @pytest.mark.parametrize('target_shape,input_shape',
+                             [((8, 1), (3, 2, 4)),
+                              ((-1, 1), (3, 2, 4)),
+                              ((1, -1), (3, 2, 4)),
+                              ((-1, 1), (None, None, 4))])
+    def test_reshape(target_shape, input_shape):
+        layer_test(layers.Reshape,
+                   kwargs={'target_shape': target_shape},
+>                  input_shape=input_shape)
+
+core_test.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:399: in compute_output_shape
+    input_shape[1:], self.target_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Reshape object at 0x000001E92233B8D0>
+input_shape = (2, 4), output_shape = [1, -1]
+
+    def _fix_unknown_dimension(self, input_shape, output_shape):
+        """Finds and replaces a missing dimension in an output shape.
+    
+        This is a near direct port of the internal Numpy function
+        `_fix_unknown_dimension` in `numpy/core/src/multiarray/shape.c`
+    
+        # Arguments
+            input_shape: original shape of array being reshaped
+            output_shape: target shape of the array, with at most
+                a single -1 which indicates a dimension that should be
+                derived from the input shape.
+    
+        # Returns
+            The new output shape with a `-1` replaced with its computed value.
+    
+        # Raises
+            ValueError: if `input_shape` and `output_shape` do not match.
+        """
+        output_shape = list(output_shape)
+        msg = 'total size of new array must be unchanged'
+    
+        known, unknown = 1, None
+        for index, dim in enumerate(output_shape):
+            if dim < 0:
+                if unknown is None:
+                    unknown = index
+                else:
+                    raise ValueError('Can only specify one unknown dimension.')
+            else:
+                known *= dim
+    
+        original = np.prod(input_shape, dtype=int)
+        if unknown is  None:
+            if known == 0 or original % known != 0:
+                raise ValueError(msg)
+            output_shape[unknown] = original // known
+        elif original != known:
+>           raise ValueError(msg)
+E           ValueError: total size of new array must be unchanged
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:387: ValueError
+=========================== short test summary info ===========================
+FAILED core_test.py::test_reshape[target_shape0-input_shape0] - TypeError: li...
+FAILED core_test.py::test_reshape[target_shape1-input_shape1] - ValueError: t...
+FAILED core_test.py::test_reshape[target_shape2-input_shape2] - ValueError: t...
+======================== 3 failed, 12 passed in 6.26s =========================

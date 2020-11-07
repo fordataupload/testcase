@@ -1,0 +1,121 @@
+2020-10-03 15:19:51.799548: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ..........FF...                                             [100%]
+
+================================== FAILURES ===================================
+_________________________________ test_lambda _________________________________
+
+    def test_lambda():
+        layer_test(layers.Lambda,
+                   kwargs={'function': lambda x: x + 1},
+>                  input_shape=(3, 2))
+
+core_test.py:159: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Lambda object at 0x0000024367A12358>
+input_shape = (3, 2)
+
+    def compute_output_shape(self, input_shape):
+        if self._output_shape is not None:
+            # With TensorFlow or CNTK, we can infer the output shape directly:
+            if K.backend() in ('tensorflow', 'cntk'):
+                if isinstance(input_shape, list):
+                    xs = [K.placeholder(shape=shape, dtype=dtype)
+                          for shape, dtype in zip(input_shape, self._input_dtypes)]
+                    x = self.call(xs)
+                else:
+                    x = K.placeholder(shape=input_shape, dtype=self._input_dtypes)
+                    x = self.call(x)
+                if isinstance(x, list):
+                    return [K.int_shape(x_elem) for x_elem in x]
+                else:
+                    return K.int_shape(x)
+            # Otherwise, we default to the input shape.
+            warnings.warn('`output_shape` argument not specified for layer {} '
+                          'and cannot be automatically inferred '
+                          'with the Theano backend. '
+                          'Defaulting to output shape `{}` '
+                          '(same as input shape). '
+                          'If the expected output shape is different, '
+                          'specify it via the `output_shape` argument.'
+                          .format(self.name, input_shape))
+            return input_shape
+        elif isinstance(self._output_shape, (tuple, list)):
+            if isinstance(input_shape, list):
+                num_samples = input_shape[0][0]
+            else:
+                num_samples = input_shape[0] if input_shape else None
+            return (num_samples,) + tuple(self._output_shape)
+        else:
+>           shape = self._output_shape(input_shape)
+E           TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:699: TypeError
+__________________________ test_lambda_output_shape ___________________________
+
+    @pytest.mark.skipif((K.backend() == 'theano'),
+                        reason="theano cannot compute "
+                               "the output shape automatically.")
+    def test_lambda_output_shape():
+        layer_test(layers.Lambda,
+                   kwargs={'function': lambda x: K.mean(x, axis=-1)},
+>                  input_shape=(3, 2, 4))
+
+core_test.py:290: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Lambda object at 0x00000245A17E3BA8>
+input_shape = (3, 2, 4)
+
+    def compute_output_shape(self, input_shape):
+        if self._output_shape is not None:
+            # With TensorFlow or CNTK, we can infer the output shape directly:
+            if K.backend() in ('tensorflow', 'cntk'):
+                if isinstance(input_shape, list):
+                    xs = [K.placeholder(shape=shape, dtype=dtype)
+                          for shape, dtype in zip(input_shape, self._input_dtypes)]
+                    x = self.call(xs)
+                else:
+                    x = K.placeholder(shape=input_shape, dtype=self._input_dtypes)
+                    x = self.call(x)
+                if isinstance(x, list):
+                    return [K.int_shape(x_elem) for x_elem in x]
+                else:
+                    return K.int_shape(x)
+            # Otherwise, we default to the input shape.
+            warnings.warn('`output_shape` argument not specified for layer {} '
+                          'and cannot be automatically inferred '
+                          'with the Theano backend. '
+                          'Defaulting to output shape `{}` '
+                          '(same as input shape). '
+                          'If the expected output shape is different, '
+                          'specify it via the `output_shape` argument.'
+                          .format(self.name, input_shape))
+            return input_shape
+        elif isinstance(self._output_shape, (tuple, list)):
+            if isinstance(input_shape, list):
+                num_samples = input_shape[0][0]
+            else:
+                num_samples = input_shape[0] if input_shape else None
+            return (num_samples,) + tuple(self._output_shape)
+        else:
+>           shape = self._output_shape(input_shape)
+E           TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:699: TypeError
+=========================== short test summary info ===========================
+FAILED core_test.py::test_lambda - TypeError: 'NoneType' object is not callable
+FAILED core_test.py::test_lambda_output_shape - TypeError: 'NoneType' object ...
+======================== 2 failed, 13 passed in 6.62s =========================

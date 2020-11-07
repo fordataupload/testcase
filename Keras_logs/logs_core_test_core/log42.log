@@ -1,0 +1,90 @@
+2020-10-03 15:20:02.837203: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ............FF.                                             [100%]
+
+================================== FAILURES ===================================
+_________________________________ test_dense __________________________________
+
+    def test_dense():
+        layer_test(layers.Dense,
+                   kwargs={'units': 3},
+>                  input_shape=(3, 2))
+
+core_test.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:81: in layer_test
+    layer = layer_cls(**kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Dense object at 0x000001E92FDF3EB8>, units = 3
+activation = None, use_bias = True, kernel_initializer = 'glorot_uniform'
+bias_initializer = 'zeros', kernel_regularizer = None, bias_regularizer = None
+activity_regularizer = None, kernel_constraint = None, bias_constraint = None
+kwargs = {}
+
+    @interfaces.legacy_dense_support
+    def __init__(self, units,
+                 activation=None,
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+                 kernel_regularizer=None,
+                 bias_regularizer=None,
+                 activity_regularizer=None,
+                 kernel_constraint=None,
+                 bias_constraint=None,
+                 **kwargs):
+        if 'input_shape' not in kwargs or 'input_dim' in kwargs:
+>           kwargs['input_shape'] = (kwargs.pop('input_dim'),)
+E           KeyError: 'input_dim'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:872: KeyError
+________________________ test_activity_regularization _________________________
+
+    def test_activity_regularization():
+        layer = layers.ActivityRegularization(l1=0.01, l2=0.01)
+    
+        # test in functional API
+        x = layers.Input(shape=(3,))
+>       z = layers.Dense(2)(x)
+
+core_test.py:331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Dense object at 0x000001EBA0E8AA20>, units = 2
+activation = None, use_bias = True, kernel_initializer = 'glorot_uniform'
+bias_initializer = 'zeros', kernel_regularizer = None, bias_regularizer = None
+activity_regularizer = None, kernel_constraint = None, bias_constraint = None
+kwargs = {}
+
+    @interfaces.legacy_dense_support
+    def __init__(self, units,
+                 activation=None,
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+                 kernel_regularizer=None,
+                 bias_regularizer=None,
+                 activity_regularizer=None,
+                 kernel_constraint=None,
+                 bias_constraint=None,
+                 **kwargs):
+        if 'input_shape' not in kwargs or 'input_dim' in kwargs:
+>           kwargs['input_shape'] = (kwargs.pop('input_dim'),)
+E           KeyError: 'input_dim'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:872: KeyError
+=========================== short test summary info ===========================
+FAILED core_test.py::test_dense - KeyError: 'input_dim'
+FAILED core_test.py::test_activity_regularization - KeyError: 'input_dim'
+======================== 2 failed, 13 passed in 5.69s =========================

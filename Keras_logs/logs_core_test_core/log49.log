@@ -1,0 +1,99 @@
+2020-10-03 15:21:17.456460: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ..........FF...                                             [100%]
+
+================================== FAILURES ===================================
+_________________________________ test_lambda _________________________________
+
+    def test_lambda():
+        layer_test(layers.Lambda,
+                   kwargs={'function': lambda x: x + 1},
+>                  input_shape=(3, 2))
+
+core_test.py:159: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:81: in layer_test
+    layer = layer_cls(**kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Lambda object at 0x000001C9262B1358>
+function = <function test_lambda.<locals>.<lambda> at 0x000001C926222840>
+output_shape = None, mask = None, arguments = None, kwargs = {}
+
+    @interfaces.legacy_lambda_support
+    def __init__(self, function, output_shape=None,
+                 mask=None, arguments=None, **kwargs):
+        super(Lambda, self).__init__(**kwargs)
+        self.function = function
+        self._input_dtypes = None
+        self.arguments = arguments if arguments else {}
+        if mask is not None:
+            self.supports_masking = True
+        self.mask = mask
+    
+        if output_shape is not None:
+            self._output_shape = None
+        elif isinstance(output_shape, (tuple, list)):
+            self._output_shape = tuple(output_shape)
+        else:
+            if not callable(output_shape):
+>               raise TypeError('In Lambda, `output_shape` '
+                                'must be a list, a tuple, or a function.')
+E               TypeError: In Lambda, `output_shape` must be a list, a tuple, or a function.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:663: TypeError
+__________________________ test_lambda_output_shape ___________________________
+
+    @pytest.mark.skipif((K.backend() == 'theano'),
+                        reason="theano cannot compute "
+                               "the output shape automatically.")
+    def test_lambda_output_shape():
+        layer_test(layers.Lambda,
+                   kwargs={'function': lambda x: K.mean(x, axis=-1)},
+>                  input_shape=(3, 2, 4))
+
+core_test.py:290: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:81: in layer_test
+    layer = layer_cls(**kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Lambda object at 0x000001C965B3DCC0>
+function = <function test_lambda_output_shape.<locals>.<lambda> at 0x000001C965C98F28>
+output_shape = None, mask = None, arguments = None, kwargs = {}
+
+    @interfaces.legacy_lambda_support
+    def __init__(self, function, output_shape=None,
+                 mask=None, arguments=None, **kwargs):
+        super(Lambda, self).__init__(**kwargs)
+        self.function = function
+        self._input_dtypes = None
+        self.arguments = arguments if arguments else {}
+        if mask is not None:
+            self.supports_masking = True
+        self.mask = mask
+    
+        if output_shape is not None:
+            self._output_shape = None
+        elif isinstance(output_shape, (tuple, list)):
+            self._output_shape = tuple(output_shape)
+        else:
+            if not callable(output_shape):
+>               raise TypeError('In Lambda, `output_shape` '
+                                'must be a list, a tuple, or a function.')
+E               TypeError: In Lambda, `output_shape` must be a list, a tuple, or a function.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:663: TypeError
+=========================== short test summary info ===========================
+FAILED core_test.py::test_lambda - TypeError: In Lambda, `output_shape` must ...
+FAILED core_test.py::test_lambda_output_shape - TypeError: In Lambda, `output...
+======================== 2 failed, 13 passed in 6.53s =========================

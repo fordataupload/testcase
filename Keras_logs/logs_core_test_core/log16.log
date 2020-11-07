@@ -1,0 +1,100 @@
+2020-10-03 15:15:10.007799: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py .F.............                                             [100%]
+
+================================== FAILURES ===================================
+________________________________ test_dropout _________________________________
+
+    def test_dropout():
+        layer_test(layers.Dropout,
+                   kwargs={'rate': 0.5},
+                   input_shape=(3, 2))
+    
+        layer_test(layers.Dropout,
+                   kwargs={'rate': 0.5, 'noise_shape': [3, 1]},
+                   input_shape=(3, 2))
+    
+        layer_test(layers.Dropout,
+                   kwargs={'rate': 0.5, 'noise_shape': [None, 1]},
+                   input_shape=(3, 2))
+    
+        layer_test(layers.SpatialDropout1D,
+                   kwargs={'rate': 0.5},
+                   input_shape=(2, 3, 4))
+    
+        for data_format in ['channels_last', 'channels_first']:
+            for shape in [(4, 5), (4, 5, 6)]:
+                if data_format == 'channels_last':
+                    input_shape = (2,) + shape + (3,)
+                else:
+                    input_shape = (2, 3) + shape
+                if len(shape) == 2:
+                    layer = layers.SpatialDropout2D
+                else:
+                    layer = layers.SpatialDropout3D
+                layer_test(layer,
+                           kwargs={'rate': 0.5,
+                                   'data_format': data_format},
+>                          input_shape=input_shape)
+
+core_test.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:121: in call
+    noise_shape = self._get_noise_shape(inputs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.SpatialDropout3D object at 0x0000023422937C18>
+inputs = <tf.Tensor 'input_6:0' shape=(?, 4, 5, 6, 3) dtype=float32>
+
+    def _get_noise_shape(self, inputs):
+        input_shape = None
+        if self.data_format == 'channels_first':
+            noise_shape = (input_shape[0], input_shape[1], 1, 1, 1)
+        else:
+>           noise_shape = (input_shape[0], 1, 1, 1, input_shape[4])
+E           TypeError: 'NoneType' object is not subscriptable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:273: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:15:15.662468: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:15:15.663078: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:15:15.663450: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:15:15.663820: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:15:15.664183: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:15:15.664545: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:15:15.664916: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:15:15.665291: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:15:15.665893: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:15:15.666221: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:15:15.666593: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:15:15.666825: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:15:15.667338: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-03 15:15:16.283562: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 0, topological sort failed with message: The graph couldn't be sorted in topological order.
+2020-10-03 15:15:16.284315: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 1, topological sort failed with message: The graph couldn't be sorted in topological order.
+2020-10-03 15:15:16.285180: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] layout failed: Invalid argument: The graph couldn't be sorted in topological order.
+2020-10-03 15:15:16.286025: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] model_pruner failed: Invalid argument: MutableGraphView::MutableGraphView error: node 'loss_3/spatial_dropout1d_1_loss/mean_squared_error/weighted_loss/concat' has self cycle fanin 'loss_3/spatial_dropout1d_1_loss/mean_squared_error/weighted_loss/concat'.
+2020-10-03 15:15:16.287553: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] remapper failed: Invalid argument: MutableGraphView::MutableGraphView error: node 'loss_3/spatial_dropout1d_1_loss/mean_squared_error/weighted_loss/concat' has self cycle fanin 'loss_3/spatial_dropout1d_1_loss/mean_squared_error/weighted_loss/concat'.
+2020-10-03 15:15:16.288498: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] arithmetic_optimizer failed: Invalid argument: The graph couldn't be sorted in topological order.
+2020-10-03 15:15:16.289133: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 0, topological sort failed with message: The graph couldn't be sorted in topological order.
+2020-10-03 15:15:16.289795: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 1, topological sort failed with message: The graph couldn't be sorted in topological order.
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+=========================== short test summary info ===========================
+FAILED core_test.py::test_dropout - TypeError: 'NoneType' object is not subsc...
+======================== 1 failed, 14 passed in 6.31s =========================

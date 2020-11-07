@@ -1,0 +1,43 @@
+2020-10-03 15:16:49.595162: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py .F.............                                             [100%]
+
+================================== FAILURES ===================================
+________________________________ test_dropout _________________________________
+
+    def test_dropout():
+        layer_test(layers.Dropout,
+                   kwargs={'rate': 0.5},
+>                  input_shape=(3, 2))
+
+core_test.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:121: in call
+    noise_shape = self._get_noise_shape(inputs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Dropout object at 0x00000259AD46A7B8>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 2) dtype=float32>
+
+    def _get_noise_shape(self, inputs):
+        if self.noise_shape is not None:
+            return self.noise_shape
+    
+        symbolic_shape = K.shape(inputs)
+        noise_shape = [symbolic_shape[axis] if shape is None else shape
+>                      for axis, shape in enumerate(self.noise_shape)]
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:116: TypeError
+=========================== short test summary info ===========================
+FAILED core_test.py::test_dropout - TypeError: 'NoneType' object is not iterable
+======================== 1 failed, 14 passed in 5.73s =========================

@@ -1,0 +1,188 @@
+2020-10-03 15:15:58.263836: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ...FFFF........                                             [100%]
+
+================================== FAILURES ===================================
+__________________ test_reshape[target_shape0-input_shape0] ___________________
+
+target_shape = (8, 1), input_shape = (3, 2, 4)
+
+    @pytest.mark.parametrize('target_shape,input_shape',
+                             [((8, 1), (3, 2, 4)),
+                              ((-1, 1), (3, 2, 4)),
+                              ((1, -1), (3, 2, 4)),
+                              ((-1, 1), (None, None, 4))])
+    def test_reshape(target_shape, input_shape):
+        layer_test(layers.Reshape,
+                   kwargs={'target_shape': target_shape},
+>                  input_shape=input_shape)
+
+core_test.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:399: in compute_output_shape
+    input_shape[1:], self.target_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Reshape object at 0x000001EBAE2EB358>
+input_shape = (2, 4), output_shape = None
+
+    def _fix_unknown_dimension(self, input_shape, output_shape):
+        """Finds and replaces a missing dimension in an output shape.
+    
+        This is a near direct port of the internal Numpy function
+        `_fix_unknown_dimension` in `numpy/core/src/multiarray/shape.c`
+    
+        # Arguments
+            input_shape: original shape of array being reshaped
+            output_shape: target shape of the array, with at most
+                a single -1 which indicates a dimension that should be
+                derived from the input shape.
+    
+        # Returns
+            The new output shape with a `-1` replaced with its computed value.
+    
+        # Raises
+            ValueError: if `input_shape` and `output_shape` do not match.
+        """
+>       output_shape = list(output_shape)
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:368: TypeError
+__________________ test_reshape[target_shape1-input_shape1] ___________________
+
+target_shape = (-1, 1), input_shape = (3, 2, 4)
+
+    @pytest.mark.parametrize('target_shape,input_shape',
+                             [((8, 1), (3, 2, 4)),
+                              ((-1, 1), (3, 2, 4)),
+                              ((1, -1), (3, 2, 4)),
+                              ((-1, 1), (None, None, 4))])
+    def test_reshape(target_shape, input_shape):
+        layer_test(layers.Reshape,
+                   kwargs={'target_shape': target_shape},
+>                  input_shape=input_shape)
+
+core_test.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:399: in compute_output_shape
+    input_shape[1:], self.target_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Reshape object at 0x000001EE206B3518>
+input_shape = (2, 4), output_shape = None
+
+    def _fix_unknown_dimension(self, input_shape, output_shape):
+        """Finds and replaces a missing dimension in an output shape.
+    
+        This is a near direct port of the internal Numpy function
+        `_fix_unknown_dimension` in `numpy/core/src/multiarray/shape.c`
+    
+        # Arguments
+            input_shape: original shape of array being reshaped
+            output_shape: target shape of the array, with at most
+                a single -1 which indicates a dimension that should be
+                derived from the input shape.
+    
+        # Returns
+            The new output shape with a `-1` replaced with its computed value.
+    
+        # Raises
+            ValueError: if `input_shape` and `output_shape` do not match.
+        """
+>       output_shape = list(output_shape)
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:368: TypeError
+__________________ test_reshape[target_shape2-input_shape2] ___________________
+
+target_shape = (1, -1), input_shape = (3, 2, 4)
+
+    @pytest.mark.parametrize('target_shape,input_shape',
+                             [((8, 1), (3, 2, 4)),
+                              ((-1, 1), (3, 2, 4)),
+                              ((1, -1), (3, 2, 4)),
+                              ((-1, 1), (None, None, 4))])
+    def test_reshape(target_shape, input_shape):
+        layer_test(layers.Reshape,
+                   kwargs={'target_shape': target_shape},
+>                  input_shape=input_shape)
+
+core_test.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:399: in compute_output_shape
+    input_shape[1:], self.target_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Reshape object at 0x000001EE20738860>
+input_shape = (2, 4), output_shape = None
+
+    def _fix_unknown_dimension(self, input_shape, output_shape):
+        """Finds and replaces a missing dimension in an output shape.
+    
+        This is a near direct port of the internal Numpy function
+        `_fix_unknown_dimension` in `numpy/core/src/multiarray/shape.c`
+    
+        # Arguments
+            input_shape: original shape of array being reshaped
+            output_shape: target shape of the array, with at most
+                a single -1 which indicates a dimension that should be
+                derived from the input shape.
+    
+        # Returns
+            The new output shape with a `-1` replaced with its computed value.
+    
+        # Raises
+            ValueError: if `input_shape` and `output_shape` do not match.
+        """
+>       output_shape = list(output_shape)
+E       TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:368: TypeError
+__________________ test_reshape[target_shape3-input_shape3] ___________________
+
+target_shape = (-1, 1), input_shape = (None, None, 4)
+
+    @pytest.mark.parametrize('target_shape,input_shape',
+                             [((8, 1), (3, 2, 4)),
+                              ((-1, 1), (3, 2, 4)),
+                              ((1, -1), (3, 2, 4)),
+                              ((-1, 1), (None, None, 4))])
+    def test_reshape(target_shape, input_shape):
+        layer_test(layers.Reshape,
+                   kwargs={'target_shape': target_shape},
+>                  input_shape=input_shape)
+
+core_test.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:87: in layer_test
+    expected_output_shape = layer.compute_output_shape(input_shape)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Reshape object at 0x000001EE20731C88>
+input_shape = (None, None, 4)
+
+    def compute_output_shape(self, input_shape):
+        if None in input_shape[1:]:
+            # input shape (partially) unknown? replace -1's with None's
+            return ((input_shape[0],) +
+>                   tuple(s if s != -1 else None for s in self.target_shape))
+E           TypeError: 'NoneType' object is not iterable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:395: TypeError
+=========================== short test summary info ===========================
+FAILED core_test.py::test_reshape[target_shape0-input_shape0] - TypeError: 'N...
+FAILED core_test.py::test_reshape[target_shape1-input_shape1] - TypeError: 'N...
+FAILED core_test.py::test_reshape[target_shape2-input_shape2] - TypeError: 'N...
+FAILED core_test.py::test_reshape[target_shape3-input_shape3] - TypeError: 'N...
+======================== 4 failed, 11 passed in 6.62s =========================

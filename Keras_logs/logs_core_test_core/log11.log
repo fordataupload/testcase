@@ -1,0 +1,70 @@
+2020-10-03 15:14:17.235836: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py .F.............                                             [100%]
+
+================================== FAILURES ===================================
+________________________________ test_dropout _________________________________
+
+    def test_dropout():
+        layer_test(layers.Dropout,
+                   kwargs={'rate': 0.5},
+                   input_shape=(3, 2))
+    
+        layer_test(layers.Dropout,
+                   kwargs={'rate': 0.5, 'noise_shape': [3, 1]},
+                   input_shape=(3, 2))
+    
+        layer_test(layers.Dropout,
+                   kwargs={'rate': 0.5, 'noise_shape': [None, 1]},
+>                  input_shape=(3, 2))
+
+core_test.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:121: in call
+    noise_shape = self._get_noise_shape(inputs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:116: in _get_noise_shape
+    for axis, shape in enumerate(self.noise_shape)]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+.0 = <enumerate object at 0x000002691778F6C0>
+
+    noise_shape = [symbolic_shape[axis] if shape is None else shape
+>                  for axis, shape in enumerate(self.noise_shape)]
+E   TypeError: 'NoneType' object is not subscriptable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:116: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:14:21.731843: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:14:21.732430: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:14:21.732777: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:14:21.733121: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:14:21.733477: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:14:21.733843: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:14:21.734213: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:14:21.734598: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:14:21.735196: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:14:21.735505: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:14:21.735866: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:14:21.736089: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:14:21.736593: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+=========================== short test summary info ===========================
+FAILED core_test.py::test_dropout - TypeError: 'NoneType' object is not subsc...
+======================== 1 failed, 14 passed in 5.24s =========================

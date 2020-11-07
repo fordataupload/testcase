@@ -1,0 +1,54 @@
+2020-10-03 15:15:35.162224: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ..F............                                             [100%]
+
+================================== FAILURES ===================================
+_______________________________ test_activation _______________________________
+
+    def test_activation():
+        # with string argument
+        layer_test(layers.Activation,
+                   kwargs={'activation': 'relu'},
+>                  input_shape=(3, 2))
+
+core_test.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:111: in layer_test
+    model_config = model.get_config()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:879: in get_config
+    layer_config = layer.get_config()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Activation object at 0x000001FC9FBC7DD8>
+
+    def get_config(self):
+        config = None
+        base_config = super(Activation, self).get_config()
+>       return dict(list(base_config.items()) + list(config.items()))
+E       AttributeError: 'NoneType' object has no attribute 'items'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:305: AttributeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:15:42.278350: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:15:42.280382: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:15:42.281688: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:15:42.282629: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:15:42.283562: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:15:42.284497: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:15:42.285445: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:15:42.286395: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:15:42.287826: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:15:42.288645: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:15:42.289597: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:15:42.290191: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:15:42.291376: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED core_test.py::test_activation - AttributeError: 'NoneType' object has ...
+======================== 1 failed, 14 passed in 6.56s =========================

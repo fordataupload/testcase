@@ -1,0 +1,64 @@
+2020-10-03 15:15:22.213749: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ..F...........F                                             [100%]
+
+================================== FAILURES ===================================
+_______________________________ test_activation _______________________________
+
+    def test_activation():
+        # with string argument
+        layer_test(layers.Activation,
+                   kwargs={'activation': 'relu'},
+>                  input_shape=(3, 2))
+
+core_test.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:94: in layer_test
+    y = layer(x)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Activation object at 0x0000012191341DA0>
+inputs = <tf.Tensor 'input_1:0' shape=(?, 2) dtype=float32>
+
+    def call(self, inputs):
+>       return self.activation(inputs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:300: TypeError
+_______________ test_sequential_as_downstream_of_masking_layer ________________
+
+    def test_sequential_as_downstream_of_masking_layer():
+    
+        inputs = layers.Input(shape=(3, 4))
+        x = layers.Masking(mask_value=0., input_shape=(3, 4))(inputs)
+        s = Sequential()
+        s.add(layers.Dense(5, input_shape=(4,)))
+>       s.add(layers.Activation('relu'))
+
+core_test.py:350: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\sequential.py:182: in add
+    output_tensor = layer(self.outputs[0])
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Activation object at 0x00000124206147F0>
+inputs = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 5) dtype=float32>
+
+    def call(self, inputs):
+>       return self.activation(inputs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:300: TypeError
+=========================== short test summary info ===========================
+FAILED core_test.py::test_activation - TypeError: 'NoneType' object is not ca...
+FAILED core_test.py::test_sequential_as_downstream_of_masking_layer - TypeErr...
+======================== 2 failed, 13 passed in 7.03s =========================

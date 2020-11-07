@@ -1,0 +1,157 @@
+2020-10-03 15:12:59.402575: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ..........FF...                                             [100%]
+
+================================== FAILURES ===================================
+_________________________________ test_lambda _________________________________
+
+    def test_lambda():
+        layer_test(layers.Lambda,
+                   kwargs={'function': lambda x: x + 1},
+>                  input_shape=(3, 2))
+
+core_test.py:159: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:112: in layer_test
+    recovered_model = model.__class__.from_config(model_config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:1056: in from_config
+    process_layer(layer_data)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:1042: in process_layer
+    custom_objects=custom_objects)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\__init__.py:168: in deserialize
+    printable_module_name='layer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'Lambda', 'config': {'arguments': {}, 'dtype': 'float32', 'function': ('4wEAAAAAAAAAAQAAAAIAAABTAAAAcwg...AAAA=\n', None, None), 'function_type': 'lambda', ...}, 'inbound_nodes': [[['input_1', 0, 0, {}]]], 'name': 'lambda_1'}
+module_objects = {'Activation': <class 'keras.layers.core.Activation'>, 'ActivityRegularization': <class 'keras.layers.core.ActivityRegularization'>, 'Add': <class 'keras.layers.merge.Add'>, 'AlphaDropout': <class 'keras.layers.noise.AlphaDropout'>, ...}
+custom_objects = {}, printable_module_name = 'layer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+                                     ': ' + class_name)
+            if hasattr(cls, 'from_config'):
+                custom_objects = custom_objects or {}
+                if has_arg(cls.from_config, 'custom_objects'):
+                    return cls.from_config(
+                        config['config'],
+                        custom_objects=dict(list(_GLOBAL_CUSTOM_OBJECTS.items()) +
+>                                           list(custom_objects.items())))
+E                   TypeError: from_config() missing 1 required positional argument: 'config'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:147: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:13:05.615587: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:13:05.616157: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:13:05.616508: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:13:05.616873: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:13:05.617279: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:13:05.617644: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:13:05.618012: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:13:05.618392: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:13:05.618975: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:13:05.619278: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:13:05.619631: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:13:05.619856: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:13:05.620392: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+__________________________ test_lambda_output_shape ___________________________
+
+    @pytest.mark.skipif((K.backend() == 'theano'),
+                        reason="theano cannot compute "
+                               "the output shape automatically.")
+    def test_lambda_output_shape():
+        layer_test(layers.Lambda,
+                   kwargs={'function': lambda x: K.mean(x, axis=-1)},
+>                  input_shape=(3, 2, 4))
+
+core_test.py:290: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:112: in layer_test
+    recovered_model = model.__class__.from_config(model_config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:1056: in from_config
+    process_layer(layer_data)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:1042: in process_layer
+    custom_objects=custom_objects)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\__init__.py:168: in deserialize
+    printable_module_name='layer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'class_name': 'Lambda', 'config': {'arguments': {}, 'dtype': 'float32', 'function': ('4wEAAAAAAAAAAQAAAAQAAABTAAAAcw4...AAAAA\n', None, None), 'function_type': 'lambda', ...}, 'inbound_nodes': [[['input_1', 0, 0, {}]]], 'name': 'lambda_1'}
+module_objects = {'Activation': <class 'keras.layers.core.Activation'>, 'ActivityRegularization': <class 'keras.layers.core.ActivityRegularization'>, 'Add': <class 'keras.layers.merge.Add'>, 'AlphaDropout': <class 'keras.layers.noise.AlphaDropout'>, ...}
+custom_objects = {}, printable_module_name = 'layer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+                raise ValueError('Improper config format: ' + str(config))
+            class_name = config['class_name']
+            if custom_objects and class_name in custom_objects:
+                cls = custom_objects[class_name]
+            elif class_name in _GLOBAL_CUSTOM_OBJECTS:
+                cls = _GLOBAL_CUSTOM_OBJECTS[class_name]
+            else:
+                module_objects = module_objects or {}
+                cls = module_objects.get(class_name)
+                if cls is None:
+                    raise ValueError('Unknown ' + printable_module_name +
+                                     ': ' + class_name)
+            if hasattr(cls, 'from_config'):
+                custom_objects = custom_objects or {}
+                if has_arg(cls.from_config, 'custom_objects'):
+                    return cls.from_config(
+                        config['config'],
+                        custom_objects=dict(list(_GLOBAL_CUSTOM_OBJECTS.items()) +
+>                                           list(custom_objects.items())))
+E                   TypeError: from_config() missing 1 required positional argument: 'config'
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:147: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:13:06.622837: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:13:06.623421: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:13:06.623767: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:13:06.624109: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:13:06.624448: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:13:06.624790: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:13:06.625134: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:13:06.625501: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:13:06.626083: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:13:06.626405: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:13:06.626762: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:13:06.626983: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:13:06.627488: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED core_test.py::test_lambda - TypeError: from_config() missing 1 require...
+FAILED core_test.py::test_lambda_output_shape - TypeError: from_config() miss...
+======================== 2 failed, 13 passed in 6.49s =========================

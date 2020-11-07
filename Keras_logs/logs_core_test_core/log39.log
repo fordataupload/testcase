@@ -1,0 +1,180 @@
+2020-10-03 15:19:29.483583: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ........F......                                             [100%]
+
+================================== FAILURES ===================================
+________________________________ test_flatten _________________________________
+
+    def test_flatten():
+    
+        def test_4d():
+            np_inp_channels_last = np.arange(24, dtype='float32').reshape(
+                                            (1, 4, 3, 2))
+    
+            np_output_cl = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_last'},
+                                      input_data=np_inp_channels_last)
+    
+            np_inp_channels_first = np.transpose(np_inp_channels_last,
+                                                 [0, 3, 1, 2])
+    
+            np_output_cf = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_first'},
+                                      input_data=np_inp_channels_first,
+                                      expected_output=np_output_cl)
+    
+        def test_3d():
+            np_inp_channels_last = np.arange(12, dtype='float32').reshape(
+                (1, 4, 3))
+    
+            np_output_cl = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_last'},
+                                      input_data=np_inp_channels_last)
+    
+            np_inp_channels_first = np.transpose(np_inp_channels_last,
+                                                 [0, 2, 1])
+    
+            np_output_cf = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_first'},
+                                      input_data=np_inp_channels_first,
+                                      expected_output=np_output_cl)
+    
+        def test_5d():
+            np_inp_channels_last = np.arange(120, dtype='float32').reshape(
+                (1, 5, 4, 3, 2))
+    
+            np_output_cl = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_last'},
+                                      input_data=np_inp_channels_last)
+    
+            np_inp_channels_first = np.transpose(np_inp_channels_last,
+                                                 [0, 4, 1, 2, 3])
+    
+            np_output_cf = layer_test(layers.Flatten,
+                                      kwargs={'data_format':
+                                              'channels_first'},
+                                      input_data=np_inp_channels_first,
+                                      expected_output=np_output_cl)
+        test_3d()
+>       test_4d()
+
+core_test.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+core_test.py:108: in test_4d
+    expected_output=np_output_cl)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+layer_cls = <class 'keras.layers.core.Flatten'>
+kwargs = {'data_format': 'channels_first'}, input_shape = (1, 2, 4, 3)
+input_dtype = dtype('float32')
+input_data = array([[[[ 0.,  2.,  4.],
+         [ 6.,  8., 10.],
+         [12., 14., 16.],
+         [18., 20., 22.]],
+
+        [[ 1.,  3.,  5.],
+         [ 7.,  9., 11.],
+         [13., 15., 17.],
+         [19., 21., 23.]]]], dtype=float32)
+expected_output = array([[ 0.,  6., 12., 18.,  1.,  7., 13., 19.,  2.,  8., 14., 20.,  3.,
+         9., 15., 21.,  4., 10., 16., 22.,  5., 11., 17., 23.]],
+      dtype=float32)
+expected_output_dtype = dtype('float32'), fixed_batch_size = False
+
+    def layer_test(layer_cls, kwargs={}, input_shape=None, input_dtype=None,
+                   input_data=None, expected_output=None,
+                   expected_output_dtype=None, fixed_batch_size=False):
+        """Test routine for a layer with a single input tensor
+        and single output tensor.
+        """
+        # generate input data
+        if input_data is None:
+            assert input_shape
+            if not input_dtype:
+                input_dtype = K.floatx()
+            input_data_shape = list(input_shape)
+            for i, e in enumerate(input_data_shape):
+                if e is None:
+                    input_data_shape[i] = np.random.randint(1, 4)
+            input_data = (10 * np.random.random(input_data_shape))
+            input_data = input_data.astype(input_dtype)
+        else:
+            if input_shape is None:
+                input_shape = input_data.shape
+            if input_dtype is None:
+                input_dtype = input_data.dtype
+        if expected_output_dtype is None:
+            expected_output_dtype = input_dtype
+    
+        # instantiation
+        layer = layer_cls(**kwargs)
+    
+        # test get_weights , set_weights at layer level
+        weights = layer.get_weights()
+        layer.set_weights(weights)
+    
+        expected_output_shape = layer.compute_output_shape(input_shape)
+    
+        # test in functional API
+        if fixed_batch_size:
+            x = Input(batch_shape=input_shape, dtype=input_dtype)
+        else:
+            x = Input(shape=input_shape[1:], dtype=input_dtype)
+        y = layer(x)
+        assert K.dtype(y) == expected_output_dtype
+    
+        # check with the functional API
+        model = Model(x, y)
+    
+        actual_output = model.predict(input_data)
+        actual_output_shape = actual_output.shape
+        for expected_dim, actual_dim in zip(expected_output_shape,
+                                            actual_output_shape):
+            if expected_dim is not None:
+                assert expected_dim == actual_dim
+    
+        if expected_output is not None:
+>           assert_allclose(actual_output, expected_output, rtol=1e-3)
+E           AssertionError: 
+E           Not equal to tolerance rtol=0.001, atol=0
+E           
+E           Mismatched elements: 22 / 24 (91.7%)
+E           Max absolute difference: 14.
+E           Max relative difference: 7.
+E            x: array([[ 0.,  2.,  4.,  6.,  8., 10., 12., 14., 16., 18., 20., 22.,  1.,
+E                    3.,  5.,  7.,  9., 11., 13., 15., 17., 19., 21., 23.]],
+E                 dtype=float32)
+E            y: array([[ 0.,  6., 12., 18.,  1.,  7., 13., 19.,  2.,  8., 14., 20.,  3.,
+E                    9., 15., 21.,  4., 10., 16., 22.,  5., 11., 17., 23.]],
+E                 dtype=float32)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\test_utils.py:108: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2020-10-03 15:19:35.724934: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-03 15:19:35.725496: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-03 15:19:35.725846: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-03 15:19:35.726190: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-03 15:19:35.726526: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-03 15:19:35.726874: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-03 15:19:35.727222: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-03 15:19:35.727602: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-03 15:19:35.728585: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-03 15:19:35.729736: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-03 15:19:35.731049: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-03 15:19:35.731865: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-03 15:19:35.733524: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+=========================== short test summary info ===========================
+FAILED core_test.py::test_flatten - AssertionError: 
+======================== 1 failed, 14 passed in 6.92s =========================

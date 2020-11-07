@@ -1,0 +1,67 @@
+2020-10-03 15:18:32.364246: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\layers
+plugins: flaky-3.7.0
+collected 15 items
+
+core_test.py ..............F                                             [100%]
+
+================================== FAILURES ===================================
+_______________ test_sequential_as_downstream_of_masking_layer ________________
+
+    def test_sequential_as_downstream_of_masking_layer():
+    
+        inputs = layers.Input(shape=(3, 4))
+        x = layers.Masking(mask_value=0., input_shape=(3, 4))(inputs)
+        s = Sequential()
+        s.add(layers.Dense(5, input_shape=(4,)))
+        s.add(layers.Activation('relu'))
+>       x = layers.wrappers.TimeDistributed(s)(x)
+
+core_test.py:351: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:489: in __call__
+    output = self.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\wrappers.py:250: in call
+    y = self.layer.call(inputs, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:583: in call
+    output_tensors, _, _ = self.run_internal_graph(inputs, masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\network.py:742: in run_internal_graph
+    computed_mask)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.layers.core.Activation object at 0x000001A5A3080748>
+inputs = <tf.Tensor 'time_distributed_1/dense_1/BiasAdd:0' shape=(?, 5) dtype=float32>
+mask = <tf.Tensor 'time_distributed_1/Reshape_1:0' shape=(?,) dtype=bool>
+
+    def compute_mask(self, inputs, mask=None):
+        """Computes an output mask tensor.
+    
+        # Arguments
+            inputs: Tensor or list of tensors.
+            mask: Tensor or list of tensors.
+    
+        # Returns
+            None or a tensor (or list of tensors,
+                one per output tensor of the layer).
+        """
+        if not self.supports_masking:
+            if mask is not None:
+                if isinstance(mask, list):
+                    if any(m is not None for m in mask):
+                        raise TypeError('Layer ' + self.name +
+                                        ' does not support masking, '
+                                        'but was passed an input_mask: ' +
+                                        str(mask))
+                else:
+                    raise TypeError('Layer ' + self.name +
+                                    ' does not support masking, '
+                                    'but was passed an input_mask: ' +
+>                                   str(mask))
+E                   TypeError: Layer activation_1 does not support masking, but was passed an input_mask: Tensor("time_distributed_1/Reshape_1:0", shape=(?,), dtype=bool)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\base_layer.py:648: TypeError
+=========================== short test summary info ===========================
+FAILED core_test.py::test_sequential_as_downstream_of_masking_layer - TypeErr...
+======================== 1 failed, 14 passed in 6.70s =========================
