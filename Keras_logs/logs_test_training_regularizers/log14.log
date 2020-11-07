@@ -1,0 +1,74 @@
+2020-10-03 20:00:15.913229: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py .......s.......F..................                      [100%]
+
+================================== FAILURES ===================================
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+>                   bias_regularizer='l2')(a)
+
+test_training.py:1027: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\layers\core.py:879: in __init__
+    self.kernel_regularizer = regularizers.get(kernel_regularizer)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\regularizers.py:83: in get
+    return deserialize(config)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\regularizers.py:73: in deserialize
+    printable_module_name='regularizer')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+identifier = {'XXconfigXX': {}, 'class_name': 'l1'}
+module_objects = {'K': <module 'keras.backend' from 'C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\keras\\backend\\__ini...ass 'AssertionError'>, 'AttributeError': <class 'AttributeError'>, 'BaseException': <class 'BaseException'>, ...}, ...}
+custom_objects = None, printable_module_name = 'regularizer'
+
+    def deserialize_keras_object(identifier, module_objects=None,
+                                 custom_objects=None,
+                                 printable_module_name='object'):
+        if identifier is None:
+            return None
+        if isinstance(identifier, dict):
+            # In this case we are dealing with a Keras config dictionary.
+            config = identifier
+            if 'class_name' not in config or 'config' not in config:
+>               raise ValueError('Improper config format: ' + str(config))
+E               ValueError: Improper config format: {'class_name': 'l1', 'XXconfigXX': {}}
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\generic_utils.py:129: ValueError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_with_external_loss - ValueError: Improper...
+============ 1 failed, 32 passed, 1 skipped, 4 warnings in 28.76s =============

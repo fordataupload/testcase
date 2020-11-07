@@ -1,0 +1,87 @@
+2020-10-03 19:56:14.876919: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py .......s.......F..................                      [100%]
+
+================================== FAILURES ===================================
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+                    bias_regularizer='l2')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+    
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = None
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        input_a_np = np.random.random((10, 3))
+    
+        # test train_on_batch
+>       out = model.train_on_batch(input_a_np, None)
+
+test_training.py:1040: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1513: in train_on_batch
+    self._make_train_function()
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:316: in _make_train_function
+    loss=self.total_loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:259: in get_updates
+    grads = self.get_gradients(loss, params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.optimizers.RMSprop object at 0x0000020B286E38D0>
+loss = <tf.Tensor 'Mean:0' shape=() dtype=float32>
+params = [<tf.Variable 'dense_1/kernel:0' shape=(3, 4) dtype=float32>, <tf.Variable 'dense_1/bias:0' shape=(4,) dtype=float32>]
+
+    def get_gradients(self, loss, params):
+        grads = K.gradients(loss, params)
+        if any(x is None for x in grads):
+>           raise ValueError('An operation has `None` for gradient. '
+                             'Please make sure that all of your ops have a '
+                             'gradient defined (i.e. are differentiable). '
+                             'Common ops without gradient: '
+                             'K.argmax, K.round, K.eval.')
+E           ValueError: An operation has `None` for gradient. Please make sure that all of your ops have a gradient defined (i.e. are differentiable). Common ops without gradient: K.argmax, K.round, K.eval.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\optimizers.py:93: ValueError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_with_external_loss - ValueError: An opera...
+============ 1 failed, 32 passed, 1 skipped, 6 warnings in 28.58s =============

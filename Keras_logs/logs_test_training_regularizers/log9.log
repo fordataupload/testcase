@@ -1,0 +1,117 @@
+2020-10-03 19:57:22.579208: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py .......s.......F..................                      [100%]
+
+================================== FAILURES ===================================
+________________________ test_model_with_external_loss ________________________
+
+    @pytest.mark.skipif((K.backend() == 'cntk'),
+                        reason='cntk does not support external loss yet')
+    def test_model_with_external_loss():
+        # None loss, only regularization loss.
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1',
+                    kernel_regularizer='l1',
+                    bias_regularizer='l2')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+    
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = None
+>       model.compile(optimizer, loss, metrics=['mae'])
+
+test_training.py:1035: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.engine.training.Model object at 0x0000020E4DE571D0>
+masks = [None, None]
+
+    def _prepare_total_loss(self, masks=None):
+        """Computes total loss from loss functions.
+    
+        # Arguments
+            skip_target_indices: A list of indices of model outputs where loss
+                function is None.
+            masks: List of mask values corresponding to each model output.
+    
+        # Returns
+            A list of loss weights of python floats.
+        """
+        total_loss = None
+        with K.name_scope('loss'):
+            zipped_inputs = zip(self.targets, self.outputs, self.loss_functions,
+                                self.sample_weights, masks, self.loss_weights_list)
+            for i, (y_true, y_pred, loss_fn, sample_weight, mask,
+                    loss_weight) in enumerate(zipped_inputs):
+                if i in self.skip_target_indices:
+                    continue
+                loss_name = self.output_names[i] + '_loss'
+                with K.name_scope(loss_name):
+                    if mask is not None:
+                        mask = K.cast(mask, y_pred.dtype)
+                        # Update weights with mask.
+                        if sample_weight is None:
+                            sample_weight = mask
+                        else:
+                            # Update dimensions of weights to match with mask.
+                            mask, _, sample_weight = (
+                                losses_utils.squeeze_or_expand_dimensions(
+                                    mask, None, sample_weight))
+                            sample_weight *= mask
+    
+                    output_loss = loss_fn(
+                        y_true, y_pred, sample_weight=sample_weight)
+    
+                if len(self.outputs) > 1:
+                    update_ops = self._output_loss_metrics[i].update_state(
+                        output_loss)
+                    with K.control_dependencies(update_ops):  # For TF
+                        self._output_loss_metrics[i].result()
+                if total_loss is None:
+                    total_loss = loss_weight * output_loss
+                else:
+                    total_loss += loss_weight * output_loss
+    
+            if total_loss is None:
+                if not self.losses:
+>                   raise ValueError('The model cannot be compiled '
+                                     'because it has no loss to optimize.')
+E                   ValueError: The model cannot be compiled because it has no loss to optimize.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:706: ValueError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_with_external_loss - ValueError: The mode...
+============ 1 failed, 32 passed, 1 skipped, 6 warnings in 28.93s =============
