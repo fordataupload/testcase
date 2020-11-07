@@ -1,0 +1,1232 @@
+2020-10-04 13:21:23.380408: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ...FF.FsF....FF..F.FFF......F..FFF                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_model_methods ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_model_methods():
+        model = get_model(num_outputs=2)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        # training/testing doesn't work before compiling.
+        with pytest.raises(RuntimeError):
+            model.train_on_batch([input_a_np, input_b_np],
+                                 [output_a_np, output_b_np])
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch([input_a_np, input_b_np],
+>                                  [output_a_np, output_b_np])
+
+test_training.py:187: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: in train_on_batch
+    outputs = self.train_function(ins)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x0000021EBCAD6A58>
+args = (array([[0.13549076, 0.34826595, 0.09294686],
+       [0.11237378, 0.72820085, 0.30999425],
+       [0.46800858, 0.49144..., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), ...)
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [10] vs. [3]
+E                                              	 [[{{node loss/dropout_loss/mean_squared_error/weighted_loss/mul}}]]
+E                                              	 [[loss/Identity/_51]]
+E                                                (1) Invalid argument: Incompatible shapes: [10] vs. [3]
+E                                              	 [[{{node loss/dropout_loss/mean_squared_error/weighted_loss/mul}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-04 13:21:25.758342: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 13:21:25.894050: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:25.895397: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:25.900247: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:25.904817: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:25.906647: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:25.913100: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:25.917441: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:25.929325: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:25.930323: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:25.930983: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 13:21:25.946078: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:25.946639: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:25.946984: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:25.947335: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:25.947675: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:25.948020: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:25.948367: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:25.948719: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:25.949586: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:27.013683: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:27.014095: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:27.014318: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:27.015170: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-04 13:21:27.550553: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+_____________________________ test_fit_generator ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_fit_generator():
+        model = get_model(num_outputs=2)
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+        tracker_cb = TrackerCallback()
+        val_seq = RandomSequence(4)
+        out = model.fit_generator(generator=RandomSequence(3),
+                                  steps_per_epoch=3,
+                                  epochs=5,
+                                  initial_epoch=0,
+                                  validation_data=val_seq,
+                                  validation_steps=3,
+                                  max_queue_size=1,
+>                                 callbacks=[tracker_cb])
+
+test_training.py:490: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91: in wrapper
+    return func(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732: in fit_generator
+    initial_epoch=initial_epoch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:220: in fit_generator
+    reset_metrics=False)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: in train_on_batch
+    outputs = self.train_function(ins)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x00000221355B9C50>
+args = (array([[0.82766205, 0.8891129 , 0.0593464 ],
+       [0.63353485, 0.8106837 , 0.04487853],
+       [0.36540467, 0.74574... 0.8024248 , 0.14736678]], dtype=float32), array([1., 1., 1.], dtype=float32), array([1., 1., 1.], dtype=float32), ...)
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [3] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[loss/Identity_1/_69]]
+E                                                (1) Invalid argument: Incompatible shapes: [3] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/5
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:29.295971: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:29.296594: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:29.296943: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:29.297288: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:29.297626: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:29.297970: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:29.298321: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:29.298688: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:29.299278: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:29.299659: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:29.300043: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:29.300278: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:29.300876: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+______________________ test_training_with_loss_instance _______________________
+
+    def test_training_with_loss_instance():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+        dense = Dense(4, name='dense')
+        c = dense(a)
+        d = dense(b)
+        e = Dropout(0.5, name='dropout')(c)
+    
+        model = Model([a, b], [d, e])
+        loss_weights = [1., 0.5]
+        model.compile(
+            'sgd',
+            loss=losses.MeanSquaredError(),
+            metrics=['mae'],
+            loss_weights=loss_weights)
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_d_np = np.random.random((10, 4))
+        output_e_np = np.random.random((10, 4))
+    
+        model.fit([input_a_np, input_b_np], [output_d_np, output_e_np],
+                  epochs=1,
+>                 batch_size=5)
+
+test_training.py:697: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: in fit_loop
+    outs = fit_function(ins_batch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x000002212D7F8C50>
+args = (array([[0.82994294, 0.6998354 , 0.72384894],
+       [0.02825916, 0.5395932 , 0.16091868],
+       [0.36078233, 0.63249...8799426]], dtype=float32), array([1., 1., 1., 1., 1.], dtype=float32), array([1., 1., 1., 1., 1.], dtype=float32), ...)
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [5] vs. [4]
+E                                              	 [[{{node training/SGD/gradients/loss/dropout_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[metrics/dense_mae/Identity/_107]]
+E                                                (1) Invalid argument: Incompatible shapes: [5] vs. [4]
+E                                              	 [[{{node training/SGD/gradients/loss/dropout_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:30.944276: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:30.944900: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:30.945249: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:30.945594: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:30.945933: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:30.946274: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:30.946622: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:30.946971: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:30.947578: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:30.947901: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:30.948260: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:30.948482: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:30.948999: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+___________________________ test_trainable_argument ___________________________
+
+    def test_trainable_argument():
+        x = np.random.random((5, 3))
+        y = np.random.random((5, 2))
+    
+        model = Sequential()
+        model.add(Dense(2, input_dim=3, trainable=False))
+        model.compile('rmsprop', 'mse')
+        out = model.predict(x)
+>       model.train_on_batch(x, y)
+
+test_training.py:787: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: in train_on_batch
+    outputs = self.train_function(ins)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x00000221358DC128>
+args = (array([[0.8303995 , 0.39494237, 0.19086322],
+       [0.6774164 , 0.46247184, 0.44278622],
+       [0.19993412, 0.57489...[0.7731655 , 0.3718248 ],
+       [0.7694542 , 0.3520475 ]], dtype=float32), array([1., 1., 1., 1., 1.], dtype=float32))
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [5] vs. [2]
+E                                              	 [[{{node loss/dense_1_loss/mean_squared_error/weighted_loss/mul}}]]
+E                                              	 [[Mean/_23]]
+E                                                (1) Invalid argument: Incompatible shapes: [5] vs. [2]
+E                                              	 [[{{node loss/dense_1_loss/mean_squared_error/weighted_loss/mul}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:31.459421: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:31.460014: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:31.460389: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:31.460738: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:31.461077: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:31.461421: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:31.461772: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:31.462117: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:31.462702: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:31.463059: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:31.463464: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:31.463702: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:31.464265: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+______________________ test_model_with_input_feed_tensor ______________________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow',
+                        reason='Requires TensorFlow backend')
+    def test_model_with_input_feed_tensor():
+        """We test building a model with a TF variable as input.
+        We should be able to call fit, evaluate, predict,
+        by only passing them data for the placeholder inputs
+        in the model.
+        """
+        import tensorflow as tf
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+        b = Input(shape=(3,), name='input_b')
+    
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        b_2 = dp(b)
+    
+        model = Model([a, b], [a_2, b_2])
+        model.summary()
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        model.compile(optimizer, loss, metrics=['mean_squared_error'],
+                      loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch(input_b_np,
+>                                  [output_a_np, output_b_np])
+
+test_training.py:871: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: in train_on_batch
+    outputs = self.train_function(ins)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x00000221358A02E8>
+args = (array([[0.43267202, 0.02142208, 0.0228932 ],
+       [0.0683759 , 0.06486182, 0.26112038],
+       [0.38288116, 0.10850..., 1., 1., 1., 1., 1., 1.], dtype=float32), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), array(True))
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[metrics/dense_1_mean_squared_error/Identity/_55]]
+E                                                (1) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stdout call -----------------------------
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (10, 3)              0                                            
+__________________________________________________________________________________________________
+input_b (InputLayer)            (None, 3)            0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (10, 4)              16          input_1[0][0]                    
+__________________________________________________________________________________________________
+dropout (Dropout)               (None, 3)            0           input_b[0][0]                    
+==================================================================================================
+Total params: 16
+Trainable params: 16
+Non-trainable params: 0
+__________________________________________________________________________________________________
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:31.963256: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:31.963854: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:31.964205: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:31.964553: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:31.964892: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:31.965238: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:31.965585: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:31.965946: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:31.966533: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:31.966852: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:31.967211: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:31.967435: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:31.967943: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:431: The name tf.is_variable_initialized is deprecated. Please use tf.compat.v1.is_variable_initialized instead.
+
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:438: The name tf.variables_initializer is deprecated. Please use tf.compat.v1.variables_initializer instead.
+
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:431: The name tf.is_variable_initialized is deprecated. Please use tf.compat.v1.is_variable_initialized instead.
+
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:438: The name tf.variables_initializer is deprecated. Please use tf.compat.v1.variables_initializer instead.
+________________________ test_model_with_partial_loss _________________________
+
+    def test_model_with_partial_loss():
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = {'dropout': 'mse'}
+        model.compile(optimizer, loss, metrics=['mae'])
+    
+        input_a_np = np.random.random((10, 3))
+        output_a_np = np.random.random((10, 4))
+    
+        # test train_on_batch
+>       out = model.train_on_batch(input_a_np, output_a_np)
+
+test_training.py:994: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: in train_on_batch
+    outputs = self.train_function(ins)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x000002212D8487F0>
+args = (array([[0.7427057 , 0.9548851 , 0.5682908 ],
+       [0.650577  , 0.18957908, 0.09910492],
+       [0.84948057, 0.16949... 0.78005356, 0.7844446 ]], dtype=float32), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), array(True))
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dropout_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[metrics/dropout_mae/Identity/_57]]
+E                                                (1) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dropout_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:32.524665: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:32.525276: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:32.525650: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:32.525999: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:32.526340: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:32.526682: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:32.527029: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:32.527382: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:32.527964: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:32.528324: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:32.528733: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:32.528971: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:32.529526: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+______________________ test_model_custom_target_tensors _______________________
+
+    @pytest.mark.skipif(K.backend() == 'tensorflow' and
+                        tf.__version__.startswith('2'),
+                        reason='Cannot have tensors as dict keys in TF2')
+    def test_model_custom_target_tensors():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        b_2 = dp(b)
+    
+        y = K.placeholder([10, 4], name='y')
+        y1 = K.placeholder([10, 3], name='y1')
+        y2 = K.placeholder([7, 5], name='y2')
+        model = Model([a, b], [a_2, b_2])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        # test list of target tensors
+        with pytest.raises(ValueError):
+            model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                          sample_weight_mode=None, target_tensors=[y, y1, y2])
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None, target_tensors=[y, y1])
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np],
+                                   {y: np.random.random((10, 4)),
+>                                   y1: np.random.random((10, 3))})
+
+test_training.py:1286: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514: in train_on_batch
+    outputs = self.train_function(ins)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x0000022136DA9978>
+args = (array([[0.03769406, 0.9947906 , 0.39576554],
+       [0.9549149 , 0.25135663, 0.68739444],
+       [0.7678246 , 0.49329..., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), ...)
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[Mean/_49]]
+E                                                (1) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:37.050083: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:37.050689: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:37.051037: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:37.051383: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:37.051720: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:37.052061: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:37.052404: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:37.052753: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:37.053342: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:37.053660: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:37.054014: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:37.054237: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:37.054751: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+____________________________ test_pandas_dataframe ____________________________
+
+    def test_pandas_dataframe():
+        input_a = Input(shape=(3,), name='input_a')
+        input_b = Input(shape=(3,), name='input_b')
+    
+        x = Dense(4, name='dense_1')(input_a)
+        y = Dense(3, name='desne_2')(input_b)
+    
+        model_1 = Model(inputs=input_a, outputs=x)
+        model_2 = Model(inputs=[input_a, input_b], outputs=[x, y])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+    
+        model_1.compile(optimizer=optimizer, loss=loss)
+        model_2.compile(optimizer=optimizer, loss=loss)
+    
+        input_a_df = pd.DataFrame(np.random.random((10, 3)))
+        input_b_df = pd.DataFrame(np.random.random((10, 3)))
+    
+        output_a_df = pd.DataFrame(np.random.random((10, 4)))
+        output_b_df = pd.DataFrame(np.random.random((10, 3)))
+    
+        model_1.fit(input_a_df,
+>                   output_a_df)
+
+test_training.py:1380: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: in fit_loop
+    outs = fit_function(ins_batch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x0000022135C8B518>
+args = (array([[0.67468435, 0.6760615 , 0.22077987],
+       [0.17857036, 0.73672616, 0.9306381 ],
+       [0.9079452 , 0.02270..., 0.6504793 , 0.87169737, 0.772671  ]], dtype=float32), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32))
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[Mean/_51]]
+E                                                (1) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:37.925251: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:37.925863: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:37.926288: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:37.926718: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:37.927160: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:37.927504: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:37.927851: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:37.928200: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:37.928820: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:37.929137: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:37.929493: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:37.929718: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:37.930238: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________ test_training_and_eval_methods_on_symbolic_tensors_single_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_single_io():
+        x = keras.layers.Input(shape=(3,), name='input')
+        y = keras.layers.Dense(4, name='dense')(x)
+        model = keras.Model(x, y)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        metrics = ['mae']
+        model.compile(optimizer, loss, metrics=metrics)
+    
+        inputs = keras.backend.zeros(shape=(10, 3))
+        targets = keras.backend.zeros(shape=(10, 4))
+    
+>       model.fit(inputs, targets, epochs=1, steps_per_epoch=2, verbose=0)
+
+test_training.py:1450: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:152: in fit_loop
+    outs = fit_function(fit_inputs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x000002212D888358>
+args = (array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32),)
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dense_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[Mean/_45]]
+E                                                (1) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dense_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:38.417771: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:38.418384: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:38.418753: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:38.419101: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:38.419449: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:38.419791: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:38.420140: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:38.420495: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:38.421076: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:38.421442: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:38.421839: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:38.422080: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:38.422765: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_________ test_training_and_eval_methods_on_symbolic_tensors_multi_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_multi_io():
+        a = keras.layers.Input(shape=(3,), name='input_a')
+        b = keras.layers.Input(shape=(3,), name='input_b')
+    
+        dense = keras.layers.Dense(4, name='dense')
+        c = dense(a)
+        d = dense(b)
+        e = keras.layers.Dropout(0.5, name='dropout')(c)
+    
+        model = keras.models.Model([a, b], [d, e])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        metrics = ['mae']
+        model.compile(optimizer, loss, metrics=metrics, loss_weights=loss_weights)
+    
+        input_a_tf = keras.backend.zeros(shape=(10, 3))
+        input_b_tf = keras.backend.zeros(shape=(10, 3))
+    
+        output_d_tf = keras.backend.zeros(shape=(10, 4))
+        output_e_tf = keras.backend.zeros(shape=(10, 4))
+    
+        model.fit(
+            [input_a_tf, input_b_tf], [output_d_tf, output_e_tf],
+            epochs=1,
+            steps_per_epoch=2,
+>           verbose=0)
+
+test_training.py:1488: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:152: in fit_loop
+    outs = fit_function(fit_inputs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x0000022136FC1EF0>
+args = (array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.], dtype=float32), array(True))
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dropout_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[Mean/_101]]
+E                                                (1) Invalid argument: Incompatible shapes: [10] vs. [4]
+E                                              	 [[{{node training/RMSprop/gradients/loss/dropout_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:38.982844: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:38.983470: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:38.983821: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:38.984168: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:38.984507: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:38.984852: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:38.985200: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:38.985553: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:38.986147: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:38.986511: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:38.986902: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:38.987141: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:38.987696: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_______________________ test_model_metrics_list_in_call _______________________
+
+    def test_model_metrics_list_in_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2)
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(
+            loss='mse',
+            optimizer='adam',
+            metrics=[metrics.MeanSquaredError('metric_1')])
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1822: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: in fit_loop
+    outs = fit_function(ins_batch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x0000022135AF70B8>
+args = (array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.]], dtype=float32), array([[1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]], dtype=float32), array([1., 1., 1., 1., 1.], dtype=float32))
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [5] vs. [2]
+E                                              	 [[{{node training/Adam/gradients/loss/output_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[Mean/_65]]
+E                                                (1) Invalid argument: Incompatible shapes: [5] vs. [2]
+E                                              	 [[{{node training/Adam/gradients/loss/output_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:43.323488: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:43.324100: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:43.324452: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:43.324797: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:43.325136: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:43.325479: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:43.325823: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:43.326178: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:43.326777: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:43.327099: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:43.327456: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:43.327678: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:43.328218: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_add_metric_in_model_call ________________________
+
+    def test_add_metric_in_model_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                # Provide same name as in the instance created in __init__
+                # for eager mode
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1910: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: in fit_loop
+    outs = fit_function(ins_batch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x0000022135C5ABE0>
+args = (array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.]], dtype=float32), array([[1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]], dtype=float32), array([1., 1., 1., 1., 1.], dtype=float32))
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [5] vs. [2]
+E                                              	 [[{{node training/SGD/gradients/loss/output_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[Identity/_61]]
+E                                                (1) Invalid argument: Incompatible shapes: [5] vs. [2]
+E                                              	 [[{{node training/SGD/gradients/loss/output_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:44.313072: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:44.313675: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:44.314023: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:44.314365: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:44.314703: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:44.315044: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:44.315394: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:44.315757: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:44.316344: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:44.316658: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:44.317015: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:44.317239: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:44.317780: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+_______________________ test_multiple_add_metric_calls ________________________
+
+    def test_multiple_add_metric_calls():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean1 = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_2')
+    
+            def call(self, x):
+                self.add_metric(self.mean2(x), name='metric_2')
+                self.add_metric(self.mean1(x), name='metric_1')
+                self.add_metric(K.sum(x), name='metric_3')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1946: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: in fit_loop
+    outs = fit_function(ins_batch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x000002213581DE10>
+args = (array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.]], dtype=float32), array([[1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]], dtype=float32), array([1., 1., 1., 1., 1.], dtype=float32))
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [5] vs. [2]
+E                                              	 [[{{node training/SGD/gradients/loss/output_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[Identity_1/_71]]
+E                                                (1) Invalid argument: Incompatible shapes: [5] vs. [2]
+E                                              	 [[{{node training/SGD/gradients/loss/output_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:44.837238: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:44.837853: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:44.838203: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:44.838550: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:44.838889: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:44.839234: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:44.839581: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:44.839932: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:44.840532: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:44.840882: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:44.841273: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:44.841511: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:44.842104: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+________________________ test_add_metric_in_layer_call ________________________
+
+    def test_add_metric_in_layer_call():
+    
+        class TestLayer(Layer):
+    
+            def build(self, input_shape):
+                self.a = self.add_weight(
+                    'a', (1, 1), initializer='ones', trainable=False)
+                self.built = True
+    
+            def call(self, inputs):
+                self.add_metric(K.sum(inputs), name='metric_1')
+                return inputs + 1
+    
+        inp = Input(shape=(1,))
+        x = TestLayer(input_shape=(1,))(inp)
+        x = keras.layers.Dense(2, kernel_initializer='ones')(x)
+    
+        model = Model(inp, x)
+        model.compile('adam', loss='mse')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1981: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1239: in fit
+    validation_freq=validation_freq)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_arrays.py:196: in fit_loop
+    outs = fit_function(ins_batch)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476: in __call__
+    run_metadata=self.run_metadata)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tensorflow.python.client.session.BaseSession._Callable object at 0x0000022135BC9B38>
+args = (array([[1.],
+       [1.],
+       [1.],
+       [1.],
+       [1.]], dtype=float32), array([[1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]], dtype=float32), array([1., 1., 1., 1., 1.], dtype=float32))
+kwargs = {'run_metadata': None}, run_metadata = None, run_metadata_ptr = None
+
+    def __call__(self, *args, **kwargs):
+      # TODO(b/74355905): Support argument and return value nested structures,
+      # and tensor-like objects such as SparseTensors.
+      run_metadata = kwargs.get('run_metadata', None)
+      try:
+        run_metadata_ptr = tf_session.TF_NewBuffer() if run_metadata else None
+        ret = tf_session.TF_SessionRunCallable(self._session._session,
+                                               self._handle, args,
+>                                              run_metadata_ptr)
+E                                              tensorflow.python.framework.errors_impl.InvalidArgumentError: 2 root error(s) found.
+E                                                (0) Invalid argument: Incompatible shapes: [5] vs. [2]
+E                                              	 [[{{node training/Adam/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              	 [[Mean/_55]]
+E                                                (1) Invalid argument: Incompatible shapes: [5] vs. [2]
+E                                              	 [[{{node training/Adam/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+E                                              0 successful operations.
+E                                              0 derived errors ignored.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472: InvalidArgumentError
+---------------------------- Captured stdout call -----------------------------
+Train on 10 samples, validate on 10 samples
+Epoch 1/2
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:21:45.348885: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:21:45.349501: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:21:45.349849: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:21:45.350192: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:21:45.350530: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:21:45.350872: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:21:45.351216: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:21:45.351568: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:21:45.352163: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:21:45.352522: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:21:45.352910: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:21:45.353147: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:21:45.353733: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods failed and was not selected for rerun.
+	<class 'tensorflow.python.framework.errors_impl.InvalidArgumentError'>
+	2 root error(s) found.
+  (0) Invalid argument: Incompatible shapes: [10] vs. [3]
+	 [[{{node loss/dropout_loss/mean_squared_error/weighted_loss/mul}}]]
+	 [[loss/Identity/_51]]
+  (1) Invalid argument: Incompatible shapes: [10] vs. [3]
+	 [[{{node loss/dropout_loss/mean_squared_error/weighted_loss/mul}}]]
+0 successful operations.
+0 derived errors ignored.
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:187>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472>]
+test_fit_generator failed and was not selected for rerun.
+	<class 'tensorflow.python.framework.errors_impl.InvalidArgumentError'>
+	2 root error(s) found.
+  (0) Invalid argument: Incompatible shapes: [3] vs. [4]
+	 [[{{node training/RMSprop/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+	 [[loss/Identity_1/_69]]
+  (1) Invalid argument: Incompatible shapes: [3] vs. [4]
+	 [[{{node training/RMSprop/gradients/loss/dense_1_loss/mean_squared_error/weighted_loss/mul_grad/Mul_1}}]]
+0 successful operations.
+0 derived errors ignored.
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:490>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\legacy\interfaces.py:91>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1732>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_generator.py:220>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1514>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:3476>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py:1472>]
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_methods - tensorflow.python.framework.err...
+FAILED test_training.py::test_fit_generator - tensorflow.python.framework.err...
+FAILED test_training.py::test_training_with_loss_instance - tensorflow.python...
+FAILED test_training.py::test_trainable_argument - tensorflow.python.framewor...
+FAILED test_training.py::test_model_with_input_feed_tensor - tensorflow.pytho...
+FAILED test_training.py::test_model_with_partial_loss - tensorflow.python.fra...
+FAILED test_training.py::test_model_custom_target_tensors - tensorflow.python...
+FAILED test_training.py::test_pandas_dataframe - tensorflow.python.framework....
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_single_io
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_multi_io
+FAILED test_training.py::test_model_metrics_list_in_call - tensorflow.python....
+FAILED test_training.py::test_add_metric_in_model_call - tensorflow.python.fr...
+FAILED test_training.py::test_multiple_add_metric_calls - tensorflow.python.f...
+FAILED test_training.py::test_add_metric_in_layer_call - tensorflow.python.fr...
+============ 14 failed, 19 passed, 1 skipped, 5 warnings in 20.18s ============

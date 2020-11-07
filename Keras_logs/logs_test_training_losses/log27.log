@@ -1,0 +1,1315 @@
+2020-10-04 13:16:16.948379: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ...FFFFsFF...FF.FFFFFFF..FFFF.FFFF                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_model_methods ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_model_methods():
+        model = get_model(num_outputs=2)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        # training/testing doesn't work before compiling.
+        with pytest.raises(RuntimeError):
+            model.train_on_batch([input_a_np, input_b_np],
+                                 [output_a_np, output_b_np])
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+>                     sample_weight_mode=None)
+
+test_training.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291E9A816A0>
+y_true = <tf.Tensor 'dense_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+_____________________________ test_fit_generator ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_fit_generator():
+        model = get_model(num_outputs=2)
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+>                     sample_weight_mode=None)
+
+test_training.py:480: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EB962DA0>
+y_true = <tf.Tensor 'dense_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+__________________________ test_fit_generator_shape ___________________________
+
+    def test_fit_generator_shape():
+        # predict_generator output shape behavior should be consistent
+        def expected_shape(batch_size, n_batches):
+            return (batch_size * n_batches, 4), (batch_size * n_batches, 3)
+    
+        model = get_model(num_outputs=2)
+        optimizer = 'rmsprop'
+        loss = 'mse'
+    
+        # Multiple outputs and one step.
+        batch_size = 5
+        sequence_length = 1
+        shape_0, shape_1 = expected_shape(batch_size, sequence_length)
+        out = model.predict_generator(
+            RandomSequence(batch_size, sequence_length=sequence_length))
+        assert np.shape(out[0]) == shape_0 and np.shape(out[1]) == shape_1
+    
+        out = model.predict(
+            RandomSequence(batch_size, sequence_length=sequence_length))
+        assert np.shape(out[0]) == shape_0 and np.shape(out[1]) == shape_1
+    
+        # Multiple outputs and multiple steps.
+        batch_size = 5
+        sequence_length = 2
+        shape_0, shape_1 = expected_shape(batch_size, sequence_length)
+        out = model.predict_generator(
+            RandomSequence(batch_size, sequence_length=sequence_length))
+        assert np.shape(out[0]) == shape_0 and np.shape(out[1]) == shape_1
+    
+        out = model.predict(
+            RandomSequence(batch_size, sequence_length=sequence_length))
+        assert np.shape(out[0]) == shape_0 and np.shape(out[1]) == shape_1
+    
+        # Create a model with a single output.
+        single_output_model = get_model(num_outputs=1)
+        single_output_model.compile(optimizer, loss,
+>                                   metrics=[], sample_weight_mode=None)
+
+test_training.py:645: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EB811BA8>
+y_true = <tf.Tensor 'dense_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1_1/BiasAdd:0' shape=(?, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+---------------------------- Captured stderr call -----------------------------
+2020-10-04 13:16:21.771717: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 13:16:21.889100: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:16:21.892273: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:16:21.898420: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:16:21.902961: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:16:21.904863: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:16:21.910070: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:16:21.913336: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:16:21.923163: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:16:21.924151: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:16:21.924803: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 13:16:21.939109: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:16:21.939714: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:16:21.940058: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:16:21.940401: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:16:21.940739: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:16:21.941079: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:16:21.941425: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:16:21.941772: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:16:21.942604: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:16:22.912100: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:16:22.912516: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:16:22.912756: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:16:22.913496: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-04 13:16:23.411079: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+______________________ test_training_with_loss_instance _______________________
+
+    def test_training_with_loss_instance():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+        dense = Dense(4, name='dense')
+        c = dense(a)
+        d = dense(b)
+        e = Dropout(0.5, name='dropout')(c)
+    
+        model = Model([a, b], [d, e])
+        loss_weights = [1., 0.5]
+        model.compile(
+            'sgd',
+            loss=losses.MeanSquaredError(),
+            metrics=['mae'],
+>           loss_weights=loss_weights)
+
+test_training.py:687: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.MeanSquaredError object at 0x00000291E9AE28D0>
+y_true = <tf.Tensor 'dense_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+___________________________ test_trainable_argument ___________________________
+
+    def test_trainable_argument():
+        x = np.random.random((5, 3))
+        y = np.random.random((5, 2))
+    
+        model = Sequential()
+        model.add(Dense(2, input_dim=3, trainable=False))
+>       model.compile('rmsprop', 'mse')
+
+test_training.py:785: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBDAF208>
+y_true = <tf.Tensor 'dense_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 2) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+__________________________ test_with_list_as_targets __________________________
+
+    def test_with_list_as_targets():
+        model = Sequential()
+        model.add(Dense(1, input_dim=3, trainable=False))
+>       model.compile('rmsprop', 'mse')
+
+test_training.py:805: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EB86F4A8>
+y_true = <tf.Tensor 'dense_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 1) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+______________________ test_model_with_input_feed_tensor ______________________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow',
+                        reason='Requires TensorFlow backend')
+    def test_model_with_input_feed_tensor():
+        """We test building a model with a TF variable as input.
+        We should be able to call fit, evaluate, predict,
+        by only passing them data for the placeholder inputs
+        in the model.
+        """
+        import tensorflow as tf
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        a = Input(tensor=tf.Variable(input_a_np, dtype=tf.float32))
+        b = Input(shape=(3,), name='input_b')
+    
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        b_2 = dp(b)
+    
+        model = Model([a, b], [a_2, b_2])
+        model.summary()
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        model.compile(optimizer, loss, metrics=['mean_squared_error'],
+                      loss_weights=loss_weights,
+>                     sample_weight_mode=None)
+
+test_training.py:867: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EB877C18>
+y_true = <tf.Tensor 'dense_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(10, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+---------------------------- Captured stdout call -----------------------------
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (10, 3)              0                                            
+__________________________________________________________________________________________________
+input_b (InputLayer)            (None, 3)            0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (10, 4)              16          input_1[0][0]                    
+__________________________________________________________________________________________________
+dropout (Dropout)               (None, 3)            0           input_b[0][0]                    
+==================================================================================================
+Total params: 16
+Trainable params: 16
+Non-trainable params: 0
+__________________________________________________________________________________________________
+________________________ test_model_with_partial_loss _________________________
+
+    def test_model_with_partial_loss():
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = {'dropout': 'mse'}
+>       model.compile(optimizer, loss, metrics=['mae'])
+
+test_training.py:988: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBDEA2E8>
+y_true = <tf.Tensor 'dropout_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dropout/cond/Merge:0' shape=(?, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+_____________________________ test_target_tensors _____________________________
+
+    def test_target_tensors():
+        # single-output, as list
+        model = keras.models.Sequential()
+        model.add(keras.layers.Dense(4, input_shape=(4,), name='dense'))
+        input_val = np.random.random((10, 4))
+        target_val = np.random.random((10, 4))
+        target = keras.backend.variable(target_val)
+>       model.compile(optimizer='rmsprop', loss='mse', target_tensors=[target])
+
+test_training.py:1181: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBB5DE48>
+y_true = <tf.Variable 'Variable:0' shape=(10, 4) dtype=float32>
+y_pred = <tf.Tensor 'dense/BiasAdd:0' shape=(?, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+______________________ test_model_custom_target_tensors _______________________
+
+    @pytest.mark.skipif(K.backend() == 'tensorflow' and
+                        tf.__version__.startswith('2'),
+                        reason='Cannot have tensors as dict keys in TF2')
+    def test_model_custom_target_tensors():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        b_2 = dp(b)
+    
+        y = K.placeholder([10, 4], name='y')
+        y1 = K.placeholder([10, 3], name='y1')
+        y2 = K.placeholder([7, 5], name='y2')
+        model = Model([a, b], [a_2, b_2])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        # test list of target tensors
+        with pytest.raises(ValueError):
+            model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                          sample_weight_mode=None, target_tensors=[y, y1, y2])
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+>                     sample_weight_mode=None, target_tensors=[y, y1])
+
+test_training.py:1276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBAE7D68>
+y_true = <tf.Tensor 'y:0' shape=(10, 4) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+__________________ test_trainable_weights_count_consistency ___________________
+
+    @pytest.mark.skipif(sys.version_info < (3,),
+                        reason='Cannot catch warnings in python 2')
+    def test_trainable_weights_count_consistency():
+        """Tests the trainable weights consistency check of Model.
+    
+        This verifies that a warning is shown if model.trainable is modified
+        and the model is summarized/run without a new call to .compile()
+    
+        Reproduce issue #8121
+        """
+        a = Input(shape=(3,), name='input_a')
+        model1 = Model(inputs=a, outputs=Dense(1)(a))
+    
+        model1.trainable = False
+        b = Input(shape=(3,), name='input_b')
+        y = model1(b)
+        model2 = Model(inputs=b, outputs=Dense(1)(y))
+    
+>       model2.compile(optimizer='adam', loss='mse')
+
+test_training.py:1331: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBA7ADD8>
+y_true = <tf.Tensor 'dense_2_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_2/BiasAdd:0' shape=(?, 1) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+____________________________ test_pandas_dataframe ____________________________
+
+    def test_pandas_dataframe():
+        input_a = Input(shape=(3,), name='input_a')
+        input_b = Input(shape=(3,), name='input_b')
+    
+        x = Dense(4, name='dense_1')(input_a)
+        y = Dense(3, name='desne_2')(input_b)
+    
+        model_1 = Model(inputs=input_a, outputs=x)
+        model_2 = Model(inputs=[input_a, input_b], outputs=[x, y])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+    
+>       model_1.compile(optimizer=optimizer, loss=loss)
+
+test_training.py:1370: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBCFE198>
+y_true = <tf.Tensor 'dense_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+________ test_training_and_eval_methods_on_symbolic_tensors_single_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_single_io():
+        x = keras.layers.Input(shape=(3,), name='input')
+        y = keras.layers.Dense(4, name='dense')(x)
+        model = keras.Model(x, y)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        metrics = ['mae']
+>       model.compile(optimizer, loss, metrics=metrics)
+
+test_training.py:1445: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBA935F8>
+y_true = <tf.Tensor 'dense_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense/BiasAdd:0' shape=(?, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+_________ test_training_and_eval_methods_on_symbolic_tensors_multi_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_multi_io():
+        a = keras.layers.Input(shape=(3,), name='input_a')
+        b = keras.layers.Input(shape=(3,), name='input_b')
+    
+        dense = keras.layers.Dense(4, name='dense')
+        c = dense(a)
+        d = dense(b)
+        e = keras.layers.Dropout(0.5, name='dropout')(c)
+    
+        model = keras.models.Model([a, b], [d, e])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        metrics = ['mae']
+>       model.compile(optimizer, loss, metrics=metrics, loss_weights=loss_weights)
+
+test_training.py:1476: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBAA6BA8>
+y_true = <tf.Tensor 'dense_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+_____________ test_model_with_crossentropy_losses_channels_first ______________
+
+    def test_model_with_crossentropy_losses_channels_first():
+        """Tests use of all crossentropy losses with `channels_first`.
+    
+        Tests `sparse_categorical_crossentropy`, `categorical_crossentropy`,
+        and `binary_crossentropy`.
+        Verifies that evaluate gives the same result with either
+        `channels_first` or `channels_last` image_data_format.
+        Tests PR #9715.
+        """
+    
+        def prepare_simple_model(input_tensor, loss_name, target):
+            axis = 1 if K.image_data_format() == 'channels_first' else -1
+            if loss_name == 'sparse_categorical_crossentropy':
+                loss = lambda y_true, y_pred: K.sparse_categorical_crossentropy(
+                    y_true, y_pred, axis=axis)
+                num_channels = np.amax(target) + 1
+                activation = 'softmax'
+            elif loss_name == 'categorical_crossentropy':
+                loss = lambda y_true, y_pred: K.categorical_crossentropy(
+                    y_true, y_pred, axis=axis)
+                num_channels = target.shape[axis]
+                activation = 'softmax'
+            elif loss_name == 'binary_crossentropy':
+                loss = lambda y_true, y_pred: K.binary_crossentropy(y_true, y_pred)
+                num_channels = target.shape[axis]
+                activation = 'sigmoid'
+            predictions = Conv2D(num_channels, 1, activation=activation,
+                                 kernel_initializer='ones',
+                                 bias_initializer='ones')(input_tensor)
+            simple_model = Model(inputs=input_tensor, outputs=predictions)
+            simple_model.compile(optimizer='rmsprop', loss=loss)
+            return simple_model
+    
+        losses_to_test = ['sparse_categorical_crossentropy',
+                          'categorical_crossentropy', 'binary_crossentropy']
+    
+        data_channels_first = np.array([[[[8., 7.1, 0.], [4.5, 2.6, 0.55],
+                                          [0.9, 4.2, 11.2]]]], dtype=np.float32)
+        # Labels for testing 4-class sparse_categorical_crossentropy, 4-class
+        # categorical_crossentropy, and 2-class binary_crossentropy:
+        labels_channels_first = [np.array([[[[0, 1, 3], [2, 1, 0], [2, 2, 1]]]]),
+                                 np.array([[[[0, 1, 0], [0, 1, 0], [0, 0, 0]],
+                                            [[1, 0, 0], [0, 0, 1], [0, 1, 0]],
+                                            [[0, 0, 0], [1, 0, 0], [0, 0, 1]],
+                                            [[0, 0, 1], [0, 0, 0], [1, 0, 0]]]]),
+                                 np.array([[[[0, 1, 0], [0, 1, 0], [0, 0, 1]],
+                                            [[1, 0, 1], [1, 0, 1], [1, 1, 0]]]])]
+        # Compute one loss for each loss function in the list `losses_to_test`:
+        loss_channels_last = [0., 0., 0.]
+        loss_channels_first = [0., 0., 0.]
+    
+        old_data_format = K.image_data_format()
+    
+        # Evaluate a simple network with channels last, with all three loss
+        # functions:
+        K.set_image_data_format('channels_last')
+        data = np.moveaxis(data_channels_first, 1, -1)
+        for index, loss_function in enumerate(losses_to_test):
+            labels = np.moveaxis(labels_channels_first[index], 1, -1)
+            inputs = Input(shape=(3, 3, 1))
+>           model = prepare_simple_model(inputs, loss_function, labels)
+
+test_training.py:1614: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test_training.py:1584: in prepare_simple_model
+    simple_model.compile(optimizer='rmsprop', loss=loss)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291F1FD5A20>
+y_true = <tf.Tensor 'conv2d_1_target:0' shape=(?, ?, ?, ?) dtype=float32>
+y_pred = <tf.Tensor 'conv2d_1/truediv:0' shape=(?, 3, 3, 4) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+____________________________ test_validation_freq _____________________________
+
+    def test_validation_freq():
+        model = Sequential([Dense(1)])
+        model.compile('sgd', 'mse')
+    
+        def _gen():
+            while True:
+                yield np.ones((2, 10)), np.ones((2, 1))
+    
+        x, y = np.ones((10, 10)), np.ones((10, 1))
+    
+        class ValCounter(Callback):
+    
+            def __init__(self):
+                self.val_runs = 0
+    
+            def on_test_begin(self, logs=None):
+                self.val_runs += 1
+    
+        # Test in training_arrays.py
+        val_counter = ValCounter()
+        model.fit(
+            x,
+            y,
+            batch_size=2,
+            epochs=4,
+            validation_data=(x, y),
+            validation_freq=2,
+>           callbacks=[val_counter])
+
+test_training.py:1720: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBADEE48>
+y_true = <tf.Tensor 'dense_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 1) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+____________________________ test_loss_correctness ____________________________
+
+    def test_loss_correctness():
+        class Bias(Layer):
+    
+            def build(self, input_shape):
+                self.bias = self.add_weight('bias', (1,), initializer='zeros')
+    
+            def call(self, inputs):
+                return inputs + self.bias
+    
+        inp = Input(shape=(1,))
+        out = Bias()(inp)
+        model = Model(inp, out)
+        model.compile(
+            keras.optimizers.SGD(lr=0.1),
+>           loss=keras.losses.MeanAbsoluteError())
+
+test_training.py:1749: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.MeanAbsoluteError object at 0x00000291F21116D8>
+y_true = <tf.Tensor 'bias_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'bias_1/add:0' shape=(?, 1) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+___________________________ test_model_metrics_list ___________________________
+
+    def test_model_metrics_list():
+    
+        class LayerWithAddMetric(Layer):
+    
+            def __init__(self):
+                super(LayerWithAddMetric, self).__init__()
+                self.dense = keras.layers.Dense(1, kernel_initializer='ones')
+    
+            def __call__(self, inputs):
+                outputs = self.dense(inputs)
+                return outputs
+    
+        class LayerWithNestedAddMetricLayer(Layer):
+    
+            def __init__(self):
+                super(LayerWithNestedAddMetricLayer, self).__init__()
+                self.layer = LayerWithAddMetric()
+    
+            def call(self, inputs):
+                outputs = self.layer(inputs)
+                self.add_metric(K.sum(outputs), name='metric_4')
+                return outputs
+    
+        x = Input(shape=(1,))
+        y = LayerWithNestedAddMetricLayer()(x)
+    
+        model = keras.models.Model(x, y)
+        model.add_metric(K.sum(y), name='metric_2')
+        model.add_metric(metrics.Mean(name='metric_3')(y))
+    
+        model.compile(
+            'sgd',
+            loss='mse',
+>           metrics=[metrics.MeanSquaredError('metric_1')])
+
+test_training.py:1790: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBA39198>
+y_true = <tf.Tensor 'layer_with_nested_add_metric_layer_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'layer_with_nested_add_metric_layer_1/dense_1/BiasAdd:0' shape=(?, 1) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+_______________________ test_model_metrics_list_in_call _______________________
+
+    def test_model_metrics_list_in_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2)
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(
+            loss='mse',
+            optimizer='adam',
+            metrics=[metrics.MeanSquaredError('metric_1')])
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1822: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBDA1748>
+y_true = <tf.Tensor 'output_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 2) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+__________________________ test_add_metric_on_model ___________________________
+
+    def test_add_metric_on_model():
+        x = Input(shape=(1,))
+        y = Dense(1, kernel_initializer='ones', trainable=False)(x)
+        model = Model(x, y)
+        model.add_metric(K.sum(y), name='metric_1')
+        model.add_metric(metrics.Mean(name='metric_2')(y))
+>       model.compile('sgd', loss='mse', metrics=['mse'])
+
+test_training.py:1864: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBA2DC88>
+y_true = <tf.Tensor 'dense_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 1) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+________________________ test_add_metric_in_model_call ________________________
+
+    def test_add_metric_in_model_call():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean = metrics.Mean(name='metric_1')
+    
+            def call(self, x):
+                self.add_metric(K.sum(x), name='metric_2')
+                # Provide same name as in the instance created in __init__
+                # for eager mode
+                self.add_metric(self.mean(x), name='metric_1')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1910: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBA48E10>
+y_true = <tf.Tensor 'output_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 2) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+_______________________ test_multiple_add_metric_calls ________________________
+
+    def test_multiple_add_metric_calls():
+    
+        class TestModel(Model):
+    
+            def __init__(self):
+                super(TestModel, self).__init__(name='test_model')
+                self.dense1 = keras.layers.Dense(2, kernel_initializer='ones')
+                self.mean1 = metrics.Mean(name='metric_1')
+                self.mean2 = metrics.Mean(name='metric_2')
+    
+            def call(self, x):
+                self.add_metric(self.mean2(x), name='metric_2')
+                self.add_metric(self.mean1(x), name='metric_1')
+                self.add_metric(K.sum(x), name='metric_3')
+                return self.dense1(x)
+    
+        model = TestModel()
+        model.compile(loss='mse', optimizer='sgd')
+    
+        x = np.ones(shape=(10, 1))
+        y = np.ones(shape=(10, 2))
+>       history = model.fit(x, y, epochs=2, batch_size=5, validation_data=(x, y))
+
+test_training.py:1946: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:1154: in fit
+    batch_size=batch_size)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:550: in _standardize_user_data
+    target_tensors=target_tensors)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x0000029422E35860>
+y_true = <tf.Tensor 'output_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 2) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+________________________ test_add_metric_in_layer_call ________________________
+
+    def test_add_metric_in_layer_call():
+    
+        class TestLayer(Layer):
+    
+            def build(self, input_shape):
+                self.a = self.add_weight(
+                    'a', (1, 1), initializer='ones', trainable=False)
+                self.built = True
+    
+            def call(self, inputs):
+                self.add_metric(K.sum(inputs), name='metric_1')
+                return inputs + 1
+    
+        inp = Input(shape=(1,))
+        x = TestLayer(input_shape=(1,))(inp)
+        x = keras.layers.Dense(2, kernel_initializer='ones')(x)
+    
+        model = Model(inp, x)
+>       model.compile('adam', loss='mse')
+
+test_training.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <keras.losses.LossFunctionWrapper object at 0x00000291EBE21E80>
+y_true = <tf.Tensor 'dense_1_target:0' shape=(?, ?) dtype=float32>
+y_pred = <tf.Tensor 'dense_1/BiasAdd:0' shape=(?, 2) dtype=float32>
+
+    def call(self, y_true, y_pred):
+        """Invokes the `LossFunctionWrapper` instance.
+    
+        # Arguments
+            y_true: Ground truth values.
+            y_pred: The predicted values.
+    
+        # Returns
+            Loss values per sample.
+        """
+>       return self.fn(y_true, y_pred, **self._fn_kwargs)
+E       TypeError: 'NoneType' object is not callable
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: TypeError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods failed and was not selected for rerun.
+	<class 'TypeError'>
+	'NoneType' object is not callable
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:183>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132>]
+test_fit_generator failed and was not selected for rerun.
+	<class 'TypeError'>
+	'NoneType' object is not callable
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:480>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132>]
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_methods - TypeError: 'NoneType' object is...
+FAILED test_training.py::test_fit_generator - TypeError: 'NoneType' object is...
+FAILED test_training.py::test_fit_generator_shape - TypeError: 'NoneType' obj...
+FAILED test_training.py::test_training_with_loss_instance - TypeError: 'NoneT...
+FAILED test_training.py::test_trainable_argument - TypeError: 'NoneType' obje...
+FAILED test_training.py::test_with_list_as_targets - TypeError: 'NoneType' ob...
+FAILED test_training.py::test_model_with_input_feed_tensor - TypeError: 'None...
+FAILED test_training.py::test_model_with_partial_loss - TypeError: 'NoneType'...
+FAILED test_training.py::test_target_tensors - TypeError: 'NoneType' object i...
+FAILED test_training.py::test_model_custom_target_tensors - TypeError: 'NoneT...
+FAILED test_training.py::test_trainable_weights_count_consistency - TypeError...
+FAILED test_training.py::test_pandas_dataframe - TypeError: 'NoneType' object...
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_single_io
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_multi_io
+FAILED test_training.py::test_model_with_crossentropy_losses_channels_first
+FAILED test_training.py::test_validation_freq - TypeError: 'NoneType' object ...
+FAILED test_training.py::test_loss_correctness - TypeError: 'NoneType' object...
+FAILED test_training.py::test_model_metrics_list - TypeError: 'NoneType' obje...
+FAILED test_training.py::test_model_metrics_list_in_call - TypeError: 'NoneTy...
+FAILED test_training.py::test_add_metric_on_model - TypeError: 'NoneType' obj...
+FAILED test_training.py::test_add_metric_in_model_call - TypeError: 'NoneType...
+FAILED test_training.py::test_multiple_add_metric_calls - TypeError: 'NoneTyp...
+FAILED test_training.py::test_add_metric_in_layer_call - TypeError: 'NoneType...
+============ 23 failed, 10 passed, 1 skipped, 5 warnings in 9.93s =============

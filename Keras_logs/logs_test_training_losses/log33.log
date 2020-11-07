@@ -1,0 +1,160 @@
+2020-10-04 13:18:30.996485: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ..F....s..........................                      [100%]
+
+================================== FAILURES ===================================
+_______________________ test_weighted_masked_objective ________________________
+
+values = <tf.Tensor 'input_a:0' shape=(?, 3) dtype=float32>, dtype = tf.float32
+
+    def _AssertCompatible(values, dtype):
+      if dtype is None:
+        fn = _check_not_tensor
+      else:
+        try:
+          fn = _TF_TO_IS_OK[dtype]
+        except KeyError:
+          # There isn't a specific fn, so we try to do the best possible.
+          if dtype.is_integer:
+            fn = _check_int
+          elif dtype.is_floating:
+            fn = _check_float
+          elif dtype.is_complex:
+            fn = _check_complex
+          elif dtype.is_quantized:
+            fn = _check_quantized
+          else:
+            fn = _check_not_tensor
+    
+      try:
+>       fn(values)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:324: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = <tf.Tensor 'input_a:0' shape=(?, 3) dtype=float32>
+
+    def inner(values):
+>     _ = [_check_failed(v) for v in nest.flatten(values)
+           if not isinstance(v, expected_types)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:263: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+.0 = <list_iterator object at 0x000001D21CC9C6D8>
+
+    _ = [_check_failed(v) for v in nest.flatten(values)
+>        if not isinstance(v, expected_types)]
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:264: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+v = <tf.Tensor 'input_a:0' shape=(?, 3) dtype=float32>
+
+    def _check_failed(v):
+      # NB. none of the _check_* functions could raise a ValueError, so
+      # it is safe to use here.
+>     raise ValueError(v)
+E     ValueError: Tensor("input_a:0", shape=(?, 3), dtype=float32)
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:248: ValueError
+
+During handling of the above exception, another exception occurred:
+
+    def test_weighted_masked_objective():
+        a = Input(shape=(3,), name='input_a')
+    
+        # weighted_masked_objective
+        def mask_dummy(y_true=None, y_pred=None, weight=None):
+            return K.placeholder(y_true.shape)
+    
+        weighted_function = training_utils.weighted_masked_objective(
+            losses.categorical_crossentropy)
+>       weighted_function(a, a, None)
+
+test_training.py:128: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:400: in weighted
+    score_array = fn(y_true, y_pred)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:680: in categorical_crossentropy
+    y_pred = K.constant(y_pred) if  K.is_tensor(y_pred) else y_pred
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:649: in constant
+    value, dtype=dtype, shape=shape, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\keras\backend.py:929: in constant
+    return constant_op.constant(value, dtype=dtype, shape=shape, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: in constant
+    allow_broadcast=True)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: in _constant_impl
+    allow_broadcast=allow_broadcast))
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:449: in make_tensor_proto
+    _AssertCompatible(values, dtype)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = <tf.Tensor 'input_a:0' shape=(?, 3) dtype=float32>, dtype = tf.float32
+
+    def _AssertCompatible(values, dtype):
+      if dtype is None:
+        fn = _check_not_tensor
+      else:
+        try:
+          fn = _TF_TO_IS_OK[dtype]
+        except KeyError:
+          # There isn't a specific fn, so we try to do the best possible.
+          if dtype.is_integer:
+            fn = _check_int
+          elif dtype.is_floating:
+            fn = _check_float
+          elif dtype.is_complex:
+            fn = _check_complex
+          elif dtype.is_quantized:
+            fn = _check_quantized
+          else:
+            fn = _check_not_tensor
+    
+      try:
+        fn(values)
+      except ValueError as e:
+        [mismatch] = e.args
+        if dtype is None:
+          raise TypeError("List of Tensors when single Tensor expected")
+        else:
+          raise TypeError("Expected %s, got %s of type '%s' instead." %
+>                         (dtype.name, repr(mismatch), type(mismatch).__name__))
+E         TypeError: Expected float32, got <tf.Tensor 'input_a:0' shape=(?, 3) dtype=float32> of type 'Tensor' instead.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:331: TypeError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods passed 1 out of the required 1 times. Success!
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_weighted_masked_objective - TypeError: Expected...
+============ 1 failed, 32 passed, 1 skipped, 7 warnings in 30.33s =============

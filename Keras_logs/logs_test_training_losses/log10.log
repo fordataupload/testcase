@@ -1,0 +1,1245 @@
+2020-10-04 13:06:49.140896: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+============================= test session starts =============================
+platform win32 -- Python 3.6.12, pytest-6.0.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\mutation\Desktop\testcase\tests\keras\engine
+plugins: flaky-3.7.0
+collected 34 items
+
+test_training.py ...F..Fs......F.....FF....F.......                      [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_model_methods ______________________________
+
+    @flaky(rerun_filter=lambda err, *args: issubclass(err[0], AssertionError))
+    def test_model_methods():
+        model = get_model(num_outputs=2)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        # training/testing doesn't work before compiling.
+        with pytest.raises(RuntimeError):
+            model.train_on_batch([input_a_np, input_b_np],
+                                 [output_a_np, output_b_np])
+    
+        model.compile(optimizer, loss, metrics=[], loss_weights=loss_weights,
+                      sample_weight_mode=None)
+    
+        # test train_on_batch
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                   [output_a_np, output_b_np])
+        out = model.train_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                   {'dense_1': output_a_np, 'dropout': output_b_np})
+    
+        # test fit
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np], epochs=1, batch_size=4)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np], epochs=1, batch_size=4)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        {'dense_1': output_a_np, 'dropout': output_b_np},
+                        epochs=1, batch_size=4)
+    
+        # test validation_split
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5)
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5)
+    
+        # test validation data
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4,
+                        validation_data=([input_a_np, input_b_np],
+                                         [output_a_np, output_b_np]))
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        [output_a_np, output_b_np],
+                        epochs=1, batch_size=4, validation_split=0.5,
+                        validation_data=({'input_a': input_a_np,
+                                          'input_b': input_b_np},
+                                         [output_a_np, output_b_np]))
+        out = model.fit({'input_a': input_a_np, 'input_b': input_b_np},
+                        {'dense_1': output_a_np, 'dropout': output_b_np},
+                        epochs=1, batch_size=4, validation_split=0.5,
+                        validation_data=(
+                            {'input_a': input_a_np, 'input_b': input_b_np},
+                            {'dense_1': output_a_np, 'dropout': output_b_np}))
+    
+        # test_on_batch
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                  [output_a_np, output_b_np])
+        out = model.test_on_batch({'input_a': input_a_np, 'input_b': input_b_np},
+                                  {'dense_1': output_a_np, 'dropout': output_b_np})
+    
+        # predict_on_batch
+        out = model.predict_on_batch([input_a_np, input_b_np])
+        out = model.predict_on_batch({'input_a': input_a_np,
+                                      'input_b': input_b_np})
+    
+        # predict, evaluate
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        out = model.evaluate([input_a_np, input_b_np],
+                             [output_a_np, output_b_np],
+                             batch_size=4)
+        out = model.predict([input_a_np, input_b_np], batch_size=4)
+    
+        # with sample_weight
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        sample_weight = [None, np.random.random((10,))]
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np],
+                                   sample_weight=sample_weight)
+    
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np],
+                                  sample_weight=sample_weight)
+    
+        # test accuracy metric
+        model.compile(optimizer, loss, metrics=['acc'],
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        assert len(out) == 5
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == 5
+    
+        # this should also work
+        model.compile(optimizer, loss, metrics={'dense_1': 'acc'},
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        assert len(out) == 4
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == 4
+    
+        # and this as well
+        model.compile(optimizer, loss, metrics={'dense_1': ['acc']},
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        assert len(out) == 4
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == 4
+    
+        tracker_cb = TrackerCallback()
+    
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np], epochs=5, batch_size=4,
+                        initial_epoch=2, callbacks=[tracker_cb])
+        assert tracker_cb.trained_epochs == [2, 3, 4]
+    
+        # test starting from non-zero initial epoch for generator too
+        tracker_cb = TrackerCallback()
+    
+        @threadsafe_generator
+        def gen_data(batch_sz):
+            while True:
+                yield ([np.random.random((batch_sz, 3)),
+                        np.random.random((batch_sz, 3))],
+                       [np.random.random((batch_sz, 4)),
+                        np.random.random((batch_sz, 3))])
+    
+        out = model.fit_generator(gen_data(4), steps_per_epoch=3, epochs=5,
+                                  initial_epoch=2, callbacks=[tracker_cb])
+        assert tracker_cb.trained_epochs == [2, 3, 4]
+    
+        # test with a custom metric function
+        def mse(y_true, y_pred):
+            return K.mean(K.pow(y_true - y_pred, 2))
+    
+        model.compile(optimizer, loss, metrics=[mse],
+                      sample_weight_mode=None)
+    
+        out = model.train_on_batch([input_a_np, input_b_np],
+                                   [output_a_np, output_b_np])
+        out_len = 1 + 2 * (1 + 1)  # total loss + 2 outputs * (loss + metric)
+        assert len(out) == out_len
+        out = model.test_on_batch([input_a_np, input_b_np],
+                                  [output_a_np, output_b_np])
+        assert len(out) == out_len
+    
+        input_a_np = np.random.random((10, 3))
+        input_b_np = np.random.random((10, 3))
+    
+        output_a_np = np.random.random((10, 4))
+        output_b_np = np.random.random((10, 3))
+    
+        out = model.fit([input_a_np, input_b_np],
+                        [output_a_np, output_b_np],
+                        batch_size=4, epochs=1)
+        out = model.evaluate([input_a_np, input_b_np],
+                             [output_a_np, output_b_np],
+                             batch_size=4)
+        out = model.predict([input_a_np, input_b_np], batch_size=4)
+    
+        # enable verbose for evaluate_generator
+        out = model.evaluate_generator(gen_data(4), steps=3, verbose=1)
+        # pass generator directly so `is_generator_or_sequence`
+        # doesn't get confused.
+        out = model.evaluate(gen_data(4).it, steps=3, verbose=1)
+    
+        # empty batch
+        with pytest.raises(ValueError):
+            @threadsafe_generator
+            def gen_data():
+                while True:
+                    yield (np.asarray([]), np.asarray([]))
+    
+            out = model.evaluate_generator(gen_data(), steps=1)
+        with pytest.raises(ValueError):
+            @threadsafe_generator
+            def gen_data():
+                while True:
+                    yield (np.asarray([]), np.asarray([]))
+    
+            out = model.evaluate(gen_data().it, steps=1)
+    
+        # x is not a list of numpy arrays.
+        with pytest.raises(ValueError):
+            out = model.predict([None])
+    
+        # x does not match _feed_input_names.
+        with pytest.raises(ValueError):
+            out = model.predict([input_a_np, None, input_b_np])
+        with pytest.raises(ValueError):
+            out = model.predict([None, input_a_np, input_b_np])
+    
+        # all input/output/weight arrays should have the same number of samples.
+        with pytest.raises(ValueError):
+            out = model.train_on_batch([input_a_np, input_b_np[:2]],
+                                       [output_a_np, output_b_np],
+                                       sample_weight=sample_weight)
+        with pytest.raises(ValueError):
+            out = model.train_on_batch([input_a_np, input_b_np],
+                                       [output_a_np, output_b_np[:2]],
+                                       sample_weight=sample_weight)
+        with pytest.raises(ValueError):
+            out = model.train_on_batch([input_a_np, input_b_np],
+                                       [output_a_np, output_b_np],
+                                       sample_weight=[sample_weight[1],
+                                                      sample_weight[1][:2]])
+    
+        # `sample_weight` is neither a dict nor a list.
+        with pytest.raises(TypeError):
+            out = model.train_on_batch([input_a_np, input_b_np],
+                                       [output_a_np, output_b_np],
+                                       sample_weight=tuple(sample_weight))
+    
+        # `validation_data` is neither a tuple nor a triple.
+        with pytest.raises(ValueError):
+            out = model.fit([input_a_np, input_b_np],
+                            [output_a_np, output_b_np],
+                            epochs=1, batch_size=4,
+                            validation_data=([input_a_np, input_b_np],))
+    
+        # `loss` does not match outputs.
+        with pytest.raises(ValueError):
+            model.compile(optimizer, loss=['mse', 'mae', 'mape'])
+    
+        # `loss_weights` does not match output_names.
+        with pytest.raises(ValueError):
+            model.compile(optimizer, loss='mse', loss_weights={'lstm': 0.5})
+    
+        # `loss_weights` does not match outputs.
+        with pytest.raises(ValueError):
+            model.compile(optimizer, loss='mse', loss_weights=[0.5])
+    
+        # `loss_weights` is invalid type.
+        with pytest.raises(TypeError):
+            model.compile(optimizer, loss='mse', loss_weights=(0.5, 0.5))
+    
+        # `sample_weight_mode` does not match output_names.
+        with pytest.raises(ValueError):
+            model.compile(optimizer, loss='mse',
+                          sample_weight_mode={'lstm': 'temporal'})
+    
+        # `sample_weight_mode` does not match output_names.
+        with pytest.raises(ValueError):
+            model.compile(optimizer, loss='mse', sample_weight_mode=['temporal'])
+    
+        # `sample_weight_mode` matches output_names partially.
+        with pytest.raises(ValueError):
+            model.compile(optimizer, loss='mse',
+                          sample_weight_mode={'dense_1': 'temporal'})
+    
+        # `loss` does not exist.
+        with pytest.raises(ValueError):
+            model.compile(optimizer, loss=[])
+    
+>       model.compile(optimizer, loss=['mse', 'mae'])
+
+test_training.py:448: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: in call
+    return self.fn(y_true, y_pred, **self._fn_kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:613: in mean_absolute_error
+    return K.mean(K.abs(y_pred - y_true), axis=-1)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:903: in binary_op_wrapper
+    y, dtype_hint=x.dtype.base_dtype, name="y")
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1242: in convert_to_tensor_v2
+    as_ref=False)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297: in internal_convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286: in _constant_tensor_conversion_function
+    return constant(v, dtype=dtype, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: in constant
+    allow_broadcast=True)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: in _constant_impl
+    allow_broadcast=allow_broadcast))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = None, dtype = None, shape = None, verify_shape = False
+allow_broadcast = True
+
+    @tf_export("make_tensor_proto")
+    def make_tensor_proto(values, dtype=None, shape=None, verify_shape=False,
+                          allow_broadcast=False):
+      """Create a TensorProto.
+    
+      In TensorFlow 2.0, representing tensors as protos should no longer be a
+      common workflow. That said, this utility function is still useful for
+      generating TF Serving request protos:
+    
+        request = tensorflow_serving.apis.predict_pb2.PredictRequest()
+        request.model_spec.name = "my_model"
+        request.model_spec.signature_name = "serving_default"
+        request.inputs["images"].CopyFrom(tf.make_tensor_proto(X_new))
+    
+      make_tensor_proto accepts "values" of a python scalar, a python list, a
+      numpy ndarray, or a numpy scalar.
+    
+      If "values" is a python scalar or a python list, make_tensor_proto
+      first convert it to numpy ndarray. If dtype is None, the
+      conversion tries its best to infer the right numpy data
+      type. Otherwise, the resulting numpy array has a compatible data
+      type with the given dtype.
+    
+      In either case above, the numpy ndarray (either the caller provided
+      or the auto converted) must have the compatible type with dtype.
+    
+      make_tensor_proto then converts the numpy array to a tensor proto.
+    
+      If "shape" is None, the resulting tensor proto represents the numpy
+      array precisely.
+    
+      Otherwise, "shape" specifies the tensor's shape and the numpy array
+      can not have more elements than what "shape" specifies.
+    
+      Args:
+        values:         Values to put in the TensorProto.
+        dtype:          Optional tensor_pb2 DataType value.
+        shape:          List of integers representing the dimensions of tensor.
+        verify_shape:   Boolean that enables verification of a shape of values.
+        allow_broadcast:  Boolean that enables allowing scalars and 1 length vector
+            broadcasting. Cannot be true when verify_shape is true.
+    
+      Returns:
+        A `TensorProto`. Depending on the type, it may contain data in the
+        "tensor_content" attribute, which is not directly useful to Python programs.
+        To access the values you should convert the proto back to a numpy ndarray
+        with `tf.make_ndarray(proto)`.
+    
+        If `values` is a `TensorProto`, it is immediately returned; `dtype` and
+        `shape` are ignored.
+    
+      Raises:
+        TypeError:  if unsupported types are provided.
+        ValueError: if arguments have inappropriate values or if verify_shape is
+         True and shape of values is not equals to a shape from the argument.
+    
+      """
+      if allow_broadcast and verify_shape:
+        raise ValueError("allow_broadcast and verify_shape are not both allowed.")
+      if isinstance(values, tensor_pb2.TensorProto):
+        return values
+    
+      if dtype:
+        dtype = dtypes.as_dtype(dtype)
+    
+      is_quantized = (
+          dtype in [
+              dtypes.qint8, dtypes.quint8, dtypes.qint16, dtypes.quint16,
+              dtypes.qint32
+          ])
+    
+      if _is_array_like(values):
+        values = np.asarray(values)
+    
+      # We first convert value to a numpy array or scalar.
+      if isinstance(values, (np.ndarray, np.generic)):
+        if dtype and dtype.is_numpy_compatible:
+          nparray = values.astype(dtype.as_numpy_dtype)
+        else:
+          nparray = values
+      else:
+        if values is None:
+>         raise ValueError("None values not supported.")
+E         ValueError: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437: ValueError
+---------------------------- Captured stdout call -----------------------------
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.2856 - dense_1_loss: 1.0170 - dropout_loss: 0.5372
+10/10 [==============================] - 0s 2ms/step - loss: 0.8891 - dense_1_loss: 0.6242 - dropout_loss: 0.4551
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.6543 - dense_1_loss: 0.4695 - dropout_loss: 0.3696
+10/10 [==============================] - 0s 3ms/step - loss: 0.9545 - dense_1_loss: 0.6499 - dropout_loss: 0.6664
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.5430 - dense_1_loss: 0.4021 - dropout_loss: 0.2819
+10/10 [==============================] - 0s 2ms/step - loss: 0.9036 - dense_1_loss: 0.6333 - dropout_loss: 0.4934
+Train on 5 samples, validate on 5 samples
+Epoch 1/1
+
+4/5 [=======================>......] - ETA: 0s - loss: 0.7832 - dense_1_loss: 0.6721 - dropout_loss: 0.2223
+5/5 [==============================] - 0s 6ms/step - loss: 0.8592 - dense_1_loss: 0.7734 - dropout_loss: 0.3995 - val_loss: 0.6272 - val_dense_1_loss: 0.6357 - val_dropout_loss: 0.1716
+Train on 5 samples, validate on 5 samples
+Epoch 1/1
+
+4/5 [=======================>......] - ETA: 0s - loss: 0.9770 - dense_1_loss: 0.6627 - dropout_loss: 0.6287
+5/5 [==============================] - 0s 3ms/step - loss: 1.0814 - dense_1_loss: 0.7618 - dropout_loss: 0.9524 - val_loss: 0.6206 - val_dense_1_loss: 0.6281 - val_dropout_loss: 0.1716
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.7549 - dense_1_loss: 0.4459 - dropout_loss: 0.6180
+10/10 [==============================] - 0s 3ms/step - loss: 0.9152 - dense_1_loss: 0.5824 - dropout_loss: 0.5623 - val_loss: 0.6931 - val_dense_1_loss: 0.6013 - val_dropout_loss: 0.1847
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.1579 - dense_1_loss: 0.7977 - dropout_loss: 0.7203
+10/10 [==============================] - 0s 3ms/step - loss: 0.8922 - dense_1_loss: 0.5617 - dropout_loss: 0.5205 - val_loss: 0.6841 - val_dense_1_loss: 0.5923 - val_dropout_loss: 0.1847
+Train on 10 samples, validate on 10 samples
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.9927 - dense_1_loss: 0.6768 - dropout_loss: 0.6318
+10/10 [==============================] - 0s 3ms/step - loss: 0.9169 - dense_1_loss: 0.5891 - dropout_loss: 0.6094 - val_loss: 0.6746 - val_dense_1_loss: 0.5826 - val_dropout_loss: 0.1847
+
+ 4/10 [===========>..................] - ETA: 0s
+10/10 [==============================] - 0s 2ms/step
+Epoch 3/5
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.8449 - dense_1_loss: 0.5194 - dropout_loss: 0.3255 - dense_1_acc: 0.5000
+10/10 [==============================] - 0s 2ms/step - loss: 0.8670 - dense_1_loss: 0.5178 - dropout_loss: 0.3474 - dense_1_acc: 0.5000
+Epoch 4/5
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.8007 - dense_1_loss: 0.4745 - dropout_loss: 0.3262 - dense_1_acc: 0.7500
+10/10 [==============================] - 0s 3ms/step - loss: 0.8810 - dense_1_loss: 0.4809 - dropout_loss: 0.4681 - dense_1_acc: 0.5000
+Epoch 5/5
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 1.1187 - dense_1_loss: 0.5415 - dropout_loss: 0.5772 - dense_1_acc: 0.2500
+10/10 [==============================] - 0s 2ms/step - loss: 1.0306 - dense_1_loss: 0.4361 - dropout_loss: 0.5087 - dense_1_acc: 0.5000
+Epoch 3/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 1.0640 - dense_1_loss: 0.7759 - dropout_loss: 0.2881 - dense_1_acc: 0.0000e+00
+3/3 [==============================] - 0s 5ms/step - loss: 1.0984 - dense_1_loss: 0.5966 - dropout_loss: 0.5018 - dense_1_acc: 0.0833
+Epoch 4/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.9453 - dense_1_loss: 0.5446 - dropout_loss: 0.4007 - dense_1_acc: 0.0000e+00
+3/3 [==============================] - 0s 5ms/step - loss: 0.8813 - dense_1_loss: 0.5052 - dropout_loss: 0.3761 - dense_1_acc: 0.1667
+Epoch 5/5
+
+1/3 [=========>....................] - ETA: 0s - loss: 0.8172 - dense_1_loss: 0.4223 - dropout_loss: 0.3948 - dense_1_acc: 0.5000
+3/3 [==============================] - 0s 5ms/step - loss: 0.7995 - dense_1_loss: 0.4296 - dropout_loss: 0.3699 - dense_1_acc: 0.5000
+Epoch 1/1
+
+ 4/10 [===========>..................] - ETA: 0s - loss: 0.9020 - dense_1_loss: 0.4094 - dropout_loss: 0.4927 - dense_1_mse: 0.4094 - dropout_mse: 0.4927
+10/10 [==============================] - 0s 2ms/step - loss: 1.1591 - dense_1_loss: 0.6124 - dropout_loss: 0.6090 - dense_1_mse: 0.6124 - dropout_mse: 0.6090
+
+ 4/10 [===========>..................] - ETA: 0s
+10/10 [==============================] - 0s 2ms/step
+
+1/3 [=========>....................] - ETA: 0s
+3/3 [==============================] - 0s 5ms/step
+
+1/3 [=========>....................] - ETA: 0s
+3/3 [==============================] - 0s 5ms/step
+---------------------------- Captured stderr call -----------------------------
+Using TensorFlow backend.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+2020-10-04 13:06:51.575223: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-04 13:06:51.708550: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:06:51.710838: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:06:51.715682: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:06:51.720096: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:06:51.721852: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:06:51.728348: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:06:51.732694: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:06:51.744580: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:06:51.745554: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:06:51.746205: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-04 13:06:51.760957: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-04 13:06:51.761507: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-04 13:06:51.761847: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-04 13:06:51.762193: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-04 13:06:51.762534: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-04 13:06:51.762872: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-04 13:06:51.763219: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-04 13:06:51.763568: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-04 13:06:51.764440: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-04 13:06:52.820408: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-04 13:06:52.820885: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-04 13:06:52.821153: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-04 13:06:52.821993: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+
+2020-10-04 13:06:53.382432: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+------------------------------ Captured log call ------------------------------
+WARNING  tensorflow:deprecation.py:506 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING  tensorflow:module_wrapper.py:139 From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\backend\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.
+______________________ test_training_with_loss_instance _______________________
+
+    def test_training_with_loss_instance():
+        a = Input(shape=(3,), name='input_a')
+        b = Input(shape=(3,), name='input_b')
+    
+        dense = Dense(4, name='dense')
+        c = dense(a)
+        d = dense(b)
+        e = Dropout(0.5, name='dropout')(c)
+    
+        model = Model([a, b], [d, e])
+        loss_weights = [1., 0.5]
+        model.compile(
+            'sgd',
+            loss=losses.MeanSquaredError(),
+            metrics=['mae'],
+>           loss_weights=loss_weights)
+
+test_training.py:687: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:222: in compile
+    masks=masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:871: in _handle_metrics
+    self._per_output_metrics[i], target, output, output_mask)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:842: in _handle_per_output_metrics
+    metric_fn, y_true, y_pred, weights=weights, mask=mask)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:1033: in call_metric_function
+    update_ops = metric_fn.update_state(y_true, y_pred, sample_weight=weights)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\metrics_utils.py:42: in decorated
+    update_op = update_state_fn(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\metrics.py:318: in update_state
+    matches = self._fn(y_true, y_pred, **self._fn_kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:613: in mean_absolute_error
+    return K.mean(K.abs(y_pred - y_true), axis=-1)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:903: in binary_op_wrapper
+    y, dtype_hint=x.dtype.base_dtype, name="y")
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1242: in convert_to_tensor_v2
+    as_ref=False)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297: in internal_convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286: in _constant_tensor_conversion_function
+    return constant(v, dtype=dtype, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: in constant
+    allow_broadcast=True)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: in _constant_impl
+    allow_broadcast=allow_broadcast))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = None, dtype = None, shape = None, verify_shape = False
+allow_broadcast = True
+
+    @tf_export("make_tensor_proto")
+    def make_tensor_proto(values, dtype=None, shape=None, verify_shape=False,
+                          allow_broadcast=False):
+      """Create a TensorProto.
+    
+      In TensorFlow 2.0, representing tensors as protos should no longer be a
+      common workflow. That said, this utility function is still useful for
+      generating TF Serving request protos:
+    
+        request = tensorflow_serving.apis.predict_pb2.PredictRequest()
+        request.model_spec.name = "my_model"
+        request.model_spec.signature_name = "serving_default"
+        request.inputs["images"].CopyFrom(tf.make_tensor_proto(X_new))
+    
+      make_tensor_proto accepts "values" of a python scalar, a python list, a
+      numpy ndarray, or a numpy scalar.
+    
+      If "values" is a python scalar or a python list, make_tensor_proto
+      first convert it to numpy ndarray. If dtype is None, the
+      conversion tries its best to infer the right numpy data
+      type. Otherwise, the resulting numpy array has a compatible data
+      type with the given dtype.
+    
+      In either case above, the numpy ndarray (either the caller provided
+      or the auto converted) must have the compatible type with dtype.
+    
+      make_tensor_proto then converts the numpy array to a tensor proto.
+    
+      If "shape" is None, the resulting tensor proto represents the numpy
+      array precisely.
+    
+      Otherwise, "shape" specifies the tensor's shape and the numpy array
+      can not have more elements than what "shape" specifies.
+    
+      Args:
+        values:         Values to put in the TensorProto.
+        dtype:          Optional tensor_pb2 DataType value.
+        shape:          List of integers representing the dimensions of tensor.
+        verify_shape:   Boolean that enables verification of a shape of values.
+        allow_broadcast:  Boolean that enables allowing scalars and 1 length vector
+            broadcasting. Cannot be true when verify_shape is true.
+    
+      Returns:
+        A `TensorProto`. Depending on the type, it may contain data in the
+        "tensor_content" attribute, which is not directly useful to Python programs.
+        To access the values you should convert the proto back to a numpy ndarray
+        with `tf.make_ndarray(proto)`.
+    
+        If `values` is a `TensorProto`, it is immediately returned; `dtype` and
+        `shape` are ignored.
+    
+      Raises:
+        TypeError:  if unsupported types are provided.
+        ValueError: if arguments have inappropriate values or if verify_shape is
+         True and shape of values is not equals to a shape from the argument.
+    
+      """
+      if allow_broadcast and verify_shape:
+        raise ValueError("allow_broadcast and verify_shape are not both allowed.")
+      if isinstance(values, tensor_pb2.TensorProto):
+        return values
+    
+      if dtype:
+        dtype = dtypes.as_dtype(dtype)
+    
+      is_quantized = (
+          dtype in [
+              dtypes.qint8, dtypes.quint8, dtypes.qint16, dtypes.quint16,
+              dtypes.qint32
+          ])
+    
+      if _is_array_like(values):
+        values = np.asarray(values)
+    
+      # We first convert value to a numpy array or scalar.
+      if isinstance(values, (np.ndarray, np.generic)):
+        if dtype and dtype.is_numpy_compatible:
+          nparray = values.astype(dtype.as_numpy_dtype)
+        else:
+          nparray = values
+      else:
+        if values is None:
+>         raise ValueError("None values not supported.")
+E         ValueError: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437: ValueError
+________________________ test_model_with_partial_loss _________________________
+
+    def test_model_with_partial_loss():
+        a = Input(shape=(3,), name='input_a')
+        a_2 = Dense(4, name='dense_1')(a)
+        dp = Dropout(0.5, name='dropout')
+        a_3 = dp(a_2)
+        model = Model(a, [a_2, a_3])
+    
+        optimizer = 'rmsprop'
+        loss = {'dropout': 'mse'}
+>       model.compile(optimizer, loss, metrics=['mae'])
+
+test_training.py:988: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:222: in compile
+    masks=masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:871: in _handle_metrics
+    self._per_output_metrics[i], target, output, output_mask)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:842: in _handle_per_output_metrics
+    metric_fn, y_true, y_pred, weights=weights, mask=mask)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:1033: in call_metric_function
+    update_ops = metric_fn.update_state(y_true, y_pred, sample_weight=weights)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\metrics_utils.py:42: in decorated
+    update_op = update_state_fn(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\metrics.py:318: in update_state
+    matches = self._fn(y_true, y_pred, **self._fn_kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:613: in mean_absolute_error
+    return K.mean(K.abs(y_pred - y_true), axis=-1)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:903: in binary_op_wrapper
+    y, dtype_hint=x.dtype.base_dtype, name="y")
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1242: in convert_to_tensor_v2
+    as_ref=False)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297: in internal_convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286: in _constant_tensor_conversion_function
+    return constant(v, dtype=dtype, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: in constant
+    allow_broadcast=True)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: in _constant_impl
+    allow_broadcast=allow_broadcast))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = None, dtype = None, shape = None, verify_shape = False
+allow_broadcast = True
+
+    @tf_export("make_tensor_proto")
+    def make_tensor_proto(values, dtype=None, shape=None, verify_shape=False,
+                          allow_broadcast=False):
+      """Create a TensorProto.
+    
+      In TensorFlow 2.0, representing tensors as protos should no longer be a
+      common workflow. That said, this utility function is still useful for
+      generating TF Serving request protos:
+    
+        request = tensorflow_serving.apis.predict_pb2.PredictRequest()
+        request.model_spec.name = "my_model"
+        request.model_spec.signature_name = "serving_default"
+        request.inputs["images"].CopyFrom(tf.make_tensor_proto(X_new))
+    
+      make_tensor_proto accepts "values" of a python scalar, a python list, a
+      numpy ndarray, or a numpy scalar.
+    
+      If "values" is a python scalar or a python list, make_tensor_proto
+      first convert it to numpy ndarray. If dtype is None, the
+      conversion tries its best to infer the right numpy data
+      type. Otherwise, the resulting numpy array has a compatible data
+      type with the given dtype.
+    
+      In either case above, the numpy ndarray (either the caller provided
+      or the auto converted) must have the compatible type with dtype.
+    
+      make_tensor_proto then converts the numpy array to a tensor proto.
+    
+      If "shape" is None, the resulting tensor proto represents the numpy
+      array precisely.
+    
+      Otherwise, "shape" specifies the tensor's shape and the numpy array
+      can not have more elements than what "shape" specifies.
+    
+      Args:
+        values:         Values to put in the TensorProto.
+        dtype:          Optional tensor_pb2 DataType value.
+        shape:          List of integers representing the dimensions of tensor.
+        verify_shape:   Boolean that enables verification of a shape of values.
+        allow_broadcast:  Boolean that enables allowing scalars and 1 length vector
+            broadcasting. Cannot be true when verify_shape is true.
+    
+      Returns:
+        A `TensorProto`. Depending on the type, it may contain data in the
+        "tensor_content" attribute, which is not directly useful to Python programs.
+        To access the values you should convert the proto back to a numpy ndarray
+        with `tf.make_ndarray(proto)`.
+    
+        If `values` is a `TensorProto`, it is immediately returned; `dtype` and
+        `shape` are ignored.
+    
+      Raises:
+        TypeError:  if unsupported types are provided.
+        ValueError: if arguments have inappropriate values or if verify_shape is
+         True and shape of values is not equals to a shape from the argument.
+    
+      """
+      if allow_broadcast and verify_shape:
+        raise ValueError("allow_broadcast and verify_shape are not both allowed.")
+      if isinstance(values, tensor_pb2.TensorProto):
+        return values
+    
+      if dtype:
+        dtype = dtypes.as_dtype(dtype)
+    
+      is_quantized = (
+          dtype in [
+              dtypes.qint8, dtypes.quint8, dtypes.qint16, dtypes.quint16,
+              dtypes.qint32
+          ])
+    
+      if _is_array_like(values):
+        values = np.asarray(values)
+    
+      # We first convert value to a numpy array or scalar.
+      if isinstance(values, (np.ndarray, np.generic)):
+        if dtype and dtype.is_numpy_compatible:
+          nparray = values.astype(dtype.as_numpy_dtype)
+        else:
+          nparray = values
+      else:
+        if values is None:
+>         raise ValueError("None values not supported.")
+E         ValueError: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437: ValueError
+________ test_training_and_eval_methods_on_symbolic_tensors_single_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_single_io():
+        x = keras.layers.Input(shape=(3,), name='input')
+        y = keras.layers.Dense(4, name='dense')(x)
+        model = keras.Model(x, y)
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        metrics = ['mae']
+>       model.compile(optimizer, loss, metrics=metrics)
+
+test_training.py:1445: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:222: in compile
+    masks=masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:871: in _handle_metrics
+    self._per_output_metrics[i], target, output, output_mask)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:842: in _handle_per_output_metrics
+    metric_fn, y_true, y_pred, weights=weights, mask=mask)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:1033: in call_metric_function
+    update_ops = metric_fn.update_state(y_true, y_pred, sample_weight=weights)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\metrics_utils.py:42: in decorated
+    update_op = update_state_fn(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\metrics.py:318: in update_state
+    matches = self._fn(y_true, y_pred, **self._fn_kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:613: in mean_absolute_error
+    return K.mean(K.abs(y_pred - y_true), axis=-1)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:903: in binary_op_wrapper
+    y, dtype_hint=x.dtype.base_dtype, name="y")
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1242: in convert_to_tensor_v2
+    as_ref=False)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297: in internal_convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286: in _constant_tensor_conversion_function
+    return constant(v, dtype=dtype, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: in constant
+    allow_broadcast=True)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: in _constant_impl
+    allow_broadcast=allow_broadcast))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = None, dtype = None, shape = None, verify_shape = False
+allow_broadcast = True
+
+    @tf_export("make_tensor_proto")
+    def make_tensor_proto(values, dtype=None, shape=None, verify_shape=False,
+                          allow_broadcast=False):
+      """Create a TensorProto.
+    
+      In TensorFlow 2.0, representing tensors as protos should no longer be a
+      common workflow. That said, this utility function is still useful for
+      generating TF Serving request protos:
+    
+        request = tensorflow_serving.apis.predict_pb2.PredictRequest()
+        request.model_spec.name = "my_model"
+        request.model_spec.signature_name = "serving_default"
+        request.inputs["images"].CopyFrom(tf.make_tensor_proto(X_new))
+    
+      make_tensor_proto accepts "values" of a python scalar, a python list, a
+      numpy ndarray, or a numpy scalar.
+    
+      If "values" is a python scalar or a python list, make_tensor_proto
+      first convert it to numpy ndarray. If dtype is None, the
+      conversion tries its best to infer the right numpy data
+      type. Otherwise, the resulting numpy array has a compatible data
+      type with the given dtype.
+    
+      In either case above, the numpy ndarray (either the caller provided
+      or the auto converted) must have the compatible type with dtype.
+    
+      make_tensor_proto then converts the numpy array to a tensor proto.
+    
+      If "shape" is None, the resulting tensor proto represents the numpy
+      array precisely.
+    
+      Otherwise, "shape" specifies the tensor's shape and the numpy array
+      can not have more elements than what "shape" specifies.
+    
+      Args:
+        values:         Values to put in the TensorProto.
+        dtype:          Optional tensor_pb2 DataType value.
+        shape:          List of integers representing the dimensions of tensor.
+        verify_shape:   Boolean that enables verification of a shape of values.
+        allow_broadcast:  Boolean that enables allowing scalars and 1 length vector
+            broadcasting. Cannot be true when verify_shape is true.
+    
+      Returns:
+        A `TensorProto`. Depending on the type, it may contain data in the
+        "tensor_content" attribute, which is not directly useful to Python programs.
+        To access the values you should convert the proto back to a numpy ndarray
+        with `tf.make_ndarray(proto)`.
+    
+        If `values` is a `TensorProto`, it is immediately returned; `dtype` and
+        `shape` are ignored.
+    
+      Raises:
+        TypeError:  if unsupported types are provided.
+        ValueError: if arguments have inappropriate values or if verify_shape is
+         True and shape of values is not equals to a shape from the argument.
+    
+      """
+      if allow_broadcast and verify_shape:
+        raise ValueError("allow_broadcast and verify_shape are not both allowed.")
+      if isinstance(values, tensor_pb2.TensorProto):
+        return values
+    
+      if dtype:
+        dtype = dtypes.as_dtype(dtype)
+    
+      is_quantized = (
+          dtype in [
+              dtypes.qint8, dtypes.quint8, dtypes.qint16, dtypes.quint16,
+              dtypes.qint32
+          ])
+    
+      if _is_array_like(values):
+        values = np.asarray(values)
+    
+      # We first convert value to a numpy array or scalar.
+      if isinstance(values, (np.ndarray, np.generic)):
+        if dtype and dtype.is_numpy_compatible:
+          nparray = values.astype(dtype.as_numpy_dtype)
+        else:
+          nparray = values
+      else:
+        if values is None:
+>         raise ValueError("None values not supported.")
+E         ValueError: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437: ValueError
+_________ test_training_and_eval_methods_on_symbolic_tensors_multi_io _________
+
+    @pytest.mark.skipif(K.backend() != 'tensorflow', reason='Requires TensorFlow')
+    def test_training_and_eval_methods_on_symbolic_tensors_multi_io():
+        a = keras.layers.Input(shape=(3,), name='input_a')
+        b = keras.layers.Input(shape=(3,), name='input_b')
+    
+        dense = keras.layers.Dense(4, name='dense')
+        c = dense(a)
+        d = dense(b)
+        e = keras.layers.Dropout(0.5, name='dropout')(c)
+    
+        model = keras.models.Model([a, b], [d, e])
+    
+        optimizer = 'rmsprop'
+        loss = 'mse'
+        loss_weights = [1., 0.5]
+        metrics = ['mae']
+>       model.compile(optimizer, loss, metrics=metrics, loss_weights=loss_weights)
+
+test_training.py:1476: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:222: in compile
+    masks=masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:871: in _handle_metrics
+    self._per_output_metrics[i], target, output, output_mask)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:842: in _handle_per_output_metrics
+    metric_fn, y_true, y_pred, weights=weights, mask=mask)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:1033: in call_metric_function
+    update_ops = metric_fn.update_state(y_true, y_pred, sample_weight=weights)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\utils\metrics_utils.py:42: in decorated
+    update_op = update_state_fn(*args, **kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\metrics.py:318: in update_state
+    matches = self._fn(y_true, y_pred, **self._fn_kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:613: in mean_absolute_error
+    return K.mean(K.abs(y_pred - y_true), axis=-1)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:903: in binary_op_wrapper
+    y, dtype_hint=x.dtype.base_dtype, name="y")
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1242: in convert_to_tensor_v2
+    as_ref=False)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297: in internal_convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286: in _constant_tensor_conversion_function
+    return constant(v, dtype=dtype, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: in constant
+    allow_broadcast=True)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: in _constant_impl
+    allow_broadcast=allow_broadcast))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = None, dtype = None, shape = None, verify_shape = False
+allow_broadcast = True
+
+    @tf_export("make_tensor_proto")
+    def make_tensor_proto(values, dtype=None, shape=None, verify_shape=False,
+                          allow_broadcast=False):
+      """Create a TensorProto.
+    
+      In TensorFlow 2.0, representing tensors as protos should no longer be a
+      common workflow. That said, this utility function is still useful for
+      generating TF Serving request protos:
+    
+        request = tensorflow_serving.apis.predict_pb2.PredictRequest()
+        request.model_spec.name = "my_model"
+        request.model_spec.signature_name = "serving_default"
+        request.inputs["images"].CopyFrom(tf.make_tensor_proto(X_new))
+    
+      make_tensor_proto accepts "values" of a python scalar, a python list, a
+      numpy ndarray, or a numpy scalar.
+    
+      If "values" is a python scalar or a python list, make_tensor_proto
+      first convert it to numpy ndarray. If dtype is None, the
+      conversion tries its best to infer the right numpy data
+      type. Otherwise, the resulting numpy array has a compatible data
+      type with the given dtype.
+    
+      In either case above, the numpy ndarray (either the caller provided
+      or the auto converted) must have the compatible type with dtype.
+    
+      make_tensor_proto then converts the numpy array to a tensor proto.
+    
+      If "shape" is None, the resulting tensor proto represents the numpy
+      array precisely.
+    
+      Otherwise, "shape" specifies the tensor's shape and the numpy array
+      can not have more elements than what "shape" specifies.
+    
+      Args:
+        values:         Values to put in the TensorProto.
+        dtype:          Optional tensor_pb2 DataType value.
+        shape:          List of integers representing the dimensions of tensor.
+        verify_shape:   Boolean that enables verification of a shape of values.
+        allow_broadcast:  Boolean that enables allowing scalars and 1 length vector
+            broadcasting. Cannot be true when verify_shape is true.
+    
+      Returns:
+        A `TensorProto`. Depending on the type, it may contain data in the
+        "tensor_content" attribute, which is not directly useful to Python programs.
+        To access the values you should convert the proto back to a numpy ndarray
+        with `tf.make_ndarray(proto)`.
+    
+        If `values` is a `TensorProto`, it is immediately returned; `dtype` and
+        `shape` are ignored.
+    
+      Raises:
+        TypeError:  if unsupported types are provided.
+        ValueError: if arguments have inappropriate values or if verify_shape is
+         True and shape of values is not equals to a shape from the argument.
+    
+      """
+      if allow_broadcast and verify_shape:
+        raise ValueError("allow_broadcast and verify_shape are not both allowed.")
+      if isinstance(values, tensor_pb2.TensorProto):
+        return values
+    
+      if dtype:
+        dtype = dtypes.as_dtype(dtype)
+    
+      is_quantized = (
+          dtype in [
+              dtypes.qint8, dtypes.quint8, dtypes.qint16, dtypes.quint16,
+              dtypes.qint32
+          ])
+    
+      if _is_array_like(values):
+        values = np.asarray(values)
+    
+      # We first convert value to a numpy array or scalar.
+      if isinstance(values, (np.ndarray, np.generic)):
+        if dtype and dtype.is_numpy_compatible:
+          nparray = values.astype(dtype.as_numpy_dtype)
+        else:
+          nparray = values
+      else:
+        if values is None:
+>         raise ValueError("None values not supported.")
+E         ValueError: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437: ValueError
+____________________________ test_loss_correctness ____________________________
+
+    def test_loss_correctness():
+        class Bias(Layer):
+    
+            def build(self, input_shape):
+                self.bias = self.add_weight('bias', (1,), initializer='zeros')
+    
+            def call(self, inputs):
+                return inputs + self.bias
+    
+        inp = Input(shape=(1,))
+        out = Bias()(inp)
+        model = Model(inp, out)
+        model.compile(
+            keras.optimizers.SGD(lr=0.1),
+>           loss=keras.losses.MeanAbsoluteError())
+
+test_training.py:1749: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229: in compile
+    self.total_loss = self._prepare_total_loss(masks)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692: in _prepare_total_loss
+    y_true, y_pred, sample_weight=sample_weight)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71: in __call__
+    losses = self.call(y_true, y_pred)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132: in call
+    return self.fn(y_true, y_pred, **self._fn_kwargs)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:613: in mean_absolute_error
+    return K.mean(K.abs(y_pred - y_true), axis=-1)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:903: in binary_op_wrapper
+    y, dtype_hint=x.dtype.base_dtype, name="y")
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1242: in convert_to_tensor_v2
+    as_ref=False)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297: in internal_convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286: in _constant_tensor_conversion_function
+    return constant(v, dtype=dtype, name=name)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227: in constant
+    allow_broadcast=True)
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265: in _constant_impl
+    allow_broadcast=allow_broadcast))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+values = None, dtype = None, shape = None, verify_shape = False
+allow_broadcast = True
+
+    @tf_export("make_tensor_proto")
+    def make_tensor_proto(values, dtype=None, shape=None, verify_shape=False,
+                          allow_broadcast=False):
+      """Create a TensorProto.
+    
+      In TensorFlow 2.0, representing tensors as protos should no longer be a
+      common workflow. That said, this utility function is still useful for
+      generating TF Serving request protos:
+    
+        request = tensorflow_serving.apis.predict_pb2.PredictRequest()
+        request.model_spec.name = "my_model"
+        request.model_spec.signature_name = "serving_default"
+        request.inputs["images"].CopyFrom(tf.make_tensor_proto(X_new))
+    
+      make_tensor_proto accepts "values" of a python scalar, a python list, a
+      numpy ndarray, or a numpy scalar.
+    
+      If "values" is a python scalar or a python list, make_tensor_proto
+      first convert it to numpy ndarray. If dtype is None, the
+      conversion tries its best to infer the right numpy data
+      type. Otherwise, the resulting numpy array has a compatible data
+      type with the given dtype.
+    
+      In either case above, the numpy ndarray (either the caller provided
+      or the auto converted) must have the compatible type with dtype.
+    
+      make_tensor_proto then converts the numpy array to a tensor proto.
+    
+      If "shape" is None, the resulting tensor proto represents the numpy
+      array precisely.
+    
+      Otherwise, "shape" specifies the tensor's shape and the numpy array
+      can not have more elements than what "shape" specifies.
+    
+      Args:
+        values:         Values to put in the TensorProto.
+        dtype:          Optional tensor_pb2 DataType value.
+        shape:          List of integers representing the dimensions of tensor.
+        verify_shape:   Boolean that enables verification of a shape of values.
+        allow_broadcast:  Boolean that enables allowing scalars and 1 length vector
+            broadcasting. Cannot be true when verify_shape is true.
+    
+      Returns:
+        A `TensorProto`. Depending on the type, it may contain data in the
+        "tensor_content" attribute, which is not directly useful to Python programs.
+        To access the values you should convert the proto back to a numpy ndarray
+        with `tf.make_ndarray(proto)`.
+    
+        If `values` is a `TensorProto`, it is immediately returned; `dtype` and
+        `shape` are ignored.
+    
+      Raises:
+        TypeError:  if unsupported types are provided.
+        ValueError: if arguments have inappropriate values or if verify_shape is
+         True and shape of values is not equals to a shape from the argument.
+    
+      """
+      if allow_broadcast and verify_shape:
+        raise ValueError("allow_broadcast and verify_shape are not both allowed.")
+      if isinstance(values, tensor_pb2.TensorProto):
+        return values
+    
+      if dtype:
+        dtype = dtypes.as_dtype(dtype)
+    
+      is_quantized = (
+          dtype in [
+              dtypes.qint8, dtypes.quint8, dtypes.qint16, dtypes.quint16,
+              dtypes.qint32
+          ])
+    
+      if _is_array_like(values):
+        values = np.asarray(values)
+    
+      # We first convert value to a numpy array or scalar.
+      if isinstance(values, (np.ndarray, np.generic)):
+        if dtype and dtype.is_numpy_compatible:
+          nparray = values.astype(dtype.as_numpy_dtype)
+        else:
+          nparray = values
+      else:
+        if values is None:
+>         raise ValueError("None values not supported.")
+E         ValueError: None values not supported.
+
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437: ValueError
+============================== warnings summary ===============================
+C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\_pytest\config\__init__.py:1040: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: flaky
+    self._mark_plugins_for_rewrite(hook)
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_partial_loss
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_1 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_1.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_methods
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dropout missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dropout.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+test_training.py::test_model_with_external_loss
+  C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training_utils.py:819: UserWarning: Output dense_2 missing from loss dictionary. We assume this was done on purpose. The fit and evaluate APIs will not be expecting any data to be passed to dense_2.
+    'be expecting any data to be passed to {0}.'.format(name))
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+===Flaky Test Report===
+
+test_model_methods failed and was not selected for rerun.
+	<class 'ValueError'>
+	None values not supported.
+	[<TracebackEntry C:\Users\mutation\Desktop\testcase\tests\keras\engine\test_training.py:448>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:229>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\engine\training.py:692>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:71>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:132>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\keras\losses.py:613>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_ops.py:903>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1242>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py:1297>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:286>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:227>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\constant_op.py:265>, <TracebackEntry C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\tensor_util.py:437>]
+test_fit_generator passed 1 out of the required 1 times. Success!
+
+===End Flaky Test Report===
+=========================== short test summary info ===========================
+FAILED test_training.py::test_model_methods - ValueError: None values not sup...
+FAILED test_training.py::test_training_with_loss_instance - ValueError: None ...
+FAILED test_training.py::test_model_with_partial_loss - ValueError: None valu...
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_single_io
+FAILED test_training.py::test_training_and_eval_methods_on_symbolic_tensors_multi_io
+FAILED test_training.py::test_loss_correctness - ValueError: None values not ...
+============ 6 failed, 27 passed, 1 skipped, 7 warnings in 29.87s =============
