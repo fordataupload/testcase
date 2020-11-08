@@ -1,0 +1,130 @@
+2020-10-05 21:01:37.967157: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] NestTest.testAssertSameStructure
+[       OK ] NestTest.testAssertSameStructure
+[ RUN      ] NestTest.testAssertShallowStructure
+[       OK ] NestTest.testAssertShallowStructure
+[ RUN      ] NestTest.testFlattenAndPack
+[  FAILED  ] NestTest.testFlattenAndPack
+[ RUN      ] NestTest.testFlattenAndPackWithDicts
+[  FAILED  ] NestTest.testFlattenAndPackWithDicts
+[ RUN      ] NestTest.testFlattenDictOrder
+[       OK ] NestTest.testFlattenDictOrder
+[ RUN      ] NestTest.testFlattenRaggedValue
+[       OK ] NestTest.testFlattenRaggedValue
+[ RUN      ] NestTest.testFlattenSparseValue
+[       OK ] NestTest.testFlattenSparseValue
+[ RUN      ] NestTest.testFlattenUpTo
+[       OK ] NestTest.testFlattenUpTo
+[ RUN      ] NestTest.testIsSequence
+2020-10-05 21:01:40.649337: W tensorflow/python/util/util.cc:299] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+[       OK ] NestTest.testIsSequence
+[ RUN      ] NestTest.testMapStructure
+[  FAILED  ] NestTest.testMapStructure
+[ RUN      ] NestTest.testMapStructureUpTo
+[  FAILED  ] NestTest.testMapStructureUpTo
+[ RUN      ] NestTest.testPackDictOrder
+[  FAILED  ] NestTest.testPackDictOrder
+[ RUN      ] NestTest.test_session
+[  SKIPPED ] NestTest.test_session
+======================================================================
+FAIL: testFlattenAndPack (__main__.NestTest)
+NestTest.testFlattenAndPack
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 84, in testFlattenAndPack
+    ("d", "e", ("f", "g"), "h")))
+AssertionError: Tuples differ: (('a', 'b'), 'b', ('b', 'b', ('b', 'b'), 'b')) != (('a', 'b'), 'c', ('d', 'e', ('f', 'g'), 'h'))
+
+First differing element 1:
+'b'
+'c'
+
+- (('a', 'b'), 'b', ('b', 'b', ('b', 'b'), 'b'))
+?               ^     ^    ^     ^    ^     ^
+
++ (('a', 'b'), 'c', ('d', 'e', ('f', 'g'), 'h'))
+?               ^     ^    ^     ^    ^     ^
+
+
+======================================================================
+FAIL: testFlattenAndPackWithDicts (__main__.NestTest)
+NestTest.testFlattenAndPackWithDicts
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 260, in testFlattenAndPackWithDicts
+    self.assertEqual(unflattened, mess)
+AssertionError: Tuples differ: ('z', A(b=3, c=3), {'c': (3, OrderedDict([('b', 3), ('a', 3)])), 'b': 3}, 3) != ('z', A(b=3, c=4), {'c': (1, OrderedDict([('b', 3), ('a', 2)])), 'b': 5}, 17)
+
+First differing element 1:
+A(b=3, c=3)
+A(b=3, c=4)
+
+- ('z', A(b=3, c=3), {'b': 3, 'c': (3, OrderedDict([('b', 3), ('a', 3)]))}, 3)
+?                ^         ^        ^                               ^       ^
+
++ ('z', A(b=3, c=4), {'b': 5, 'c': (1, OrderedDict([('b', 3), ('a', 2)]))}, 17)
+?                ^         ^        ^                               ^       ^^
+
+
+======================================================================
+FAIL: testMapStructure (__main__.NestTest)
+NestTest.testMapStructure
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 508, in testMapStructure
+    nest.flatten(structure1_plus1))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1122, in decorated
+    return f(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 2523, in assertAllEqual
+    np.testing.assert_array_equal(a, b, err_msg="\n".join(msgs))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py", line 936, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py", line 846, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+not equal where = (array([2, 3, 4, 5], dtype=int64),)
+not equal lhs = [4 5 6 7]
+not equal rhs = [3 3 3 3]
+Mismatched elements: 4 / 6 (66.7%)
+Max absolute difference: 4
+Max relative difference: 1.33333333
+ x: array([2, 3, 4, 5, 6, 7])
+ y: array([2, 3, 3, 3, 3, 3])
+
+======================================================================
+FAIL: testMapStructureUpTo (__main__.NestTest)
+NestTest.testMapStructureUpTo
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 884, in testMapStructureUpTo
+    self.assertEqual(out, ("first_4_evens", ("first_5_odds", "first_3_primes")))
+AssertionError: Tuples differ: ('first_4_evens', ('first_5_odds', 'first_5_odds')) != ('first_4_evens', ('first_5_odds', 'first_3_primes'))
+
+First differing element 1:
+('first_5_odds', 'first_5_odds')
+('first_5_odds', 'first_3_primes')
+
+- ('first_4_evens', ('first_5_odds', 'first_5_odds'))
+?                                           ^ ^^^
+
++ ('first_4_evens', ('first_5_odds', 'first_3_primes'))
+?                                           ^ ^^^^^
+
+
+======================================================================
+FAIL: testPackDictOrder (__main__.NestTest)
+NestTest.testPackDictOrder
+Packing orders dicts by key, including OrderedDicts.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 176, in testPackDictOrder
+    ordered_reconstruction)
+AssertionError: OrderedDict([('d', 3), ('b', 1), ('a', 0), ('c', 2)]) != OrderedDict([('d', 1), ('b', 1), ('a', 0), ('c', 1)])
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.016s
+
+FAILED (failures=5, skipped=1)

@@ -1,0 +1,70 @@
+2020-10-05 21:00:01.276205: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] NestTest.testAssertSameStructure
+[       OK ] NestTest.testAssertSameStructure
+[ RUN      ] NestTest.testAssertShallowStructure
+[       OK ] NestTest.testAssertShallowStructure
+[ RUN      ] NestTest.testFlattenAndPack
+[       OK ] NestTest.testFlattenAndPack
+[ RUN      ] NestTest.testFlattenAndPackWithDicts
+[  FAILED  ] NestTest.testFlattenAndPackWithDicts
+[ RUN      ] NestTest.testFlattenDictOrder
+[       OK ] NestTest.testFlattenDictOrder
+[ RUN      ] NestTest.testFlattenRaggedValue
+[       OK ] NestTest.testFlattenRaggedValue
+[ RUN      ] NestTest.testFlattenSparseValue
+[       OK ] NestTest.testFlattenSparseValue
+[ RUN      ] NestTest.testFlattenUpTo
+[       OK ] NestTest.testFlattenUpTo
+[ RUN      ] NestTest.testIsSequence
+2020-10-05 21:00:04.893077: W tensorflow/python/util/util.cc:299] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+[       OK ] NestTest.testIsSequence
+[ RUN      ] NestTest.testMapStructure
+[       OK ] NestTest.testMapStructure
+[ RUN      ] NestTest.testMapStructureUpTo
+[       OK ] NestTest.testMapStructureUpTo
+[ RUN      ] NestTest.testPackDictOrder
+[  FAILED  ] NestTest.testPackDictOrder
+[ RUN      ] NestTest.test_session
+[  SKIPPED ] NestTest.test_session
+======================================================================
+ERROR: testFlattenAndPackWithDicts (__main__.NestTest)
+NestTest.testFlattenAndPackWithDicts
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 258, in testFlattenAndPackWithDicts
+    unflattened = nest.pack_sequence_as(structure_of_mess, flattened)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 191, in pack_sequence_as
+    _, packed = _packed_nest_with_indices(structure, flat_sequence, 0)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 148, in _packed_nest_with_indices
+    new_index, child = _packed_nest_with_indices(s, flat, index)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 148, in _packed_nest_with_indices
+    new_index, child = _packed_nest_with_indices(s, flat, index)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 149, in _packed_nest_with_indices
+    packed.append(_sequence_like(s, child))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 70, in _sequence_like
+    return type(instance)((key, result[key]) for key in instance)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 70, in <genexpr>
+    return type(instance)((key, result[key]) for key in instance)
+TypeError: 'NoneType' object is not subscriptable
+
+======================================================================
+ERROR: testPackDictOrder (__main__.NestTest)
+NestTest.testPackDictOrder
+Packing orders dicts by key, including OrderedDicts.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 168, in testPackDictOrder
+    ordered_reconstruction = nest.pack_sequence_as(ordered, seq)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 192, in pack_sequence_as
+    return _sequence_like(structure, packed)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 70, in _sequence_like
+    return type(instance)((key, result[key]) for key in instance)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 70, in <genexpr>
+    return type(instance)((key, result[key]) for key in instance)
+TypeError: 'NoneType' object is not subscriptable
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.031s
+
+FAILED (errors=2, skipped=1)

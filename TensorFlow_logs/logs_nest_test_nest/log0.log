@@ -1,0 +1,125 @@
+2020-10-05 20:58:38.096011: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] NestTest.testAssertSameStructure
+[       OK ] NestTest.testAssertSameStructure
+[ RUN      ] NestTest.testAssertShallowStructure
+[  FAILED  ] NestTest.testAssertShallowStructure
+[ RUN      ] NestTest.testFlattenAndPack
+[  FAILED  ] NestTest.testFlattenAndPack
+[ RUN      ] NestTest.testFlattenAndPackWithDicts
+[  FAILED  ] NestTest.testFlattenAndPackWithDicts
+[ RUN      ] NestTest.testFlattenDictOrder
+[       OK ] NestTest.testFlattenDictOrder
+[ RUN      ] NestTest.testFlattenRaggedValue
+[       OK ] NestTest.testFlattenRaggedValue
+[ RUN      ] NestTest.testFlattenSparseValue
+[       OK ] NestTest.testFlattenSparseValue
+[ RUN      ] NestTest.testFlattenUpTo
+[  FAILED  ] NestTest.testFlattenUpTo
+[ RUN      ] NestTest.testIsSequence
+[  FAILED  ] NestTest.testIsSequence
+[ RUN      ] NestTest.testMapStructure
+[  FAILED  ] NestTest.testMapStructure
+[ RUN      ] NestTest.testMapStructureUpTo
+[  FAILED  ] NestTest.testMapStructureUpTo
+[ RUN      ] NestTest.testPackDictOrder
+[  FAILED  ] NestTest.testPackDictOrder
+[ RUN      ] NestTest.test_session
+[  SKIPPED ] NestTest.test_session
+======================================================================
+ERROR: testAssertShallowStructure (__main__.NestTest)
+NestTest.testAssertShallowStructure
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 588, in testAssertShallowStructure
+    nest.assert_shallow_structure(inp_abc, inp_ab)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 295, in assert_shallow_structure
+    if is_sequence(shallow_tree):
+TypeError: 'NoneType' object is not callable
+
+======================================================================
+ERROR: testFlattenAndPack (__main__.NestTest)
+NestTest.testFlattenAndPack
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 82, in testFlattenAndPack
+    nest.pack_sequence_as(structure, flat), (("a", "b"), "c",
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 175, in pack_sequence_as
+    if not (is_sequence(flat_sequence) or isinstance(flat_sequence, list)):
+TypeError: 'NoneType' object is not callable
+
+======================================================================
+ERROR: testFlattenAndPackWithDicts (__main__.NestTest)
+NestTest.testFlattenAndPackWithDicts
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 258, in testFlattenAndPackWithDicts
+    unflattened = nest.pack_sequence_as(structure_of_mess, flattened)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 175, in pack_sequence_as
+    if not (is_sequence(flat_sequence) or isinstance(flat_sequence, list)):
+TypeError: 'NoneType' object is not callable
+
+======================================================================
+ERROR: testFlattenUpTo (__main__.NestTest)
+NestTest.testFlattenUpTo
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 644, in testFlattenUpTo
+    flattened_input_tree = nest.flatten_up_to(shallow_tree, input_tree)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 396, in flatten_up_to
+    assert_shallow_structure(shallow_tree, input_tree)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 295, in assert_shallow_structure
+    if is_sequence(shallow_tree):
+TypeError: 'NoneType' object is not callable
+
+======================================================================
+ERROR: testIsSequence (__main__.NestTest)
+NestTest.testIsSequence
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 320, in testIsSequence
+    self.assertFalse(nest.is_sequence("1234"))
+TypeError: 'NoneType' object is not callable
+
+======================================================================
+ERROR: testMapStructure (__main__.NestTest)
+NestTest.testMapStructure
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 500, in testMapStructure
+    structure1_plus1 = nest.map_structure(lambda x: x + 1, structure1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 245, in map_structure
+    structure[0], [func(*x) for x in entries])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 175, in pack_sequence_as
+    if not (is_sequence(flat_sequence) or isinstance(flat_sequence, list)):
+TypeError: 'NoneType' object is not callable
+
+======================================================================
+ERROR: testMapStructureUpTo (__main__.NestTest)
+NestTest.testMapStructureUpTo
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 866, in testMapStructureUpTo
+    inp_val, lambda val, ops: (val + ops.add) * ops.mul, inp_val, inp_ops)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 464, in map_structure_up_to
+    assert_shallow_structure(shallow_tree, input_tree)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 295, in assert_shallow_structure
+    if is_sequence(shallow_tree):
+TypeError: 'NoneType' object is not callable
+
+======================================================================
+ERROR: testPackDictOrder (__main__.NestTest)
+NestTest.testPackDictOrder
+Packing orders dicts by key, including OrderedDicts.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 168, in testPackDictOrder
+    ordered_reconstruction = nest.pack_sequence_as(ordered, seq)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 175, in pack_sequence_as
+    if not (is_sequence(flat_sequence) or isinstance(flat_sequence, list)):
+TypeError: 'NoneType' object is not callable
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.016s
+
+FAILED (errors=8, skipped=1)

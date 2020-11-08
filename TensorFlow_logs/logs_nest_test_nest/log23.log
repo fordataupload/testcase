@@ -1,0 +1,46 @@
+2020-10-05 21:00:08.984362: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] NestTest.testAssertSameStructure
+[       OK ] NestTest.testAssertSameStructure
+[ RUN      ] NestTest.testAssertShallowStructure
+[       OK ] NestTest.testAssertShallowStructure
+[ RUN      ] NestTest.testFlattenAndPack
+[       OK ] NestTest.testFlattenAndPack
+[ RUN      ] NestTest.testFlattenAndPackWithDicts
+[       OK ] NestTest.testFlattenAndPackWithDicts
+[ RUN      ] NestTest.testFlattenDictOrder
+[       OK ] NestTest.testFlattenDictOrder
+[ RUN      ] NestTest.testFlattenRaggedValue
+[       OK ] NestTest.testFlattenRaggedValue
+[ RUN      ] NestTest.testFlattenSparseValue
+[       OK ] NestTest.testFlattenSparseValue
+[ RUN      ] NestTest.testFlattenUpTo
+[       OK ] NestTest.testFlattenUpTo
+[ RUN      ] NestTest.testIsSequence
+2020-10-05 21:00:12.760163: W tensorflow/python/util/util.cc:299] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+[       OK ] NestTest.testIsSequence
+[ RUN      ] NestTest.testMapStructure
+[  FAILED  ] NestTest.testMapStructure
+[ RUN      ] NestTest.testMapStructureUpTo
+[       OK ] NestTest.testMapStructureUpTo
+[ RUN      ] NestTest.testPackDictOrder
+[       OK ] NestTest.testPackDictOrder
+[ RUN      ] NestTest.test_session
+[  SKIPPED ] NestTest.test_session
+======================================================================
+ERROR: testMapStructure (__main__.NestTest)
+NestTest.testMapStructure
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 558, in testMapStructure
+    check_types=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 239, in map_structure
+    assert_same_structure(structure[0], other, check_types=check_types)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 123, in assert_same_structure
+    _pywrap_tensorflow.AssertSameStructureForData(nest1, nest2, check_types)
+TypeError: in method 'AssertSameStructureForData', argument 3 of type 'bool'
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.016s
+
+FAILED (errors=1, skipped=1)

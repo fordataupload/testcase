@@ -1,0 +1,78 @@
+2020-10-05 21:01:33.458082: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] NestTest.testAssertSameStructure
+[       OK ] NestTest.testAssertSameStructure
+[ RUN      ] NestTest.testAssertShallowStructure
+[       OK ] NestTest.testAssertShallowStructure
+[ RUN      ] NestTest.testFlattenAndPack
+[  FAILED  ] NestTest.testFlattenAndPack
+[ RUN      ] NestTest.testFlattenAndPackWithDicts
+[  FAILED  ] NestTest.testFlattenAndPackWithDicts
+[ RUN      ] NestTest.testFlattenDictOrder
+[       OK ] NestTest.testFlattenDictOrder
+[ RUN      ] NestTest.testFlattenRaggedValue
+[       OK ] NestTest.testFlattenRaggedValue
+[ RUN      ] NestTest.testFlattenSparseValue
+[       OK ] NestTest.testFlattenSparseValue
+[ RUN      ] NestTest.testFlattenUpTo
+[       OK ] NestTest.testFlattenUpTo
+[ RUN      ] NestTest.testIsSequence
+2020-10-05 21:01:37.371031: W tensorflow/python/util/util.cc:299] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+[       OK ] NestTest.testIsSequence
+[ RUN      ] NestTest.testMapStructure
+[       OK ] NestTest.testMapStructure
+[ RUN      ] NestTest.testMapStructureUpTo
+[  FAILED  ] NestTest.testMapStructureUpTo
+[ RUN      ] NestTest.testPackDictOrder
+[       OK ] NestTest.testPackDictOrder
+[ RUN      ] NestTest.test_session
+[  SKIPPED ] NestTest.test_session
+======================================================================
+ERROR: testFlattenAndPack (__main__.NestTest)
+NestTest.testFlattenAndPack
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 94, in testFlattenAndPack
+    restructured_from_flat = nest.pack_sequence_as(structure, flat)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 191, in pack_sequence_as
+    _, packed = _packed_nest_with_indices(structure, flat_sequence, 0)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 149, in _packed_nest_with_indices
+    packed.append(_sequence_like(s, child))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 78, in _sequence_like
+    return type(instance)(args)
+TypeError: __new__() missing 1 required positional argument: 'y'
+
+======================================================================
+ERROR: testFlattenAndPackWithDicts (__main__.NestTest)
+NestTest.testFlattenAndPackWithDicts
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 258, in testFlattenAndPackWithDicts
+    unflattened = nest.pack_sequence_as(structure_of_mess, flattened)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 191, in pack_sequence_as
+    _, packed = _packed_nest_with_indices(structure, flat_sequence, 0)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 149, in _packed_nest_with_indices
+    packed.append(_sequence_like(s, child))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 78, in _sequence_like
+    return type(instance)(args)
+TypeError: __new__() missing 1 required positional argument: 'c'
+
+======================================================================
+ERROR: testMapStructureUpTo (__main__.NestTest)
+NestTest.testMapStructureUpTo
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 866, in testMapStructureUpTo
+    inp_val, lambda val, ops: (val + ops.add) * ops.mul, inp_val, inp_ops)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 472, in map_structure_up_to
+    return pack_sequence_as(structure=shallow_tree, flat_sequence=results)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 192, in pack_sequence_as
+    return _sequence_like(structure, packed)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 78, in _sequence_like
+    return type(instance)(args)
+TypeError: __new__() missing 1 required positional argument: 'b'
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.016s
+
+FAILED (errors=3, skipped=1)

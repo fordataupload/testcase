@@ -1,0 +1,70 @@
+2020-10-05 21:00:40.244759: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] NestTest.testAssertSameStructure
+[       OK ] NestTest.testAssertSameStructure
+[ RUN      ] NestTest.testAssertShallowStructure
+[  FAILED  ] NestTest.testAssertShallowStructure
+[ RUN      ] NestTest.testFlattenAndPack
+[       OK ] NestTest.testFlattenAndPack
+[ RUN      ] NestTest.testFlattenAndPackWithDicts
+[       OK ] NestTest.testFlattenAndPackWithDicts
+[ RUN      ] NestTest.testFlattenDictOrder
+[       OK ] NestTest.testFlattenDictOrder
+[ RUN      ] NestTest.testFlattenRaggedValue
+[       OK ] NestTest.testFlattenRaggedValue
+[ RUN      ] NestTest.testFlattenSparseValue
+[       OK ] NestTest.testFlattenSparseValue
+[ RUN      ] NestTest.testFlattenUpTo
+[  FAILED  ] NestTest.testFlattenUpTo
+[ RUN      ] NestTest.testIsSequence
+2020-10-05 21:00:43.956006: W tensorflow/python/util/util.cc:299] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+[       OK ] NestTest.testIsSequence
+[ RUN      ] NestTest.testMapStructure
+[       OK ] NestTest.testMapStructure
+[ RUN      ] NestTest.testMapStructureUpTo
+[  FAILED  ] NestTest.testMapStructureUpTo
+[ RUN      ] NestTest.testPackDictOrder
+[       OK ] NestTest.testPackDictOrder
+[ RUN      ] NestTest.test_session
+[  SKIPPED ] NestTest.test_session
+======================================================================
+ERROR: testAssertShallowStructure (__main__.NestTest)
+NestTest.testAssertShallowStructure
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 588, in testAssertShallowStructure
+    nest.assert_shallow_structure(inp_abc, inp_ab)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 299, in assert_shallow_structure
+    "Input has type: %s." % type(input_tree))
+TypeError: If shallow structure is a sequence, input must also be a sequence. Input has type: <class 'tuple'>.
+
+======================================================================
+ERROR: testFlattenUpTo (__main__.NestTest)
+NestTest.testFlattenUpTo
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 644, in testFlattenUpTo
+    flattened_input_tree = nest.flatten_up_to(shallow_tree, input_tree)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 396, in flatten_up_to
+    assert_shallow_structure(shallow_tree, input_tree)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 299, in assert_shallow_structure
+    "Input has type: %s." % type(input_tree))
+TypeError: If shallow structure is a sequence, input must also be a sequence. Input has type: <class 'tuple'>.
+
+======================================================================
+ERROR: testMapStructureUpTo (__main__.NestTest)
+NestTest.testMapStructureUpTo
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 866, in testMapStructureUpTo
+    inp_val, lambda val, ops: (val + ops.add) * ops.mul, inp_val, inp_ops)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 464, in map_structure_up_to
+    assert_shallow_structure(shallow_tree, input_tree)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 299, in assert_shallow_structure
+    "Input has type: %s." % type(input_tree))
+TypeError: If shallow structure is a sequence, input must also be a sequence. Input has type: <class '__main__.ab_tuple'>.
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.031s
+
+FAILED (errors=3, skipped=1)

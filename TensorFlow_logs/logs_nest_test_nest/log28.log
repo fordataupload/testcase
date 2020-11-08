@@ -1,0 +1,57 @@
+2020-10-05 21:00:29.024251: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] NestTest.testAssertSameStructure
+[       OK ] NestTest.testAssertSameStructure
+[ RUN      ] NestTest.testAssertShallowStructure
+[       OK ] NestTest.testAssertShallowStructure
+[ RUN      ] NestTest.testFlattenAndPack
+[  FAILED  ] NestTest.testFlattenAndPack
+[ RUN      ] NestTest.testFlattenAndPackWithDicts
+[       OK ] NestTest.testFlattenAndPackWithDicts
+[ RUN      ] NestTest.testFlattenDictOrder
+[       OK ] NestTest.testFlattenDictOrder
+[ RUN      ] NestTest.testFlattenRaggedValue
+[       OK ] NestTest.testFlattenRaggedValue
+[ RUN      ] NestTest.testFlattenSparseValue
+[       OK ] NestTest.testFlattenSparseValue
+[ RUN      ] NestTest.testFlattenUpTo
+[       OK ] NestTest.testFlattenUpTo
+[ RUN      ] NestTest.testIsSequence
+2020-10-05 21:00:31.804846: W tensorflow/python/util/util.cc:299] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+[       OK ] NestTest.testIsSequence
+[ RUN      ] NestTest.testMapStructure
+[  FAILED  ] NestTest.testMapStructure
+[ RUN      ] NestTest.testMapStructureUpTo
+[       OK ] NestTest.testMapStructureUpTo
+[ RUN      ] NestTest.testPackDictOrder
+[       OK ] NestTest.testPackDictOrder
+[ RUN      ] NestTest.test_session
+[  SKIPPED ] NestTest.test_session
+======================================================================
+ERROR: testFlattenAndPack (__main__.NestTest)
+NestTest.testFlattenAndPack
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 114, in testFlattenAndPack
+    self.assertEqual("a", nest.pack_sequence_as(5, ["a"]))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 181, in pack_sequence_as
+    % len(flat_sequence))
+ValueError: Structure is a scalar but len(flat_sequence) == 1 > 1
+
+======================================================================
+ERROR: testMapStructure (__main__.NestTest)
+NestTest.testMapStructure
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 522, in testMapStructure
+    self.assertEqual(3, nest.map_structure(lambda x: x - 1, 4))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 245, in map_structure
+    structure[0], [func(*x) for x in entries])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 181, in pack_sequence_as
+    % len(flat_sequence))
+ValueError: Structure is a scalar but len(flat_sequence) == 1 > 1
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.016s
+
+FAILED (errors=2, skipped=1)

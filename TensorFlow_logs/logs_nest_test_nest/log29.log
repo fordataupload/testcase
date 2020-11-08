@@ -1,0 +1,42 @@
+2020-10-05 21:00:32.529729: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] NestTest.testAssertSameStructure
+[       OK ] NestTest.testAssertSameStructure
+[ RUN      ] NestTest.testAssertShallowStructure
+[       OK ] NestTest.testAssertShallowStructure
+[ RUN      ] NestTest.testFlattenAndPack
+[       OK ] NestTest.testFlattenAndPack
+[ RUN      ] NestTest.testFlattenAndPackWithDicts
+[       OK ] NestTest.testFlattenAndPackWithDicts
+[ RUN      ] NestTest.testFlattenDictOrder
+[       OK ] NestTest.testFlattenDictOrder
+[ RUN      ] NestTest.testFlattenRaggedValue
+[       OK ] NestTest.testFlattenRaggedValue
+[ RUN      ] NestTest.testFlattenSparseValue
+[       OK ] NestTest.testFlattenSparseValue
+[ RUN      ] NestTest.testFlattenUpTo
+[       OK ] NestTest.testFlattenUpTo
+[ RUN      ] NestTest.testIsSequence
+2020-10-05 21:00:36.187728: W tensorflow/python/util/util.cc:299] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+[       OK ] NestTest.testIsSequence
+[ RUN      ] NestTest.testMapStructure
+[  FAILED  ] NestTest.testMapStructure
+[ RUN      ] NestTest.testMapStructureUpTo
+[       OK ] NestTest.testMapStructureUpTo
+[ RUN      ] NestTest.testPackDictOrder
+[       OK ] NestTest.testPackDictOrder
+[ RUN      ] NestTest.test_session
+[  SKIPPED ] NestTest.test_session
+======================================================================
+FAIL: testMapStructure (__main__.NestTest)
+NestTest.testMapStructure
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 544, in testMapStructure
+    nest.map_structure(lambda x, y: None, ((3, 4), 5), {"a": (3, 4), "b": 5})
+AssertionError: TypeError not raised
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.031s
+
+FAILED (failures=1, skipped=1)

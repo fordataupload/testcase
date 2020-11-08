@@ -1,0 +1,93 @@
+2020-10-05 20:59:45.513967: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] NestTest.testAssertSameStructure
+[       OK ] NestTest.testAssertSameStructure
+[ RUN      ] NestTest.testAssertShallowStructure
+[       OK ] NestTest.testAssertShallowStructure
+[ RUN      ] NestTest.testFlattenAndPack
+[  FAILED  ] NestTest.testFlattenAndPack
+[ RUN      ] NestTest.testFlattenAndPackWithDicts
+[  FAILED  ] NestTest.testFlattenAndPackWithDicts
+[ RUN      ] NestTest.testFlattenDictOrder
+[       OK ] NestTest.testFlattenDictOrder
+[ RUN      ] NestTest.testFlattenRaggedValue
+[       OK ] NestTest.testFlattenRaggedValue
+[ RUN      ] NestTest.testFlattenSparseValue
+[       OK ] NestTest.testFlattenSparseValue
+[ RUN      ] NestTest.testFlattenUpTo
+[       OK ] NestTest.testFlattenUpTo
+[ RUN      ] NestTest.testIsSequence
+2020-10-05 20:59:49.245378: W tensorflow/python/util/util.cc:299] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+[       OK ] NestTest.testIsSequence
+[ RUN      ] NestTest.testMapStructure
+[  FAILED  ] NestTest.testMapStructure
+[ RUN      ] NestTest.testMapStructureUpTo
+[  FAILED  ] NestTest.testMapStructureUpTo
+[ RUN      ] NestTest.testPackDictOrder
+[  FAILED  ] NestTest.testPackDictOrder
+[ RUN      ] NestTest.test_session
+[  SKIPPED ] NestTest.test_session
+======================================================================
+ERROR: testFlattenAndPack (__main__.NestTest)
+NestTest.testFlattenAndPack
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 82, in testFlattenAndPack
+    nest.pack_sequence_as(structure, flat), (("a", "b"), "c",
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 189, in pack_sequence_as
+    % (len(flat_structure), len(flat_sequence), structure, flat_sequence))
+ValueError: Could not pack sequence. Structure had 8 elements, but flat_sequence had 8 elements.  Structure: ((3, 4), 5, (6, 7, (9, 10), 8)), flat_sequence: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].
+
+======================================================================
+ERROR: testFlattenAndPackWithDicts (__main__.NestTest)
+NestTest.testFlattenAndPackWithDicts
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 258, in testFlattenAndPackWithDicts
+    unflattened = nest.pack_sequence_as(structure_of_mess, flattened)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 189, in pack_sequence_as
+    % (len(flat_structure), len(flat_sequence), structure, flat_sequence))
+ValueError: Could not pack sequence. Structure had 8 elements, but flat_sequence had 8 elements.  Structure: (14, A(b='a', c=True), {'c': (0, OrderedDict([('b', 9), ('a', 8)])), 'b': 3}, 'hi everybody'), flat_sequence: ['z', 3, 4, 5, 1, 2, 3, 17].
+
+======================================================================
+ERROR: testMapStructure (__main__.NestTest)
+NestTest.testMapStructure
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 500, in testMapStructure
+    structure1_plus1 = nest.map_structure(lambda x: x + 1, structure1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 245, in map_structure
+    structure[0], [func(*x) for x in entries])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 189, in pack_sequence_as
+    % (len(flat_structure), len(flat_sequence), structure, flat_sequence))
+ValueError: Could not pack sequence. Structure had 6 elements, but flat_sequence had 6 elements.  Structure: (((1, 2), 3), 4, (5, 6)), flat_sequence: [2, 3, 4, 5, 6, 7].
+
+======================================================================
+ERROR: testMapStructureUpTo (__main__.NestTest)
+NestTest.testMapStructureUpTo
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 866, in testMapStructureUpTo
+    inp_val, lambda val, ops: (val + ops.add) * ops.mul, inp_val, inp_ops)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 472, in map_structure_up_to
+    return pack_sequence_as(structure=shallow_tree, flat_sequence=results)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 189, in pack_sequence_as
+    % (len(flat_structure), len(flat_sequence), structure, flat_sequence))
+ValueError: Could not pack sequence. Structure had 2 elements, but flat_sequence had 2 elements.  Structure: ab_tuple(a=2, b=3), flat_sequence: [6, 15].
+
+======================================================================
+ERROR: testPackDictOrder (__main__.NestTest)
+NestTest.testPackDictOrder
+Packing orders dicts by key, including OrderedDicts.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 168, in testPackDictOrder
+    ordered_reconstruction = nest.pack_sequence_as(ordered, seq)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 189, in pack_sequence_as
+    % (len(flat_structure), len(flat_sequence), structure, flat_sequence))
+ValueError: Could not pack sequence. Structure had 4 elements, but flat_sequence had 4 elements.  Structure: OrderedDict([('d', 0), ('b', 0), ('a', 0), ('c', 0)]), flat_sequence: [0, 1, 2, 3].
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.016s
+
+FAILED (errors=5, skipped=1)

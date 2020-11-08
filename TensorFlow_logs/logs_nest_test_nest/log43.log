@@ -1,0 +1,57 @@
+2020-10-05 21:01:25.194598: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] NestTest.testAssertSameStructure
+[       OK ] NestTest.testAssertSameStructure
+[ RUN      ] NestTest.testAssertShallowStructure
+[  FAILED  ] NestTest.testAssertShallowStructure
+[ RUN      ] NestTest.testFlattenAndPack
+[       OK ] NestTest.testFlattenAndPack
+[ RUN      ] NestTest.testFlattenAndPackWithDicts
+[       OK ] NestTest.testFlattenAndPackWithDicts
+[ RUN      ] NestTest.testFlattenDictOrder
+[       OK ] NestTest.testFlattenDictOrder
+[ RUN      ] NestTest.testFlattenRaggedValue
+[       OK ] NestTest.testFlattenRaggedValue
+[ RUN      ] NestTest.testFlattenSparseValue
+[       OK ] NestTest.testFlattenSparseValue
+[ RUN      ] NestTest.testFlattenUpTo
+[  FAILED  ] NestTest.testFlattenUpTo
+[ RUN      ] NestTest.testIsSequence
+2020-10-05 21:01:27.976298: W tensorflow/python/util/util.cc:299] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+[       OK ] NestTest.testIsSequence
+[ RUN      ] NestTest.testMapStructure
+[       OK ] NestTest.testMapStructure
+[ RUN      ] NestTest.testMapStructureUpTo
+[       OK ] NestTest.testMapStructureUpTo
+[ RUN      ] NestTest.testPackDictOrder
+[       OK ] NestTest.testPackDictOrder
+[ RUN      ] NestTest.test_session
+[  SKIPPED ] NestTest.test_session
+======================================================================
+ERROR: testAssertShallowStructure (__main__.NestTest)
+NestTest.testAssertShallowStructure
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 626, in testAssertShallowStructure
+    nest.assert_shallow_structure(inp_ab2, inp_ab1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 322, in assert_shallow_structure
+    for shallow_branch, input_branch in zip(shallow_tree, input_tree):
+TypeError: zip argument #1 must support iteration
+
+======================================================================
+ERROR: testFlattenUpTo (__main__.NestTest)
+NestTest.testFlattenUpTo
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "nest_test.py", line 844, in testFlattenUpTo
+    flattened_input_tree = nest.flatten_up_to(shallow_tree, input_tree)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 396, in flatten_up_to
+    assert_shallow_structure(shallow_tree, input_tree)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\data\util\nest.py", line 322, in assert_shallow_structure
+    for shallow_branch, input_branch in zip(shallow_tree, input_tree):
+TypeError: zip argument #1 must support iteration
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.031s
+
+FAILED (errors=2, skipped=1)
