@@ -1,0 +1,542 @@
+2020-10-05 18:59:06.467041: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] CallTreesTest.test_class_method
+[  FAILED  ] CallTreesTest.test_class_method
+[ RUN      ] CallTreesTest.test_debugger_set_trace
+[  FAILED  ] CallTreesTest.test_debugger_set_trace
+[ RUN      ] CallTreesTest.test_function_chaining
+[  FAILED  ] CallTreesTest.test_function_chaining
+[ RUN      ] CallTreesTest.test_function_with_call_in_argument
+[  FAILED  ] CallTreesTest.test_function_with_call_in_argument
+[ RUN      ] CallTreesTest.test_function_with_expression_in_argument
+[  FAILED  ] CallTreesTest.test_function_with_expression_in_argument
+[ RUN      ] CallTreesTest.test_function_with_kwarg
+[  FAILED  ] CallTreesTest.test_function_with_kwarg
+[ RUN      ] CallTreesTest.test_function_with_kwargs_keywords
+[  FAILED  ] CallTreesTest.test_function_with_kwargs_keywords
+[ RUN      ] CallTreesTest.test_function_with_kwargs_starargs
+Offending AST:
+FunctionDef:
+| name=u"test_method"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"self"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:273:22, QN: self, DEFINITIONS: (AnnotatedDef[2814968009336],), ORIG_DEFINITIONS: (AnnotatedDef[2814968010680],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:273:28, QN: a, DEFINITIONS: (AnnotatedDef[2814968010064],), ORIG_DEFINITIONS: (AnnotatedDef[2814968008776],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(self, a)}}
+| body=None
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:273:6, SCOPE: Scope{r=(), w=(test_method,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, self.other_method, a, test_method_scope.mark_return_value, ag__.ConversionOptions, ag__.Feature.ALL, self, test_method_scope, ag__, ag__.Feature), w=(test_method_scope,)}, 'function_context_name': 'test_method_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=()}}
+| body=None
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:243:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, pdb, test_fn_scope, test_fn_scope.mark_return_value, ag__.ConversionOptions, ag__.Feature.ALL, pdb.set_trace, ag__, ag__.Feature), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=()}}
+| body=None
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:111:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope, test_fn_scope.mark_return_value, ag__.ConversionOptions, ag__.Feature.ALL, get_one, ag__, ag__.Feature), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:81:16, QN: f, DEFINITIONS: (AnnotatedDef[2814968010512],), ORIG_DEFINITIONS: (AnnotatedDef[2814968009504],)}
+| | | Name:
+| | | | id=u"g"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:81:19, QN: g, DEFINITIONS: (AnnotatedDef[2814968009056],), ORIG_DEFINITIONS: (AnnotatedDef[2814968010904],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(g, f)}}
+| body=None
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:81:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope, test_fn_scope.mark_return_value, ag__.ConversionOptions, ag__.Feature.ALL, g, ag__, ag__.Feature, f), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:57:16, QN: f, DEFINITIONS: (AnnotatedDef[2814968011912],), ORIG_DEFINITIONS: (AnnotatedDef[2814968010456],)}
+| | | Name:
+| | | | id=u"g"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:57:19, QN: g, DEFINITIONS: (AnnotatedDef[2814968010568],), ORIG_DEFINITIONS: (AnnotatedDef[2814968009616],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(g, f)}}
+| body=None
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:57:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope, test_fn_scope.mark_return_value, ag__.ConversionOptions, ag__.Feature.ALL, g, ag__, ag__.Feature, f), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:16, QN: f, DEFINITIONS: (AnnotatedDef[2814968011072],), ORIG_DEFINITIONS: (AnnotatedDef[2814968008832],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:19, QN: a, DEFINITIONS: (AnnotatedDef[2814968012248],), ORIG_DEFINITIONS: (AnnotatedDef[2814968010120],)}
+| | | Name:
+| | | | id=u"b"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:22, QN: b, DEFINITIONS: (AnnotatedDef[2814968010904],), ORIG_DEFINITIONS: (AnnotatedDef[2814968011464],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(b, a, f)}}
+| body=None
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, b, test_fn_scope, a, test_fn_scope.mark_return_value, ag__.ConversionOptions, ag__.Feature.ALL, ag__, ag__.Feature, f), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:16, QN: f, DEFINITIONS: (AnnotatedDef[2814968012080],), ORIG_DEFINITIONS: (AnnotatedDef[2814968010456],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:19, QN: a, DEFINITIONS: (AnnotatedDef[2814968011744],), ORIG_DEFINITIONS: (AnnotatedDef[2814968011576],)}
+| | | Name:
+| | | | id=u"b"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:22, QN: b, DEFINITIONS: (AnnotatedDef[2814968009000],), ORIG_DEFINITIONS: (AnnotatedDef[2814968009224],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=Name:
+| | | id=u"kwargs"
+| | | ctx=Param()
+| | | annotation=None
+| | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:27, QN: kwargs, DEFINITIONS: (AnnotatedDef[2814968539008],), ORIG_DEFINITIONS: (AnnotatedDef[2814968010120],)}
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(b, a, f, kwargs)}}
+| body=None
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, b, test_fn_scope, a, test_fn_scope.mark_return_value, ag__.ConversionOptions, ag__.Feature.ALL, kwargs, ag__, ag__.Feature, f), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:16, QN: f, DEFINITIONS: (AnnotatedDef[2814968516848],), ORIG_DEFINITIONS: (AnnotatedDef[2814968010120],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:19, QN: a, DEFINITIONS: (AnnotatedDef[2814968518752],), ORIG_DEFINITIONS: (AnnotatedDef[2814968010848],)}
+| | ]
+| | vararg=Name:
+| | | id=u"args"
+| | | ctx=Param()
+| | | annotation=None
+| | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:23, QN: args, DEFINITIONS: (AnnotatedDef[2814968516904],), ORIG_DEFINITIONS: (AnnotatedDef[2814968012024],)}
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=Name:
+| | | id=u"kwargs"
+| | | ctx=Param()
+| | | annotation=None
+| | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:31, QN: kwargs, DEFINITIONS: (AnnotatedDef[2814968516736],), ORIG_DEFINITIONS: (AnnotatedDef[2814968011408],)}
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(a, args, f, kwargs)}}
+| body=None
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope, a, args, test_fn_scope.mark_return_value, ag__.ConversionOptions, ag__.Feature.ALL, kwargs, ag__, ag__.Feature, f), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+[  FAILED  ] CallTreesTest.test_function_with_kwargs_starargs
+[ RUN      ] CallTreesTest.test_function_with_kwargs_starargs_only
+[  FAILED  ] CallTreesTest.test_function_with_kwargs_starargs_only
+[ RUN      ] CallTreesTest.test_normal_function
+[  FAILED  ] CallTreesTest.test_normal_function
+[ RUN      ] CallTreesTest.test_object_method
+[  FAILED  ] CallTreesTest.test_object_method
+[ RUN      ] CallTreesTest.test_session
+[  SKIPPED ] CallTreesTest.test_session
+======================================================================
+ERROR: test_class_method (__main__.CallTreesTest)
+CallTreesTest.test_class_method
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 283, in test_class_method
+    {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_debugger_set_trace (__main__.CallTreesTest)
+CallTreesTest.test_debugger_set_trace
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 251, in test_debugger_set_trace
+    {'pdb': pdb}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_chaining (__main__.CallTreesTest)
+CallTreesTest.test_function_chaining
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 119, in test_function_chaining
+    {'get_one': get_one}, ()) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_call_in_argument (__main__.CallTreesTest)
+CallTreesTest.test_function_with_call_in_argument
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 87, in test_function_with_call_in_argument
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_expression_in_argument (__main__.CallTreesTest)
+CallTreesTest.test_function_with_expression_in_argument
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 63, in test_function_with_expression_in_argument
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_kwarg (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwarg
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 147, in test_function_with_kwarg
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_kwargs_keywords (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwargs_keywords
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 219, in test_function_with_kwargs_keywords
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_kwargs_starargs (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwargs_starargs
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 165, in test_function_with_kwargs_starargs
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_kwargs_starargs_only (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwargs_starargs_only
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 201, in test_function_with_kwargs_starargs_only
+    {'f': f}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_normal_function (__main__.CallTreesTest)
+CallTreesTest.test_normal_function
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 45, in test_normal_function
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_object_method (__main__.CallTreesTest)
+CallTreesTest.test_object_method
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 315, in test_object_method
+    {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+----------------------------------------------------------------------
+Ran 12 tests in 1.250s
+
+FAILED (errors=11, skipped=1)

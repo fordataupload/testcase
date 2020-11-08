@@ -1,0 +1,1294 @@
+2020-10-05 18:59:12.182082: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] CallTreesTest.test_class_method
+[  FAILED  ] CallTreesTest.test_class_method
+[ RUN      ] CallTreesTest.test_debugger_set_trace
+[  FAILED  ] CallTreesTest.test_debugger_set_trace
+[ RUN      ] CallTreesTest.test_function_chaining
+Offending AST:
+FunctionDef:
+| name=u"test_method"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"self"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:273:22, QN: self, DEFINITIONS: (AnnotatedDef[2563539415672],), ORIG_DEFINITIONS: (AnnotatedDef[2563539417016],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:273:28, QN: a, DEFINITIONS: (AnnotatedDef[2563539416960],), ORIG_DEFINITIONS: (AnnotatedDef[2563539415112],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(self, a)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_method"
+| | | | | | | Str:
+| | | | | | | | s=u"test_method_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__.ConversionOptions, ag__, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_method_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_method_scope, DEFINITIONS: (AnnotatedDef[2563539197680],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature), w=(test_method_scope,)}}
+| | | ]
+| | | body=None
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(test_method_scope.mark_return_value, test_method_scope, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature, self.other_method, self, a), w=(test_method_scope,)}, LIVE_VARS_IN: frozenset({ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature, test_method_scope.mark_return_value, self, self.other_method, a})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:273:6, SCOPE: Scope{r=(), w=(test_method,)}, BODY_SCOPE: Scope{r=(test_method_scope.mark_return_value, test_method_scope, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature, self.other_method, self, a), w=(test_method_scope,)}, 'function_context_name': 'test_method_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=()}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__.ConversionOptions, ag__, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[2563539417800],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature), w=(test_fn_scope,)}}
+| | | ]
+| | | body=None
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, pdb, pdb.set_trace), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope.mark_return_value, ag__.Feature, pdb, pdb.set_trace})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:243:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, pdb, pdb.set_trace), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=()}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__.ConversionOptions, ag__, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[2563527369560],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature), w=(test_fn_scope,)}}
+| | | ]
+| | | body=None
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(get_one, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({test_fn_scope.mark_return_value, ag__.Feature, get_one, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:111:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(get_one, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+[  FAILED  ] CallTreesTest.test_function_chaining
+[ RUN      ] CallTreesTest.test_function_with_call_in_argument
+[  FAILED  ] CallTreesTest.test_function_with_call_in_argument
+[ RUN      ] CallTreesTest.test_function_with_expression_in_argument
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:81:16, QN: f, DEFINITIONS: (AnnotatedDef[2563539419032],), ORIG_DEFINITIONS: (AnnotatedDef[2563539416120],)}
+| | | Name:
+| | | | id=u"g"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:81:19, QN: g, DEFINITIONS: (AnnotatedDef[2563539418528],), ORIG_DEFINITIONS: (AnnotatedDef[2563539417352],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(f, g)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__.ConversionOptions, ag__, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[2563539197344],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature), w=(test_fn_scope,)}}
+| | | ]
+| | | body=None
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, g), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope.mark_return_value, ag__.Feature, g})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:81:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, g), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:57:16, QN: f, DEFINITIONS: (AnnotatedDef[2563539415616],), ORIG_DEFINITIONS: (AnnotatedDef[2563539416232],)}
+| | | Name:
+| | | | id=u"g"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:57:19, QN: g, DEFINITIONS: (AnnotatedDef[2563539418192],), ORIG_DEFINITIONS: (AnnotatedDef[2563539416008],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(f, g)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__.ConversionOptions, ag__, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[2563539197624],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature), w=(test_fn_scope,)}}
+| | | ]
+| | | body=None
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, g), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope.mark_return_value, ag__.Feature, g})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:57:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, g), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+[  FAILED  ] CallTreesTest.test_function_with_expression_in_argument
+[ RUN      ] CallTreesTest.test_function_with_kwarg
+[  FAILED  ] CallTreesTest.test_function_with_kwarg
+[ RUN      ] CallTreesTest.test_function_with_kwargs_keywords
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:16, QN: f, DEFINITIONS: (AnnotatedDef[2563539417576],), ORIG_DEFINITIONS: (AnnotatedDef[2563539418584],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:19, QN: a, DEFINITIONS: (AnnotatedDef[2563539415616],), ORIG_DEFINITIONS: (AnnotatedDef[2563539416568],)}
+| | | Name:
+| | | | id=u"b"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:22, QN: b, DEFINITIONS: (AnnotatedDef[2563539417856],), ORIG_DEFINITIONS: (AnnotatedDef[2563539418080],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(b, f, a)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__.ConversionOptions, ag__, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[2563539417184],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature), w=(test_fn_scope,)}}
+| | | ]
+| | | body=None
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(f, b, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, a), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({f, b, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope.mark_return_value, ag__.Feature, a})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(f, b, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, a), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:16, QN: f, DEFINITIONS: (AnnotatedDef[2563539418808],), ORIG_DEFINITIONS: (AnnotatedDef[2563539417520],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:19, QN: a, DEFINITIONS: (AnnotatedDef[2563539417408],), ORIG_DEFINITIONS: (AnnotatedDef[2563539417296],)}
+| | | Name:
+| | | | id=u"b"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:22, QN: b, DEFINITIONS: (AnnotatedDef[2563539417688],), ORIG_DEFINITIONS: (AnnotatedDef[2563539415392],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=Name:
+| | | id=u"kwargs"
+| | | ctx=Param()
+| | | annotation=None
+| | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:27, QN: kwargs, DEFINITIONS: (AnnotatedDef[2563539416960],), ORIG_DEFINITIONS: (AnnotatedDef[2563539417184],)}
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(b, f, a, kwargs)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__.ConversionOptions, ag__, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[2563539419032],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature), w=(test_fn_scope,)}}
+| | | ]
+| | | body=None
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(f, b, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, kwargs, a), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({f, b, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope.mark_return_value, ag__.Feature, kwargs, a})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(f, b, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, kwargs, a), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+[  FAILED  ] CallTreesTest.test_function_with_kwargs_keywords
+[ RUN      ] CallTreesTest.test_function_with_kwargs_starargs
+[  FAILED  ] CallTreesTest.test_function_with_kwargs_starargs
+[ RUN      ] CallTreesTest.test_function_with_kwargs_starargs_only
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:16, QN: f, DEFINITIONS: (AnnotatedDef[2563539415616],), ORIG_DEFINITIONS: (AnnotatedDef[2563539981480],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:19, QN: a, DEFINITIONS: (AnnotatedDef[2563539415560],), ORIG_DEFINITIONS: (AnnotatedDef[2563539983608],)}
+| | ]
+| | vararg=Name:
+| | | id=u"args"
+| | | ctx=Param()
+| | | annotation=None
+| | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:23, QN: args, DEFINITIONS: (AnnotatedDef[2563539980360],), ORIG_DEFINITIONS: (AnnotatedDef[2563539417520],)}
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=Name:
+| | | id=u"kwargs"
+| | | ctx=Param()
+| | | annotation=None
+| | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:31, QN: kwargs, DEFINITIONS: (AnnotatedDef[2563539418584],), ORIG_DEFINITIONS: (AnnotatedDef[2563539982264],)}
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(f, a, kwargs, args)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__.ConversionOptions, ag__, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[2563539416400],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature), w=(test_fn_scope,)}}
+| | | ]
+| | | body=None
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, kwargs, a, args), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope.mark_return_value, ag__.Feature, kwargs, a, args})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, kwargs, a, args), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=()}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__.Feature, ag__.ConversionOptions, ag__, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[2563539417408],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, ag__.Feature), w=(test_fn_scope,)}}
+| | | ]
+| | | body=None
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, args), w=(args, test_fn_scope)}, LIVE_VARS_IN: frozenset({f, ag__.Feature, test_fn_scope.mark_return_value, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:191:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(f, ag__.FunctionScope, ag__.ConversionOptions, ag__, ag__.Feature.ALL, test_fn_scope, test_fn_scope.mark_return_value, ag__.Feature, args), w=(args, test_fn_scope)}, 'function_context_name': 'test_fn_scope'}
+[  FAILED  ] CallTreesTest.test_function_with_kwargs_starargs_only
+[ RUN      ] CallTreesTest.test_normal_function
+[  FAILED  ] CallTreesTest.test_normal_function
+[ RUN      ] CallTreesTest.test_object_method
+[  FAILED  ] CallTreesTest.test_object_method
+[ RUN      ] CallTreesTest.test_session
+[  SKIPPED ] CallTreesTest.test_session
+======================================================================
+ERROR: test_class_method (__main__.CallTreesTest)
+CallTreesTest.test_class_method
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 283, in test_class_method
+    {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_debugger_set_trace (__main__.CallTreesTest)
+CallTreesTest.test_debugger_set_trace
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 251, in test_debugger_set_trace
+    {'pdb': pdb}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_chaining (__main__.CallTreesTest)
+CallTreesTest.test_function_chaining
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 119, in test_function_chaining
+    {'get_one': get_one}, ()) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_call_in_argument (__main__.CallTreesTest)
+CallTreesTest.test_function_with_call_in_argument
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 87, in test_function_with_call_in_argument
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_expression_in_argument (__main__.CallTreesTest)
+CallTreesTest.test_function_with_expression_in_argument
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 63, in test_function_with_expression_in_argument
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_kwarg (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwarg
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 147, in test_function_with_kwarg
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_kwargs_keywords (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwargs_keywords
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 219, in test_function_with_kwargs_keywords
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_kwargs_starargs (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwargs_starargs
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 165, in test_function_with_kwargs_starargs
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_function_with_kwargs_starargs_only (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwargs_starargs_only
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 201, in test_function_with_kwargs_starargs_only
+    {'f': f}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_normal_function (__main__.CallTreesTest)
+CallTreesTest.test_normal_function
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 45, in test_normal_function
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+======================================================================
+ERROR: test_object_method (__main__.CallTreesTest)
+CallTreesTest.test_object_method
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 315, in test_object_method
+    {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 61, in ast_to_source
+    generator.visit(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 335, in visit_FunctionDef
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 178, in write
+    visit(item)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\node_util.py", line 143, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 407, in visit_With
+    self.body(node.body)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\astor\code_gen.py", line 226, in body
+    self.write(*statements)
+TypeError: write() argument after * must be an iterable, not NoneType
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.906s
+
+FAILED (errors=11, skipped=1)

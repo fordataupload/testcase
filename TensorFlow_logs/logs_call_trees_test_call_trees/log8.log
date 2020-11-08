@@ -1,0 +1,1583 @@
+2020-10-05 18:59:25.652235: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] CallTreesTest.test_class_method
+[  FAILED  ] CallTreesTest.test_class_method
+[ RUN      ] CallTreesTest.test_debugger_set_trace
+Offending AST:
+FunctionDef:
+| name=u"test_method"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"self"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:273:22, QN: self, DEFINITIONS: (AnnotatedDef[1639956289408],), ORIG_DEFINITIONS: (AnnotatedDef[1639956287560],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:273:28, QN: a, DEFINITIONS: (AnnotatedDef[1639956288120],), ORIG_DEFINITIONS: (AnnotatedDef[1639956289464],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(a, self)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_method"
+| | | | | | | Str:
+| | | | | | | | s=u"test_method_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.ConversionOptions, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_method_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_method_scope, DEFINITIONS: (AnnotatedDef[1639956078320],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.Feature, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_method_scope,)}}
+| | | ]
+| | | body=[
+| | | | Return:
+| | | | | value=<unset>
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:275:8, SCOPE: Scope{r=(test_method_scope, self, self.other_method, test_method_scope.mark_return_value, a), w=()}, LIVE_VARS_IN: frozenset({test_method_scope, self, self.other_method, test_method_scope.mark_return_value, a})}
+| | | ]
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(a, ag__.FunctionScope, test_method_scope, ag__.Feature, self, self.other_method, ag__.Feature.ALL, test_method_scope.mark_return_value, ag__, ag__.ConversionOptions), w=(test_method_scope,)}, LIVE_VARS_IN: frozenset({ag__.FunctionScope, ag__, ag__.Feature, self, self.other_method, ag__.Feature.ALL, test_method_scope.mark_return_value, a, ag__.ConversionOptions})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:273:6, SCOPE: Scope{r=(), w=(test_method,)}, BODY_SCOPE: Scope{r=(a, ag__.FunctionScope, test_method_scope, ag__.Feature, self, self.other_method, ag__.Feature.ALL, test_method_scope.mark_return_value, ag__, ag__.ConversionOptions), w=(test_method_scope,)}, 'function_context_name': 'test_method_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=()}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.ConversionOptions, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[1639956077648],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.Feature, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}}
+| | | ]
+| | | body=[
+| | | | Return:
+| | | | | value=<unset>
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:245:6, SCOPE: Scope{r=(pdb, pdb.set_trace, test_fn_scope, test_fn_scope.mark_return_value), w=()}, LIVE_VARS_IN: frozenset({pdb, pdb.set_trace, test_fn_scope, test_fn_scope.mark_return_value})}
+| | | ]
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, pdb.set_trace, ag__.Feature, test_fn_scope, ag__.Feature.ALL, ag__, pdb, ag__.ConversionOptions), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({ag__.FunctionScope, test_fn_scope.mark_return_value, pdb.set_trace, ag__.Feature, ag__.Feature.ALL, ag__, pdb, ag__.ConversionOptions})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:243:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, pdb.set_trace, ag__.Feature, test_fn_scope, ag__.Feature.ALL, ag__, pdb, ag__.ConversionOptions), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+[  FAILED  ] CallTreesTest.test_debugger_set_trace
+[ RUN      ] CallTreesTest.test_function_chaining
+[  FAILED  ] CallTreesTest.test_function_chaining
+[ RUN      ] CallTreesTest.test_function_with_call_in_argument
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=()}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.ConversionOptions, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[1639956078208],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.Feature, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}}
+| | | ]
+| | | body=[
+| | | | Return:
+| | | | | value=<unset>
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:113:6, SCOPE: Scope{r=(get_one, test_fn_scope, test_fn_scope.mark_return_value), w=()}, LIVE_VARS_IN: frozenset({get_one, test_fn_scope, test_fn_scope.mark_return_value})}
+| | | ]
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, get_one, ag__.Feature, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({ag__.FunctionScope, ag__.Feature.ALL, test_fn_scope.mark_return_value, ag__, get_one, ag__.Feature, ag__.ConversionOptions})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:111:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, get_one, ag__.Feature, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:81:16, QN: f, DEFINITIONS: (AnnotatedDef[1639956860544],), ORIG_DEFINITIONS: (AnnotatedDef[1639956858864],)}
+| | | Name:
+| | | | id=u"g"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:81:19, QN: g, DEFINITIONS: (AnnotatedDef[1639956857688],), ORIG_DEFINITIONS: (AnnotatedDef[1639956858920],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(g, f)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.ConversionOptions, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[1639956858976],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.Feature, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}}
+| | | ]
+| | | body=[
+| | | | Return:
+| | | | | value=<unset>
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:83:6, SCOPE: Scope{r=(g, test_fn_scope, test_fn_scope.mark_return_value, f), w=()}, LIVE_VARS_IN: frozenset({g, test_fn_scope, test_fn_scope.mark_return_value, f})}
+| | | ]
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, g, ag__.Feature, f, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({ag__.FunctionScope, test_fn_scope.mark_return_value, g, ag__.Feature, f, ag__.Feature.ALL, ag__, ag__.ConversionOptions})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:81:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, g, ag__.Feature, f, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+[  FAILED  ] CallTreesTest.test_function_with_call_in_argument
+[ RUN      ] CallTreesTest.test_function_with_expression_in_argument
+[  FAILED  ] CallTreesTest.test_function_with_expression_in_argument
+[ RUN      ] CallTreesTest.test_function_with_kwarg
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:57:16, QN: f, DEFINITIONS: (AnnotatedDef[1639956858808],), ORIG_DEFINITIONS: (AnnotatedDef[1639956858752],)}
+| | | Name:
+| | | | id=u"g"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:57:19, QN: g, DEFINITIONS: (AnnotatedDef[1639956858248],), ORIG_DEFINITIONS: (AnnotatedDef[1639956860488],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(g, f)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.ConversionOptions, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[1639944185672],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.Feature, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}}
+| | | ]
+| | | body=[
+| | | | Return:
+| | | | | value=<unset>
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:59:6, SCOPE: Scope{r=(g, test_fn_scope, test_fn_scope.mark_return_value, f), w=()}, LIVE_VARS_IN: frozenset({g, test_fn_scope, test_fn_scope.mark_return_value, f})}
+| | | ]
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, g, ag__.Feature, f, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({ag__.FunctionScope, test_fn_scope.mark_return_value, g, ag__.Feature, f, ag__.Feature.ALL, ag__, ag__.ConversionOptions})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:57:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, g, ag__.Feature, f, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:16, QN: f, DEFINITIONS: (AnnotatedDef[1639956859984],), ORIG_DEFINITIONS: (AnnotatedDef[1639956859088],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:19, QN: a, DEFINITIONS: (AnnotatedDef[1639956858920],), ORIG_DEFINITIONS: (AnnotatedDef[1639956860600],)}
+| | | Name:
+| | | | id=u"b"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:22, QN: b, DEFINITIONS: (AnnotatedDef[1639956857856],), ORIG_DEFINITIONS: (AnnotatedDef[1639956857520],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(a, b, f)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.ConversionOptions, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[1639944185000],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.Feature, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}}
+| | | ]
+| | | body=[
+| | | | Return:
+| | | | | value=<unset>
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:143:6, SCOPE: Scope{r=(test_fn_scope.mark_return_value, f, b, test_fn_scope, a), w=()}, LIVE_VARS_IN: frozenset({b, test_fn_scope, test_fn_scope.mark_return_value, a, f})}
+| | | ]
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(a, ag__.FunctionScope, test_fn_scope.mark_return_value, ag__.Feature, f, b, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({ag__.FunctionScope, ag__, test_fn_scope.mark_return_value, ag__.Feature, f, b, ag__.Feature.ALL, a, ag__.ConversionOptions})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:141:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(a, ag__.FunctionScope, test_fn_scope.mark_return_value, ag__.Feature, f, b, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+[  FAILED  ] CallTreesTest.test_function_with_kwarg
+[ RUN      ] CallTreesTest.test_function_with_kwargs_keywords
+[  FAILED  ] CallTreesTest.test_function_with_kwargs_keywords
+[ RUN      ] CallTreesTest.test_function_with_kwargs_starargs
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:16, QN: f, DEFINITIONS: (AnnotatedDef[1639956858920],), ORIG_DEFINITIONS: (AnnotatedDef[1639956857352],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:19, QN: a, DEFINITIONS: (AnnotatedDef[1639956860096],), ORIG_DEFINITIONS: (AnnotatedDef[1639956859032],)}
+| | | Name:
+| | | | id=u"b"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:22, QN: b, DEFINITIONS: (AnnotatedDef[1639956860320],), ORIG_DEFINITIONS: (AnnotatedDef[1639956860768],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=Name:
+| | | id=u"kwargs"
+| | | ctx=Param()
+| | | annotation=None
+| | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:27, QN: kwargs, DEFINITIONS: (AnnotatedDef[1639956858584],), ORIG_DEFINITIONS: (AnnotatedDef[1639956860152],)}
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(a, b, kwargs, f)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.ConversionOptions, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[1639944184832],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.Feature, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}}
+| | | ]
+| | | body=[
+| | | | Return:
+| | | | | value=<unset>
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:215:6, SCOPE: Scope{r=(test_fn_scope.mark_return_value, kwargs, f, b, test_fn_scope, a), w=()}, LIVE_VARS_IN: frozenset({b, test_fn_scope, test_fn_scope.mark_return_value, a, kwargs, f})}
+| | | ]
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(a, ag__.FunctionScope, test_fn_scope.mark_return_value, kwargs, ag__.Feature, f, b, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({a, ag__.FunctionScope, test_fn_scope.mark_return_value, kwargs, ag__.Feature, f, b, ag__.Feature.ALL, ag__, ag__.ConversionOptions})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:213:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(a, ag__.FunctionScope, test_fn_scope.mark_return_value, kwargs, ag__.Feature, f, b, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:16, QN: f, DEFINITIONS: (AnnotatedDef[1639956860096],), ORIG_DEFINITIONS: (AnnotatedDef[1639956858136],)}
+| | | Name:
+| | | | id=u"a"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:19, QN: a, DEFINITIONS: (AnnotatedDef[1639956860824],), ORIG_DEFINITIONS: (AnnotatedDef[1639956859592],)}
+| | ]
+| | vararg=Name:
+| | | id=u"args"
+| | | ctx=Param()
+| | | annotation=None
+| | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:23, QN: args, DEFINITIONS: (AnnotatedDef[1639956858080],), ORIG_DEFINITIONS: (AnnotatedDef[1639956857520],)}
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=Name:
+| | | id=u"kwargs"
+| | | ctx=Param()
+| | | annotation=None
+| | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:31, QN: kwargs, DEFINITIONS: (AnnotatedDef[1639956857016],), ORIG_DEFINITIONS: (AnnotatedDef[1639956859872],)}
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(a, kwargs, args, f)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.ConversionOptions, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[1639956857856],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.Feature, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}}
+| | | ]
+| | | body=[
+| | | | Return:
+| | | | | value=<unset>
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:161:6, SCOPE: Scope{r=(test_fn_scope.mark_return_value, kwargs, f, test_fn_scope, args, a), w=()}, LIVE_VARS_IN: frozenset({test_fn_scope, args, test_fn_scope.mark_return_value, a, kwargs, f})}
+| | | ]
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(a, ag__.FunctionScope, test_fn_scope.mark_return_value, kwargs, ag__.Feature, f, test_fn_scope, args, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({a, ag__.FunctionScope, test_fn_scope.mark_return_value, kwargs, ag__.Feature, f, args, ag__.Feature.ALL, ag__, ag__.ConversionOptions})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:159:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(a, ag__.FunctionScope, test_fn_scope.mark_return_value, kwargs, ag__.Feature, f, test_fn_scope, args, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+[  FAILED  ] CallTreesTest.test_function_with_kwargs_starargs
+[ RUN      ] CallTreesTest.test_function_with_kwargs_starargs_only
+[  FAILED  ] CallTreesTest.test_function_with_kwargs_starargs_only
+[ RUN      ] CallTreesTest.test_normal_function
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=()}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.ConversionOptions, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[1639956077648],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.Feature, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}}
+| | | ]
+| | | body=[
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Name:
+| | | | | | | id=u"args"
+| | | | | | | ctx=Store()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={ORIGIN: call_trees_test.py:193:6, ORIG_DEFINITIONS: (AnnotatedDef[1639956077760],), QN: args, DEFINITIONS: (AnnotatedDef[1639956857800],)}
+| | | | | ]
+| | | | | value=List:
+| | | | | | elts=[
+| | | | | | | Num:
+| | | | | | | | n=1
+| | | | | | | | ___pyct_anno={ORIGIN: call_trees_test.py:193:14}
+| | | | | | | Num:
+| | | | | | | | n=20
+| | | | | | | | ___pyct_anno={ORIGIN: call_trees_test.py:193:17}
+| | | | | | | Num:
+| | | | | | | | n=300
+| | | | | | | | ___pyct_anno={ORIGIN: call_trees_test.py:193:21}
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | | | | ___pyct_anno={ORIGIN: call_trees_test.py:193:13}
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:193:6, SCOPE: Scope{r=(), w=(args,)}, LIVE_VARS_IN: frozenset({test_fn_scope, f, test_fn_scope.mark_return_value})}
+| | | | Return:
+| | | | | value=<unset>
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:195:6, SCOPE: Scope{r=(test_fn_scope.mark_return_value, test_fn_scope, args, f), w=()}, LIVE_VARS_IN: frozenset({test_fn_scope.mark_return_value, test_fn_scope, args, f})}
+| | | ]
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, ag__.Feature, f, test_fn_scope, args, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope, args)}, LIVE_VARS_IN: frozenset({ag__.FunctionScope, ag__.Feature.ALL, test_fn_scope.mark_return_value, ag__, f, ag__.Feature, ag__.ConversionOptions})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:191:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, ag__.Feature, f, test_fn_scope, args, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope, args)}, 'function_context_name': 'test_fn_scope'}
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"f"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:39:16, QN: f, DEFINITIONS: (AnnotatedDef[1639956857800],), ORIG_DEFINITIONS: (AnnotatedDef[1639956858248],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(f,)}}
+| body=[
+| | With:
+| | | items=[
+| | | | withitem:
+| | | | | context_expr=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | attr=u"FunctionScope"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.FunctionScope}
+| | | | | | args=[
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn"
+| | | | | | | Str:
+| | | | | | | | s=u"test_fn_scope"
+| | | | | | | Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | attr=u"ConversionOptions"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.ConversionOptions}
+| | | | | | | | args=[]
+| | | | | | | | keywords=[
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"recursive"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"user_requested"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=False
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"optional_features"
+| | | | | | | | | | value=Attribute:
+| | | | | | | | | | | value=Attribute:
+| | | | | | | | | | | | value=Name:
+| | | | | | | | | | | | | id=u"ag__"
+| | | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | | ___pyct_anno={QN: ag__, DEFINITIONS: ()}
+| | | | | | | | | | | | attr=u"Feature"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | ___pyct_anno={QN: ag__.Feature}
+| | | | | | | | | | | attr=u"ALL"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | ___pyct_anno={QN: ag__.Feature.ALL}
+| | | | | | | | | keyword:
+| | | | | | | | | | arg=u"internal_convert_user_code"
+| | | | | | | | | | value=NameConstant:
+| | | | | | | | | | | value=True
+| | | | | | | | ]
+| | | | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | | ___pyct_anno={ARGS_SCOPE: Scope{r=(ag__, ag__.ConversionOptions, ag__.Feature, ag__.Feature.ALL), w=()}}
+| | | | | optional_vars=Name:
+| | | | | | id=u"test_fn_scope"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: test_fn_scope, DEFINITIONS: (AnnotatedDef[1639956078264],)}
+| | | | | ___pyct_anno={SCOPE: Scope{r=(ag__.FunctionScope, ag__.Feature, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}}
+| | | ]
+| | | body=[
+| | | | Return:
+| | | | | value=<unset>
+| | | | | ___pyct_anno={ORIGIN: call_trees_test.py:41:6, SCOPE: Scope{r=(test_fn_scope.mark_return_value, test_fn_scope, f), w=()}, LIVE_VARS_IN: frozenset({test_fn_scope.mark_return_value, test_fn_scope, f})}
+| | | ]
+| | | ___pyct_anno={BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, ag__.Feature, f, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, LIVE_VARS_IN: frozenset({ag__.FunctionScope, ag__.Feature.ALL, test_fn_scope.mark_return_value, ag__, f, ag__.Feature, ag__.ConversionOptions})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: call_trees_test.py:39:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(ag__.FunctionScope, test_fn_scope.mark_return_value, ag__.Feature, f, test_fn_scope, ag__.Feature.ALL, ag__, ag__.ConversionOptions), w=(test_fn_scope,)}, 'function_context_name': 'test_fn_scope'}
+[  FAILED  ] CallTreesTest.test_normal_function
+[ RUN      ] CallTreesTest.test_object_method
+[  FAILED  ] CallTreesTest.test_object_method
+[ RUN      ] CallTreesTest.test_session
+[  SKIPPED ] CallTreesTest.test_session
+======================================================================
+ERROR: test_class_method (__main__.CallTreesTest)
+CallTreesTest.test_class_method
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 283, in test_class_method
+    {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+======================================================================
+ERROR: test_debugger_set_trace (__main__.CallTreesTest)
+CallTreesTest.test_debugger_set_trace
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 251, in test_debugger_set_trace
+    {'pdb': pdb}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+======================================================================
+ERROR: test_function_chaining (__main__.CallTreesTest)
+CallTreesTest.test_function_chaining
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 119, in test_function_chaining
+    {'get_one': get_one}, ()) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+======================================================================
+ERROR: test_function_with_call_in_argument (__main__.CallTreesTest)
+CallTreesTest.test_function_with_call_in_argument
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 87, in test_function_with_call_in_argument
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+======================================================================
+ERROR: test_function_with_expression_in_argument (__main__.CallTreesTest)
+CallTreesTest.test_function_with_expression_in_argument
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 63, in test_function_with_expression_in_argument
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+======================================================================
+ERROR: test_function_with_kwarg (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwarg
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 147, in test_function_with_kwarg
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+======================================================================
+ERROR: test_function_with_kwargs_keywords (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwargs_keywords
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 219, in test_function_with_kwargs_keywords
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+======================================================================
+ERROR: test_function_with_kwargs_starargs (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwargs_starargs
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 165, in test_function_with_kwargs_starargs
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+======================================================================
+ERROR: test_function_with_kwargs_starargs_only (__main__.CallTreesTest)
+CallTreesTest.test_function_with_kwargs_starargs_only
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 201, in test_function_with_kwargs_starargs_only
+    {'f': f}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+======================================================================
+ERROR: test_normal_function (__main__.CallTreesTest)
+CallTreesTest.test_normal_function
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 45, in test_normal_function
+    with self.converted(test_fn, (function_scopes, call_trees), {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+======================================================================
+ERROR: test_object_method (__main__.CallTreesTest)
+CallTreesTest.test_object_method
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "call_trees_test.py", line 315, in test_object_method
+    {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 134, in ast_to_object
+    source = ast_to_source(nodes, indentation=indentation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 60, in ast_to_source
+    n = gast.gast_to_ast(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\ast3.py", line 155, in gast_to_ast
+    return GAstToAst3().visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in _visit
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 11, in <listcomp>
+    return [self._visit(n) for n in node]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 13, in _visit
+    return self.visit(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\ast.py", line 253, in visit
+    return visitor(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\gast\astn.py", line 24, in generic_visit
+    setattr(new_node, field, self._visit(getattr(node, field)))
+AttributeError: 'Return' object has no attribute 'value'
+
+----------------------------------------------------------------------
+Ran 12 tests in 1.312s
+
+FAILED (errors=11, skipped=1)
