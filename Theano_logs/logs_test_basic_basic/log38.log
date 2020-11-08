@@ -1,0 +1,45 @@
+..EE.............E..
+======================================================================
+ERROR: test_composite_clone_float32 (test_basic.test_composite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 78, in test_composite_clone_float32
+    cz = Composite([x, y], [tanh(x + cast(y, 'float16'))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 2416, in cast
+    return _cast_mapping[dtype](_x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for Cast{float16}.make_node (got 1((<float32>,)), expected 2)
+
+======================================================================
+ERROR: test_composite_printing (test_basic.test_composite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 150, in test_composite_printing
+    e4 = -x
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 703, in __neg__
+    return neg(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for neg.make_node (got 1((x,)), expected 2)
+
+======================================================================
+ERROR: test_not (test_basic.test_logical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 249, in test_not
+    fn = gof.DualLinker().accept(FunctionGraph([x, y], [invert(x)])).make_function()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for Invert.make_node (got 1((x,)), expected 2)
+
+----------------------------------------------------------------------
+Ran 20 tests in 1.614s
+
+FAILED (errors=3)

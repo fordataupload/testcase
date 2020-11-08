@@ -1,0 +1,243 @@
+E.EE.EEEEEEEEEEEE.EE
+======================================================================
+ERROR: test_straightforward (test_basic.test_ScalarOps)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 41, in test_straightforward
+    e = mul(add(x, y), div_proxy(x, y))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1885, in div_proxy
+    return f(x, y)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for true_div.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_composite_clone_float32 (test_basic.test_composite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 81, in test_composite_clone_float32
+    cast(w, 'float16') -
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 768, in __pow__
+    return pow(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for pow.make_node (got 2((Composite{tanh((i0 + Cast{float16}(i1)))}.0, 2)), expected 3)
+
+======================================================================
+ERROR: test_composite_printing (test_basic.test_composite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 148, in test_composite_printing
+    e2 = x / y
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 756, in __truediv__
+    return div_proxy(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1885, in div_proxy
+    return f(x, y)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for true_div.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_make_node_continue_graph (test_basic.test_composite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 177, in test_make_node_continue_graph
+    sout = (si0 * si1) / si2
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 756, in __truediv__
+    return div_proxy(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1885, in div_proxy
+    return f(x, y)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for true_div.make_node (got 2((mul.0, <float32>)), expected 3)
+
+======================================================================
+ERROR: test_many_outputs (test_basic.test_composite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 136, in test_many_outputs
+    e2 = x / y
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 756, in __truediv__
+    return div_proxy(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1885, in div_proxy
+    return f(x, y)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for true_div.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_straightforward (test_basic.test_composite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 101, in test_straightforward
+    e = mul(add(x, y), div_proxy(x, y))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1885, in div_proxy
+    return f(x, y)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for true_div.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_with_constants (test_basic.test_composite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 123, in test_with_constants
+    e = mul(add(70.0, y), div_proxy(x, y))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1885, in div_proxy
+    return f(x, y)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for true_div.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_0 (test_basic.test_div)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 404, in test_0
+    assert isinstance((a // b).owner.op, IntDiv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 762, in __floordiv__
+    return int_div(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for int_div.make_node (got 2((<int8>, <int32>)), expected 3)
+
+======================================================================
+ERROR: test_and (test_basic.test_logical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 238, in test_and
+    fn = gof.DualLinker().accept(FunctionGraph([x, y], [and_(x, y)])).make_function()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for AND.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_eq (test_basic.test_logical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 214, in test_eq
+    fn = gof.DualLinker().accept(FunctionGraph([x, y], [eq(x, y)])).make_function()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for EQ.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_ge (test_basic.test_logical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 208, in test_ge
+    fn = gof.DualLinker().accept(FunctionGraph([x, y], [x >= y])).make_function()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 743, in __ge__
+    return ge(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for GE.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_gt (test_basic.test_logical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 190, in test_gt
+    fn = gof.DualLinker().accept(FunctionGraph([x, y], [x > y])).make_function()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 740, in __gt__
+    return gt(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for GT.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_le (test_basic.test_logical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 202, in test_le
+    fn = gof.DualLinker().accept(FunctionGraph([x, y], [x <= y])).make_function()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 737, in __le__
+    return le(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for LE.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_lt (test_basic.test_logical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 196, in test_lt
+    fn = gof.DualLinker().accept(FunctionGraph([x, y], [x < y])).make_function()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 734, in __lt__
+    return lt(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for LT.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_neq (test_basic.test_logical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 220, in test_neq
+    fn = gof.DualLinker().accept(FunctionGraph([x, y], [neq(x, y)])).make_function()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for NEQ.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_or (test_basic.test_logical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 226, in test_or
+    fn = gof.DualLinker().accept(FunctionGraph([x, y], [x | y])).make_function()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 718, in __or__
+    return or_(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for OR.make_node (got 2((x, y)), expected 3)
+
+======================================================================
+ERROR: test_xor (test_basic.test_logical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 232, in test_xor
+    fn = gof.DualLinker().accept(FunctionGraph([x, y], [x ^ y])).make_function()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 721, in __xor__
+    return xor(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1040, in make_node
+    (self, len(inputs), str(inputs), self.nin))
+TypeError: Wrong number of inputs for XOR.make_node (got 2((x, y)), expected 3)
+
+----------------------------------------------------------------------
+Ran 20 tests in 1.453s
+
+FAILED (errors=17)

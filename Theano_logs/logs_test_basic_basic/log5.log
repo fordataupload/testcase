@@ -1,0 +1,63 @@
+..EE................
+======================================================================
+ERROR: test_composite_clone_float32 (test_basic.test_composite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 127, in as_scalar
+    return constant(x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 288, in constant
+    x = convert(x, dtype=dtype)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 267, in convert
+    x_ = autocast_int(x)
+TypeError: 'NoneType' object is not callable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 81, in test_composite_clone_float32
+    cast(w, 'float16') -
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 768, in __pow__
+    return pow(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1041, in make_node
+    inputs = [as_scalar(input) for input in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1041, in <listcomp>
+    inputs = [as_scalar(input) for input in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 129, in as_scalar
+    raise TypeError("Cannot convert %s to Scalar" % x, type(x))
+TypeError: ('Cannot convert 2 to Scalar', <class 'int'>)
+
+======================================================================
+ERROR: test_composite_printing (test_basic.test_composite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 127, in as_scalar
+    return constant(x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 288, in constant
+    x = convert(x, dtype=dtype)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 267, in convert
+    x_ = autocast_int(x)
+TypeError: 'NoneType' object is not callable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_basic.py", line 149, in test_composite_printing
+    e3 = x // 5
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 762, in __floordiv__
+    return int_div(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1041, in make_node
+    inputs = [as_scalar(input) for input in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 1041, in <listcomp>
+    inputs = [as_scalar(input) for input in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 129, in as_scalar
+    raise TypeError("Cannot convert %s to Scalar" % x, type(x))
+TypeError: ('Cannot convert 5 to Scalar', <class 'int'>)
+
+----------------------------------------------------------------------
+Ran 20 tests in 1.578s
+
+FAILED (errors=2)
