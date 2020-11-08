@@ -1,0 +1,184 @@
+FFF.
+======================================================================
+FAIL: test_1arg (test_ops.OpDecoratorTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 558, in perform
+    assert len(outs) == len(outputs)
+AssertionError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_ops.py", line 33, in test_1arg
+    r = fn([[1.5, 5], [2, 2]])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 558, in perform
+    assert len(outs) == len(outputs)
+AssertionError: 
+Apply node that caused the error: FromFunctionOp{cumprod}(x)
+Toposort index: 0
+Inputs types: [TensorType(float64, matrix)]
+Inputs shapes: [(2, 2)]
+Inputs strides: [(16, 8)]
+Inputs values: [array([[1.5, 5. ],
+       [2. , 2. ]])]
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_ops.py", line 32, in test_1arg
+    fn = function([x], cumprod(x))
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+FAIL: test_2arg (test_ops.OpDecoratorTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 558, in perform
+    assert len(outs) == len(outputs)
+AssertionError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_ops.py", line 49, in test_2arg
+    r = fn([[1.5, 5], [2, 2]], [1, 100, 2, 200])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 558, in perform
+    assert len(outs) == len(outputs)
+AssertionError: 
+Apply node that caused the error: FromFunctionOp{cumprod_plus}(x, y)
+Toposort index: 0
+Inputs types: [TensorType(float64, matrix), TensorType(float64, vector)]
+Inputs shapes: [(2, 2), (4,)]
+Inputs strides: [(16, 8), (8,)]
+Inputs values: [array([[1.5, 5. ],
+       [2. , 2. ]]), array([  1., 100.,   2., 200.])]
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_ops.py", line 48, in test_2arg
+    fn = function([x, y], cumprod_plus(x, y))
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+FAIL: test_infer_shape (test_ops.OpDecoratorTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 558, in perform
+    assert len(outs) == len(outputs)
+AssertionError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_ops.py", line 70, in test_infer_shape
+    cumprod_plus.__class__, warn=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 271, in _compile_and_check
+    numeric_outputs = outputs_function(*numeric_inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 558, in perform
+    assert len(outs) == len(outputs)
+AssertionError: 
+Apply node that caused the error: FromFunctionOp{cumprod_plus}(x, y)
+Toposort index: 0
+Inputs types: [TensorType(float64, matrix), TensorType(float64, vector)]
+Inputs shapes: [(2, 2), (4,)]
+Inputs strides: [(16, 8), (8,)]
+Inputs values: [array([[1.5, 5. ],
+       [2. , 2. ]]), array([  1., 100.,   2., 200.])]
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_ops.py", line 68, in test_infer_shape
+    self._compile_and_check([x, y], [cumprod_plus(x, y)],
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.781s
+
+FAILED (failures=3)

@@ -1,0 +1,37 @@
+WARNING (theano.tensor.opt): Failed to infer_shape from Op FromFunctionOp{cumprod}.
+Input shapes: [(Shape_i{0}.0, Shape_i{1}.0)]
+Exception encountered during infer_shape: <class 'TypeError'>
+Exception message: 'NoneType' object is not callable
+Traceback: Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 946, in get_node_infer_shape
+    [self.shape_of[r] for r in node.inputs])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 579, in _infer_shape
+    return self.__infer_shape(node, input_shapes)
+TypeError: 'NoneType' object is not callable
+
+.WARNING (theano.tensor.opt): Failed to infer_shape from Op FromFunctionOp{cumprod_plus}.
+Input shapes: [(Shape_i{0}.0, Shape_i{1}.0), (Shape_i{0}.0,)]
+Exception encountered during infer_shape: <class 'TypeError'>
+Exception message: 'NoneType' object is not callable
+Traceback: Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 946, in get_node_infer_shape
+    [self.shape_of[r] for r in node.inputs])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 579, in _infer_shape
+    return self.__infer_shape(node, input_shapes)
+TypeError: 'NoneType' object is not callable
+
+.F.
+======================================================================
+FAIL: test_infer_shape (test_ops.OpDecoratorTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_ops.py", line 70, in test_infer_shape
+    cumprod_plus.__class__, warn=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 267, in _compile_and_check
+    assert not any(isinstance(t.op, cls) for t in topo_shape)
+AssertionError
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.797s
+
+FAILED (failures=1)
