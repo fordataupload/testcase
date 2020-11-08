@@ -1,0 +1,29 @@
+FF.F..................s..................
+======================================================================
+FAIL: test_borrow_input (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 510, in test_borrow_input
+    assert not np.may_share_memory(aval, f(aval))
+AssertionError
+
+======================================================================
+FAIL: test_borrow_output (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 516, in test_borrow_output
+    assert o is not f(o)  # function no longer permits aliasing outputs to inputs
+AssertionError
+
+======================================================================
+FAIL: test_constant_output (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 474, in test_constant_output
+    assert out2 is not out
+AssertionError
+
+----------------------------------------------------------------------
+Ran 41 tests in 4.593s
+
+FAILED (failures=3, skipped=1)

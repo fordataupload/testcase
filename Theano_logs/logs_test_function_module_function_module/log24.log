@@ -1,0 +1,69 @@
+......................s..........EEEEEEEE
+======================================================================
+ERROR: test_deepcopy (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 640, in test_deepcopy
+    self.assertFalse(g.container[0].storage is f.container[0].storage)
+AttributeError: 'NoneType' object has no attribute 'container'
+
+======================================================================
+ERROR: test_deepcopy_shared_container (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 721, in test_deepcopy_shared_container
+    hc[ac] = 2
+TypeError: 'NoneType' object does not support item assignment
+
+======================================================================
+ERROR: test_deepcopy_trust_input (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 682, in test_deepcopy_trust_input
+    self.assertTrue(f.trust_input is g.trust_input)
+AttributeError: 'NoneType' object has no attribute 'trust_input'
+
+======================================================================
+ERROR: test_multiple_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 866, in test_multiple_functions
+    assert nl[4][nl[0]] is not ol[4][ol[0]]
+TypeError: 'NoneType' object is not subscriptable
+
+======================================================================
+ERROR: test_optimizations_preserved (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 792, in test_optimizations_preserved
+    assert f.maker is not g.maker
+AttributeError: 'NoneType' object has no attribute 'maker'
+
+======================================================================
+ERROR: test_output_keys (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 697, in test_output_keys
+    o = g([2, 3, 4])
+TypeError: 'NoneType' object is not callable
+
+======================================================================
+ERROR: test_pickle (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 746, in test_pickle
+    self.assertFalse(g.container[0].storage is f.container[0].storage)
+AttributeError: 'NoneType' object has no attribute 'container'
+
+======================================================================
+ERROR: test_pickle_class_with_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 930, in test_pickle_class_with_functions
+    assert blah2.f2.container[blah2.s].storage is blah2.f1.container[blah2.s].storage
+AttributeError: 'NoneType' object has no attribute 'container'
+
+----------------------------------------------------------------------
+Ran 41 tests in 5.874s
+
+FAILED (errors=8, skipped=1)

@@ -1,0 +1,247 @@
+.......E.........E.EEEs............E.....
+======================================================================
+ERROR: test_default_values (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: expected an ndarray, not None
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "test_function_module.py", line 586, in test_default_values
+    func(second=2)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: expected an ndarray, not None
+Apply node that caused the error: Elemwise{add,no_inplace}(a, b)
+Toposort index: 0
+Inputs types: [TensorType(float64, scalar), TensorType(float64, scalar)]
+Inputs shapes: ['No shapes', ()]
+Inputs strides: ['No strides', ()]
+Inputs values: [None, array(1.)]
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\runner.py", line 176, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "test_function_module.py", line 582, in test_default_values
+    c = a + b
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_naming_rule0 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: expected an ndarray, not None
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "test_function_module.py", line 130, in test_naming_rule0
+    checkfor(self, lambda: f(2, x=2.0), TypeError)  # got multiple values for keyword argument 'x'
+  File "test_function_module.py", line 29, in checkfor
+    fn()
+  File "test_function_module.py", line 130, in <lambda>
+    checkfor(self, lambda: f(2, x=2.0), TypeError)  # got multiple values for keyword argument 'x'
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: expected an ndarray, not None
+Apply node that caused the error: Elemwise{true_div,no_inplace}(x, s)
+Toposort index: 0
+Inputs types: [TensorType(float64, scalar), TensorType(float64, scalar)]
+Inputs shapes: [(), 'No shapes']
+Inputs strides: [(), 'No strides']
+Inputs values: [array(2.), None]
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\runner.py", line 176, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "test_function_module.py", line 124, in test_naming_rule0
+    f = function([x, s], x / s)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_naming_rule2 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: expected an ndarray, not None
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "test_function_module.py", line 155, in test_naming_rule2
+    checkfor(self, lambda: f(5.0, x=9), TypeError)  # got unexpected keyword argument 'x'
+  File "test_function_module.py", line 29, in checkfor
+    fn()
+  File "test_function_module.py", line 155, in <lambda>
+    checkfor(self, lambda: f(5.0, x=9), TypeError)  # got unexpected keyword argument 'x'
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: expected an ndarray, not None
+Apply node that caused the error: Elemwise{true_div,no_inplace}(<TensorType(float64, scalar)>, s)
+Toposort index: 0
+Inputs types: [TensorType(float64, scalar), TensorType(float64, scalar)]
+Inputs shapes: ['No shapes', 'No shapes']
+Inputs strides: ['No strides', 'No strides']
+Inputs values: [None, None]
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\runner.py", line 176, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "test_function_module.py", line 150, in test_naming_rule2
+    f = function([x, a, s], a / s, on_unused_input='ignore')
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_naming_rule3 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: expected an ndarray, not None
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "test_function_module.py", line 168, in test_naming_rule3
+    checkfor(self, lambda: f(), TypeError)  # takes exactly 3 non-keyword arguments (0 given)
+  File "test_function_module.py", line 29, in checkfor
+    fn()
+  File "test_function_module.py", line 168, in <lambda>
+    checkfor(self, lambda: f(), TypeError)  # takes exactly 3 non-keyword arguments (0 given)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: expected an ndarray, not None
+Apply node that caused the error: Elemwise{Composite{((i0 / i1) + i2)}}(<TensorType(float64, scalar)>, s, x)
+Toposort index: 0
+Inputs types: [TensorType(float64, scalar), TensorType(float64, scalar), TensorType(float64, scalar)]
+Inputs shapes: [(), 'No shapes', ()]
+Inputs strides: [(), 'No strides', ()]
+Inputs values: [array(1.), None, array(9.)]
+Outputs clients: [['output']]
+
+HINT: Re-running with most Theano optimization disabled could give you a back-trace of when this node was created. This can be done with by setting the Theano flag 'optimizer=fast_compile'. If that does not work, Theano optimizations can be disabled with 'optimizer=None'.
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_naming_rule4 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: expected an ndarray, not None
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "test_function_module.py", line 183, in test_naming_rule4
+    checkfor(self, lambda: f(), TypeError)  # takes exactly 3 non-keyword arguments (0 given)
+  File "test_function_module.py", line 29, in checkfor
+    fn()
+  File "test_function_module.py", line 183, in <lambda>
+    checkfor(self, lambda: f(), TypeError)  # takes exactly 3 non-keyword arguments (0 given)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: expected an ndarray, not None
+Apply node that caused the error: Elemwise{Composite{((i0 / i1) + i2)}}(<TensorType(float64, scalar)>, s, x)
+Toposort index: 0
+Inputs types: [TensorType(float64, scalar), TensorType(float64, scalar), TensorType(float64, scalar)]
+Inputs shapes: [(), 'No shapes', 'No shapes']
+Inputs strides: [(), 'No strides', 'No strides']
+Inputs values: [array(1.), None, None]
+Outputs clients: [['output']]
+
+HINT: Re-running with most Theano optimization disabled could give you a back-trace of when this node was created. This can be done with by setting the Theano flag 'optimizer=fast_compile'. If that does not work, Theano optimizations can be disabled with 'optimizer=None'.
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_deepcopy_trust_input (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 683, in test_deepcopy_trust_input
+    f(np.asarray(2.))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 886, in __call__
+    self.inv_finder[c]))
+TypeError: Missing required input: x
+
+----------------------------------------------------------------------
+Ran 41 tests in 5.733s
+
+FAILED (errors=6, skipped=1)

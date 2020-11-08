@@ -1,0 +1,123 @@
+......................s.........FFFFFFFFF
+======================================================================
+FAIL: test_broken_pickle_with_shared (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 914, in test_broken_pickle_with_shared
+    p.load()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1083, in _constructor_Function
+    assert len(f.input_storage) != len(inputs_data)
+AssertionError
+
+======================================================================
+FAIL: test_deepcopy (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 630, in test_deepcopy
+    g = copy.deepcopy(f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 180, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 274, in _reconstruct
+    y = func(*args)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1083, in _constructor_Function
+    assert len(f.input_storage) != len(inputs_data)
+AssertionError
+
+======================================================================
+FAIL: test_deepcopy_shared_container (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 712, in test_deepcopy_shared_container
+    hc = copy.deepcopy(h, memo=memo)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 180, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 274, in _reconstruct
+    y = func(*args)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1083, in _constructor_Function
+    assert len(f.input_storage) != len(inputs_data)
+AssertionError
+
+======================================================================
+FAIL: test_deepcopy_trust_input (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 676, in test_deepcopy_trust_input
+    g = copy.deepcopy(f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 180, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 274, in _reconstruct
+    y = func(*args)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1083, in _constructor_Function
+    assert len(f.input_storage) != len(inputs_data)
+AssertionError
+
+======================================================================
+FAIL: test_multiple_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 837, in test_multiple_functions
+    new_list_of_things = pickle.loads(saved_format)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1083, in _constructor_Function
+    assert len(f.input_storage) != len(inputs_data)
+AssertionError
+
+======================================================================
+FAIL: test_optimizations_preserved (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 778, in test_optimizations_preserved
+    g = pickle.loads(str_f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1083, in _constructor_Function
+    assert len(f.input_storage) != len(inputs_data)
+AssertionError
+
+======================================================================
+FAIL: test_output_keys (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 696, in test_output_keys
+    g = copy.deepcopy(f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 180, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 274, in _reconstruct
+    y = func(*args)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1083, in _constructor_Function
+    assert len(f.input_storage) != len(inputs_data)
+AssertionError
+
+======================================================================
+FAIL: test_pickle (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 735, in test_pickle
+    g = pickle.loads(pickle.dumps(f, protocol=0))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1083, in _constructor_Function
+    assert len(f.input_storage) != len(inputs_data)
+AssertionError
+
+======================================================================
+FAIL: test_pickle_class_with_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 923, in test_pickle_class_with_functions
+    blah2 = copy.deepcopy(blah)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 180, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 280, in _reconstruct
+    state = deepcopy(state, memo)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 150, in deepcopy
+    y = copier(x, memo)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 240, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 180, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 274, in _reconstruct
+    y = func(*args)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1083, in _constructor_Function
+    assert len(f.input_storage) != len(inputs_data)
+AssertionError
+
+----------------------------------------------------------------------
+Ran 41 tests in 5.671s
+
+FAILED (failures=9, skipped=1)
