@@ -1,0 +1,2938 @@
+2020-10-06 16:36:23.170676: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] ControlFlowTest.test_for_composite_state_initialized_in_loop
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"n"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:836:16, QN: n, DEFINITIONS: (AnnotatedDef[2470526105528],), ORIG_DEFINITIONS: (AnnotatedDef[2470526105528],)}
+| | | Name:
+| | | | id=u"x"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:836:19, QN: x, DEFINITIONS: (AnnotatedDef[2470526105584],), ORIG_DEFINITIONS: (AnnotatedDef[2470526105584],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(x, n)}}
+| body=[
+| | Assign:
+| | | targets=[
+| | | | Name:
+| | | | | id=u"tc"
+| | | | | ctx=Store()
+| | | | | annotation=None
+| | | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:838:6, QN: tc, DEFINITIONS: (AnnotatedDef[2470526106704],), ORIG_DEFINITIONS: (AnnotatedDef[2470526106704],)}
+| | | ]
+| | | value=Call:
+| | | | func=Name:
+| | | | | id=u"TestClass"
+| | | | | ctx=Load()
+| | | | | annotation=None
+| | | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:838:11, QN: TestClass, DEFINITIONS: (), ORIG_DEFINITIONS: ()}
+| | | | args=[]
+| | | | keywords=[]
+| | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:838:11, ARGS_SCOPE: Scope{r=(), w=()}}
+| | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:838:6, SCOPE: Scope{r=(TestClass,), w=(tc,)}, LIVE_VARS_IN: frozenset({TestClass, tc.x, n, x})}
+| | FunctionDef:
+| | | name=u"get_state_1"
+| | | args=arguments:
+| | | | args=[]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Return:
+| | | | | value=Tuple:
+| | | | | | elts=[
+| | | | | | | Attribute:
+| | | | | | | | value=Name:
+| | | | | | | | | id=u"tc"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | annotation=None
+| | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | attr=u"x"
+| | | | | | | | ctx=Load()
+| | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:840:6}
+| | FunctionDef:
+| | | name=u"set_state_1"
+| | | args=arguments:
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"vals"
+| | | | | | ctx=Param()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: vals}
+| | | | ]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Tuple:
+| | | | | | | elts=[
+| | | | | | | | Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"tc"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | | attr=u"x"
+| | | | | | | | | ctx=Store()
+| | | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | | ]
+| | | | | | | ctx=Store()
+| | | | | ]
+| | | | | value=Name:
+| | | | | | id=u"vals"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: vals}
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:840:6}
+| | FunctionDef:
+| | | name=u"loop_body"
+| | | args=arguments:
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"iterates"
+| | | | | | ctx=Param()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: iterates}
+| | | | ]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Name:
+| | | | | | | id=u"i"
+| | | | | | | ctx=Store()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:840:10, ORIG_DEFINITIONS: (AnnotatedDef[2470525913688],), QN: i}
+| | | | | ]
+| | | | | value=Name:
+| | | | | | id=u"iterates"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: iterates}
+| | | | FunctionDef:
+| | | | | name=u"get_state"
+| | | | | args=arguments:
+| | | | | | args=[]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Return:
+| | | | | | | value=Tuple:
+| | | | | | | | elts=[
+| | | | | | | | | Attribute:
+| | | | | | | | | | value=Name:
+| | | | | | | | | | | id=u"tc"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | annotation=None
+| | | | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | | | attr=u"x"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | | | ]
+| | | | | | | | ctx=Load()
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:842:8}
+| | | | FunctionDef:
+| | | | | name=u"set_state"
+| | | | | args=arguments:
+| | | | | | args=[
+| | | | | | | Name:
+| | | | | | | | id=u"vals"
+| | | | | | | | ctx=Param()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: vals}
+| | | | | | ]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Assign:
+| | | | | | | targets=[
+| | | | | | | | Tuple:
+| | | | | | | | | elts=[
+| | | | | | | | | | Attribute:
+| | | | | | | | | | | value=Name:
+| | | | | | | | | | | | id=u"tc"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | | | | attr=u"x"
+| | | | | | | | | | | ctx=Store()
+| | | | | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | | | | ]
+| | | | | | | | | ctx=Store()
+| | | | | | | ]
+| | | | | | | value=Name:
+| | | | | | | | id=u"vals"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: vals}
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:842:8}
+| | | | FunctionDef:
+| | | | | name=u"if_true"
+| | | | | args=arguments:
+| | | | | | args=[]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Assign:
+| | | | | | | targets=[
+| | | | | | | | Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"tc"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:844:10, ORIG_DEFINITIONS: (AnnotatedDef[2470526106704],), QN: tc}
+| | | | | | | | | attr=u"x"
+| | | | | | | | | ctx=Store()
+| | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:844:10, QN: tc.x}
+| | | | | | | ]
+| | | | | | | value=Name:
+| | | | | | | | id=u"x"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:844:17, ORIG_DEFINITIONS: (AnnotatedDef[2470526105584],), QN: x}
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:844:10}
+| | | | | | Return:
+| | | | | | | value=Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | | | attr=u"match_staging_level"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.match_staging_level}
+| | | | | | | | args=[
+| | | | | | | | | Num:
+| | | | | | | | | | n=1
+| | | | | | | | | Name:
+| | | | | | | | | | id=u"cond"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | | | ]
+| | | | | | | | keywords=[]
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:842:8}
+| | | | FunctionDef:
+| | | | | name=u"if_false"
+| | | | | args=arguments:
+| | | | | | args=[]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Assign:
+| | | | | | | targets=[
+| | | | | | | | Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"tc"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:848:10, ORIG_DEFINITIONS: (AnnotatedDef[2470526106704],), QN: tc}
+| | | | | | | | | attr=u"x"
+| | | | | | | | | ctx=Store()
+| | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:848:10, QN: tc.x}
+| | | | | | | ]
+| | | | | | | value=BinOp:
+| | | | | | | | left=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"tc"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:848:17, ORIG_DEFINITIONS: (AnnotatedDef[2470526106704],), QN: tc}
+| | | | | | | | | attr=u"x"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:848:17, QN: tc.x}
+| | | | | | | | op=Add()
+| | | | | | | | right=Name:
+| | | | | | | | | id=u"i"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | annotation=None
+| | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:848:24, ORIG_DEFINITIONS: (AnnotatedDef[2470525913688],), QN: i}
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:848:17}
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:848:10}
+| | | | | | Return:
+| | | | | | | value=Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | | | attr=u"match_staging_level"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.match_staging_level}
+| | | | | | | | args=[
+| | | | | | | | | Num:
+| | | | | | | | | | n=1
+| | | | | | | | | Name:
+| | | | | | | | | | id=u"cond"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | | | ]
+| | | | | | | | keywords=[]
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:842:8}
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Name:
+| | | | | | | id=u"cond"
+| | | | | | | ctx=Store()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={QN: cond}
+| | | | | ]
+| | | | | value=Compare:
+| | | | | | left=Name:
+| | | | | | | id=u"i"
+| | | | | | | ctx=Load()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:842:11, ORIG_DEFINITIONS: (AnnotatedDef[2470525913688],), QN: i}
+| | | | | | ops=[
+| | | | | | | Eq()
+| | | | | | ]
+| | | | | | comparators=[
+| | | | | | | Num:
+| | | | | | | | n=0
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:842:16}
+| | | | | | ]
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:842:11}
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:842:8}
+| | | | Assign:
+| | | | | targets=[]
+| | | | | value=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | attr=u"if_stmt"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.if_stmt}
+| | | | | | args=[
+| | | | | | | Name:
+| | | | | | | | id=u"cond"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | | Name:
+| | | | | | | | id=u"if_true"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: if_true}
+| | | | | | | Name:
+| | | | | | | | id=u"if_false"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: if_false}
+| | | | | | | Name:
+| | | | | | | | id=u"get_state"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: get_state}
+| | | | | | | Name:
+| | | | | | | | id=u"set_state"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: set_state}
+| | | | | | | Tuple:
+| | | | | | | | elts=[]
+| | | | | | | | ctx=Load()
+| | | | | | | Tuple:
+| | | | | | | | elts=[
+| | | | | | | | | Str:
+| | | | | | | | | | s=u"tc.x"
+| | | | | | | | ]
+| | | | | | | | ctx=Load()
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:842:8}
+| | | | Return:
+| | | | | value=Tuple:
+| | | | | | elts=[]
+| | | | | | ctx=Load()
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:840:6}
+| | Expr:
+| | | value=Call:
+| | | | func=Attribute:
+| | | | | value=Name:
+| | | | | | id=u"ag__"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: ag__}
+| | | | | attr=u"for_stmt"
+| | | | | ctx=Load()
+| | | | | ___pyct_anno={QN: ag__.for_stmt}
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"n"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:840:15, ORIG_DEFINITIONS: (AnnotatedDef[2470526105528],), QN: n}
+| | | | | NameConstant:
+| | | | | | value=None
+| | | | | Name:
+| | | | | | id=u"loop_body"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: loop_body}
+| | | | | Name:
+| | | | | | id=u"get_state_1"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: get_state_1}
+| | | | | Name:
+| | | | | | id=u"set_state_1"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: set_state_1}
+| | | | | Tuple:
+| | | | | | elts=[]
+| | | | | | ctx=Load()
+| | | | | Tuple:
+| | | | | | elts=[]
+| | | | | | ctx=Load()
+| | | | | Tuple:
+| | | | | | elts=[
+| | | | | | | Str:
+| | | | | | | | s=u"tc.x"
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | | ]
+| | | | keywords=[]
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:840:6}
+| | Return:
+| | | value=Attribute:
+| | | | value=Name:
+| | | | | id=u"tc"
+| | | | | ctx=Load()
+| | | | | annotation=None
+| | | | | ___pyct_anno={'lineno': 17, ORIGIN: control_flow_test.py:850:13, QN: tc, DEFINITIONS: (AnnotatedDef[2470526106704],), ORIG_DEFINITIONS: (AnnotatedDef[2470526106704],)}
+| | | | attr=u"x"
+| | | | ctx=Load()
+| | | | ___pyct_anno={'lineno': 17, ORIGIN: control_flow_test.py:850:13, QN: tc.x}
+| | | ___pyct_anno={'lineno': 17, ORIGIN: control_flow_test.py:850:6, SCOPE: Scope{r=(tc.x, tc), w=()}, LIVE_VARS_IN: frozenset({tc.x, tc})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:836:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(n, tc.x, x, i, tc, TestClass), w=(i, tc, tc.x)}}
+[  FAILED  ] ControlFlowTest.test_for_composite_state_initialized_in_loop
+[ RUN      ] ControlFlowTest.test_for_iterated_expression
+[       OK ] ControlFlowTest.test_for_iterated_expression
+[ RUN      ] ControlFlowTest.test_for_single_output
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py:60: TensorFlowTestCase.test_session (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `self.session()` or `self.cached_session()` instead.
+W1006 16:36:27.089905 15116 deprecation.py:323] From C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py:60: TensorFlowTestCase.test_session (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `self.session()` or `self.cached_session()` instead.
+2020-10-06 16:36:27.100024: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-06 16:36:27.227568: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:27.228158: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:27.231908: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:27.235532: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:27.237160: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:27.241929: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:27.245082: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:27.254579: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:27.255564: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:27.256213: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-06 16:36:27.271426: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:27.271977: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:27.272317: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:27.272658: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:27.272995: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:27.273353: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:27.273703: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:27.274053: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:27.274900: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:28.217652: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:28.218067: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:28.218309: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:28.219069: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_for_single_output
+[ RUN      ] ControlFlowTest.test_for_tuple_unpacking
+2020-10-06 16:36:28.813561: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:28.814839: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:28.815687: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:28.816539: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:28.817411: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:28.818263: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:28.819126: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:28.819990: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:28.821322: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:28.822083: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:28.822581: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:28.822908: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:28.823594: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_for_tuple_unpacking
+[ RUN      ] ControlFlowTest.test_for_with_comprehension_in_body
+2020-10-06 16:36:28.890128: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:28.890719: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:28.891132: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:28.891562: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:28.891990: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:28.892447: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:28.892840: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:28.893217: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:28.893809: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:28.894119: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:28.894471: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:28.894693: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:28.895243: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_for_with_comprehension_in_body
+[ RUN      ] ControlFlowTest.test_if_basic
+2020-10-06 16:36:28.953752: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:28.954416: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:28.954828: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:28.955198: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:28.955624: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:28.955992: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:28.956373: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:28.956749: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:28.957373: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:28.957713: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:28.958092: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:28.958329: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:28.958887: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+ERROR:tensorflow:Fetch argument 0 has invalid type <class 'int'>, must be a string or Tensor. (Can not convert a int into a Tensor or Operation.)
+E1006 16:36:28.953488 15116 test_util.py:1563] Fetch argument 0 has invalid type <class 'int'>, must be a string or Tensor. (Can not convert a int into a Tensor or Operation.)
+[  FAILED  ] ControlFlowTest.test_if_basic
+[ RUN      ] ControlFlowTest.test_if_complex_outputs
+
+Offending compiled code:
+# coding=utf-8
+def test_fn(n):
+  a = 0
+  b = 0
+
+  def get_state():
+    return ()
+
+  def set_state(_):
+    pass
+
+  def if_true():
+    a = -n
+    return b, a
+
+  def if_false():
+    b = 2 * n
+    return b, a
+  cond = n > 0
+  ag__.if_stmt(cond, if_true, if_false, get_state, set_state, ('b', 'a'), ())
+  return a, b
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"n"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:512:16, QN: n, DEFINITIONS: (AnnotatedDef[2470648131992],), ORIG_DEFINITIONS: (AnnotatedDef[2470648131992],)}
+| | | Name:
+| | | | id=u"obj"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:512:19, QN: obj, DEFINITIONS: (AnnotatedDef[2470648132552],), ORIG_DEFINITIONS: (AnnotatedDef[2470648132552],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(n, obj)}}
+| body=[
+| | Assign:
+| | | targets=[
+| | | | Attribute:
+| | | | | value=Name:
+| | | | | | id=u"obj"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:514:6, QN: obj, DEFINITIONS: (AnnotatedDef[2470648132552],), ORIG_DEFINITIONS: (AnnotatedDef[2470648132552],)}
+| | | | | attr=u"a"
+| | | | | ctx=Store()
+| | | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:514:6, QN: obj.a}
+| | | ]
+| | | value=Num:
+| | | | n=0
+| | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:514:14}
+| | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:514:6, SCOPE: Scope{r=(obj,), w=(obj.a,)}, LIVE_VARS_IN: frozenset({n, obj})}
+| | Assign:
+| | | targets=[
+| | | | Attribute:
+| | | | | value=Name:
+| | | | | | id=u"obj"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={'lineno': 7, ORIGIN: control_flow_test.py:516:6, QN: obj, DEFINITIONS: (AnnotatedDef[2470648132552],), ORIG_DEFINITIONS: (AnnotatedDef[2470648132552],)}
+| | | | | attr=u"b"
+| | | | | ctx=Store()
+| | | | | ___pyct_anno={'lineno': 7, ORIGIN: control_flow_test.py:516:6, QN: obj.b}
+| | | ]
+| | | value=Num:
+| | | | n=0
+| | | | ___pyct_anno={'lineno': 7, ORIGIN: control_flow_test.py:516:14}
+| | | ___pyct_anno={'lineno': 7, ORIGIN: control_flow_test.py:516:6, SCOPE: Scope{r=(obj,), w=(obj.b,)}, LIVE_VARS_IN: frozenset({n, obj})}
+| | FunctionDef:
+| | | name=u"get_state"
+| | | args=arguments:
+| | | | args=[]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Return:
+| | | | | value=Tuple:
+| | | | | | elts=[
+| | | | | | | Attribute:
+| | | | | | | | value=Name:
+| | | | | | | | | id=u"obj"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | annotation=None
+| | | | | | | | | ___pyct_anno={QN: obj}
+| | | | | | | | attr=u"a"
+| | | | | | | | ctx=Load()
+| | | | | | | | ___pyct_anno={QN: obj.a}
+| | | | | | | Attribute:
+| | | | | | | | value=Name:
+| | | | | | | | | id=u"obj"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | annotation=None
+| | | | | | | | | ___pyct_anno={QN: obj}
+| | | | | | | | attr=u"b"
+| | | | | | | | ctx=Load()
+| | | | | | | | ___pyct_anno={QN: obj.b}
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:518:6}
+| | FunctionDef:
+| | | name=u"set_state"
+| | | args=arguments:
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"vals"
+| | | | | | ctx=Param()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: vals}
+| | | | ]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Tuple:
+| | | | | | | elts=[
+| | | | | | | | Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"obj"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: obj}
+| | | | | | | | | attr=u"a"
+| | | | | | | | | ctx=Store()
+| | | | | | | | | ___pyct_anno={QN: obj.a}
+| | | | | | | | Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"obj"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: obj}
+| | | | | | | | | attr=u"b"
+| | | | | | | | | ctx=Store()
+| | | | | | | | | ___pyct_anno={QN: obj.b}
+| | | | | | | ]
+| | | | | | | ctx=Store()
+| | | | | ]
+| | | | | value=Name:
+| | | | | | id=u"vals"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: vals}
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:518:6}
+| | FunctionDef:
+| | | name=u"if_true"
+| | | args=arguments:
+| | | | args=[]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"obj"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:520:8, ORIG_DEFINITIONS: (AnnotatedDef[2470648132552],), QN: obj}
+| | | | | | | attr=u"a"
+| | | | | | | ctx=Store()
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:520:8, QN: obj.a}
+| | | | | ]
+| | | | | value=UnaryOp:
+| | | | | | op=USub()
+| | | | | | operand=Name:
+| | | | | | | id=u"n"
+| | | | | | | ctx=Load()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:520:17, ORIG_DEFINITIONS: (AnnotatedDef[2470648131992],), QN: n}
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:520:16}
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:520:8}
+| | | | Return:
+| | | | | value=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | attr=u"match_staging_level"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.match_staging_level}
+| | | | | | args=[
+| | | | | | | Num:
+| | | | | | | | n=1
+| | | | | | | Name:
+| | | | | | | | id=u"cond"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:518:6}
+| | FunctionDef:
+| | | name=u"if_false"
+| | | args=arguments:
+| | | | args=[]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"obj"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:524:8, ORIG_DEFINITIONS: (AnnotatedDef[2470648132552],), QN: obj}
+| | | | | | | attr=u"b"
+| | | | | | | ctx=Store()
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:524:8, QN: obj.b}
+| | | | | ]
+| | | | | value=BinOp:
+| | | | | | left=Num:
+| | | | | | | n=2
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:524:16}
+| | | | | | op=Mult()
+| | | | | | right=Name:
+| | | | | | | id=u"n"
+| | | | | | | ctx=Load()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:524:20, ORIG_DEFINITIONS: (AnnotatedDef[2470648131992],), QN: n}
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:524:16}
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:524:8}
+| | | | Return:
+| | | | | value=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | attr=u"match_staging_level"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.match_staging_level}
+| | | | | | args=[
+| | | | | | | Num:
+| | | | | | | | n=1
+| | | | | | | Name:
+| | | | | | | | id=u"cond"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:518:6}
+| | Assign:
+| | | targets=[
+| | | | Name:
+| | | | | id=u"cond"
+| | | | | ctx=Store()
+| | | | | annotation=None
+| | | | | ___pyct_anno={QN: cond}
+| | | ]
+| | | value=Compare:
+| | | | left=Name:
+| | | | | id=u"n"
+| | | | | ctx=Load()
+| | | | | annotation=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:518:9, ORIG_DEFINITIONS: (AnnotatedDef[2470648131992],), QN: n}
+| | | | ops=[
+| | | | | Gt()
+| | | | ]
+| | | | comparators=[
+| | | | | Num:
+| | | | | | n=0
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:518:13}
+| | | | ]
+| | | | ___pyct_anno={ORIGIN: control_flow_test.py:518:9}
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:518:6}
+| | Assign:
+| | | targets=[]
+| | | value=Call:
+| | | | func=Attribute:
+| | | | | value=Name:
+| | | | | | id=u"ag__"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: ag__}
+| | | | | attr=u"if_stmt"
+| | | | | ctx=Load()
+| | | | | ___pyct_anno={QN: ag__.if_stmt}
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"cond"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: cond}
+| | | | | Name:
+| | | | | | id=u"if_true"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: if_true}
+| | | | | Name:
+| | | | | | id=u"if_false"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: if_false}
+| | | | | Name:
+| | | | | | id=u"get_state"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: get_state}
+| | | | | Name:
+| | | | | | id=u"set_state"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: set_state}
+| | | | | Tuple:
+| | | | | | elts=[]
+| | | | | | ctx=Load()
+| | | | | Tuple:
+| | | | | | elts=[
+| | | | | | | Str:
+| | | | | | | | s=u"obj.a"
+| | | | | | | Str:
+| | | | | | | | s=u"obj.b"
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | | ]
+| | | | keywords=[]
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:518:6}
+| | Return:
+| | | value=Name:
+| | | | id=u"obj"
+| | | | ctx=Load()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 17, ORIGIN: control_flow_test.py:526:13, QN: obj, DEFINITIONS: (AnnotatedDef[2470648132552],), ORIG_DEFINITIONS: (AnnotatedDef[2470648132552],)}
+| | | ___pyct_anno={'lineno': 17, ORIGIN: control_flow_test.py:526:6, SCOPE: Scope{r=(obj,), w=()}, LIVE_VARS_IN: frozenset({obj})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:512:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(n, obj), w=(obj.a, obj.b)}}
+[  FAILED  ] ControlFlowTest.test_if_complex_outputs
+[ RUN      ] ControlFlowTest.test_if_local_var
+2020-10-06 16:36:29.030621: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.031203: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.031578: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.031954: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.032321: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.032690: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.033033: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.033380: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.033980: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.034293: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.034645: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.034863: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.035380: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[  FAILED  ] ControlFlowTest.test_if_local_var
+[ RUN      ] ControlFlowTest.test_if_no_outputs
+[  FAILED  ] ControlFlowTest.test_if_no_outputs
+[ RUN      ] ControlFlowTest.test_if_semi
+2020-10-06 16:36:29.099340: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.099879: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.100247: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.100596: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.100933: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.101279: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.101629: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.101977: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.102567: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.102917: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.103368: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.103643: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.104231: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[  FAILED  ] ControlFlowTest.test_if_semi
+[ RUN      ] ControlFlowTest.test_if_single_output
+2020-10-06 16:36:29.160146: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.161437: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.162285: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.163140: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.163979: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.164557: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.165047: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.165547: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.166346: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.166784: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.167288: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.167601: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.168283: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[  FAILED  ] ControlFlowTest.test_if_single_output
+[ RUN      ] ControlFlowTest.test_if_sparse_tensor
+2020-10-06 16:36:29.215743: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.216569: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.217109: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.217647: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.218179: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.218718: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.219271: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.219825: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.233918: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.234373: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.234954: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.235324: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.236121: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[  FAILED  ] ControlFlowTest.test_if_sparse_tensor
+[ RUN      ] ControlFlowTest.test_if_unbalanced_composite
+2020-10-06 16:36:29.306761: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.307747: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.308398: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.309043: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.309675: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.310309: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.310959: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.311602: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.312613: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.313212: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.313871: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.314283: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.314968: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+ERROR:tensorflow:Fetch argument 5 has invalid type <class 'int'>, must be a string or Tensor. (Can not convert a int into a Tensor or Operation.)
+E1006 16:36:29.312829 15116 test_util.py:1563] Fetch argument 5 has invalid type <class 'int'>, must be a string or Tensor. (Can not convert a int into a Tensor or Operation.)
+[  FAILED  ] ControlFlowTest.test_if_unbalanced_composite
+[ RUN      ] ControlFlowTest.test_if_unbalanced_multiple_composites
+2020-10-06 16:36:29.371762: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.372735: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.373376: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.374015: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.374659: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.375131: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.375557: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.375993: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.376702: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.377089: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.377512: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.377749: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.378302: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+ERROR:tensorflow:Fetch argument 5 has invalid type <class 'int'>, must be a string or Tensor. (Can not convert a int into a Tensor or Operation.)
+E1006 16:36:29.375324 15116 test_util.py:1563] Fetch argument 5 has invalid type <class 'int'>, must be a string or Tensor. (Can not convert a int into a Tensor or Operation.)
+
+Offending compiled code:
+# coding=utf-8
+def test_fn(n):
+
+  def get_state():
+    return ()
+
+  def set_state(_):
+    pass
+
+  def if_true():
+    b = 4
+    n = b + 1
+    return n
+
+  def if_false():
+    return n
+  cond = n > 0
+  ag__.if_stmt(cond, if_true, if_false, get_state, set_state, ('n',), ())
+  return n
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"n"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:614:16, QN: n, DEFINITIONS: (AnnotatedDef[2470648182376],), ORIG_DEFINITIONS: (AnnotatedDef[2470648182376],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(n,)}}
+| body=[
+| | FunctionDef:
+| | | name=u"get_state"
+| | | args=arguments:
+| | | | args=[]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Return:
+| | | | | value=Tuple:
+| | | | | | elts=[]
+| | | | | | ctx=Load()
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:616:6}
+| | FunctionDef:
+| | | name=u"set_state"
+| | | args=arguments:
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"_"
+| | | | | | ctx=Param()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: _}
+| | | | ]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Pass()
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:616:6}
+| | FunctionDef:
+| | | name=u"if_true"
+| | | args=arguments:
+| | | | args=[]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Name:
+| | | | | | | id=u"b"
+| | | | | | | ctx=Store()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:618:8, ORIG_DEFINITIONS: (AnnotatedDef[2470648183384],), QN: b}
+| | | | | ]
+| | | | | value=Num:
+| | | | | | n=4
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:618:12}
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:618:8}
+| | | | Return:
+| | | | | value=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | attr=u"match_staging_level"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.match_staging_level}
+| | | | | | args=[
+| | | | | | | Num:
+| | | | | | | | n=1
+| | | | | | | Name:
+| | | | | | | | id=u"cond"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:616:6}
+| | FunctionDef:
+| | | name=u"if_false"
+| | | args=arguments:
+| | | | args=[]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Return:
+| | | | | value=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | attr=u"match_staging_level"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.match_staging_level}
+| | | | | | args=[
+| | | | | | | Num:
+| | | | | | | | n=1
+| | | | | | | Name:
+| | | | | | | | id=u"cond"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | ]
+| | | | | | keywords=[]
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:616:6}
+| | Assign:
+| | | targets=[
+| | | | Name:
+| | | | | id=u"cond"
+| | | | | ctx=Store()
+| | | | | annotation=None
+| | | | | ___pyct_anno={QN: cond}
+| | | ]
+| | | value=Compare:
+| | | | left=Name:
+| | | | | id=u"n"
+| | | | | ctx=Load()
+| | | | | annotation=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:616:9, ORIG_DEFINITIONS: (AnnotatedDef[2470648182376],), QN: n}
+| | | | ops=[
+| | | | | Gt()
+| | | | ]
+| | | | comparators=[
+| | | | | Num:
+| | | | | | n=0
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:616:13}
+| | | | ]
+| | | | ___pyct_anno={ORIGIN: control_flow_test.py:616:9}
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:616:6}
+| | Assign:
+| | | targets=[]
+| | | value=Call:
+| | | | func=Attribute:
+| | | | | value=Name:
+| | | | | | id=u"ag__"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: ag__}
+| | | | | attr=u"if_stmt"
+| | | | | ctx=Load()
+| | | | | ___pyct_anno={QN: ag__.if_stmt}
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"cond"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: cond}
+| | | | | Name:
+| | | | | | id=u"if_true"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: if_true}
+| | | | | Name:
+| | | | | | id=u"if_false"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: if_false}
+| | | | | Name:
+| | | | | | id=u"get_state"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: get_state}
+| | | | | Name:
+| | | | | | id=u"set_state"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: set_state}
+| | | | | Tuple:
+| | | | | | elts=[]
+| | | | | | ctx=Load()
+| | | | | Tuple:
+| | | | | | elts=[]
+| | | | | | ctx=Load()
+| | | | ]
+| | | | keywords=[]
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:616:6}
+| | Return:
+| | | value=Name:
+| | | | id=u"n"
+| | | | ctx=Load()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 9, ORIGIN: control_flow_test.py:620:13, QN: n, DEFINITIONS: (AnnotatedDef[2470648182376],), ORIG_DEFINITIONS: (AnnotatedDef[2470648182376],)}
+| | | ___pyct_anno={'lineno': 9, ORIGIN: control_flow_test.py:620:6, SCOPE: Scope{r=(n,), w=()}, LIVE_VARS_IN: frozenset({n})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:614:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(n,), w=(b,)}}
+
+Offending compiled code:
+# coding=utf-8
+def test_fn(n):
+
+  def get_state():
+    return ()
+
+  def set_state(_):
+    pass
+
+  def if_true():
+    n = 3
+    return n
+
+  def if_false():
+    return n
+  cond = n > 0
+  ag__.if_stmt(cond, if_true, if_false, get_state, set_state, ('n',), ())
+  return n
+
+Offending compiled code:
+# coding=utf-8
+def test_fn(n):
+
+  def get_state():
+    return ()
+
+  def set_state(_):
+    pass
+
+  def if_true():
+    n_1, = n,
+    n_1 = -n_1
+    return n_1
+
+  def if_false():
+    return n
+  cond = n > 0
+  ag__.if_stmt(cond, if_true, if_false, get_state, set_state, ('n',), ())
+  return n
+
+Offending compiled code:
+# coding=utf-8
+def test_fn(cond, a):
+
+  def get_state():
+    return ()
+
+  def set_state(_):
+    pass
+
+  def if_true():
+    a_1, = a,
+    a_1 = -a_1
+    return a_1
+
+  def if_false():
+    return a
+  cond_1 = cond
+  ag__.if_stmt(cond_1, if_true, if_false, get_state, set_state, ('a',), ())
+  return a
+
+Offending compiled code:
+# coding=utf-8
+def test_fn(x, condition):
+  z = 5
+
+  def get_state():
+    return x.b,
+
+  def set_state(vals):
+    x.b, = vals
+
+  def if_true():
+    x.b = 7
+    z = 13
+    return z
+
+  def if_false():
+    return z
+  cond = condition
+  ag__.if_stmt(cond, if_true, if_false, get_state, set_state, ('z',), ('x.b',))
+  return x.b, z
+
+Offending compiled code:
+# coding=utf-8
+def test_fn(x, condition):
+  z = 5
+
+  def get_state():
+    return x.b, x.c
+
+  def set_state(vals):
+    x.b, x.c = vals
+
+  def if_true():
+    x.b = 7
+    x.c = 11
+    z = 13
+    return z
+
+  def if_false():
+    return z
+  cond = condition
+  ag__.if_stmt(cond, if_true, if_false, get_state, set_state, ('z',), ('x.b', 'x.c'))
+  return x.b, x.c, z
+[  FAILED  ] ControlFlowTest.test_if_unbalanced_multiple_composites
+[ RUN      ] ControlFlowTest.test_session
+[  SKIPPED ] ControlFlowTest.test_session
+[ RUN      ] ControlFlowTest.test_simple_for
+2020-10-06 16:36:29.423961: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.424499: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.424843: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.425188: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.425524: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.425876: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.426227: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.426580: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.427163: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.427482: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.427839: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.428057: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.428621: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_simple_for
+[ RUN      ] ControlFlowTest.test_while_basic
+2020-10-06 16:36:29.548982: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.549523: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.549919: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.550260: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.550605: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.550945: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.551289: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.551651: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.552235: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.552555: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.552913: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.553137: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.553648: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_while_basic
+[ RUN      ] ControlFlowTest.test_while_composite_state
+2020-10-06 16:36:29.615236: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.615803: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.616177: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.616555: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.616928: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.617290: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.617658: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.618025: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.618637: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.618975: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.619365: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.619601: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.620133: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_while_composite_state
+[ RUN      ] ControlFlowTest.test_while_composite_state_initialized_in_loop
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"n"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:192:16, QN: n, DEFINITIONS: (AnnotatedDef[2470649765672],), ORIG_DEFINITIONS: (AnnotatedDef[2470649765672],)}
+| | | Name:
+| | | | id=u"x"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:192:19, QN: x, DEFINITIONS: (AnnotatedDef[2470649762480],), ORIG_DEFINITIONS: (AnnotatedDef[2470649762480],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(x, n)}}
+| body=[
+| | Assign:
+| | | targets=[
+| | | | Name:
+| | | | | id=u"tc"
+| | | | | ctx=Store()
+| | | | | annotation=None
+| | | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:194:6, QN: tc, DEFINITIONS: (AnnotatedDef[2470649698568],), ORIG_DEFINITIONS: (AnnotatedDef[2470649698568],)}
+| | | ]
+| | | value=Call:
+| | | | func=Name:
+| | | | | id=u"TestClass"
+| | | | | ctx=Load()
+| | | | | annotation=None
+| | | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:194:11, QN: TestClass, DEFINITIONS: (), ORIG_DEFINITIONS: ()}
+| | | | args=[]
+| | | | keywords=[]
+| | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:194:11, ARGS_SCOPE: Scope{r=(), w=()}}
+| | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:194:6, SCOPE: Scope{r=(TestClass,), w=(tc,)}, LIVE_VARS_IN: frozenset({TestClass, tc.x, n, x})}
+| | FunctionDef:
+| | | name=u"get_state_1"
+| | | args=arguments:
+| | | | args=[]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Return:
+| | | | | value=Tuple:
+| | | | | | elts=[
+| | | | | | | Attribute:
+| | | | | | | | value=Name:
+| | | | | | | | | id=u"tc"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | annotation=None
+| | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | attr=u"x"
+| | | | | | | | ctx=Load()
+| | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:196:6}
+| | FunctionDef:
+| | | name=u"set_state_1"
+| | | args=arguments:
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"vals"
+| | | | | | ctx=Param()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: vals}
+| | | | ]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Tuple:
+| | | | | | | elts=[
+| | | | | | | | Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"tc"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | | attr=u"x"
+| | | | | | | | | ctx=Store()
+| | | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | | ]
+| | | | | | | ctx=Store()
+| | | | | ]
+| | | | | value=Name:
+| | | | | | id=u"vals"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: vals}
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:196:6}
+| | FunctionDef:
+| | | name=u"loop_body"
+| | | args=arguments:
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"n"
+| | | | | | ctx=Param()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: n}
+| | | | ]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | FunctionDef:
+| | | | | name=u"get_state"
+| | | | | args=arguments:
+| | | | | | args=[]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Return:
+| | | | | | | value=Tuple:
+| | | | | | | | elts=[
+| | | | | | | | | Attribute:
+| | | | | | | | | | value=Name:
+| | | | | | | | | | | id=u"tc"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | annotation=None
+| | | | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | | | attr=u"x"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | | | ]
+| | | | | | | | ctx=Load()
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:198:8}
+| | | | FunctionDef:
+| | | | | name=u"set_state"
+| | | | | args=arguments:
+| | | | | | args=[
+| | | | | | | Name:
+| | | | | | | | id=u"vals"
+| | | | | | | | ctx=Param()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: vals}
+| | | | | | ]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Assign:
+| | | | | | | targets=[
+| | | | | | | | Tuple:
+| | | | | | | | | elts=[
+| | | | | | | | | | Attribute:
+| | | | | | | | | | | value=Name:
+| | | | | | | | | | | | id=u"tc"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | | | | attr=u"x"
+| | | | | | | | | | | ctx=Store()
+| | | | | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | | | | ]
+| | | | | | | | | ctx=Store()
+| | | | | | | ]
+| | | | | | | value=Name:
+| | | | | | | | id=u"vals"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: vals}
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:198:8}
+| | | | FunctionDef:
+| | | | | name=u"if_true"
+| | | | | args=arguments:
+| | | | | | args=[]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Assign:
+| | | | | | | targets=[
+| | | | | | | | Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"tc"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:200:10, ORIG_DEFINITIONS: (AnnotatedDef[2470649698568],), QN: tc}
+| | | | | | | | | attr=u"x"
+| | | | | | | | | ctx=Store()
+| | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:200:10, QN: tc.x}
+| | | | | | | ]
+| | | | | | | value=Name:
+| | | | | | | | id=u"x"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:200:17, ORIG_DEFINITIONS: (AnnotatedDef[2470649762480],), QN: x}
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:200:10}
+| | | | | | Return:
+| | | | | | | value=Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | | | attr=u"match_staging_level"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.match_staging_level}
+| | | | | | | | args=[
+| | | | | | | | | Num:
+| | | | | | | | | | n=1
+| | | | | | | | | Name:
+| | | | | | | | | | id=u"cond"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | | | ]
+| | | | | | | | keywords=[]
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:198:8}
+| | | | FunctionDef:
+| | | | | name=u"if_false"
+| | | | | args=arguments:
+| | | | | | args=[]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Assign:
+| | | | | | | targets=[
+| | | | | | | | Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"tc"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:204:10, ORIG_DEFINITIONS: (AnnotatedDef[2470649698568],), QN: tc}
+| | | | | | | | | attr=u"x"
+| | | | | | | | | ctx=Store()
+| | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:204:10, QN: tc.x}
+| | | | | | | ]
+| | | | | | | value=BinOp:
+| | | | | | | | left=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"tc"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:204:17, ORIG_DEFINITIONS: (AnnotatedDef[2470649698568],), QN: tc}
+| | | | | | | | | attr=u"x"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:204:17, QN: tc.x}
+| | | | | | | | op=Add()
+| | | | | | | | right=Num:
+| | | | | | | | | n=1
+| | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:204:24}
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:204:17}
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:204:10}
+| | | | | | Return:
+| | | | | | | value=Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | | | attr=u"match_staging_level"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.match_staging_level}
+| | | | | | | | args=[
+| | | | | | | | | Num:
+| | | | | | | | | | n=1
+| | | | | | | | | Name:
+| | | | | | | | | | id=u"cond"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | | | ]
+| | | | | | | | keywords=[]
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:198:8}
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Name:
+| | | | | | | id=u"cond"
+| | | | | | | ctx=Store()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={QN: cond}
+| | | | | ]
+| | | | | value=Compare:
+| | | | | | left=Name:
+| | | | | | | id=u"n"
+| | | | | | | ctx=Load()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:198:11, ORIG_DEFINITIONS: (AnnotatedDef[2470526306960], AnnotatedDef[2470649765672]), QN: n}
+| | | | | | ops=[
+| | | | | | | Eq()
+| | | | | | ]
+| | | | | | comparators=[
+| | | | | | | Num:
+| | | | | | | | n=0
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:198:16}
+| | | | | | ]
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:198:11}
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:198:8}
+| | | | Assign:
+| | | | | targets=[]
+| | | | | value=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | attr=u"if_stmt"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.if_stmt}
+| | | | | | args=[
+| | | | | | | Name:
+| | | | | | | | id=u"cond"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | | Name:
+| | | | | | | | id=u"if_true"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: if_true}
+| | | | | | | Name:
+| | | | | | | | id=u"if_false"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: if_false}
+| | | | | | | Name:
+| | | | | | | | id=u"get_state"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: get_state}
+| | | | | | | Name:
+| | | | | | | | id=u"set_state"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: set_state}
+| | | | | | | Tuple:
+| | | | | | | | elts=[]
+| | | | | | | | ctx=Load()
+| | | | | | | Tuple:
+| | | | | | | | elts=[
+| | | | | | | | | Str:
+| | | | | | | | | | s=u"tc.x"
+| | | | | | | | ]
+| | | | | | | | ctx=Load()
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:198:8}
+| | | | AugAssign:
+| | | | | target=Name:
+| | | | | | id=u"n"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:206:8, ORIG_DEFINITIONS: (AnnotatedDef[2470526306960],), QN: n}
+| | | | | op=Add()
+| | | | | value=Num:
+| | | | | | n=1
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:206:13}
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:206:8}
+| | | | Return:
+| | | | | value=Tuple:
+| | | | | | elts=[
+| | | | | | | Name:
+| | | | | | | | id=u"n"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: n}
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:196:6}
+| | FunctionDef:
+| | | name=u"loop_test"
+| | | args=arguments:
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"n"
+| | | | | | ctx=Param()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: n}
+| | | | ]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Return:
+| | | | | value=Compare:
+| | | | | | left=Name:
+| | | | | | | id=u"n"
+| | | | | | | ctx=Load()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:196:12, ORIG_DEFINITIONS: (AnnotatedDef[2470526306960], AnnotatedDef[2470649765672]), QN: n}
+| | | | | | ops=[
+| | | | | | | Lt()
+| | | | | | ]
+| | | | | | comparators=[
+| | | | | | | Num:
+| | | | | | | | n=5
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:196:16}
+| | | | | | ]
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:196:12}
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:196:6}
+| | Assign:
+| | | targets=[
+| | | | Tuple:
+| | | | | elts=[
+| | | | | | Name:
+| | | | | | | id=u"n"
+| | | | | | | ctx=Store()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={QN: n}
+| | | | | ]
+| | | | | ctx=Store()
+| | | ]
+| | | value=Call:
+| | | | func=Attribute:
+| | | | | value=Name:
+| | | | | | id=u"ag__"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: ag__}
+| | | | | attr=u"while_stmt"
+| | | | | ctx=Load()
+| | | | | ___pyct_anno={QN: ag__.while_stmt}
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"loop_test"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: loop_test}
+| | | | | Name:
+| | | | | | id=u"loop_body"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: loop_body}
+| | | | | Name:
+| | | | | | id=u"get_state_1"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: get_state_1}
+| | | | | Name:
+| | | | | | id=u"set_state_1"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: set_state_1}
+| | | | | Tuple:
+| | | | | | elts=[
+| | | | | | | Name:
+| | | | | | | | id=u"n"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: n}
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | | | Tuple:
+| | | | | | elts=[
+| | | | | | | Str:
+| | | | | | | | s=u"n"
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | | | Tuple:
+| | | | | | elts=[
+| | | | | | | Str:
+| | | | | | | | s=u"tc.x"
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | | ]
+| | | | keywords=[]
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:196:6}
+| | Return:
+| | | value=Attribute:
+| | | | value=Name:
+| | | | | id=u"tc"
+| | | | | ctx=Load()
+| | | | | annotation=None
+| | | | | ___pyct_anno={'lineno': 19, ORIGIN: control_flow_test.py:208:13, QN: tc, DEFINITIONS: (AnnotatedDef[2470649698568],), ORIG_DEFINITIONS: (AnnotatedDef[2470649698568],)}
+| | | | attr=u"x"
+| | | | ctx=Load()
+| | | | ___pyct_anno={'lineno': 19, ORIGIN: control_flow_test.py:208:13, QN: tc.x}
+| | | ___pyct_anno={'lineno': 19, ORIGIN: control_flow_test.py:208:6, SCOPE: Scope{r=(tc.x, tc), w=()}, LIVE_VARS_IN: frozenset({tc.x, tc})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:192:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(n, tc.x, tc, TestClass, x), w=(tc.x, n, tc)}}
+[  FAILED  ] ControlFlowTest.test_while_composite_state_initialized_in_loop
+[ RUN      ] ControlFlowTest.test_while_dispatches_by_cond_only
+2020-10-06 16:36:29.692069: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.692660: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.693008: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.693354: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.693710: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.694055: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.694403: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.694747: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.696044: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.697214: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.698532: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.699355: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.701037: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_while_dispatches_by_cond_only
+[ RUN      ] ControlFlowTest.test_while_local_composite
+2020-10-06 16:36:29.776082: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.776619: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.776962: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.777308: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.777648: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.777998: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.778389: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.778761: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.779381: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.779720: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.780076: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.780296: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.780845: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_while_local_composite
+[ RUN      ] ControlFlowTest.test_while_local_composite_complex_illegal
+[       OK ] ControlFlowTest.test_while_local_composite_complex_illegal
+[ RUN      ] ControlFlowTest.test_while_local_composite_complex_nestable
+2020-10-06 16:36:29.851859: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.852394: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.852761: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.853106: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.853445: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.853794: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.854138: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.854483: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.855054: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.855367: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.855742: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.855965: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.856475: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_while_local_composite_complex_nestable
+[ RUN      ] ControlFlowTest.test_while_nested
+2020-10-06 16:36:29.920672: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.921215: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.921565: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.921908: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.922343: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.922780: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.923209: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.923623: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.924200: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.924521: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.924876: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.925096: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.925609: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_while_nested
+[ RUN      ] ControlFlowTest.test_while_nested_composite_state
+
+Offending AST:
+FunctionDef:
+| name=u"test_fn"
+| args=arguments:
+| | args=[
+| | | Name:
+| | | | id=u"n"
+| | | | ctx=Param()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:248:16, QN: n, DEFINITIONS: (AnnotatedDef[2470646792488],), ORIG_DEFINITIONS: (AnnotatedDef[2470646792488],)}
+| | ]
+| | vararg=None
+| | kwonlyargs=[]
+| | kw_defaults=[]
+| | kwarg=None
+| | defaults=[]
+| | ___pyct_anno={SCOPE: Scope{r=(), w=(n,)}}
+| body=[
+| | Assign:
+| | | targets=[
+| | | | Name:
+| | | | | id=u"tc"
+| | | | | ctx=Store()
+| | | | | annotation=None
+| | | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:250:6, QN: tc, DEFINITIONS: (AnnotatedDef[2470525912400],), ORIG_DEFINITIONS: (AnnotatedDef[2470525912400],)}
+| | | ]
+| | | value=Call:
+| | | | func=Name:
+| | | | | id=u"TestClass"
+| | | | | ctx=Load()
+| | | | | annotation=None
+| | | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:250:11, QN: TestClass, DEFINITIONS: (), ORIG_DEFINITIONS: ()}
+| | | | args=[]
+| | | | keywords=[]
+| | | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:250:11, ARGS_SCOPE: Scope{r=(), w=()}}
+| | | ___pyct_anno={'lineno': 5, ORIGIN: control_flow_test.py:250:6, SCOPE: Scope{r=(TestClass,), w=(tc,)}, LIVE_VARS_IN: frozenset({TestClass, n, tc.x})}
+| | FunctionDef:
+| | | name=u"get_state_1"
+| | | args=arguments:
+| | | | args=[]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Return:
+| | | | | value=Tuple:
+| | | | | | elts=[
+| | | | | | | Attribute:
+| | | | | | | | value=Name:
+| | | | | | | | | id=u"tc"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | annotation=None
+| | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | attr=u"x"
+| | | | | | | | ctx=Load()
+| | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:252:6}
+| | FunctionDef:
+| | | name=u"set_state_1"
+| | | args=arguments:
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"vals"
+| | | | | | ctx=Param()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: vals}
+| | | | ]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Tuple:
+| | | | | | | elts=[
+| | | | | | | | Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"tc"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | | attr=u"x"
+| | | | | | | | | ctx=Store()
+| | | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | | ]
+| | | | | | | ctx=Store()
+| | | | | ]
+| | | | | value=Name:
+| | | | | | id=u"vals"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: vals}
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:252:6}
+| | FunctionDef:
+| | | name=u"loop_body"
+| | | args=arguments:
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"n"
+| | | | | | ctx=Param()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: n}
+| | | | ]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | FunctionDef:
+| | | | | name=u"get_state"
+| | | | | args=arguments:
+| | | | | | args=[]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Return:
+| | | | | | | value=Tuple:
+| | | | | | | | elts=[
+| | | | | | | | | Attribute:
+| | | | | | | | | | value=Name:
+| | | | | | | | | | | id=u"tc"
+| | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | annotation=None
+| | | | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | | | attr=u"x"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | | | ]
+| | | | | | | | ctx=Load()
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:254:8}
+| | | | FunctionDef:
+| | | | | name=u"set_state"
+| | | | | args=arguments:
+| | | | | | args=[
+| | | | | | | Name:
+| | | | | | | | id=u"vals"
+| | | | | | | | ctx=Param()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: vals}
+| | | | | | ]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Assign:
+| | | | | | | targets=[
+| | | | | | | | Tuple:
+| | | | | | | | | elts=[
+| | | | | | | | | | Attribute:
+| | | | | | | | | | | value=Name:
+| | | | | | | | | | | | id=u"tc"
+| | | | | | | | | | | | ctx=Load()
+| | | | | | | | | | | | annotation=None
+| | | | | | | | | | | | ___pyct_anno={QN: tc}
+| | | | | | | | | | | attr=u"x"
+| | | | | | | | | | | ctx=Store()
+| | | | | | | | | | | ___pyct_anno={QN: tc.x}
+| | | | | | | | | ]
+| | | | | | | | | ctx=Store()
+| | | | | | | ]
+| | | | | | | value=Name:
+| | | | | | | | id=u"vals"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: vals}
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:254:8}
+| | | | FunctionDef:
+| | | | | name=u"if_true"
+| | | | | args=arguments:
+| | | | | | args=[]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | AugAssign:
+| | | | | | | target=Attribute:
+| | | | | | | | value=Name:
+| | | | | | | | | id=u"tc"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | annotation=None
+| | | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:256:10, ORIG_DEFINITIONS: (AnnotatedDef[2470525912400],), QN: tc}
+| | | | | | | | attr=u"x"
+| | | | | | | | ctx=Store()
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:256:10, QN: tc.x}
+| | | | | | | op=Add()
+| | | | | | | value=Num:
+| | | | | | | | n=1
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:256:18}
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:256:10}
+| | | | | | Return:
+| | | | | | | value=Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | | | attr=u"match_staging_level"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.match_staging_level}
+| | | | | | | | args=[
+| | | | | | | | | Num:
+| | | | | | | | | | n=1
+| | | | | | | | | Name:
+| | | | | | | | | | id=u"cond"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | | | ]
+| | | | | | | | keywords=[]
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:254:8}
+| | | | FunctionDef:
+| | | | | name=u"if_false"
+| | | | | args=arguments:
+| | | | | | args=[]
+| | | | | | vararg=None
+| | | | | | kwonlyargs=[]
+| | | | | | kw_defaults=[]
+| | | | | | kwarg=None
+| | | | | | defaults=[]
+| | | | | body=[
+| | | | | | Return:
+| | | | | | | value=Call:
+| | | | | | | | func=Attribute:
+| | | | | | | | | value=Name:
+| | | | | | | | | | id=u"ag__"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | | | attr=u"match_staging_level"
+| | | | | | | | | ctx=Load()
+| | | | | | | | | ___pyct_anno={QN: ag__.match_staging_level}
+| | | | | | | | args=[
+| | | | | | | | | Num:
+| | | | | | | | | | n=1
+| | | | | | | | | Name:
+| | | | | | | | | | id=u"cond"
+| | | | | | | | | | ctx=Load()
+| | | | | | | | | | annotation=None
+| | | | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | | | ]
+| | | | | | | | keywords=[]
+| | | | | ]
+| | | | | decorator_list=[]
+| | | | | returns=None
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:254:8}
+| | | | Assign:
+| | | | | targets=[
+| | | | | | Name:
+| | | | | | | id=u"cond"
+| | | | | | | ctx=Store()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={QN: cond}
+| | | | | ]
+| | | | | value=Compare:
+| | | | | | left=Name:
+| | | | | | | id=u"n"
+| | | | | | | ctx=Load()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:254:11, ORIG_DEFINITIONS: (AnnotatedDef[2470646792488], AnnotatedDef[2470525913520]), QN: n}
+| | | | | | ops=[
+| | | | | | | Lt()
+| | | | | | ]
+| | | | | | comparators=[
+| | | | | | | Num:
+| | | | | | | | n=2
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:254:15}
+| | | | | | ]
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:254:11}
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:254:8}
+| | | | Assign:
+| | | | | targets=[]
+| | | | | value=Call:
+| | | | | | func=Attribute:
+| | | | | | | value=Name:
+| | | | | | | | id=u"ag__"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: ag__}
+| | | | | | | attr=u"if_stmt"
+| | | | | | | ctx=Load()
+| | | | | | | ___pyct_anno={QN: ag__.if_stmt}
+| | | | | | args=[
+| | | | | | | Name:
+| | | | | | | | id=u"cond"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: cond}
+| | | | | | | Name:
+| | | | | | | | id=u"if_true"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: if_true}
+| | | | | | | Name:
+| | | | | | | | id=u"if_false"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: if_false}
+| | | | | | | Name:
+| | | | | | | | id=u"get_state"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: get_state}
+| | | | | | | Name:
+| | | | | | | | id=u"set_state"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: set_state}
+| | | | | | | Tuple:
+| | | | | | | | elts=[]
+| | | | | | | | ctx=Load()
+| | | | | | | Tuple:
+| | | | | | | | elts=[
+| | | | | | | | | Str:
+| | | | | | | | | | s=u"tc.x"
+| | | | | | | | ]
+| | | | | | | | ctx=Load()
+| | | | | | ]
+| | | | | | keywords=[]
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:254:8}
+| | | | AugAssign:
+| | | | | target=Name:
+| | | | | | id=u"n"
+| | | | | | ctx=Store()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:258:8, ORIG_DEFINITIONS: (AnnotatedDef[2470525913520],), QN: n}
+| | | | | op=Sub()
+| | | | | value=Num:
+| | | | | | n=1
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:258:13}
+| | | | | ___pyct_anno={ORIGIN: control_flow_test.py:258:8}
+| | | | Return:
+| | | | | value=Tuple:
+| | | | | | elts=[
+| | | | | | | Name:
+| | | | | | | | id=u"n"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: n}
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:252:6}
+| | FunctionDef:
+| | | name=u"loop_test"
+| | | args=arguments:
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"n"
+| | | | | | ctx=Param()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: n}
+| | | | ]
+| | | | vararg=None
+| | | | kwonlyargs=[]
+| | | | kw_defaults=[]
+| | | | kwarg=None
+| | | | defaults=[]
+| | | body=[
+| | | | Return:
+| | | | | value=Compare:
+| | | | | | left=Name:
+| | | | | | | id=u"n"
+| | | | | | | ctx=Load()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:252:12, ORIG_DEFINITIONS: (AnnotatedDef[2470646792488], AnnotatedDef[2470525913520]), QN: n}
+| | | | | | ops=[
+| | | | | | | Gt()
+| | | | | | ]
+| | | | | | comparators=[
+| | | | | | | Num:
+| | | | | | | | n=0
+| | | | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:252:16}
+| | | | | | ]
+| | | | | | ___pyct_anno={ORIGIN: control_flow_test.py:252:12}
+| | | ]
+| | | decorator_list=[]
+| | | returns=None
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:252:6}
+| | Assign:
+| | | targets=[
+| | | | Tuple:
+| | | | | elts=[
+| | | | | | Name:
+| | | | | | | id=u"n"
+| | | | | | | ctx=Store()
+| | | | | | | annotation=None
+| | | | | | | ___pyct_anno={QN: n}
+| | | | | ]
+| | | | | ctx=Store()
+| | | ]
+| | | value=Call:
+| | | | func=Attribute:
+| | | | | value=Name:
+| | | | | | id=u"ag__"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: ag__}
+| | | | | attr=u"while_stmt"
+| | | | | ctx=Load()
+| | | | | ___pyct_anno={QN: ag__.while_stmt}
+| | | | args=[
+| | | | | Name:
+| | | | | | id=u"loop_test"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: loop_test}
+| | | | | Name:
+| | | | | | id=u"loop_body"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: loop_body}
+| | | | | Name:
+| | | | | | id=u"get_state_1"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: get_state_1}
+| | | | | Name:
+| | | | | | id=u"set_state_1"
+| | | | | | ctx=Load()
+| | | | | | annotation=None
+| | | | | | ___pyct_anno={QN: set_state_1}
+| | | | | Tuple:
+| | | | | | elts=[
+| | | | | | | Name:
+| | | | | | | | id=u"n"
+| | | | | | | | ctx=Load()
+| | | | | | | | annotation=None
+| | | | | | | | ___pyct_anno={QN: n}
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | | | Tuple:
+| | | | | | elts=[
+| | | | | | | Str:
+| | | | | | | | s=u"n"
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | | | Tuple:
+| | | | | | elts=[
+| | | | | | | Str:
+| | | | | | | | s=u"tc.x"
+| | | | | | ]
+| | | | | | ctx=Load()
+| | | | ]
+| | | | keywords=[]
+| | | ___pyct_anno={ORIGIN: control_flow_test.py:252:6}
+| | Return:
+| | | value=Name:
+| | | | id=u"n"
+| | | | ctx=Load()
+| | | | annotation=None
+| | | | ___pyct_anno={'lineno': 15, ORIGIN: control_flow_test.py:260:13, QN: n, DEFINITIONS: (AnnotatedDef[2470646792488], AnnotatedDef[2470525913520]), ORIG_DEFINITIONS: (AnnotatedDef[2470646792488], AnnotatedDef[2470525913520])}
+| | | ___pyct_anno={'lineno': 15, ORIGIN: control_flow_test.py:260:6, SCOPE: Scope{r=(n,), w=()}, LIVE_VARS_IN: frozenset({n})}
+| ]
+| decorator_list=[]
+| returns=None
+| ___pyct_anno={'lineno': 3, ORIGIN: control_flow_test.py:248:4, SCOPE: Scope{r=(), w=(test_fn,)}, BODY_SCOPE: Scope{r=(n, tc.x, tc, TestClass), w=(tc.x, n, tc)}}
+[  FAILED  ] ControlFlowTest.test_while_nested_composite_state
+[ RUN      ] ControlFlowTest.test_while_single_output
+2020-10-06 16:36:29.993306: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 16:36:29.993846: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 16:36:29.994194: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 16:36:29.994536: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 16:36:29.994874: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 16:36:29.995256: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 16:36:29.995638: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 16:36:29.996014: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 16:36:29.996619: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 16:36:29.996936: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 16:36:29.997298: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 16:36:29.997519: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 16:36:29.998027: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] ControlFlowTest.test_while_single_output
+======================================================================
+ERROR: test_for_composite_state_initialized_in_loop (__main__.ControlFlowTest)
+ControlFlowTest.test_for_composite_state_initialized_in_loop
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "control_flow_test.py", line 860, in test_for_composite_state_initialized_in_loop
+    symbols={'TestClass': TestClass})
+  File "control_flow_test.py", line 58, in assertTransformedResult
+    (constant_op.constant,)) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 138, in ast_to_object
+    source_map = origin_info.create_source_map(nodes, source, module.__file__)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\origin_info.py", line 112, in create_source_map
+    for before, after in ast_util.parallel_walk(nodes, reparsed_nodes):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\ast_util.py", line 290, in parallel_walk
+    n, n.__class__.__name__, o, o.__class__.__name__))
+ValueError: inconsistent nodes: <gast.gast.Assign object at 0x0000023F36E009E8> (Assign) and <gast.gast.Expr object at 0x0000023F36E02A90> (Expr)
+
+======================================================================
+ERROR: test_if_basic (__main__.ControlFlowTest)
+ControlFlowTest.test_if_basic
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 305, in __init__
+    fetch, allow_tensor=True, allow_operation=True))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py", line 3607, in as_graph_element
+    return self._as_graph_element_locked(obj, allow_tensor, allow_operation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py", line 3696, in _as_graph_element_locked
+    (type(obj).__name__, types_str))
+TypeError: Can not convert a int into a Tensor or Operation.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1216, in decorated
+    return f(self, *args, **kwargs)
+  File "control_flow_test.py", line 464, in test_if_basic
+    self.assertTransformedResult(test_fn, constant_op.constant(1), (-1, 0))
+  File "control_flow_test.py", line 60, in assertTransformedResult
+    self.assertAllEqual(self.evaluate(result.test_fn(*inputs)), expected)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1976, in evaluate
+    return sess.run(tensors)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1557, in run
+    return super(ErrorLoggingSession, self).run(*args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 956, in run
+    run_metadata_ptr)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 1165, in _run
+    self._graph, fetches, feed_dict_tensor, feed_handles=feed_handles)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 474, in __init__
+    self._fetch_mapper = _FetchMapper.for_fetch(fetches)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 266, in for_fetch
+    return _ListFetchMapper(fetch)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 375, in __init__
+    self._mappers = [_FetchMapper.for_fetch(fetch) for fetch in fetches]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 375, in <listcomp>
+    self._mappers = [_FetchMapper.for_fetch(fetch) for fetch in fetches]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 276, in for_fetch
+    return _ElementFetchMapper(fetches, contraction_fn)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 309, in __init__
+    (fetch, type(fetch), str(e)))
+TypeError: Fetch argument 0 has invalid type <class 'int'>, must be a string or Tensor. (Can not convert a int into a Tensor or Operation.)
+
+======================================================================
+ERROR: test_if_complex_outputs (__main__.ControlFlowTest)
+ControlFlowTest.test_if_complex_outputs
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1216, in decorated
+    return f(self, *args, **kwargs)
+  File "control_flow_test.py", line 530, in test_if_complex_outputs
+    with self.converted(test_fn, control_flow, {}) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 138, in ast_to_object
+    source_map = origin_info.create_source_map(nodes, source, module.__file__)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\origin_info.py", line 112, in create_source_map
+    for before, after in ast_util.parallel_walk(nodes, reparsed_nodes):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\ast_util.py", line 290, in parallel_walk
+    n, n.__class__.__name__, o, o.__class__.__name__))
+ValueError: inconsistent nodes: <gast.gast.Assign object at 0x0000023F3E1B7278> (Assign) and <gast.gast.Expr object at 0x0000023F3E1BB748> (Expr)
+
+======================================================================
+ERROR: test_if_no_outputs (__main__.ControlFlowTest)
+ControlFlowTest.test_if_no_outputs
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1216, in decorated
+    return f(self, *args, **kwargs)
+  File "control_flow_test.py", line 628, in test_if_no_outputs
+    self.assertTransformedResult(test_fn, constant_op.constant(1), 1)
+  File "control_flow_test.py", line 58, in assertTransformedResult
+    (constant_op.constant,)) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 138, in ast_to_object
+    source_map = origin_info.create_source_map(nodes, source, module.__file__)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\origin_info.py", line 112, in create_source_map
+    for before, after in ast_util.parallel_walk(nodes, reparsed_nodes):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\ast_util.py", line 290, in parallel_walk
+    n, n.__class__.__name__, o, o.__class__.__name__))
+ValueError: inconsistent nodes: <gast.gast.Assign object at 0x0000023F3E07F550> (Assign) and <gast.gast.Expr object at 0x0000023F36E7C0B8> (Expr)
+
+======================================================================
+ERROR: test_if_unbalanced_composite (__main__.ControlFlowTest)
+ControlFlowTest.test_if_unbalanced_composite
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 305, in __init__
+    fetch, allow_tensor=True, allow_operation=True))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py", line 3607, in as_graph_element
+    return self._as_graph_element_locked(obj, allow_tensor, allow_operation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py", line 3696, in _as_graph_element_locked
+    (type(obj).__name__, types_str))
+TypeError: Can not convert a int into a Tensor or Operation.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1216, in decorated
+    return f(self, *args, **kwargs)
+  File "control_flow_test.py", line 718, in test_if_unbalanced_composite
+    (7, 13))
+  File "control_flow_test.py", line 60, in assertTransformedResult
+    self.assertAllEqual(self.evaluate(result.test_fn(*inputs)), expected)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1976, in evaluate
+    return sess.run(tensors)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1557, in run
+    return super(ErrorLoggingSession, self).run(*args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 956, in run
+    run_metadata_ptr)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 1165, in _run
+    self._graph, fetches, feed_dict_tensor, feed_handles=feed_handles)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 474, in __init__
+    self._fetch_mapper = _FetchMapper.for_fetch(fetches)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 266, in for_fetch
+    return _ListFetchMapper(fetch)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 375, in __init__
+    self._mappers = [_FetchMapper.for_fetch(fetch) for fetch in fetches]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 375, in <listcomp>
+    self._mappers = [_FetchMapper.for_fetch(fetch) for fetch in fetches]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 276, in for_fetch
+    return _ElementFetchMapper(fetches, contraction_fn)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 309, in __init__
+    (fetch, type(fetch), str(e)))
+TypeError: Fetch argument 5 has invalid type <class 'int'>, must be a string or Tensor. (Can not convert a int into a Tensor or Operation.)
+
+======================================================================
+ERROR: test_if_unbalanced_multiple_composites (__main__.ControlFlowTest)
+ControlFlowTest.test_if_unbalanced_multiple_composites
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 305, in __init__
+    fetch, allow_tensor=True, allow_operation=True))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py", line 3607, in as_graph_element
+    return self._as_graph_element_locked(obj, allow_tensor, allow_operation)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\ops.py", line 3696, in _as_graph_element_locked
+    (type(obj).__name__, types_str))
+TypeError: Can not convert a int into a Tensor or Operation.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1216, in decorated
+    return f(self, *args, **kwargs)
+  File "control_flow_test.py", line 674, in test_if_unbalanced_multiple_composites
+    (7, 11, 13))
+  File "control_flow_test.py", line 60, in assertTransformedResult
+    self.assertAllEqual(self.evaluate(result.test_fn(*inputs)), expected)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1976, in evaluate
+    return sess.run(tensors)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1557, in run
+    return super(ErrorLoggingSession, self).run(*args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 956, in run
+    run_metadata_ptr)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 1165, in _run
+    self._graph, fetches, feed_dict_tensor, feed_handles=feed_handles)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 474, in __init__
+    self._fetch_mapper = _FetchMapper.for_fetch(fetches)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 266, in for_fetch
+    return _ListFetchMapper(fetch)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 375, in __init__
+    self._mappers = [_FetchMapper.for_fetch(fetch) for fetch in fetches]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 375, in <listcomp>
+    self._mappers = [_FetchMapper.for_fetch(fetch) for fetch in fetches]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 276, in for_fetch
+    return _ElementFetchMapper(fetches, contraction_fn)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\client\session.py", line 309, in __init__
+    (fetch, type(fetch), str(e)))
+TypeError: Fetch argument 5 has invalid type <class 'int'>, must be a string or Tensor. (Can not convert a int into a Tensor or Operation.)
+
+======================================================================
+ERROR: test_while_composite_state_initialized_in_loop (__main__.ControlFlowTest)
+ControlFlowTest.test_while_composite_state_initialized_in_loop
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "control_flow_test.py", line 218, in test_while_composite_state_initialized_in_loop
+    symbols={'TestClass': TestClass})
+  File "control_flow_test.py", line 58, in assertTransformedResult
+    (constant_op.constant,)) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 138, in ast_to_object
+    source_map = origin_info.create_source_map(nodes, source, module.__file__)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\origin_info.py", line 112, in create_source_map
+    for before, after in ast_util.parallel_walk(nodes, reparsed_nodes):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\ast_util.py", line 290, in parallel_walk
+    n, n.__class__.__name__, o, o.__class__.__name__))
+ValueError: inconsistent nodes: <gast.gast.Assign object at 0x0000023F3E333C50> (Assign) and <gast.gast.Expr object at 0x0000023F3E326080> (Expr)
+
+======================================================================
+ERROR: test_while_nested_composite_state (__main__.ControlFlowTest)
+ControlFlowTest.test_while_nested_composite_state
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "control_flow_test.py", line 266, in test_while_nested_composite_state
+    test_fn, constant_op.constant(5), 0, symbols={'TestClass': TestClass})
+  File "control_flow_test.py", line 58, in assertTransformedResult
+    (constant_op.constant,)) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 105, in converted
+    with self.compiled(node, namespace, tf_symbols) as result:
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\core\converter_testing.py", line 69, in compiled
+    node, include_source_map=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\compiler.py", line 138, in ast_to_object
+    source_map = origin_info.create_source_map(nodes, source, module.__file__)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\origin_info.py", line 112, in create_source_map
+    for before, after in ast_util.parallel_walk(nodes, reparsed_nodes):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\autograph\pyct\ast_util.py", line 290, in parallel_walk
+    n, n.__class__.__name__, o, o.__class__.__name__))
+ValueError: inconsistent nodes: <gast.gast.Assign object at 0x0000023F36E65588> (Assign) and <gast.gast.Expr object at 0x0000023F3E31F7B8> (Expr)
+
+======================================================================
+FAIL: test_if_local_var (__main__.ControlFlowTest)
+ControlFlowTest.test_if_local_var
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1216, in decorated
+    return f(self, *args, **kwargs)
+  File "control_flow_test.py", line 602, in test_if_local_var
+    self.assertTransformedResult(test_fn, constant_op.constant(1), 5)
+  File "control_flow_test.py", line 60, in assertTransformedResult
+    self.assertAllEqual(self.evaluate(result.test_fn(*inputs)), expected)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1122, in decorated
+    return f(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 2523, in assertAllEqual
+    np.testing.assert_array_equal(a, b, err_msg="\n".join(msgs))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py", line 936, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py", line 846, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+not equal lhs = 1
+not equal rhs = 5
+Mismatched elements: 1 / 1 (100%)
+Max absolute difference: 4
+Max relative difference: 0.8
+ x: array(1)
+ y: array(5)
+
+======================================================================
+FAIL: test_if_semi (__main__.ControlFlowTest)
+ControlFlowTest.test_if_semi
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1216, in decorated
+    return f(self, *args, **kwargs)
+  File "control_flow_test.py", line 578, in test_if_semi
+    self.assertTransformedResult(test_fn, constant_op.constant(2), 3)
+  File "control_flow_test.py", line 60, in assertTransformedResult
+    self.assertAllEqual(self.evaluate(result.test_fn(*inputs)), expected)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1122, in decorated
+    return f(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 2523, in assertAllEqual
+    np.testing.assert_array_equal(a, b, err_msg="\n".join(msgs))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py", line 936, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py", line 846, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+not equal lhs = 2
+not equal rhs = 3
+Mismatched elements: 1 / 1 (100%)
+Max absolute difference: 1
+Max relative difference: 0.33333333
+ x: array(2)
+ y: array(3)
+
+======================================================================
+FAIL: test_if_single_output (__main__.ControlFlowTest)
+ControlFlowTest.test_if_single_output
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1216, in decorated
+    return f(self, *args, **kwargs)
+  File "control_flow_test.py", line 558, in test_if_single_output
+    self.assertTransformedResult(test_fn, constant_op.constant(1), -1)
+  File "control_flow_test.py", line 60, in assertTransformedResult
+    self.assertAllEqual(self.evaluate(result.test_fn(*inputs)), expected)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1122, in decorated
+    return f(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 2523, in assertAllEqual
+    np.testing.assert_array_equal(a, b, err_msg="\n".join(msgs))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py", line 936, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py", line 846, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+not equal lhs = 1
+not equal rhs = -1
+Mismatched elements: 1 / 1 (100%)
+Max absolute difference: 2
+Max relative difference: 2.
+ x: array(1)
+ y: array(-1)
+
+======================================================================
+FAIL: test_if_sparse_tensor (__main__.ControlFlowTest)
+ControlFlowTest.test_if_sparse_tensor
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "control_flow_test.py", line 488, in test_if_sparse_tensor
+    self.assertTransformedResult(test_fn, (st, constant_op.constant(1)), -1)
+  File "control_flow_test.py", line 60, in assertTransformedResult
+    self.assertAllEqual(self.evaluate(result.test_fn(*inputs)), expected)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1122, in decorated
+    return f(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 2523, in assertAllEqual
+    np.testing.assert_array_equal(a, b, err_msg="\n".join(msgs))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py", line 936, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\testing\_private\utils.py", line 846, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+not equal lhs = 1
+not equal rhs = -1
+Mismatched elements: 1 / 1 (100%)
+Max absolute difference: 2
+Max relative difference: 2.
+ x: array(1)
+ y: array(-1)
+
+----------------------------------------------------------------------
+Ran 26 tests in 3.801s
+
+FAILED (failures=4, errors=8, skipped=1)
