@@ -1,0 +1,81 @@
+......ERROR (theano.gof.opt): SeqOptimizer apply <theano.tensor.opt.FusionOptimizer object at 0x000002CEAB449048>
+ERROR (theano.gof.opt): Traceback:
+ERROR (theano.gof.opt): Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7356, in apply
+    new_outputs = self.optimizer(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7303, in local_fuse
+    ret = local_fuse(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7287, in local_fuse
+    C = scalar.Composite(s_inputs, s_new_out)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3951, in __init__
+    copy_inputs_over=False)  # Clone also the inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 138, in rebuild_collect_shared
+    for v_orig, v_repl in replace_pairs:
+TypeError: 'NoneType' object is not iterable
+
+................s......EE......ERROR (theano.gof.opt): SeqOptimizer apply <theano.tensor.opt.FusionOptimizer object at 0x000002CEAB449048>
+ERROR (theano.gof.opt): Traceback:
+ERROR (theano.gof.opt): Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7356, in apply
+    new_outputs = self.optimizer(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7303, in local_fuse
+    ret = local_fuse(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7287, in local_fuse
+    C = scalar.Composite(s_inputs, s_new_out)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3951, in __init__
+    copy_inputs_over=False)  # Clone also the inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 138, in rebuild_collect_shared
+    for v_orig, v_repl in replace_pairs:
+TypeError: 'NoneType' object is not iterable
+
+....
+======================================================================
+ERROR: test_swap_SharedVariable (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 305, in test_swap_SharedVariable
+    givens={x: x_list[i]})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: <TensorType(int32, scalar)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_swap_SharedVariable_with_given (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 357, in test_swap_SharedVariable_with_given
+    updates={train_x: train_x + 0.1})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: index.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+----------------------------------------------------------------------
+Ran 41 tests in 11.327s
+
+FAILED (errors=2, skipped=1)

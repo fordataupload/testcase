@@ -1,0 +1,178 @@
+....E.F...............s.EEEEE.....E.EF..E
+======================================================================
+ERROR: test_copy (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 236, in test_copy
+    self.assertFalse(g.container[x].storage is f.container[x].storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 500, in __getitem__
+    return finder[item]
+KeyError: x
+
+======================================================================
+ERROR: test_shared_state0 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 402, in test_shared_state0
+    In(s, value=f.container[s], update=s - a * x, mutable=True)],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 500, in __getitem__
+    return finder[item]
+KeyError: s
+
+======================================================================
+ERROR: test_shared_state1 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 419, in test_shared_state1
+    In(s, value=f.container[s])], s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 500, in __getitem__
+    return finder[item]
+KeyError: s
+
+======================================================================
+ERROR: test_shared_state2 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 435, in test_shared_state2
+    g = function([x, In(a, value=1.0, name='a'), In(s, value=f.container[s])], s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 500, in __getitem__
+    return finder[item]
+KeyError: s
+
+======================================================================
+ERROR: test_shared_state_not_implicit (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 454, in test_shared_state_not_implicit
+    dec = function([x, In(s, update=(s - x), value=inc.container[s],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 500, in __getitem__
+    return finder[item]
+KeyError: s
+
+======================================================================
+ERROR: test_state_access (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 462, in __getitem__
+    s = finder[item]
+KeyError: <TensorType(float64, scalar)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "test_function_module.py", line 192, in test_state_access
+    self.assertTrue(f[a] == 1.0)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 527, in __getitem__
+    return self.value[item]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 464, in __getitem__
+    raise TypeError("Unknown input or state: %s" % str(item))
+TypeError: Unknown input or state: <TensorType(float64, scalar)>
+
+======================================================================
+ERROR: test_deepcopy_shared_container (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 706, in test_deepcopy_shared_container
+    f = function([x, In(a, value=h.container[a], implicit=True)], x + a)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 500, in __getitem__
+    return finder[item]
+KeyError: a
+
+======================================================================
+ERROR: test_multiple_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 822, in test_multiple_functions
+    In(s, value=f1.container[s], update=s + a * x, mutable=True)],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 500, in __getitem__
+    return finder[item]
+KeyError: s
+
+======================================================================
+ERROR: test_pickle_class_with_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 919, in test_pickle_class_with_functions
+    blah = SomethingToPickle()
+  File "test_function_module.py", line 955, in __init__
+    In(s, value=self.f1.container[s], update=s + a * x,
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 500, in __getitem__
+    return finder[item]
+KeyError: s
+
+======================================================================
+FAIL: test_copy_share_memory (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 258, in test_copy_share_memory
+    ori = theano.function([x], [out], mode=mode, updates={z: z + 1})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7356, in apply
+    new_outputs = self.optimizer(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7303, in local_fuse
+    ret = local_fuse(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7287, in local_fuse
+    C = scalar.Composite(s_inputs, s_new_out)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3961, in __init__
+    assert res[0] != inputs
+AssertionError
+
+======================================================================
+FAIL: test_optimizations_preserved (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 768, in test_optimizations_preserved
+    f = function([a, x, s, xm, sm], ((a.T.T) * (tensor.dot(xm, (sm.T.T.T)) + x).T * (x / x) + s))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7356, in apply
+    new_outputs = self.optimizer(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7303, in local_fuse
+    ret = local_fuse(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7287, in local_fuse
+    C = scalar.Composite(s_inputs, s_new_out)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3961, in __init__
+    assert res[0] != inputs
+AssertionError
+
+----------------------------------------------------------------------
+Ran 41 tests in 5.593s
+
+FAILED (failures=2, errors=9, skipped=1)

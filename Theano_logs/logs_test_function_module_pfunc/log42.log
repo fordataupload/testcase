@@ -1,0 +1,109 @@
+......F...............s......FF......F...
+======================================================================
+FAIL: test_copy_share_memory (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 258, in test_copy_share_memory
+    ori = theano.function([x], [out], mode=mode, updates={z: z + 1})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7356, in apply
+    new_outputs = self.optimizer(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7303, in local_fuse
+    ret = local_fuse(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7287, in local_fuse
+    C = scalar.Composite(s_inputs, s_new_out)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3957, in __init__
+    replace=dict(izip(outputs[0].owner.op.inputs, res[1]))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 151, in rebuild_collect_shared
+    "to be replaced by %s." % (v_orig, v_repl))
+AssertionError: When using 'givens' or 'replace' with several (old_v, new_v) replacement pairs, you can not have a new_v variable depend on an old_v one. For instance, givens = {a:b, b:(a+1)} is not allowed. Here, the old_v <float64> is used to compute other new_v's, but it is scheduled to be replaced by add.0.
+
+======================================================================
+FAIL: test_swap_SharedVariable (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 305, in test_swap_SharedVariable
+    givens={x: x_list[i]})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 151, in rebuild_collect_shared
+    "to be replaced by %s." % (v_orig, v_repl))
+AssertionError: When using 'givens' or 'replace' with several (old_v, new_v) replacement pairs, you can not have a new_v variable depend on an old_v one. For instance, givens = {a:b, b:(a+1)} is not allowed. Here, the old_v x is used to compute other new_v's, but it is scheduled to be replaced by Subtensor{int32}.0.
+
+======================================================================
+FAIL: test_swap_SharedVariable_with_given (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 357, in test_swap_SharedVariable_with_given
+    updates={train_x: train_x + 0.1})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 151, in rebuild_collect_shared
+    "to be replaced by %s." % (v_orig, v_repl))
+AssertionError: When using 'givens' or 'replace' with several (old_v, new_v) replacement pairs, you can not have a new_v variable depend on an old_v one. For instance, givens = {a:b, b:(a+1)} is not allowed. Here, the old_v x is used to compute other new_v's, but it is scheduled to be replaced by Subtensor{int32}.0.
+
+======================================================================
+FAIL: test_optimizations_preserved (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 768, in test_optimizations_preserved
+    f = function([a, x, s, xm, sm], ((a.T.T) * (tensor.dot(xm, (sm.T.T.T)) + x).T * (x / x) + s))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7356, in apply
+    new_outputs = self.optimizer(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7303, in local_fuse
+    ret = local_fuse(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7287, in local_fuse
+    C = scalar.Composite(s_inputs, s_new_out)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3957, in __init__
+    replace=dict(izip(outputs[0].owner.op.inputs, res[1]))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 151, in rebuild_collect_shared
+    "to be replaced by %s." % (v_orig, v_repl))
+AssertionError: When using 'givens' or 'replace' with several (old_v, new_v) replacement pairs, you can not have a new_v variable depend on an old_v one. For instance, givens = {a:b, b:(a+1)} is not allowed. Here, the old_v <float64> is used to compute other new_v's, but it is scheduled to be replaced by <float64>.
+
+----------------------------------------------------------------------
+Ran 41 tests in 5.030s
+
+FAILED (failures=4, skipped=1)

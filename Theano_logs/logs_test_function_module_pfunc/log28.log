@@ -1,0 +1,71 @@
+......ERROR (theano.gof.opt): SeqOptimizer apply <theano.tensor.opt.FusionOptimizer object at 0x000001BB740C9048>
+ERROR (theano.gof.opt): Traceback:
+ERROR (theano.gof.opt): Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7356, in apply
+    new_outputs = self.optimizer(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7303, in local_fuse
+    ret = local_fuse(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7287, in local_fuse
+    C = scalar.Composite(s_inputs, s_new_out)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3957, in __init__
+    replace=dict(izip(outputs[0].owner.op.inputs, res[1]))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 140, in rebuild_collect_shared
+    raise TypeError('given keys must be Variable', v_orig)
+TypeError: ('given keys must be Variable', <float64>)
+
+................s......EE......ERROR (theano.gof.opt): SeqOptimizer apply <theano.tensor.opt.FusionOptimizer object at 0x000001BB740C9048>
+ERROR (theano.gof.opt): Traceback:
+ERROR (theano.gof.opt): Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7356, in apply
+    new_outputs = self.optimizer(node)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7303, in local_fuse
+    ret = local_fuse(n)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 7287, in local_fuse
+    C = scalar.Composite(s_inputs, s_new_out)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3957, in __init__
+    replace=dict(izip(outputs[0].owner.op.inputs, res[1]))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 140, in rebuild_collect_shared
+    raise TypeError('given keys must be Variable', v_orig)
+TypeError: ('given keys must be Variable', <float64>)
+
+....
+======================================================================
+ERROR: test_swap_SharedVariable (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 305, in test_swap_SharedVariable
+    givens={x: x_list[i]})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 140, in rebuild_collect_shared
+    raise TypeError('given keys must be Variable', v_orig)
+TypeError: ('given keys must be Variable', x)
+
+======================================================================
+ERROR: test_swap_SharedVariable_with_given (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 357, in test_swap_SharedVariable_with_given
+    updates={train_x: train_x + 0.1})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 140, in rebuild_collect_shared
+    raise TypeError('given keys must be Variable', v_orig)
+TypeError: ('given keys must be Variable', x)
+
+----------------------------------------------------------------------
+Ran 41 tests in 4.999s
+
+FAILED (errors=2, skipped=1)
