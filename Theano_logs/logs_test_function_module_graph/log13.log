@@ -1,0 +1,79 @@
+....EEE...............s......EE..........
+======================================================================
+ERROR: test_copy (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 233, in test_copy
+    g = copy.copy(f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\copy.py", line 88, in copy
+    return copier(x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 537, in __copy__
+    return self.copy()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 612, in copy
+    clone=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 171, in __init__
+    self.__setup_r__(input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 199, in __setup_r__
+    raise Exception("%s is already owned by another fgraph" % r)
+Exception: x is already owned by another fgraph
+
+======================================================================
+ERROR: test_copy_delete_updates (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 379, in test_copy_delete_updates
+    cpy = ori.copy(delete_updates=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 612, in copy
+    clone=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 171, in __init__
+    self.__setup_r__(input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 199, in __setup_r__
+    raise Exception("%s is already owned by another fgraph" % r)
+Exception: x is already owned by another fgraph
+
+======================================================================
+ERROR: test_copy_share_memory (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 259, in test_copy_share_memory
+    cpy = ori.copy(share_memory=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 612, in copy
+    clone=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 171, in __init__
+    self.__setup_r__(input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 199, in __setup_r__
+    raise Exception("%s is already owned by another fgraph" % r)
+Exception: x is already owned by another fgraph
+
+======================================================================
+ERROR: test_swap_SharedVariable (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 306, in test_swap_SharedVariable
+    cpy = ori.copy(swap=swap)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 612, in copy
+    clone=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 171, in __init__
+    self.__setup_r__(input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 199, in __setup_r__
+    raise Exception("%s is already owned by another fgraph" % r)
+Exception: <TensorType(int32, scalar)> is already owned by another fgraph
+
+======================================================================
+ERROR: test_swap_SharedVariable_with_given (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 361, in test_swap_SharedVariable_with_given
+    delete_updates=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 612, in copy
+    clone=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 171, in __init__
+    self.__setup_r__(input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 199, in __setup_r__
+    raise Exception("%s is already owned by another fgraph" % r)
+Exception: index is already owned by another fgraph
+
+----------------------------------------------------------------------
+Ran 41 tests in 5.749s
+
+FAILED (errors=5, skipped=1)

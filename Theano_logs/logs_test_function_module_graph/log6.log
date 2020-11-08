@@ -1,0 +1,571 @@
+EEE.EEEEE..EEEEEEEEEEEsEEEEEEEE..EEEEEEEE
+======================================================================
+ERROR: test_borrow_input (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 503, in test_borrow_input
+    f = theano.function([In(a, borrow=False)], Out(a + 1, borrow=True))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_borrow_output (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 518, in test_borrow_output
+    f = function([a], Out(a * 4, borrow=False))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_check_for_aliased_inputs (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 597, in test_check_for_aliased_inputs
+    for d in [dict(outputs=[s1 + 1]),
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_copy (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 230, in test_copy
+    In(s, value=0.0, update=s + a * x, mutable=True)],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_copy_delete_updates (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 372, in test_copy_delete_updates
+    out = x + y + z
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_copy_share_memory (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 254, in test_copy_share_memory
+    out = T.tanh((x + y + 2) / (x + z - 0.2)**2)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_default_values (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 582, in test_default_values
+    c = a + b
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_disconnected_input (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 540, in test_disconnected_input
+    self.assertRaises(UnusedInputError, function, [a, v], v * 2)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_free (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 561, in test_free
+    func = function([x], x + 1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_givens_input_var (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 554, in test_givens_input_var
+    y = x * 2
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_input_anon_singleton (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 112, in test_input_anon_singleton
+    fn = function([s, x], [x + s])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_input_anon_unpack (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 119, in test_input_anon_unpack
+    fn = function([s, x], x + s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_masked_input (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 547, in test_masked_input
+    self.assertRaises(UnusedInputError, function, [m, mt], mt * 2)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_missing_inputs (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 103, in test_missing_inputs
+    checkfor(self, fn, MissingInputError)
+  File "test_function_module.py", line 29, in checkfor
+    fn()
+  File "test_function_module.py", line 102, in fn
+    function([In(x, update=s + x)], x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_naming_rule0 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 124, in test_naming_rule0
+    f = function([x, s], x / s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 200, in __truediv__
+    return theano.tensor.basic.true_div(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_naming_rule1 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 137, in test_naming_rule1
+    f = function([a, s], a / s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 200, in __truediv__
+    return theano.tensor.basic.true_div(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_naming_rule2 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 150, in test_naming_rule2
+    f = function([x, a, s], a / s, on_unused_input='ignore')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 200, in __truediv__
+    return theano.tensor.basic.true_div(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_naming_rule3 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 162, in test_naming_rule3
+    f = function([x, In(a, value=1.0), s], a / s + x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 200, in __truediv__
+    return theano.tensor.basic.true_div(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_naming_rule4 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 175, in test_naming_rule4
+    f = function([x, In(a, value=1.0, name='a'), s], a / s + x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 200, in __truediv__
+    return theano.tensor.basic.true_div(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_same_names (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 209, in test_same_names
+    f = function([a, x, s], a + x + s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_shared_state0 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 399, in test_shared_state0
+    In(s, value=0.0, update=s + a * x, mutable=True)],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_shared_state1 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 417, in test_shared_state1
+    In(s, value=0.0, update=s + a * x, mutable=True)], s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_shared_state2 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 433, in test_shared_state2
+    f = function([x, In(a, value=1.0, name='a'), In(s, value=0.0, update=s + a * x,
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_shared_state_not_implicit (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 453, in test_shared_state_not_implicit
+    inc = function([x, In(s, update=(s + x), value=10.0)], [])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_state_access (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 190, in test_state_access
+    f = function([x, In(a, value=1.0, name='a'), In(s, value=0.0, update=s + a * x)], s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_swap_SharedVariable (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 297, in test_swap_SharedVariable
+    out = x + y + z + m
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_swap_SharedVariable_with_given (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 354, in test_swap_SharedVariable_with_given
+    out = (T.sum(x) - y) ** 2
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 150, in __sub__
+    return theano.tensor.basic.sub(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_deepcopy (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 627, in test_deepcopy
+    In(s, value=0.0, update=s + a * x, mutable=True)],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_deepcopy_shared_container (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 706, in test_deepcopy_shared_container
+    f = function([x, In(a, value=h.container[a], implicit=True)], x + a)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_deepcopy_trust_input (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 672, in test_deepcopy_trust_input
+    In(s, value=0.0, update=s + a * x, mutable=True)],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_multiple_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 813, in test_multiple_functions
+    list_of_things.append(a * x + s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_optimizations_preserved (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 768, in test_optimizations_preserved
+    f = function([a, x, s, xm, sm], ((a.T.T) * (tensor.dot(xm, (sm.T.T.T)) + x).T * (x / x) + s))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 131, in __add__
+    return theano.tensor.basic.add(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_output_keys (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 692, in test_output_keys
+    f = theano.function([x], {'vec': x**2})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 180, in __pow__
+    return theano.tensor.basic.pow(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_pickle (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 730, in test_pickle
+    In(s, value=0.0, update=s + a * x, mutable=True)], s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+======================================================================
+ERROR: test_pickle_class_with_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 919, in test_pickle_class_with_functions
+    blah = SomethingToPickle()
+  File "test_function_module.py", line 948, in __init__
+    self.e = a * x + s
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\var.py", line 158, in __mul__
+    return theano.tensor.mul(self, other)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 482, in make_node
+    DimShuffle, *inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 452, in get_output_info
+    for input in inputs])]] * shadow.nout
+TypeError: can't multiply sequence by non-int of type 'NoneType'
+
+----------------------------------------------------------------------
+Ran 41 tests in 2.656s
+
+FAILED (errors=35, skipped=1)

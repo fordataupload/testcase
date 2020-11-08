@@ -1,0 +1,457 @@
+....E.E.............EEs.EEE.E.E..E.EEE.EE
+======================================================================
+ERROR: test_copy (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 231, in test_copy
+    s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{(i0 + (i1 * i2))}}[(0, 0)](s, <TensorType(float64, scalar)>, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_copy_share_memory (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 258, in test_copy_share_memory
+    ori = theano.function([x], [out], mode=mode, updates={z: z + 1})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{tanh(((i0 + i1 + i2) / sqr((i3 + i1 + i4))))}}(TensorConstant{2.0}, x, <TensorType(int32, scalar)>, TensorConstant{-0.2}, <TensorType(int32, scalar)>), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_naming_rule3 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 162, in test_naming_rule3
+    f = function([x, In(a, value=1.0), s], a / s + x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{((i0 / i1) + i2)}}(<TensorType(float64, scalar)>, s, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_naming_rule4 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 175, in test_naming_rule4
+    f = function([x, In(a, value=1.0, name='a'), s], a / s + x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{((i0 / i1) + i2)}}(<TensorType(float64, scalar)>, s, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_shared_state0 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 400, in test_shared_state0
+    s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{(i0 + (i1 * i2))}}[(0, 0)](s, <TensorType(float64, scalar)>, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_shared_state1 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 417, in test_shared_state1
+    In(s, value=0.0, update=s + a * x, mutable=True)], s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{(i0 + (i1 * i2))}}[(0, 0)](s, <TensorType(float64, scalar)>, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_shared_state2 (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 434, in test_shared_state2
+    mutable=False)], s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{(i0 + (i1 * i2))}}(s, <TensorType(float64, scalar)>, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_state_access (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 190, in test_state_access
+    f = function([x, In(a, value=1.0, name='a'), In(s, value=0.0, update=s + a * x)], s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{(i0 + (i1 * i2))}}[(0, 0)](s, <TensorType(float64, scalar)>, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_swap_SharedVariable_with_given (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 357, in test_swap_SharedVariable_with_given
+    updates={train_x: train_x + 0.1})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{sqr((i0 - i1))}}(InplaceDimShuffle{x}.0, Subtensor{int32}.0), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_deepcopy (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 628, in test_deepcopy
+    s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{(i0 + (i1 * i2))}}[(0, 0)](s, <TensorType(float64, scalar)>, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_deepcopy_trust_input (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 673, in test_deepcopy_trust_input
+    s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{(i0 + (i1 * i2))}}[(0, 0)](s, <TensorType(float64, scalar)>, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_multiple_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 817, in test_multiple_functions
+    s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{(i0 + (i1 * i2))}}[(0, 0)](s, <TensorType(float64, scalar)>, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_optimizations_preserved (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 768, in test_optimizations_preserved
+    f = function([a, x, s, xm, sm], ((a.T.T) * (tensor.dot(xm, (sm.T.T.T)) + x).T * (x / x) + s))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{((i0 * (i1 + i2)) + i3)}}[(0, 1)](InplaceDimShuffle{x,0}.0, Dot22.0, InplaceDimShuffle{0,x}.0, InplaceDimShuffle{x,0}.0), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_pickle (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 730, in test_pickle
+    In(s, value=0.0, update=s + a * x, mutable=True)], s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{(i0 + (i1 * i2))}}[(0, 0)](s, <TensorType(float64, scalar)>, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+======================================================================
+ERROR: test_pickle_class_with_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 919, in test_pickle_class_with_functions
+    blah = SomethingToPickle()
+  File "test_function_module.py", line 952, in __init__
+    s + a * x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 952, in make_thunk
+    compute_map=compute_map, impl='c')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\elemwise.py", line 710, in prepare_node
+    self.scalar_op.prepare_node(node.tag.fake_node, None, None, impl)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scalar\basic.py", line 3983, in prepare_node
+    for n in theano.gof.graph.list_of_nodes(self.inputs, self.outputs):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1421, in list_of_nodes
+    lambda o: [inp.owner for inp in o.inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 660, in stack_search
+    raise ValueError('mode should be bfs or dfs', mode)
+ValueError: ('The following error happened while compiling the node', Elemwise{Composite{(i0 + (i1 * i2))}}[(0, 0)](s, <TensorType(float64, scalar)>, x), '\n', 'mode should be bfs or dfs', 'XXbfsXX')
+
+----------------------------------------------------------------------
+Ran 41 tests in 5.530s
+
+FAILED (errors=15, skipped=1)
