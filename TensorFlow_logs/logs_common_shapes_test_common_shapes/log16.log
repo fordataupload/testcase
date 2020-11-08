@@ -1,0 +1,36 @@
+2020-10-06 19:56:19.807948: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] CommonShapesTest.testBroadcast_many_dimensions
+[  FAILED  ] CommonShapesTest.testBroadcast_many_dimensions
+[ RUN      ] CommonShapesTest.testBroadcast_one_dimension
+[  FAILED  ] CommonShapesTest.testBroadcast_one_dimension
+[ RUN      ] CommonShapesTest.testBroadcast_unknown_dims
+[       OK ] CommonShapesTest.testBroadcast_unknown_dims
+[ RUN      ] CommonShapesTest.test_session
+[  SKIPPED ] CommonShapesTest.test_session
+======================================================================
+FAIL: testBroadcast_many_dimensions (__main__.CommonShapesTest)
+CommonShapesTest.testBroadcast_many_dimensions
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "common_shapes_test.py", line 239, in testBroadcast_many_dimensions
+    self._assert_incompatible_broadcast(shape1=shape_4, shape2=shape_4x3)
+  File "common_shapes_test.py", line 83, in _assert_incompatible_broadcast
+    self.assertFalse(common_shapes.is_broadcast_compatible(shape1, shape2))
+AssertionError: True is not false
+
+======================================================================
+FAIL: testBroadcast_one_dimension (__main__.CommonShapesTest)
+CommonShapesTest.testBroadcast_one_dimension
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "common_shapes_test.py", line 179, in testBroadcast_one_dimension
+    self._assert_incompatible_broadcast(shape1=s1, shape2=s2)
+  File "common_shapes_test.py", line 83, in _assert_incompatible_broadcast
+    self.assertFalse(common_shapes.is_broadcast_compatible(shape1, shape2))
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+FAILED (failures=2, skipped=1)

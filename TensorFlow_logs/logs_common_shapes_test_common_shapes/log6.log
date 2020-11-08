@@ -1,0 +1,27 @@
+2020-10-06 19:55:40.537794: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] CommonShapesTest.testBroadcast_many_dimensions
+[       OK ] CommonShapesTest.testBroadcast_many_dimensions
+[ RUN      ] CommonShapesTest.testBroadcast_one_dimension
+[       OK ] CommonShapesTest.testBroadcast_one_dimension
+[ RUN      ] CommonShapesTest.testBroadcast_unknown_dims
+[  FAILED  ] CommonShapesTest.testBroadcast_unknown_dims
+[ RUN      ] CommonShapesTest.test_session
+[  SKIPPED ] CommonShapesTest.test_session
+======================================================================
+ERROR: testBroadcast_unknown_dims (__main__.CommonShapesTest)
+CommonShapesTest.testBroadcast_unknown_dims
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "common_shapes_test.py", line 385, in testBroadcast_unknown_dims
+    expected=shape_Ux4, shape1=shape_U, shape2=shape_Ux4)
+  File "common_shapes_test.py", line 267, in _assert_broadcast_with_unknown_dims
+    actual_dims = common_shapes.broadcast_shape(shape1, shape2).dims
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\common_shapes.py", line 596, in broadcast_shape
+    % (shape_x, shape_y))
+ValueError: Incompatible shapes for broadcasting: (?,) and (?, 4)
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.031s
+
+FAILED (errors=1, skipped=1)

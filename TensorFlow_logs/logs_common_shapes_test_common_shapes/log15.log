@@ -1,0 +1,53 @@
+2020-10-06 19:56:16.337151: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] CommonShapesTest.testBroadcast_many_dimensions
+[  FAILED  ] CommonShapesTest.testBroadcast_many_dimensions
+[ RUN      ] CommonShapesTest.testBroadcast_one_dimension
+[  FAILED  ] CommonShapesTest.testBroadcast_one_dimension
+[ RUN      ] CommonShapesTest.testBroadcast_unknown_dims
+[  FAILED  ] CommonShapesTest.testBroadcast_unknown_dims
+[ RUN      ] CommonShapesTest.test_session
+[  SKIPPED ] CommonShapesTest.test_session
+======================================================================
+ERROR: testBroadcast_many_dimensions (__main__.CommonShapesTest)
+CommonShapesTest.testBroadcast_many_dimensions
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "common_shapes_test.py", line 209, in testBroadcast_many_dimensions
+    self._assert_broadcast(expected=shape, shape1=shape, shape2=shape)
+  File "common_shapes_test.py", line 117, in _assert_broadcast
+    expected, common_shapes.broadcast_shape(shape1, shape2))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\common_shapes.py", line 596, in broadcast_shape
+    % (shape_x, shape_y))
+ValueError: Incompatible shapes for broadcasting: (4,) and (4,)
+
+======================================================================
+ERROR: testBroadcast_one_dimension (__main__.CommonShapesTest)
+CommonShapesTest.testBroadcast_one_dimension
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "common_shapes_test.py", line 151, in testBroadcast_one_dimension
+    self._assert_broadcast(expected=shape, shape1=shape, shape2=shape)
+  File "common_shapes_test.py", line 117, in _assert_broadcast
+    expected, common_shapes.broadcast_shape(shape1, shape2))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\common_shapes.py", line 596, in broadcast_shape
+    % (shape_x, shape_y))
+ValueError: Incompatible shapes for broadcasting: (5,) and (5,)
+
+======================================================================
+ERROR: testBroadcast_unknown_dims (__main__.CommonShapesTest)
+CommonShapesTest.testBroadcast_unknown_dims
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "common_shapes_test.py", line 343, in testBroadcast_unknown_dims
+    expected=shape, shape1=shape, shape2=shape)
+  File "common_shapes_test.py", line 267, in _assert_broadcast_with_unknown_dims
+    actual_dims = common_shapes.broadcast_shape(shape1, shape2).dims
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\common_shapes.py", line 596, in broadcast_shape
+    % (shape_x, shape_y))
+ValueError: Incompatible shapes for broadcasting: (4, ?) and (4, ?)
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.016s
+
+FAILED (errors=3, skipped=1)
