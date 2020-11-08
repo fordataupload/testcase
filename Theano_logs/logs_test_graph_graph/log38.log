@@ -1,0 +1,97 @@
+EEEE
+======================================================================
+ERROR: test_eval (test_graph.TestEval)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 336, in test_eval
+    self.assertEqual(self.w.eval({self.x: 1., self.y: 2.}), 6.)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 522, in eval
+    self._fn_cache[inputs] = theano.function(inputs, self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1470, in __init__
+    [i.update for i in inputs
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 726, in inputs
+    vlist = ancestors(variable_list, blockers)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 705, in ancestors
+    dfs_variables = stack_search(deque(variable_list), expand, 'dfs')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 673, in stack_search
+    expand_l = expand(l)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 704, in expand
+    return reversed(r.owner.inputs)
+AttributeError: 'NoneType' object has no attribute 'inputs'
+
+======================================================================
+ERROR: test_full_graph (test_graph.TestIsSameGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 304, in test_full_graph
+    (x * (y * z), (x * y) * z, (({}, False), )),
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 276, in check
+    r1 = is_same_graph(v1, v2, givens=gj, debug=debug)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1237, in is_same_graph
+    rval1 = is_same_graph_with_merge(var1=var1, var2=var2, givens=givens)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 993, in is_same_graph_with_merge
+    inputs = theano.gof.graph.inputs(vars)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 726, in inputs
+    vlist = ancestors(variable_list, blockers)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 705, in ancestors
+    dfs_variables = stack_search(deque(variable_list), expand, 'dfs')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 673, in stack_search
+    expand_l = expand(l)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 704, in expand
+    return reversed(r.owner.inputs)
+AttributeError: 'NoneType' object has no attribute 'inputs'
+
+======================================================================
+ERROR: test_merge_only (test_graph.TestIsSameGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 321, in test_merge_only
+    debug=False)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 276, in check
+    r1 = is_same_graph(v1, v2, givens=gj, debug=debug)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1237, in is_same_graph
+    rval1 = is_same_graph_with_merge(var1=var1, var2=var2, givens=givens)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 993, in is_same_graph_with_merge
+    inputs = theano.gof.graph.inputs(vars)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 726, in inputs
+    vlist = ancestors(variable_list, blockers)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 705, in ancestors
+    dfs_variables = stack_search(deque(variable_list), expand, 'dfs')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 673, in stack_search
+    expand_l = expand(l)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 704, in expand
+    return reversed(r.owner.inputs)
+AttributeError: 'NoneType' object has no attribute 'inputs'
+
+======================================================================
+ERROR: test_single_var (test_graph.TestIsSameGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 289, in test_single_var
+    (x, tensor.neg(y), (({}, False), )),
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 276, in check
+    r1 = is_same_graph(v1, v2, givens=gj, debug=debug)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1237, in is_same_graph
+    rval1 = is_same_graph_with_merge(var1=var1, var2=var2, givens=givens)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 993, in is_same_graph_with_merge
+    inputs = theano.gof.graph.inputs(vars)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 726, in inputs
+    vlist = ancestors(variable_list, blockers)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 705, in ancestors
+    dfs_variables = stack_search(deque(variable_list), expand, 'dfs')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 673, in stack_search
+    expand_l = expand(l)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 704, in expand
+    return reversed(r.owner.inputs)
+AttributeError: 'NoneType' object has no attribute 'inputs'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.063s
+
+FAILED (errors=4)

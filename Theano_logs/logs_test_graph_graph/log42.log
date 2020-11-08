@@ -1,0 +1,41 @@
+.FFF
+======================================================================
+FAIL: test_full_graph (test_graph.TestIsSameGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 304, in test_full_graph
+    (x * (y * z), (x * y) * z, (({}, False), )),
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 276, in check
+    r1 = is_same_graph(v1, v2, givens=gj, debug=debug)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1284, in is_same_graph
+    'When `debug` is True we want to make sure we are also '
+AssertionError: When `debug` is True we want to make sure we are also using the `equal_computations` implementation
+
+======================================================================
+FAIL: test_merge_only (test_graph.TestIsSameGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 321, in test_merge_only
+    debug=False)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 276, in check
+    r1 = is_same_graph(v1, v2, givens=gj, debug=debug)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1293, in is_same_graph
+    assert rval2 == rval1
+AssertionError
+
+======================================================================
+FAIL: test_single_var (test_graph.TestIsSameGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 289, in test_single_var
+    (x, tensor.neg(y), (({}, False), )),
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_graph.py", line 276, in check
+    r1 = is_same_graph(v1, v2, givens=gj, debug=debug)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 1284, in is_same_graph
+    'When `debug` is True we want to make sure we are also '
+AssertionError: When `debug` is True we want to make sure we are also using the `equal_computations` implementation
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.812s
+
+FAILED (failures=3)
