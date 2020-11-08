@@ -1,0 +1,36 @@
+.E.E...
+======================================================================
+ERROR: test_grad_rfft (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 181, in test_grad_rfft
+    utt.verify_grad(f_rfft, [inputs_val], eps=eps)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 92, in verify_grad
+    T.verify_grad(op, pt, n_tests, rng, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 1728, in verify_grad
+    o_output = fun(*tensor_pt)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 179, in f_rfft
+    return fft.rfft(inp, norm='ortho')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 145, in rfft
+    cond_norm = _unitary(norm)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 205, in _unitary
+    "'no norm'" % norm)
+ValueError: Invalid value ortho for norm, must be None, 'ortho' or 'no norm'
+
+======================================================================
+ERROR: test_norm_rfft (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 111, in test_norm_rfft
+    rfft = fft.rfft(inputs, norm='ortho')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 145, in rfft
+    cond_norm = _unitary(norm)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 205, in _unitary
+    "'no norm'" % norm)
+ValueError: Invalid value ortho for norm, must be None, 'ortho' or 'no norm'
+
+----------------------------------------------------------------------
+Ran 7 tests in 5.983s
+
+FAILED (errors=2)
+3

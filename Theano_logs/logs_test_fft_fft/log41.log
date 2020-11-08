@@ -1,0 +1,316 @@
+EEEE..E
+======================================================================
+ERROR: test_1Drfft (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 91, in perform
+    s = inputs[2]
+IndexError: list index out of range
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 47, in test_1Drfft
+    res_irfft = f_irfft(res_rfft)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 91, in perform
+    s = inputs[2]
+IndexError: list index out of range
+Apply node that caused the error: IRFFTOp(<TensorType(float64, 3D)>, IncSubtensor{InplaceSet;int64}.0)
+Toposort index: 5
+Inputs types: [TensorType(float64, 3D), TensorType(int64, vector)]
+Inputs shapes: [(1, 9, 2), (1,)]
+Inputs strides: [(144, 16, 8), (8,)]
+Inputs values: ['not shown', array([16], dtype=int64)]
+Outputs clients: [[Elemwise{TrueDiv}[(0, 0)](IRFFTOp.0, Elemwise{Cast{float64}}.0)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 45, in test_1Drfft
+    irfft = fft.irfft(m)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_grad_rfft (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 91, in perform
+    s = inputs[2]
+IndexError: list index out of range
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 171, in test_grad_rfft
+    utt.verify_grad(f_rfft, [inputs_val], eps=eps)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 92, in verify_grad
+    T.verify_grad(op, pt, n_tests, rng, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 1780, in verify_grad
+    analytic_grad = grad_fn(*[p.copy() for p in pt])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 91, in perform
+    s = inputs[2]
+IndexError: ('list index out of range\nApply node that caused the error: IRFFTOp(IncSubtensor{Set;::, ::, int64:int64:, ::}.0, MakeVector{dtype=\'int64\'}.0)\nToposort index: 8\nInputs types: [TensorType(float64, 4D), TensorType(int64, vector)]\nInputs shapes: [(1, 16, 9, 2), (2,)]\nInputs strides: [(2304, 144, 16, 8), (8,)]\nInputs values: [\'not shown\', array([16, 16], dtype=int64)]\nOutputs clients: [[\'output\']]\n\nBacktrace when the node is created(use Theano flag traceback.limit=N to make it longer):\n  File "C:\\Users\\mutation\\Desktop\\theano-testcase\\tests\\test_fft.py", line 171, in test_grad_rfft\n    utt.verify_grad(f_rfft, [inputs_val], eps=eps)\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\tests\\unittest_tools.py", line 92, in verify_grad\n    T.verify_grad(op, pt, n_tests, rng, *args, **kwargs)\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1770, in verify_grad\n    disconnected_inputs=\'ignore\')\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 605, in grad\n    grad_dict, wrt, cost_name)\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1371, in _populate_grad_dict\n    rval = [access_grad_cache(elem) for elem in wrt]\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1371, in <listcomp>\n    rval = [access_grad_cache(elem) for elem in wrt]\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1326, in access_grad_cache\n    term = access_term_cache(node)[idx]\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1162, in access_term_cache\n    new_output_grads)\n\nHINT: Use the Theano flag \'exception_verbosity=high\' for a debugprint and storage map footprint of this apply node.', '\nThe error happened with the following inputs:', [array([[[0.6186742 , 0.71449298, 0.91017925, 0.45341586, 0.59009686,
+         0.80302406, 0.50626454, 0.24479105, 0.5757605 , 0.77210076,
+         0.78149312, 0.30955618, 0.43462369, 0.945555  , 0.92276827,
+         0.04189778],
+        [0.12777377, 0.06919347, 0.48046747, 0.93227238, 0.68230371,
+         0.82482977, 0.86699815, 0.04044207, 0.17956619, 0.52368396,
+         0.78037381, 0.48170962, 0.61731563, 0.53162746, 0.5602175 ,
+         0.03171694],
+        [0.84430625, 0.59359536, 0.62277469, 0.02393537, 0.15486577,
+         0.25963799, 0.10333243, 0.36043971, 0.2952913 , 0.35445616,
+         0.68116726, 0.32197726, 0.01513355, 0.14315368, 0.77535112,
+         0.20655904],
+        [0.31840943, 0.28878248, 0.17416972, 0.96909676, 0.17206323,
+         0.18468895, 0.32093727, 0.36319673, 0.4064544 , 0.98148811,
+         0.13397532, 0.61371182, 0.04750973, 0.39401931, 0.03835873,
+         0.66405425],
+        [0.94421912, 0.80552713, 0.18827734, 0.12060362, 0.85881345,
+         0.4358963 , 0.5316687 , 0.42054671, 0.81920424, 0.07025495,
+         0.95402502, 0.46472706, 0.11370941, 0.86264257, 0.90918808,
+         0.61561762],
+        [0.70627947, 0.18364488, 0.44408301, 0.7610817 , 0.58677865,
+         0.43762178, 0.83510938, 0.83485724, 0.05194645, 0.59570784,
+         0.62316691, 0.63882029, 0.84197425, 0.50044022, 0.92284773,
+         0.5868398 ],
+        [0.74683738, 0.3630268 , 0.41289121, 0.37388814, 0.4059716 ,
+         0.563179  , 0.39501039, 0.44952773, 0.72098193, 0.17628246,
+         0.54093359, 0.93166522, 0.08547098, 0.67068355, 0.76700086,
+         0.81026084],
+        [0.44385054, 0.39445127, 0.0269078 , 0.38823332, 0.15600204,
+         0.48896056, 0.08183255, 0.67514665, 0.85056931, 0.07912375,
+         0.22284045, 0.39525672, 0.3849137 , 0.82192443, 0.74006439,
+         0.52318413],
+        [0.30663292, 0.39093423, 0.57199009, 0.56370964, 0.02830388,
+         0.10572344, 0.74238735, 0.84177629, 0.14541973, 0.31721783,
+         0.06086577, 0.32839117, 0.00712291, 0.15279402, 0.69846174,
+         0.38411322],
+        [0.41143211, 0.4051237 , 0.274297  , 0.23642087, 0.22154778,
+         0.30245892, 0.06972727, 0.38396077, 0.95943251, 0.22085296,
+         0.08850349, 0.34111131, 0.43042432, 0.53513923, 0.32283188,
+         0.14660704],
+        [0.88567714, 0.51888812, 0.49497366, 0.48980619, 0.05875396,
+         0.37404251, 0.73387901, 0.20722904, 0.65940881, 0.97860267,
+         0.24521477, 0.44451432, 0.97625595, 0.70207259, 0.43996148,
+         0.01498904],
+        [0.61209294, 0.94625645, 0.12315044, 0.892564  , 0.85989084,
+         0.99932317, 0.96304262, 0.83902716, 0.84816749, 0.4386673 ,
+         0.14668454, 0.0977611 , 0.05836607, 0.46459476, 0.41521954,
+         0.61403765],
+        [0.98290079, 0.62217564, 0.64311696, 0.40452844, 0.95311038,
+         0.37659531, 0.58259132, 0.13440064, 0.87828135, 0.28322941,
+         0.70382888, 0.31139063, 0.6487903 , 0.47465512, 0.12011517,
+         0.14043208],
+        [0.53306109, 0.00469152, 0.79229593, 0.87881223, 0.68984126,
+         0.25540635, 0.95209739, 0.90414034, 0.60641846, 0.01485568,
+         0.56464147, 0.36511209, 0.96633016, 0.92374463, 0.64265805,
+         0.24015051],
+        [0.19540233, 0.17681819, 0.37425775, 0.45769768, 0.12988246,
+         0.33526771, 0.69668457, 0.49895924, 0.42212325, 0.78136833,
+         0.22399655, 0.81193915, 0.45498843, 0.39941248, 0.87744301,
+         0.89586732],
+        [0.67753122, 0.12041571, 0.37476866, 0.39692772, 0.71841088,
+         0.66302709, 0.79797385, 0.40653672, 0.29977284, 0.82206364,
+         0.89087893, 0.99043356, 0.53841637, 0.99552758, 0.90958784,
+         0.28120107]]])], '\nThe value of eps is:', 0.1, '\nThe out_type is:', None)
+
+======================================================================
+ERROR: test_irfft (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 91, in perform
+    s = inputs[2]
+IndexError: list index out of range
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 90, in test_irfft
+    res_irfft = f_irfft(res_fft)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 91, in perform
+    s = inputs[2]
+IndexError: list index out of range
+Apply node that caused the error: IRFFTOp(<TensorType(float64, 4D)>, IncSubtensor{InplaceSet;int64}.0)
+Toposort index: 6
+Inputs types: [TensorType(float64, 4D), TensorType(int64, vector)]
+Inputs shapes: [(1, 16, 9, 2), (2,)]
+Inputs strides: [(2304, 144, 16, 8), (8,)]
+Inputs values: ['not shown', array([16, 16], dtype=int64)]
+Outputs clients: [[Elemwise{TrueDiv}[(0, 0)](IRFFTOp.0, Elemwise{Cast{float64}}.0)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 88, in test_irfft
+    irfft = fft.irfft(m)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_norm_rfft (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 91, in perform
+    s = inputs[2]
+IndexError: list index out of range
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 138, in test_norm_rfft
+    res_irfft = f_irfft()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 91, in perform
+    s = inputs[2]
+IndexError: list index out of range
+Apply node that caused the error: IRFFTOp(<TensorType(float64, 4D)>, IncSubtensor{InplaceSet;int64}.0)
+Toposort index: 6
+Inputs types: [TensorType(float64, 4D), TensorType(int64, vector)]
+Inputs shapes: [(1, 16, 9, 2), (2,)]
+Inputs strides: [(2304, 144, 16, 8), (8,)]
+Inputs values: ['not shown', array([16, 16], dtype=int64)]
+Outputs clients: [[Elemwise{TrueDiv}[(0, 0)](IRFFTOp.0, Elemwise{Composite{sqrt(Cast{float64}(i0))}}.0)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 136, in test_norm_rfft
+    irfft = fft.irfft(inputs, norm='ortho')
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_rfft_float (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 91, in perform
+    s = inputs[2]
+IndexError: list index out of range
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 22, in test_rfft_float
+    utt.verify_grad(f_rfft, [inputs_val], eps=eps)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 92, in verify_grad
+    T.verify_grad(op, pt, n_tests, rng, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 1780, in verify_grad
+    analytic_grad = grad_fn(*[p.copy() for p in pt])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 91, in perform
+    s = inputs[2]
+IndexError: ('list index out of range\nApply node that caused the error: IRFFTOp(IncSubtensor{Set;::, int64:int64:, ::}.0, MakeVector{dtype=\'int64\'}.0)\nToposort index: 7\nInputs types: [TensorType(float64, 3D), TensorType(int64, vector)]\nInputs shapes: [(1, 9, 2), (1,)]\nInputs strides: [(144, 16, 8), (8,)]\nInputs values: [\'not shown\', array([16], dtype=int64)]\nOutputs clients: [[\'output\']]\n\nBacktrace when the node is created(use Theano flag traceback.limit=N to make it longer):\n  File "C:\\Users\\mutation\\Desktop\\theano-testcase\\tests\\test_fft.py", line 22, in test_rfft_float\n    utt.verify_grad(f_rfft, [inputs_val], eps=eps)\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\tests\\unittest_tools.py", line 92, in verify_grad\n    T.verify_grad(op, pt, n_tests, rng, *args, **kwargs)\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1770, in verify_grad\n    disconnected_inputs=\'ignore\')\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 605, in grad\n    grad_dict, wrt, cost_name)\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1371, in _populate_grad_dict\n    rval = [access_grad_cache(elem) for elem in wrt]\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1371, in <listcomp>\n    rval = [access_grad_cache(elem) for elem in wrt]\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1326, in access_grad_cache\n    term = access_term_cache(node)[idx]\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1162, in access_term_cache\n    new_output_grads)\n\nHINT: Use the Theano flag \'exception_verbosity=high\' for a debugprint and storage map footprint of this apply node.', '\nThe error happened with the following inputs:', [array([[0.17879422, 0.39290109, 0.66452349, 0.94170539, 0.17319667,
+        0.96860776, 0.11696833, 0.21404715, 0.48792125, 0.69376167,
+        0.74933575, 0.63745332, 0.82847781, 0.1849127 , 0.36517333,
+        0.80371161]])], '\nThe value of eps is:', 0.1, '\nThe out_type is:', None)
+
+----------------------------------------------------------------------
+Ran 7 tests in 4.530s
+
+FAILED (errors=5)
+3

@@ -1,0 +1,50 @@
+E.....E
+======================================================================
+ERROR: test_1Drfft (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 45, in test_1Drfft
+    irfft = fft.irfft(m)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 199, in irfft
+    return irfft_op(inp, s) / scaling
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 76, in make_node
+    'first dimension batches and last real/imag parts')
+TypeError: IRFFTOp: input must have dimension >= 3,  with first dimension batches and last real/imag parts
+
+======================================================================
+ERROR: test_rfft_float (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 22, in test_rfft_float
+    utt.verify_grad(f_rfft, [inputs_val], eps=eps)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 92, in verify_grad
+    T.verify_grad(op, pt, n_tests, rng, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 1770, in verify_grad
+    disconnected_inputs='ignore')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 605, in grad
+    grad_dict, wrt, cost_name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 1371, in _populate_grad_dict
+    rval = [access_grad_cache(elem) for elem in wrt]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 1371, in <listcomp>
+    rval = [access_grad_cache(elem) for elem in wrt]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 1326, in access_grad_cache
+    term = access_term_cache(node)[idx]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 1162, in access_term_cache
+    new_output_grads)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 711, in L_op
+    return self.grad(inputs, output_grads)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 53, in grad
+    return [irfft_op(gout, s), DisconnectedType()()]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 615, in __call__
+    node = self.make_node(*inputs, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\fft.py", line 76, in make_node
+    'first dimension batches and last real/imag parts')
+TypeError: IRFFTOp: input must have dimension >= 3,  with first dimension batches and last real/imag parts
+
+----------------------------------------------------------------------
+Ran 7 tests in 5.640s
+
+FAILED (errors=2)
+3

@@ -1,0 +1,66 @@
+E.EE...
+======================================================================
+ERROR: test_1Drfft (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 49, in test_1Drfft
+    utt.assert_allclose(inputs_val, np.asarray(res_irfft))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 357, in assert_allclose
+    if not T.basic._allclose(expected, value, rtol, atol):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\basic.py", line 347, in _allclose
+    return np.allclose(a, b, atol=atol_, rtol=rtol_)
+  File "<__array_function__ internals>", line 6, in allclose
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\numeric.py", line 2159, in allclose
+    res = all(isclose(a, b, rtol=rtol, atol=atol, equal_nan=equal_nan))
+  File "<__array_function__ internals>", line 6, in isclose
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\numeric.py", line 2260, in isclose
+    return within_tol(x, y, atol, rtol)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\numeric.py", line 2246, in within_tol
+    return less_equal(abs(x-y), atol + rtol * abs(y))
+ValueError: operands could not be broadcast together with shapes (1,16) (1,17) 
+
+======================================================================
+ERROR: test_irfft (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 92, in test_irfft
+    utt.assert_allclose(inputs_val, np.asarray(res_irfft))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 357, in assert_allclose
+    if not T.basic._allclose(expected, value, rtol, atol):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\basic.py", line 347, in _allclose
+    return np.allclose(a, b, atol=atol_, rtol=rtol_)
+  File "<__array_function__ internals>", line 6, in allclose
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\numeric.py", line 2159, in allclose
+    res = all(isclose(a, b, rtol=rtol, atol=atol, equal_nan=equal_nan))
+  File "<__array_function__ internals>", line 6, in isclose
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\numeric.py", line 2260, in isclose
+    return within_tol(x, y, atol, rtol)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\numeric.py", line 2246, in within_tol
+    return less_equal(abs(x-y), atol + rtol * abs(y))
+ValueError: operands could not be broadcast together with shapes (1,16,16) (1,16,17) 
+
+======================================================================
+ERROR: test_norm_rfft (test_fft.TestFFT)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_fft.py", line 142, in test_norm_rfft
+    utt.assert_allclose(irfft_ref * N, res_irfft, atol=1e-4, rtol=1e-4)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 357, in assert_allclose
+    if not T.basic._allclose(expected, value, rtol, atol):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\basic.py", line 347, in _allclose
+    return np.allclose(a, b, atol=atol_, rtol=rtol_)
+  File "<__array_function__ internals>", line 6, in allclose
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\numeric.py", line 2159, in allclose
+    res = all(isclose(a, b, rtol=rtol, atol=atol, equal_nan=equal_nan))
+  File "<__array_function__ internals>", line 6, in isclose
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\numeric.py", line 2260, in isclose
+    return within_tol(x, y, atol, rtol)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\numpy\core\numeric.py", line 2246, in within_tol
+    return less_equal(abs(x-y), atol + rtol * abs(y))
+ValueError: operands could not be broadcast together with shapes (1,16,16) (1,16,17) 
+
+----------------------------------------------------------------------
+Ran 7 tests in 7.299s
+
+FAILED (errors=3)
+3
