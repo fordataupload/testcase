@@ -1,0 +1,931 @@
+2020-10-06 13:59:04.177380: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+Running tests under Python 3.6.12: C:\ProgramData\Anaconda3\envs\keras\python.exe
+[ RUN      ] CustomGradientTest.testCustomGradient
+2020-10-06 13:59:07.964711: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2020-10-06 13:59:08.073607: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:08.075416: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:08.079878: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:08.083261: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:08.084922: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:08.089736: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:08.093004: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:08.102637: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:08.103713: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:08.104295: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2020-10-06 13:59:08.117405: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:08.117961: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:08.118306: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:08.118647: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:08.118981: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:08.119319: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:08.119661: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:08.120005: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:08.120841: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:09.100510: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:09.100927: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:09.101161: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:09.101906: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] CustomGradientTest.testCustomGradient
+[ RUN      ] CustomGradientTest.testCustomGradientErrors
+[       OK ] CustomGradientTest.testCustomGradientErrors
+[ RUN      ] CustomGradientTest.testCustomGradientErrorsWithNonResourceVariables
+WARNING:tensorflow:From gradients_test.py:2337: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.Dense instead.
+W1006 13:59:09.559035 20668 deprecation.py:323] From gradients_test.py:2337: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.Dense instead.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\layers\core.py:187: Layer.apply (from tensorflow.python.keras.engine.base_layer) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `layer.__call__` method instead.
+W1006 13:59:09.559035 20668 deprecation.py:323] From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\layers\core.py:187: Layer.apply (from tensorflow.python.keras.engine.base_layer) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `layer.__call__` method instead.
+INFO:tensorflow:Searching within error strings: 'must be `ResourceVariable`s' within 'All variables used by a function wrapped with @custom_gradient must be `ResourceVariable`s. Ensure that no `variable_scope` is created with `use_resource=False`.'
+I1006 13:59:09.574652 20668 test_util.py:2746] Searching within error strings: 'must be `ResourceVariable`s' within 'All variables used by a function wrapped with @custom_gradient must be `ResourceVariable`s. Ensure that no `variable_scope` is created with `use_resource=False`.'
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+W1006 13:59:09.637141 20668 deprecation.py:506] From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+[       OK ] CustomGradientTest.testCustomGradientErrorsWithNonResourceVariables
+[ RUN      ] CustomGradientTest.testCustomGradientTrivial
+2020-10-06 13:59:09.651282: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:09.651809: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:09.652157: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:09.652501: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:09.652899: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:09.653331: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:09.653762: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:09.654234: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:09.654800: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:09.655114: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:09.655463: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:09.655737: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:09.656239: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] CustomGradientTest.testCustomGradientTrivial
+[ RUN      ] CustomGradientTest.testCustomGradientWithVariables
+2020-10-06 13:59:09.702412: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:09.702938: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:09.703295: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:09.703640: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:09.703986: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:09.704330: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:09.704678: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:09.705024: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:09.705587: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:09.705890: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:09.706241: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:09.706460: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:09.706950: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] CustomGradientTest.testCustomGradientWithVariables
+[ RUN      ] CustomGradientTest.testCustomGradientWithVariablesEager
+2020-10-06 13:59:09.730323: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:09.732178: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:09.733448: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:09.734732: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:09.735986: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:09.737255: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:09.738534: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:09.739812: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:09.741661: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:09.742636: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:09.743912: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:09.744633: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:09.746136: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+2020-10-06 13:59:09.770129: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+[       OK ] CustomGradientTest.testCustomGradientWithVariablesEager
+[ RUN      ] CustomGradientTest.testCustomGradientWithVariablesNoFalsePositives
+2020-10-06 13:59:10.263283: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:10.263823: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:10.264164: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:10.264509: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:10.264846: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:10.265191: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:10.265534: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:10.265881: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:10.266442: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:10.266747: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:10.267095: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:10.267312: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:10.267795: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] CustomGradientTest.testCustomGradientWithVariablesNoFalsePositives
+[ RUN      ] CustomGradientTest.testRVGradientsDynamicCond
+2020-10-06 13:59:10.290178: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:10.292091: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:10.293495: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:10.294763: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:10.296020: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:10.297286: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:10.298569: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:10.299851: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:10.301795: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:10.302908: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:10.304189: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:10.304910: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:10.306336: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] CustomGradientTest.testRVGradientsDynamicCond
+[ RUN      ] CustomGradientTest.testRecursiveCustomGradient
+2020-10-06 13:59:10.422693: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:10.423245: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:10.423603: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:10.423994: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:10.424345: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:10.424696: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:10.425051: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:10.425404: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:10.425957: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:10.426264: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:10.426614: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:10.426835: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:10.427322: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] CustomGradientTest.testRecursiveCustomGradient
+[ RUN      ] CustomGradientTest.testWithNumpyInputs
+[       OK ] CustomGradientTest.testWithNumpyInputs
+[ RUN      ] CustomGradientTest.test_session
+[  SKIPPED ] CustomGradientTest.test_session
+[ RUN      ] FunctionGradientsTest.testCapturedEagerTensors
+WARNING:tensorflow:Entity <function FunctionGradientsTest.testCapturedEagerTensors.<locals>.Foo at 0x0000026A5B6122F0> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:11.589868 20668 ag_logging.py:146] Entity <function FunctionGradientsTest.testCapturedEagerTensors.<locals>.Foo at 0x0000026A5B6122F0> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+[       OK ] FunctionGradientsTest.testCapturedEagerTensors
+[ RUN      ] FunctionGradientsTest.testCapturedFromFunction
+WARNING:tensorflow:Entity <function FunctionGradientsTest.testCapturedFromFunction.<locals>.Outer at 0x0000026A5B617A60> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:11.699233 20668 ag_logging.py:146] Entity <function FunctionGradientsTest.testCapturedFromFunction.<locals>.Outer at 0x0000026A5B617A60> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+WARNING:tensorflow:Entity <function FunctionGradientsTest.testCapturedFromFunction.<locals>.Outer.<locals>.Inner at 0x0000026A61C97400> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:11.746098 20668 ag_logging.py:146] Entity <function FunctionGradientsTest.testCapturedFromFunction.<locals>.Outer.<locals>.Inner at 0x0000026A61C97400> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+2020-10-06 13:59:11.758366: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:11.758972: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:11.759364: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:11.759758: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:11.760150: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:11.760535: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:11.760939: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:11.761340: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:11.762090: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:11.762443: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:11.762837: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:11.763111: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:11.763667: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] FunctionGradientsTest.testCapturedFromFunction
+[ RUN      ] FunctionGradientsTest.testCapturedNested
+WARNING:tensorflow:Entity <function FunctionGradientsTest.testCapturedNested.<locals>.Outer at 0x0000026A5B617BF8> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:11.871075 20668 ag_logging.py:146] Entity <function FunctionGradientsTest.testCapturedNested.<locals>.Outer at 0x0000026A5B617BF8> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+WARNING:tensorflow:Entity <function FunctionGradientsTest.testCapturedNested.<locals>.Outer.<locals>.Inner at 0x0000026CAE758400> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:11.949183 20668 ag_logging.py:146] Entity <function FunctionGradientsTest.testCapturedNested.<locals>.Outer.<locals>.Inner at 0x0000026CAE758400> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+2020-10-06 13:59:11.965093: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:11.965620: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:11.965967: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:11.966313: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:11.966656: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:11.967002: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:11.967346: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:11.967693: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:11.968250: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:11.968560: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:11.968910: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:11.969126: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:11.969619: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] FunctionGradientsTest.testCapturedNested
+[ RUN      ] FunctionGradientsTest.testCapturedResourceVariable
+WARNING:tensorflow:Entity <function FunctionGradientsTest.testCapturedResourceVariable.<locals>.Foo at 0x0000026A61C04378> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:12.027299 20668 ag_logging.py:146] Entity <function FunctionGradientsTest.testCapturedResourceVariable.<locals>.Foo at 0x0000026A61C04378> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+2020-10-06 13:59:12.044172: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.044750: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.045095: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.045437: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.045774: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.046112: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.046454: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.046797: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.047352: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.047670: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.048020: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.048238: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.048726: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] FunctionGradientsTest.testCapturedResourceVariable
+[ RUN      ] FunctionGradientsTest.testFunctionGradientWithGradFuncAndRegistration
+[       OK ] FunctionGradientsTest.testFunctionGradientWithGradFuncAndRegistration
+[ RUN      ] FunctionGradientsTest.testFunctionGradientWithRegistration
+2020-10-06 13:59:12.074819: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.075469: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.075847: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.076199: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.076539: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.076879: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.077222: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.077564: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.078110: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.078410: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.078756: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.078980: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.079460: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] FunctionGradientsTest.testFunctionGradientWithRegistration
+[ RUN      ] FunctionGradientsTest.testFunctionGradientsBasic
+2020-10-06 13:59:12.094391: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.094912: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.095256: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.095598: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.095935: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.096285: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.096628: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.096972: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.097569: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.097869: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.098216: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.098432: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.098921: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] FunctionGradientsTest.testFunctionGradientsBasic
+[ RUN      ] FunctionGradientsTest.testFunctionGradientsComposition
+2020-10-06 13:59:12.118867: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.119394: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.119736: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.120077: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.120412: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.120749: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.121134: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.121476: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.122079: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.122406: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.122756: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.122973: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.123452: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] FunctionGradientsTest.testFunctionGradientsComposition
+[ RUN      ] FunctionGradientsTest.testFunctionGradientsWithGradFunc
+2020-10-06 13:59:12.151721: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.152244: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.152678: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.153070: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.153490: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.153895: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.154261: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.154626: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.155208: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.155512: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.155870: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.156089: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.156578: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] FunctionGradientsTest.testFunctionGradientsWithGradFunc
+[ RUN      ] FunctionGradientsTest.testGradientOfCaptured
+2020-10-06 13:59:12.170696: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.171211: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.171551: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.171893: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.172240: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.172578: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.172924: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.173267: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.173815: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.174112: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.174459: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.174676: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.175214: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] FunctionGradientsTest.testGradientOfCaptured
+[ RUN      ] FunctionGradientsTest.testGradientWrtCaptured
+WARNING:tensorflow:Entity <function FunctionGradientsTest.testGradientWrtCaptured.<locals>.Foo at 0x0000026CAE7587B8> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:12.214714 20668 ag_logging.py:146] Entity <function FunctionGradientsTest.testGradientWrtCaptured.<locals>.Foo at 0x0000026CAE7587B8> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+2020-10-06 13:59:12.236880: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.237447: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.237815: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.238182: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.238546: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.238912: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.239281: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.239648: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.240237: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.240553: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.240906: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.241126: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.241615: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] FunctionGradientsTest.testGradientWrtCaptured
+[ RUN      ] FunctionGradientsTest.test_session
+[  SKIPPED ] FunctionGradientsTest.test_session
+[ RUN      ] GetDependentVariablesTest.testNesting
+[       OK ] GetDependentVariablesTest.testNesting
+[ RUN      ] GetDependentVariablesTest.testNoVariables
+[       OK ] GetDependentVariablesTest.testNoVariables
+[ RUN      ] GetDependentVariablesTest.testVariableSamePrefix
+[       OK ] GetDependentVariablesTest.testVariableSamePrefix
+[ RUN      ] GetDependentVariablesTest.testVariablesOutside
+[       OK ] GetDependentVariablesTest.testVariablesOutside
+[ RUN      ] GetDependentVariablesTest.testVariablesOutsideAndCustomGradient
+[       OK ] GetDependentVariablesTest.testVariablesOutsideAndCustomGradient
+[ RUN      ] GetDependentVariablesTest.testVariablesOutsideAndNonDifferentiable
+[       OK ] GetDependentVariablesTest.testVariablesOutsideAndNonDifferentiable
+[ RUN      ] GetDependentVariablesTest.testVariablesOutsideAndNonTrainable
+[       OK ] GetDependentVariablesTest.testVariablesOutsideAndNonTrainable
+[ RUN      ] GetDependentVariablesTest.testVariablesOutsideButDSeparated
+[       OK ] GetDependentVariablesTest.testVariablesOutsideButDSeparated
+[ RUN      ] GetDependentVariablesTest.test_session
+[  SKIPPED ] GetDependentVariablesTest.test_session
+[ RUN      ] GradPassThroughTest.test_gradients_v1
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_grad.py:1375: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+W1006 13:59:12.324110 20668 deprecation.py:323] From C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\math_grad.py:1375: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+2020-10-06 13:59:12.339959: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.340481: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.340824: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.341168: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.341504: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.341846: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.342201: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.342547: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.343101: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.343405: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.343750: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.343967: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.344471: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradPassThroughTest.test_gradients_v1
+[ RUN      ] GradPassThroughTest.test_gradients_v2
+[  SKIPPED ] GradPassThroughTest.test_gradients_v2
+[ RUN      ] GradPassThroughTest.test_session
+[  SKIPPED ] GradPassThroughTest.test_session
+[ RUN      ] GradientsTest.testAggregationMethodAccumulateN
+2020-10-06 13:59:12.363867: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.364429: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.364797: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.365161: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.365560: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.365900: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.366243: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.366585: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.367149: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.367456: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.367808: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.368027: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.368507: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testAggregationMethodAccumulateN
+[ RUN      ] GradientsTest.testAggregationMethodAddN
+2020-10-06 13:59:12.390197: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.390750: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.391091: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.391439: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.391776: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.392118: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.392462: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.392803: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.393351: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.393650: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.393996: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.394214: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.394696: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testAggregationMethodAddN
+[ RUN      ] GradientsTest.testAggregationMethodTree
+2020-10-06 13:59:12.411386: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.411936: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.412278: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.412621: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.413008: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.413355: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.413702: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.414048: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.414622: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.414926: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.415272: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.415489: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.415963: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testAggregationMethodTree
+[ RUN      ] GradientsTest.testBoundaryContinue
+2020-10-06 13:59:12.436859: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.437476: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.437841: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.438204: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.438539: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.438877: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.439218: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.439564: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.440126: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.440434: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.440784: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.441001: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.441486: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testBoundaryContinue
+[ RUN      ] GradientsTest.testBoundaryStop
+[       OK ] GradientsTest.testBoundaryStop
+[ RUN      ] GradientsTest.testColocateGradients
+[       OK ] GradientsTest.testColocateGradients
+[ RUN      ] GradientsTest.testColocateGradientsWithAggregation
+[       OK ] GradientsTest.testColocateGradientsWithAggregation
+[ RUN      ] GradientsTest.testColocateGradientsWithAggregationInMultipleDevices
+[       OK ] GradientsTest.testColocateGradientsWithAggregationInMultipleDevices
+[ RUN      ] GradientsTest.testColocateGradientsWithGateGradients
+2020-10-06 13:59:12.486300: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.486867: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.487217: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.487559: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.487895: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.488234: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.488575: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.488917: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.489475: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.489783: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.490137: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.490358: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.490878: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+2020-10-06 13:59:12.499987: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.500495: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.500833: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.501174: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.501516: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.501858: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.502200: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.502542: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.503089: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.503386: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.503732: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.503950: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.504427: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testColocateGradientsWithGateGradients
+[ RUN      ] GradientsTest.testDependentYs
+2020-10-06 13:59:12.510698: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.512733: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.514008: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.515277: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.516537: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.517805: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.519103: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.520386: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.522322: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.523428: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.524728: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.525543: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.527123: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testDependentYs
+[ RUN      ] GradientsTest.testGradients
+gradients_test.py:147: DeprecationWarning: Please use assertEqual instead.
+  self.assertEquals("MatMul", w_grad.op.type)
+[       OK ] GradientsTest.testGradients
+[ RUN      ] GradientsTest.testNoGradientForStringOutputs
+[       OK ] GradientsTest.testNoGradientForStringOutputs
+[ RUN      ] GradientsTest.testNonDifferentiableSwitchInWhileLoop
+[       OK ] GradientsTest.testNonDifferentiableSwitchInWhileLoop
+[ RUN      ] GradientsTest.testPartialDerivatives
+2020-10-06 13:59:12.699780: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.700351: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.700700: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.701045: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.701382: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.701721: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.702065: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.702415: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.702980: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.703294: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.703646: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.703865: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.704367: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testPartialDerivatives
+[ RUN      ] GradientsTest.testSingletonIndexedSlices
+2020-10-06 13:59:12.722631: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:12.723400: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:12.723911: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:12.724430: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:12.724938: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:12.725446: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:12.725959: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:12.726471: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:12.727271: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:12.727720: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:12.728240: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:12.728573: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:12.729115: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testSingletonIndexedSlices
+[ RUN      ] GradientsTest.testStopGradients
+2020-10-06 13:59:16.051642: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:16.052191: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:16.052540: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:16.052884: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:16.053223: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:16.053562: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:16.053910: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:16.054260: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:16.054822: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:16.055137: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:16.055485: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:16.055702: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:16.056199: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testStopGradients
+[ RUN      ] GradientsTest.testUnconnectedGradientsNoneUnconnectedGradients
+[       OK ] GradientsTest.testUnconnectedGradientsNoneUnconnectedGradients
+[ RUN      ] GradientsTest.testUnconnectedGradientsZeroConnectedGradients
+2020-10-06 13:59:16.901895: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:16.902431: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:16.902774: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:16.903120: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:16.903465: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:16.903807: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:16.904152: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:16.904506: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:16.905066: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:16.905378: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:16.905731: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:16.905950: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:16.906438: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testUnconnectedGradientsZeroConnectedGradients
+[ RUN      ] GradientsTest.testUnconnectedGradientsZerosUnconnectedGradients
+2020-10-06 13:59:16.915642: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:16.916166: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:16.916520: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:16.916865: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:16.917205: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:16.917547: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:16.917891: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:16.918236: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:16.918784: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:16.919085: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:16.919450: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:16.919673: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:16.920149: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] GradientsTest.testUnconnectedGradientsZerosUnconnectedGradients
+[ RUN      ] GradientsTest.testUnknownUnconnectedGradientsValueGiven
+[       OK ] GradientsTest.testUnknownUnconnectedGradientsValueGiven
+[ RUN      ] GradientsTest.testUnusedOutput
+[       OK ] GradientsTest.testUnusedOutput
+[ RUN      ] GradientsTest.testVariableAsGraphElementGradient
+[       OK ] GradientsTest.testVariableAsGraphElementGradient
+[ RUN      ] GradientsTest.testVariableDefaultGrad0 (tf.float32)
+[       OK ] GradientsTest.testVariableDefaultGrad0 (tf.float32)
+[ RUN      ] GradientsTest.testVariableDefaultGrad1 (tf.float64)
+[       OK ] GradientsTest.testVariableDefaultGrad1 (tf.float64)
+[ RUN      ] GradientsTest.testVariableReadValueGradient
+[       OK ] GradientsTest.testVariableReadValueGradient
+[ RUN      ] GradientsTest.testVariableRefGradient
+[       OK ] GradientsTest.testVariableRefGradient
+[ RUN      ] GradientsTest.test_session
+[  SKIPPED ] GradientsTest.test_session
+[ RUN      ] HessianTest.testHessian1D
+2020-10-06 13:59:17.095587: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.096115: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.096455: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.096836: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.097200: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.097564: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.097940: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.098283: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.099043: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.099429: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.099870: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.100145: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.100738: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[  FAILED  ] HessianTest.testHessian1D
+[ RUN      ] HessianTest.testHessian1D_multi
+2020-10-06 13:59:17.198803: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.199328: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.199674: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.200020: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.200360: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.200708: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.201057: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.201402: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.201949: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.202255: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.202600: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.202816: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.203293: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[  FAILED  ] HessianTest.testHessian1D_multi
+[ RUN      ] HessianTest.testHessian2D_non_square_matrix
+2020-10-06 13:59:17.330352: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.330879: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.331219: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.331563: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.331901: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.332241: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.332588: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.332940: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.333492: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.333799: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.334234: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.334515: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.335104: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[  FAILED  ] HessianTest.testHessian2D_non_square_matrix
+[ RUN      ] HessianTest.testHessian2D_square_matrix
+2020-10-06 13:59:17.391506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.392092: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.392461: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.392837: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.393199: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.393565: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.393933: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.394326: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.394912: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.395220: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.395603: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.395845: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.396330: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[  FAILED  ] HessianTest.testHessian2D_square_matrix
+[ RUN      ] HessianTest.testHessianInvalidDimension
+2020-10-06 13:59:17.445839: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.446386: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.446729: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.447073: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.447409: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.447749: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.448091: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.448465: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.449047: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.449377: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.449730: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.449976: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.450475: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] HessianTest.testHessianInvalidDimension
+[ RUN      ] HessianTest.test_session
+[  SKIPPED ] HessianTest.test_session
+[ RUN      ] HessianVectorProductTest.testHessianVectorProduct
+2020-10-06 13:59:17.485130: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.485645: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.485990: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.486334: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.486679: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.487021: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.487365: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.487708: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.488253: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.488554: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.488900: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.489117: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.489585: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] HessianVectorProductTest.testHessianVectorProduct
+[ RUN      ] HessianVectorProductTest.test_session
+[  SKIPPED ] HessianVectorProductTest.test_session
+[ RUN      ] IndexedSlicesToTensorTest.testIndexedSlicesToTensor
+2020-10-06 13:59:17.545211: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.545737: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.546081: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.546421: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.546759: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.547099: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.547455: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.547800: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.548349: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.548649: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.548996: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.549212: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.549679: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] IndexedSlicesToTensorTest.testIndexedSlicesToTensor
+[ RUN      ] IndexedSlicesToTensorTest.testIndexedSlicesToTensorList
+2020-10-06 13:59:17.564715: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.565300: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.565672: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.566041: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.566403: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.566754: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.567097: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.567439: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.567983: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.568422: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.568858: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.569130: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.569709: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] IndexedSlicesToTensorTest.testIndexedSlicesToTensorList
+[ RUN      ] IndexedSlicesToTensorTest.testInt64Indices
+2020-10-06 13:59:17.603433: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.603947: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.604286: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.604626: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.604961: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.605301: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.605643: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.605990: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.606539: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.606842: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.607190: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.607407: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.607878: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+[       OK ] IndexedSlicesToTensorTest.testInt64Indices
+[ RUN      ] IndexedSlicesToTensorTest.testWarnings
+[  SKIPPED ] IndexedSlicesToTensorTest.testWarnings
+[ RUN      ] IndexedSlicesToTensorTest.test_session
+[  SKIPPED ] IndexedSlicesToTensorTest.test_session
+[ RUN      ] OnlyRealGradientsTest.testRealOnly
+[       OK ] OnlyRealGradientsTest.testRealOnly
+[ RUN      ] OnlyRealGradientsTest.test_session
+[  SKIPPED ] OnlyRealGradientsTest.test_session
+[ RUN      ] PreventGradientTest.testPreventGradient
+[       OK ] PreventGradientTest.testPreventGradient
+[ RUN      ] PreventGradientTest.test_session
+[  SKIPPED ] PreventGradientTest.test_session
+[ RUN      ] ResourceCondTest.testBasic
+[       OK ] ResourceCondTest.testBasic
+[ RUN      ] ResourceCondTest.test_session
+[  SKIPPED ] ResourceCondTest.test_session
+[ RUN      ] StopGradientTest.testStopGradient
+[       OK ] StopGradientTest.testStopGradient
+[ RUN      ] StopGradientTest.test_session
+[  SKIPPED ] StopGradientTest.test_session
+[ RUN      ] TensorListGradientsTest.testDefaultGradYs
+2020-10-06 13:59:17.650930: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.651451: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.651800: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.652140: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.652477: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.652815: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.653156: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.653497: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.654040: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.654345: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.654696: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.654916: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.655405: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+gradients_test.py:2569: DeprecationWarning: Please use assertEqual instead.
+  self.assertEquals(self.evaluate(grad), 5.)
+[       OK ] TensorListGradientsTest.testDefaultGradYs
+[ RUN      ] TensorListGradientsTest.test_session
+[  SKIPPED ] TensorListGradientsTest.test_session
+[ RUN      ] VariablesGradientTest.testFnRecompute
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py:60: TensorFlowTestCase.test_session (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `self.session()` or `self.cached_session()` instead.
+W1006 13:59:17.646381 20668 deprecation.py:323] From C:\ProgramData\Anaconda3\envs\keras\lib\contextlib.py:60: TensorFlowTestCase.test_session (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `self.session()` or `self.cached_session()` instead.
+2020-10-06 13:59:17.661543: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.662054: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.662496: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.662928: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.663354: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.663694: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.664036: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.664379: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.664925: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.665222: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.665568: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.665795: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.666259: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:@custom_gradient grad_fn has 'variables' in signature, but no ResourceVariables were used on the forward pass.
+W1006 13:59:17.662005 20668 custom_gradient.py:268] @custom_gradient grad_fn has 'variables' in signature, but no ResourceVariables were used on the forward pass.
+WARNING:tensorflow:@custom_gradient grad_fn has 'variables' in signature, but no ResourceVariables were used on the forward pass.
+W1006 13:59:17.693248 20668 custom_gradient.py:268] @custom_gradient grad_fn has 'variables' in signature, but no ResourceVariables were used on the forward pass.
+[       OK ] VariablesGradientTest.testFnRecompute
+[ RUN      ] VariablesGradientTest.testKerasRecompute
+2020-10-06 13:59:17.772236: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.65
+pciBusID: 0000:73:00.0
+2020-10-06 13:59:17.773626: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudart64_100.dll
+2020-10-06 13:59:17.774553: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cublas64_100.dll
+2020-10-06 13:59:17.775480: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cufft64_100.dll
+2020-10-06 13:59:17.776402: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library curand64_100.dll
+2020-10-06 13:59:17.777332: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusolver64_100.dll
+2020-10-06 13:59:17.778067: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cusparse64_100.dll
+2020-10-06 13:59:17.778636: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library cudnn64_7.dll
+2020-10-06 13:59:17.779527: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-10-06 13:59:17.780020: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-10-06 13:59:17.780596: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-10-06 13:59:17.780957: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-10-06 13:59:17.781702: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8686 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:73:00.0, compute capability: 7.5)
+WARNING:tensorflow:Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:17.818222 20668 ag_logging.py:146] Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+WARNING:tensorflow:Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:17.849469 20668 ag_logging.py:146] Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+WARNING:tensorflow:Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:17.880710 20668 ag_logging.py:146] Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+WARNING:tensorflow:Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:17.911953 20668 ag_logging.py:146] Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+WARNING:tensorflow:Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:17.958818 20668 ag_logging.py:146] Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+WARNING:tensorflow:Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:17.990063 20668 ag_logging.py:146] Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+WARNING:tensorflow:Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+W1006 13:59:18.021308 20668 ag_logging.py:146] Entity <bound method TestKerasModelClass.call of <__main__.TestKerasModelClass object at 0x0000026CB4D4A390>> could not be transformed and will be executed as-is. Please report this to the AutoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: 'NoneType' object has no attribute '_fields'
+[       OK ] VariablesGradientTest.testKerasRecompute
+[ RUN      ] VariablesGradientTest.test_session
+[  SKIPPED ] VariablesGradientTest.test_session
+======================================================================
+ERROR: testHessian1D (__main__.HessianTest)
+HessianTest.testHessian1D
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1272, in decorated
+    return f(self, *args, **kwargs)
+  File "gradients_test.py", line 1355, in testHessian1D
+    hess = gradients.hessians(x_mat_x, x)[0]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gradients_impl.py", line 395, in hessians
+    hessians.append(_reshaped_hessian)
+AttributeError: 'NoneType' object has no attribute 'append'
+
+======================================================================
+ERROR: testHessian1D_multi (__main__.HessianTest)
+HessianTest.testHessian1D_multi
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1272, in decorated
+    return f(self, *args, **kwargs)
+  File "gradients_test.py", line 1395, in testHessian1D_multi
+    hessians = gradients.hessians(xs_mats_xs, xs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gradients_impl.py", line 395, in hessians
+    hessians.append(_reshaped_hessian)
+AttributeError: 'NoneType' object has no attribute 'append'
+
+======================================================================
+ERROR: testHessian2D_non_square_matrix (__main__.HessianTest)
+HessianTest.testHessian2D_non_square_matrix
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1272, in decorated
+    return f(self, *args, **kwargs)
+  File "gradients_test.py", line 1489, in testHessian2D_non_square_matrix
+    hess = gradients.hessians(x_square, x)[0]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gradients_impl.py", line 395, in hessians
+    hessians.append(_reshaped_hessian)
+AttributeError: 'NoneType' object has no attribute 'append'
+
+======================================================================
+ERROR: testHessian2D_square_matrix (__main__.HessianTest)
+HessianTest.testHessian2D_square_matrix
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\framework\test_util.py", line 1272, in decorated
+    return f(self, *args, **kwargs)
+  File "gradients_test.py", line 1449, in testHessian2D_square_matrix
+    hess = gradients.hessians(x_square, x)[0]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\tensorflow_core\python\ops\gradients_impl.py", line 395, in hessians
+    hessians.append(_reshaped_hessian)
+AttributeError: 'NoneType' object has no attribute 'append'
+
+----------------------------------------------------------------------
+Ran 88 tests in 10.103s
+
+FAILED (errors=4, skipped=16)
