@@ -1,0 +1,409 @@
+........................EE.EE.....FFEEE
+======================================================================
+ERROR: test_fractional_bilinear_upsampling (test_abstract_conv.TestBilinearUpsampling)
+Test bilinear upsampling with nonsimilar fractional
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: cannot reshape array of size 48 into shape (3,14,10)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1327, in test_fractional_bilinear_upsampling
+    utt.assert_allclose(f_up_x(), num_up_x, rtol=1e-6)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: cannot reshape array of size 48 into shape (3,14,10)
+Apply node that caused the error: Reshape{3}(CorrMM{valid, (4, 3), (7, 5), 1 False}.0, TensorConstant{[ 3 14 10]})
+Toposort index: 2
+Inputs types: [TensorType(float64, (True, False, False, False)), TensorType(int64, vector)]
+Inputs shapes: [(1, 3, 4, 4), (3,)]
+Inputs strides: [(384, 128, 32, 8), (8,)]
+Inputs values: ['not shown', array([ 3, 14, 10], dtype=int64)]
+Outputs clients: [[InplaceDimShuffle{x,0,1,2}(Reshape{3}.0)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1311, in test_fractional_bilinear_upsampling
+    use_1D_kernel=False)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_fractional_bilinear_upsampling_shape (test_abstract_conv.TestBilinearUpsampling)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1334, in test_fractional_bilinear_upsampling_shape
+    utt.assert_allclose(out, (1, 1, 240, 240))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 358, in assert_allclose
+    raise WrongValue(expected, value, rtol, atol)
+theano.tests.unittest_tools.WrongValue: <unprintable WrongValue object>
+
+======================================================================
+ERROR: test_conv2d_grad_wrt_inputs (test_abstract_conv.TestConv2dGrads)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: CorrMM shape inconsistency:
+  bottom shape: 8 1 12 12
+  weight shape: 5 1 2 2
+  top shape: 8 5 11 11 (expected 8 5 6 6)
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1437, in test_conv2d_grad_wrt_inputs
+    utt.assert_allclose(f_new(filter_val, out_grad_val), f_old(input_val, filter_val, out_grad_val))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: CorrMM shape inconsistency:
+  bottom shape: 8 1 12 12
+  weight shape: 5 1 2 2
+  top shape: 8 5 11 11 (expected 8 5 6 6)
+
+Apply node that caused the error: CorrMM_gradInputs{valid, (2, 2), (1, 1), 1 False}(Subtensor{::, ::, ::int64, ::int64}.0, <TensorType(float64, 4D)>, Elemwise{Cast{int64}}.0, Elemwise{Cast{int64}}.0)
+Toposort index: 5
+Inputs types: [TensorType(float64, 4D), TensorType(float64, 4D), TensorType(int64, scalar), TensorType(int64, scalar)]
+Inputs shapes: [(5, 1, 2, 2), (8, 5, 11, 11), (), ()]
+Inputs strides: [(32, 32, -16, -8), (4840, 968, 88, 8), (), ()]
+Inputs values: ['not shown', 'not shown', array(12, dtype=int64), array(12, dtype=int64)]
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1432, in test_conv2d_grad_wrt_inputs
+    filter_flip=ff
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_conv2d_grad_wrt_weights (test_abstract_conv.TestConv2dGrads)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: CorrMM shape inconsistency:
+  bottom shape: 8 1 12 12
+  weight shape: 5 1 2 2
+  top shape: 8 5 11 11 (expected 8 5 6 6)
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1476, in test_conv2d_grad_wrt_weights
+    utt.assert_allclose(f_new(input_val, out_grad_val), f_old(input_val, filter_val, out_grad_val))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: CorrMM shape inconsistency:
+  bottom shape: 8 1 12 12
+  weight shape: 5 1 2 2
+  top shape: 8 5 11 11 (expected 8 5 6 6)
+
+Apply node that caused the error: CorrMM_gradWeights{valid, (2, 2), (1, 1), 1 False}(x, <TensorType(float64, 4D)>, Elemwise{Cast{int64}}.0, Elemwise{Cast{int64}}.0)
+Toposort index: 4
+Inputs types: [TensorType(float64, 4D), TensorType(float64, 4D), TensorType(int64, scalar), TensorType(int64, scalar)]
+Inputs shapes: [(8, 1, 12, 12), (8, 5, 11, 11), (), ()]
+Inputs strides: [(1152, 1152, 96, 8), (4840, 968, 88, 8), (), ()]
+Inputs values: ['not shown', 'not shown', array(2, dtype=int64), array(2, dtype=int64)]
+Outputs clients: [[Subtensor{::, ::, ::int64, ::int64}(CorrMM_gradWeights{valid, (2, 2), (1, 1), 1 False}.0, Constant{-1}, Constant{-1})]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1473, in test_conv2d_grad_wrt_weights
+    filter_flip=ff
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_fwd (test_abstract_conv.TestUnsharedConv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\nnet\abstract_conv.py", line 2393, in perform
+    out_shape[2:2 + self.convdim]))
+ValueError: Kernel shape (4, 2) does not match computed output size (7, 3)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1843, in test_fwd
+    unshared_output = unshared_func(img, kern)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\nnet\abstract_conv.py", line 2393, in perform
+    out_shape[2:2 + self.convdim]))
+ValueError: Kernel shape (4, 2) does not match computed output size (7, 3)
+Apply node that caused the error: AbstractConv2d{convdim=2, border_mode='full', subsample=(2, 2), filter_flip=True, imshp=(None, None, None, None), kshp=(None, None, None, None, None, None), filter_dilation=(1, 1), num_groups=1, unshared=True}(img, kern)
+Toposort index: 0
+Inputs types: [TensorType(float64, 4D), TensorType(float64, 6D)]
+Inputs shapes: [(3, 2, 4, 2), (2, 4, 2, 2, 4, 2)]
+Inputs strides: [(128, 64, 16, 8), (1024, 256, 128, 64, 16, 8)]
+Inputs values: ['not shown', 'not shown']
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1839, in test_fwd
+    unshared_out_sym = unshared_conv_op(img_sym, kern_sym)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_gradinput (test_abstract_conv.TestUnsharedConv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\nnet\abstract_conv.py", line 2954, in perform
+    tuple(topgrad.shape)))
+ValueError: invalid input_shape for gradInputs: the given input_shape would produce an output of shape (3, 2, 7, 3), but the given topgrad has shape (3, 2, 4, 2)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1923, in test_gradinput
+    unshared_output = unshared_func(kern, top)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\nnet\abstract_conv.py", line 2954, in perform
+    tuple(topgrad.shape)))
+ValueError: invalid input_shape for gradInputs: the given input_shape would produce an output of shape (3, 2, 7, 3), but the given topgrad has shape (3, 2, 4, 2)
+Apply node that caused the error: AbstractConv2d_gradInputs{convdim=2, border_mode='full', subsample=(2, 2), filter_flip=True, imshp=(None, None, None, None), kshp=(None, None, None, None, None, None), filter_dilation=(1, 1), num_groups=1, unshared=True}(kern, top, TensorConstant{[4 2]})
+Toposort index: 0
+Inputs types: [TensorType(float64, 6D), TensorType(float64, 4D), TensorType(int32, vector)]
+Inputs shapes: [(2, 4, 2, 2, 4, 2), (3, 2, 4, 2), (2,)]
+Inputs strides: [(1024, 256, 128, 64, 16, 8), (128, 64, 16, 8), (4,)]
+Inputs values: ['not shown', 'not shown', array([4, 2])]
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1919, in test_gradinput
+    unshared_out_sym = unshared_conv_op(kern_sym, top_sym, tensor.as_tensor_variable(imshp[-2:]))
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_gradweight (test_abstract_conv.TestUnsharedConv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\nnet\abstract_conv.py", line 2954, in perform
+    tuple(topgrad.shape)))
+ValueError: invalid input_shape for gradInputs: the given input_shape would produce an output of shape (3, 2, 7, 3), but the given topgrad has shape (3, 2, 4, 2)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 1900, in test_gradweight
+    utt.verify_grad(conv_gradweight, [img, top], mode=self.mode, eps=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 92, in verify_grad
+    T.verify_grad(op, pt, n_tests, rng, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 1780, in verify_grad
+    analytic_grad = grad_fn(*[p.copy() for p in pt])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\nnet\abstract_conv.py", line 2954, in perform
+    tuple(topgrad.shape)))
+ValueError: ('invalid input_shape for gradInputs: the given input_shape would produce an output of shape (3, 2, 7, 3), but the given topgrad has shape (3, 2, 4, 2)\nApply node that caused the error: AbstractConv2d_gradInputs{convdim=2, border_mode=\'full\', subsample=(2, 2), filter_flip=True, imshp=(None, None, None, None), kshp=(None, None, None, None, None, None), filter_dilation=(1, 1), num_groups=1, unshared=True}(Elemwise{mul}.0, input 1, Subtensor{int64::}.0)\nToposort index: 9\nInputs types: [TensorType(float64, 6D), TensorType(float64, 4D), TensorType(int64, vector)]\nInputs shapes: [(2, 4, 2, 2, 4, 2), (3, 2, 4, 2), (2,)]\nInputs strides: [(1024, 256, 128, 64, 16, 8), (128, 64, 16, 8), (8,)]\nInputs values: [\'not shown\', \'not shown\', array([4, 2], dtype=int64)]\nOutputs clients: [[\'output\']]\n\nBacktrace when the node is created(use Theano flag traceback.limit=N to make it longer):\n  File "C:\\Users\\mutation\\Desktop\\theano-testcase\\tests\\test_abstract_conv.py", line 1900, in test_gradweight\n    utt.verify_grad(conv_gradweight, [img, top], mode=self.mode, eps=1)\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\tests\\unittest_tools.py", line 92, in verify_grad\n    T.verify_grad(op, pt, n_tests, rng, *args, **kwargs)\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1770, in verify_grad\n    disconnected_inputs=\'ignore\')\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 605, in grad\n    grad_dict, wrt, cost_name)\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1371, in _populate_grad_dict\n    rval = [access_grad_cache(elem) for elem in wrt]\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1371, in <listcomp>\n    rval = [access_grad_cache(elem) for elem in wrt]\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1326, in access_grad_cache\n    term = access_term_cache(node)[idx]\n  File "C:\\ProgramData\\Anaconda3\\envs\\keras\\lib\\site-packages\\theano\\gradient.py", line 1162, in access_term_cache\n    new_output_grads)\n\nHINT: Use the Theano flag \'exception_verbosity=high\' for a debugprint and storage map footprint of this apply node.', '\nThe error happened with the following inputs:', [array([[[[0.05404416, 0.7534885 ],
+         [0.54907551, 0.56045366],
+         [0.7671055 , 0.21078897],
+         [0.9736755 , 0.50771937]],
+
+        [[0.49097889, 0.84919912],
+         [0.31654322, 0.79819363],
+         [0.20894901, 0.00828292],
+         [0.64928251, 0.78287426]]],
+
+
+       [[[0.10600493, 0.43968816],
+         [0.09166968, 0.21235807],
+         [0.64837616, 0.60179681],
+         [0.4684203 , 0.12959741]],
+
+        [[0.24601389, 0.77644581],
+         [0.94747335, 0.18831673],
+         [0.95207131, 0.97450331],
+         [0.59818532, 0.59152573]]],
+
+
+       [[[0.24403324, 0.33180442],
+         [0.43624813, 0.43353388],
+         [0.3261148 , 0.0493971 ],
+         [0.85964188, 0.79205476]],
+
+        [[0.51894757, 0.2194376 ],
+         [0.64761314, 0.81083346],
+         [0.37593767, 0.1583613 ],
+         [0.74428824, 0.59305375]]]]), array([[[[0.10850424, 0.2295715 ],
+         [0.41988769, 0.93801504],
+         [0.68364089, 0.04064517],
+         [0.16947985, 0.51999844]],
+
+        [[0.7675624 , 0.25592513],
+         [0.48114321, 0.10097116],
+         [0.95411734, 0.02911458],
+         [0.72241687, 0.50596048]]],
+
+
+       [[[0.67985301, 0.03671169],
+         [0.15567476, 0.13844643],
+         [0.0458779 , 0.92677609],
+         [0.15817435, 0.23479392]],
+
+        [[0.21824616, 0.49834023],
+         [0.86638214, 0.3872798 ],
+         [0.06933087, 0.05724104],
+         [0.03622071, 0.57086973]]],
+
+
+       [[[0.4123434 , 0.35410939],
+         [0.44043732, 0.23750906],
+         [0.2956896 , 0.15874069],
+         [0.68651944, 0.85427246]],
+
+        [[0.70742547, 0.56301974],
+         [0.33653441, 0.91111082],
+         [0.65449806, 0.20102082],
+         [0.20599207, 0.41088069]]]])], '\nThe value of eps is:', 1, '\nThe out_type is:', None)
+
+======================================================================
+FAIL: test_basic (test_abstract_conv.TestGetConvOutShape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 116, in test_basic
+    self.assertTrue(test1_params == (3, 4, 4, 2))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_basic_3d (test_abstract_conv.TestGetConvOutShape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 134, in test_basic_3d
+    self.assertTrue(test1_params == (3, 4, 4, 2, 4))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 39 tests in 61.089s
+
+FAILED (failures=2, errors=7)

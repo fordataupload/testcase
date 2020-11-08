@@ -1,0 +1,194 @@
+.........EFEFFEF.......................
+======================================================================
+ERROR: test_basic (test_abstract_conv.TestAssertShape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\configparser.py", line 117, in res
+    return f(*args, **kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 236, in test_basic
+    f = theano.function([x, s1, s2], assert_shape(x, expected_shape))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 1 is not part of the computational graph needed to compute the outputs: <TensorType(int32, scalar)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_shape_check_conv2d_grad_wrt_inputs (test_abstract_conv.TestAssertShape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: CorrMM shape inconsistency:
+  bottom shape: 3 6 7 11
+  weight shape: 7 6 3 3
+  top shape: 3 6 5 9 (expected 3 7 5 9)
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\configparser.py", line 117, in res
+    return f(*args, **kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 296, in test_shape_check_conv2d_grad_wrt_inputs
+    np.zeros((7, 6, 3, 3), dtype='float32'))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 733, in assertRaises
+    return context.handle('assertRaises', args, kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 178, in handle
+    callable_obj(*args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: CorrMM shape inconsistency:
+  bottom shape: 3 6 7 11
+  weight shape: 7 6 3 3
+  top shape: 3 6 5 9 (expected 3 7 5 9)
+
+Apply node that caused the error: CorrMM_gradInputs{valid, (1, 1), (1, 1), 1 False}(Subtensor{::, ::, ::int64, ::int64}.0, <TensorType(float64, 4D)>, Elemwise{Cast{int64}}.0, Elemwise{Cast{int64}}.0)
+Toposort index: 5
+Inputs types: [TensorType(float64, 4D), TensorType(float64, 4D), TensorType(int64, scalar), TensorType(int64, scalar)]
+Inputs shapes: [(7, 6, 3, 3), (3, 6, 5, 9), (), ()]
+Inputs strides: [(432, 72, -24, -8), (2160, 360, 72, 8), (), ()]
+Inputs values: ['not shown', 'not shown', array(7, dtype=int64), array(11, dtype=int64)]
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\configparser.py", line 117, in res
+    return f(*args, **kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 291, in test_shape_check_conv2d_grad_wrt_inputs
+    filter_shape=(7, 5, 3, 3))
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_shape_check_conv3d_grad_wrt_inputs (test_abstract_conv.TestAssertShape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: Corr3dMM shape inconsistency:
+  bottom shape: 3 6 7 11 13
+  weight shape: 7 6 3 3 3
+  top shape: 3 6 5 9 11 (expected 3 7 5 9 11)
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\configparser.py", line 117, in res
+    return f(*args, **kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 312, in test_shape_check_conv3d_grad_wrt_inputs
+    np.zeros((7, 6, 3, 3, 3), dtype='float32'))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 733, in assertRaises
+    return context.handle('assertRaises', args, kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 178, in handle
+    callable_obj(*args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+ValueError: Corr3dMM shape inconsistency:
+  bottom shape: 3 6 7 11 13
+  weight shape: 7 6 3 3 3
+  top shape: 3 6 5 9 11 (expected 3 7 5 9 11)
+
+Apply node that caused the error: Corr3dMM_gradInputs{valid, (1, 1, 1), (1, 1, 1), 1}(Subtensor{::, ::, ::int64, ::int64, ::int64}.0, <TensorType(float64, 5D)>, Elemwise{Cast{int64}}.0, Elemwise{Cast{int64}}.0, Elemwise{Cast{int64}}.0)
+Toposort index: 7
+Inputs types: [TensorType(float64, 5D), TensorType(float64, 5D), TensorType(int64, scalar), TensorType(int64, scalar), TensorType(int64, scalar)]
+Inputs shapes: [(7, 6, 3, 3, 3), (3, 6, 5, 9, 11), (), (), ()]
+Inputs strides: [(1296, 216, -72, -24, -8), (23760, 3960, 792, 88, 8), (), (), ()]
+Inputs values: ['not shown', 'not shown', array(7, dtype=int64), array(11, dtype=int64), array(13, dtype=int64)]
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\configparser.py", line 117, in res
+    return f(*args, **kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 307, in test_shape_check_conv3d_grad_wrt_inputs
+    filter_shape=(7, 5, 3, 3, 3))
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+FAIL: test_shape_check_conv2d (test_abstract_conv.TestAssertShape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\configparser.py", line 117, in res
+    return f(*args, **kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 258, in test_shape_check_conv2d
+    np.zeros((7, 5, 3, 3), dtype='float32'))
+AssertionError: AssertionError not raised by <theano.compile.function_module.Function object at 0x000001AEDF65AC88>
+
+======================================================================
+FAIL: test_shape_check_conv2d_grad_wrt_weights (test_abstract_conv.TestAssertShape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\configparser.py", line 117, in res
+    return f(*args, **kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 326, in test_shape_check_conv2d_grad_wrt_weights
+    np.zeros((3, 7, 5, 9), dtype='float32'))
+AssertionError: AssertionError not raised by <theano.compile.function_module.Function object at 0x000001AE98358518>
+
+======================================================================
+FAIL: test_shape_check_conv3d (test_abstract_conv.TestAssertShape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\configparser.py", line 117, in res
+    return f(*args, **kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 278, in test_shape_check_conv3d
+    np.zeros((7, 5, 3, 3, 3), dtype='float32'))
+AssertionError: AssertionError not raised by <theano.compile.function_module.Function object at 0x000001AE98323898>
+
+======================================================================
+FAIL: test_shape_check_conv3d_grad_wrt_weights (test_abstract_conv.TestAssertShape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\configparser.py", line 117, in res
+    return f(*args, **kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_abstract_conv.py", line 342, in test_shape_check_conv3d_grad_wrt_weights
+    np.zeros((3, 7, 5, 9, 11), dtype='float32'))
+AssertionError: AssertionError not raised by <theano.compile.function_module.Function object at 0x000001AE98301198>
+
+----------------------------------------------------------------------
+Ran 39 tests in 96.479s
+
+FAILED (failures=4, errors=3)
