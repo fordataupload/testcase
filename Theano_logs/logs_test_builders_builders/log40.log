@@ -1,0 +1,540 @@
+...F.F.F.F.FF.F.F.F.F.F.F.F.
+======================================================================
+FAIL: test_connection_pattern_override_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 297, in test_connection_pattern_override
+    y: np.ones((5,), dtype=np.float32)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 522, in eval
+    self._fn_cache[inputs] = theano.function(inputs, self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 0 dimensions for a variable with 1 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, vector)> ''   
+ |x [id B] <TensorType(float64, vector)>
+ |y [id C] <TensorType(float64, vector)>
+
+
+======================================================================
+FAIL: test_grad_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 67, in test_grad
+    fn = function([x, y, z], f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 1 dimensions for a variable with 2 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, matrix)> ''   
+ |x [id B] <TensorType(float64, matrix)>
+ |y [id C] <TensorType(float64, matrix)>
+ |z [id D] <TensorType(float64, matrix)>
+
+
+======================================================================
+FAIL: test_grad_grad_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 81, in test_grad_grad
+    fn = function([x, y, z], f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 1 dimensions for a variable with 2 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, matrix)> ''   
+ |x [id B] <TensorType(float64, matrix)>
+ |y [id C] <TensorType(float64, matrix)>
+ |z [id D] <TensorType(float64, matrix)>
+
+
+======================================================================
+FAIL: test_grad_override_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 146, in test_grad_override
+    fn = function([xx, yy], [dx, dy])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 0 dimensions for a variable with 1 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, vector)> ''   
+ |xx [id B] <TensorType(float64, vector)>
+ |yy [id C] <TensorType(float64, vector)>
+
+
+======================================================================
+FAIL: test_infer_shape (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 375, in test_infer_shape
+    OpFromGraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 260, in _compile_and_check
+    outputs_function = theano.function(inputs, outputs, mode=mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 1 dimensions for a variable with 2 dimensions for the variable:
+OpFromGraph{inline=False}.1 [id A] <TensorType(float64, matrix)> ''   
+ |q [id B] <TensorType(float64, matrix)>
+ |p [id C] <TensorType(float64, matrix)>
+
+
+======================================================================
+FAIL: test_lop_override_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 216, in test_lop_override
+    fn = function([xx], [gyy1, gyy2])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 0 dimensions for a variable with 1 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, vector)> ''   
+ |<TensorType(float64, vector)> [id B] <TensorType(float64, vector)>
+
+
+======================================================================
+FAIL: test_nested_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 309, in test_nested
+    fn = function([xx, yy], [xx2, yy2])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 0 dimensions for a variable with 1 dimensions for the variable:
+OpFromGraph{inline=False}.1 [id A] <TensorType(float64, vector)> ''   
+ |xx [id B] <TensorType(float64, vector)>
+ |yy [id C] <TensorType(float64, vector)>
+
+
+======================================================================
+FAIL: test_rop_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 233, in test_rop
+    fn = function([x, W, du], dv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 0 dimensions for a variable with 1 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, vector)> ''   
+ |<TensorType(float64, vector)> [id B] <TensorType(float64, vector)>
+ |<TensorType(float64, matrix)> [id C] <TensorType(float64, matrix)>
+ |<TensorType(float64, vector)> [id D] <TensorType(float64, vector)>
+ |Elemwise{second,no_inplace} [id E] <TensorType(float64, matrix)> ''   
+   |<TensorType(float64, matrix)> [id C] <TensorType(float64, matrix)>
+   |InplaceDimShuffle{x,x} [id F] <TensorType(float64, (True, True))> ''   
+     |TensorConstant{0.0} [id G] <TensorType(float64, scalar)>
+
+
+======================================================================
+FAIL: test_rop_override_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 261, in test_rop_override
+    fn = function([xx, yy, du, dv], dw)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 0 dimensions for a variable with 1 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, vector)> ''   
+ |xx [id B] <TensorType(float64, vector)>
+ |yy [id C] <TensorType(float64, vector)>
+ |du [id D] <TensorType(float64, vector)>
+ |dv [id E] <TensorType(float64, vector)>
+
+
+======================================================================
+FAIL: test_shared_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 96, in test_shared
+    fn = function([x, y, z], f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 1 dimensions for a variable with 2 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, matrix)> ''   
+ |y [id B] <TensorType(float64, matrix)>
+ |z [id C] <TensorType(float64, matrix)>
+ |x [id D] <TensorType(float64, matrix)>
+ |<TensorType(float64, matrix)> [id E] <TensorType(float64, matrix)>
+
+
+======================================================================
+FAIL: test_shared_grad_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 113, in test_shared_grad
+    fn = function([x, y, z], f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 1 dimensions for a variable with 2 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, matrix)> ''   
+ |x [id B] <TensorType(float64, matrix)>
+ |y [id C] <TensorType(float64, matrix)>
+ |z [id D] <TensorType(float64, matrix)>
+ |<TensorType(float64, matrix)> [id E] <TensorType(float64, matrix)>
+
+
+======================================================================
+FAIL: test_size_changes_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 49, in test_size_changes
+    fn = function([x, y, z], f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 1 dimensions for a variable with 2 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, matrix)> ''   
+ |y [id B] <TensorType(float64, matrix)>
+ |z [id C] <TensorType(float64, matrix)>
+
+
+======================================================================
+FAIL: test_straightforward_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 33, in test_straightforward
+    fn = function([x, y, z], f)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1368, in on_import
+    self.set_shape(r, s)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1149, in set_shape
+    len(s), r.ndim, sio.getvalue()))
+AssertionError: Something inferred a shape with 1 dimensions for a variable with 2 dimensions for the variable:
+OpFromGraph{inline=False} [id A] <TensorType(float64, matrix)> ''   
+ |y [id B] <TensorType(float64, matrix)>
+ |z [id C] <TensorType(float64, matrix)>
+ |x [id D] <TensorType(float64, matrix)>
+
+
+----------------------------------------------------------------------
+Ran 28 tests in 8.022s
+
+FAILED (failures=13)

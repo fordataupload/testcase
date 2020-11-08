@@ -1,0 +1,820 @@
+E..E.E.E.E.EE.E.E.E.E.E.E.E.
+======================================================================
+ERROR: test_compute_test_value (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\configparser.py", line 117, in res
+    return f(*args, **kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 384, in test_compute_test_value
+    f = op(y)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 674, in __call__
+    required = thunk()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+======================================================================
+ERROR: test_connection_pattern_override_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 297, in test_connection_pattern_override
+    y: np.ones((5,), dtype=np.float32)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\graph.py", line 525, in eval
+    rval = self._fn_cache[inputs](*args)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(x, y)
+Toposort index: 2
+Inputs types: [TensorType(float64, vector), TensorType(float64, vector)]
+Inputs shapes: [(5,), (5,)]
+Inputs strides: [(8,), (8,)]
+Inputs values: [array([1., 1., 1., 1., 1.]), array([1., 1., 1., 1., 1.])]
+Outputs clients: [[OpFromGraph{inline=False}(x, y, OpFromGraph{inline=False}.0, Alloc.0)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 291, in test_connection_pattern_override
+    c = op(x, y)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_grad_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 71, in test_grad
+    assert np.all(11.0 == fn(xv, yv, zv))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(x, y, z)
+Toposort index: 2
+Inputs types: [TensorType(float64, matrix), TensorType(float64, matrix), TensorType(float64, matrix)]
+Inputs shapes: [(2, 2), (2, 2), (2, 2)]
+Inputs strides: [(16, 8), (16, 8), (16, 8)]
+Inputs values: [array([[1., 1.],
+       [1., 1.]]), array([[3., 3.],
+       [3., 3.]]), array([[5., 5.],
+       [5., 5.]])]
+Outputs clients: [[OpFromGraph{inline=False}(x, y, z, OpFromGraph{inline=False}.0, Alloc.0), Elemwise{Sub}[(0, 0)](OpFromGraph{inline=False}.0, OpFromGraph{inline=False}.1)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 65, in test_grad
+    f = op(x, y, z)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_grad_grad_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 85, in test_grad_grad
+    assert np.allclose(6.0, fn(xv, yv, zv))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(x, y, z)
+Toposort index: 2
+Inputs types: [TensorType(float64, matrix), TensorType(float64, matrix), TensorType(float64, matrix)]
+Inputs shapes: [(2, 2), (2, 2), (2, 2)]
+Inputs strides: [(16, 8), (16, 8), (16, 8)]
+Inputs values: [array([[1., 1.],
+       [1., 1.]]), array([[3., 3.],
+       [3., 3.]]), array([[5., 5.],
+       [5., 5.]])]
+Outputs clients: [[OpFromGraph{inline=False}(x, y, z, OpFromGraph{inline=False}.0, Alloc.0), Elemwise{Composite{((i0 - i1) - i2)}}[(0, 0)](OpFromGraph{inline=False}.0, OpFromGraph{inline=False}.1, OpFromGraph{inline=False}.1)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 78, in test_grad_grad
+    f = op(x, y, z)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_grad_override_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 149, in test_grad_override
+    dxv, dyv = fn(xv, yv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(xx, yy)
+Toposort index: 2
+Inputs types: [TensorType(float64, vector), TensorType(float64, vector)]
+Inputs shapes: [(16,), (16,)]
+Inputs strides: [(8,), (8,)]
+Inputs values: ['not shown', 'not shown']
+Outputs clients: [[OpFromGraph{inline=False}(xx, yy, OpFromGraph{inline=False}.0, Alloc.0)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 144, in test_grad_override
+    zz = T.sum(op(xx, yy))
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_infer_shape (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 375, in test_infer_shape
+    OpFromGraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 271, in _compile_and_check
+    numeric_outputs = outputs_function(*numeric_inputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(q, p)
+Toposort index: 0
+Inputs types: [TensorType(float64, matrix), TensorType(float64, matrix)]
+Inputs shapes: [(3, 4), (3, 4)]
+Inputs strides: [(32, 8), (32, 8)]
+Inputs values: ['not shown', 'not shown']
+Outputs clients: [['output'], ['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 372, in test_infer_shape
+    op_graph(q, p),
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_lop_override_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 219, in test_lop_override
+    y1val, y2val = fn(xval)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(<TensorType(float64, vector)>)
+Toposort index: 3
+Inputs types: [TensorType(float64, vector)]
+Inputs shapes: [(32,)]
+Inputs strides: [(8,)]
+Inputs values: ['not shown']
+Outputs clients: [[OpFromGraph{inline=False}(<TensorType(float64, vector)>, OpFromGraph{inline=False}.0, Alloc.0)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 214, in test_lop_override
+    yy2 = T.sum(op(xx))
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_nested_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 313, in test_nested
+    xv2, yv2 = fn(xv, yv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(xx, yy)
+Toposort index: 0
+Inputs types: [TensorType(float64, vector), TensorType(float64, vector)]
+Inputs shapes: [(16,), (16,)]
+Inputs strides: [(8,), (8,)]
+Inputs values: ['not shown', 'not shown']
+Outputs clients: [[OpFromGraph{inline=False}(OpFromGraph{inline=False}.0, OpFromGraph{inline=False}.1)], [OpFromGraph{inline=False}(OpFromGraph{inline=False}.0, OpFromGraph{inline=False}.1)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 308, in test_nested
+    xx2, yy2 = op_ift(*op_ft(xx, yy))
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_rop_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 238, in test_rop
+    dvval2 = fn(xval, Wval, duval)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(<TensorType(float64, vector)>, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, Alloc.0)
+Toposort index: 3
+Inputs types: [TensorType(float64, vector), TensorType(float64, matrix), TensorType(float64, vector), TensorType(float64, matrix)]
+Inputs shapes: [(16,), (16, 16), (16,), (16, 16)]
+Inputs strides: [(8,), (128, 8), (8,), (128, 8)]
+Inputs values: ['not shown', 'not shown', 'not shown', 'not shown']
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 232, in test_rop
+    dv = T.Rop(y, x, du)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 316, in Rop
+    _traverse(out.owner)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 311, in _traverse
+    seen_nodes[node] = op.R_op(node.inputs, same_type_eval_points)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_rop_override_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 263, in test_rop_override
+    dwval = fn(*vals)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(xx, yy, du, dv)
+Toposort index: 0
+Inputs types: [TensorType(float64, vector), TensorType(float64, vector), TensorType(float64, vector), TensorType(float64, vector)]
+Inputs shapes: [(32,), (32,), (32,), (32,)]
+Inputs strides: [(8,), (8,), (8,), (8,)]
+Inputs values: ['not shown', 'not shown', 'not shown', 'not shown']
+Outputs clients: [['output']]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 260, in test_rop_override
+    dw = T.Rop(zz, [xx, yy], [du, dv])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 316, in Rop
+    _traverse(out.owner)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gradient.py", line 311, in _traverse
+    seen_nodes[node] = op.R_op(node.inputs, same_type_eval_points)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_shared_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 102, in test_shared
+    assert np.allclose(8.0, fn(xv, yv, zv))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(x, y, z, <TensorType(float64, matrix)>)
+Toposort index: 1
+Inputs types: [TensorType(float64, matrix), TensorType(float64, matrix), TensorType(float64, matrix), TensorType(float64, matrix)]
+Inputs shapes: [(2, 2), (2, 2), (2, 2), (2, 2)]
+Inputs strides: [(16, 8), (16, 8), (16, 8), (16, 8)]
+Inputs values: [array([[1., 1.],
+       [1., 1.]]), array([[3., 3.],
+       [3., 3.]]), array([[5., 5.],
+       [5., 5.]]), array([[0.70043712, 0.84418664],
+       [0.67651434, 0.72785806]])]
+Outputs clients: [[Elemwise{Sub}[(0, 0)](OpFromGraph{inline=False}.0, OpFromGraph{inline=False}.0)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 94, in test_shared
+    f = op(x, y, z) - op(y, z, x)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_shared_grad_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 117, in test_shared_grad
+    assert np.allclose(11.0 + s.get_value(), fn(xv, yv, zv))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(x, y, z, <TensorType(float64, matrix)>)
+Toposort index: 2
+Inputs types: [TensorType(float64, matrix), TensorType(float64, matrix), TensorType(float64, matrix), TensorType(float64, matrix)]
+Inputs shapes: [(2, 2), (2, 2), (2, 2), (2, 2)]
+Inputs strides: [(16, 8), (16, 8), (16, 8), (16, 8)]
+Inputs values: [array([[1., 1.],
+       [1., 1.]]), array([[3., 3.],
+       [3., 3.]]), array([[5., 5.],
+       [5., 5.]]), array([[0.70043712, 0.84418664],
+       [0.67651434, 0.72785806]])]
+Outputs clients: [[OpFromGraph{inline=False}(x, y, z, <TensorType(float64, matrix)>, OpFromGraph{inline=False}.0, Alloc.0), Elemwise{Sub}[(0, 0)](OpFromGraph{inline=False}.0, OpFromGraph{inline=False}.1)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 111, in test_shared_grad
+    f = op(x, y, z)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_size_changes_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 53, in test_size_changes
+    res = fn(xv, yv, zv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(y, z)
+Toposort index: 0
+Inputs types: [TensorType(float64, matrix), TensorType(float64, matrix)]
+Inputs shapes: [(3, 4), (4, 5)]
+Inputs strides: [(32, 8), (40, 8)]
+Inputs values: ['not shown', 'not shown']
+Outputs clients: [[OpFromGraph{inline=False}(x, OpFromGraph{inline=False}.0)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 48, in test_size_changes
+    f = op(x, op(y, z))
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+======================================================================
+ERROR: test_straightforward_0 (test_builders.T_OpFromGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 39, in test_straightforward
+    fn(xv, yv, zv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 917, in __call__
+    storage_map=getattr(self.fn, 'storage_map', None))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 325, in raise_with_op
+    reraise(exc_type, exc_value, exc_trace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\six.py", line 702, in reraise
+    raise value.with_traceback(tb)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 903, in __call__
+    self.fn() if output_subset is None else\
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 892, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\builders.py", line 709, in perform
+    variables = self.fn(*inputs)
+AttributeError: 'OpFromGraph' object has no attribute 'fn'
+Apply node that caused the error: OpFromGraph{inline=False}(x, y, z)
+Toposort index: 1
+Inputs types: [TensorType(float64, matrix), TensorType(float64, matrix), TensorType(float64, matrix)]
+Inputs shapes: [(2, 2), (2, 2), (2, 2)]
+Inputs strides: [(16, 8), (16, 8), (16, 8)]
+Inputs values: [array([[1., 1.],
+       [1., 1.]]), array([[3., 3.],
+       [3., 3.]]), array([[5., 5.],
+       [5., 5.]])]
+Outputs clients: [[Elemwise{Sub}[(0, 0)](OpFromGraph{inline=False}.0, OpFromGraph{inline=False}.0)]]
+
+Backtrace when the node is created(use Theano flag traceback.limit=N to make it longer):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\parameterized\parameterized.py", line 530, in standalone_func
+    return func(*(a + p.args), **p.kwargs)
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_builders.py", line 31, in test_straightforward
+    f = op(x, y, z) - op(y, z, x)
+
+HINT: Use the Theano flag 'exception_verbosity=high' for a debugprint and storage map footprint of this apply node.
+
+----------------------------------------------------------------------
+Ran 28 tests in 8.483s
+
+FAILED (errors=14)
