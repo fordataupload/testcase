@@ -1,0 +1,225 @@
+.EEEE.E....E.....EE.E.E...E......EEEEEE.
+======================================================================
+ERROR: test_no_aliasing_0 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 895, in test_no_aliasing_0
+    f = pfunc([], [], updates=[(A, B)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(float64, matrix)>
+
+======================================================================
+ERROR: test_no_aliasing_1 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 906, in test_no_aliasing_1
+    f = pfunc([C], [], updates=[(A, B), (B, C)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(float64, matrix)>
+
+======================================================================
+ERROR: test_no_aliasing_2 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 925, in test_no_aliasing_2
+    f = pfunc([], [], updates=[(A, B), (B, A)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(float64, matrix)>
+
+======================================================================
+ERROR: test_no_aliasing_2b (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 952, in test_no_aliasing_2b
+    f = pfunc([], [], updates=[(A, B[:, ::-1]), (B, A.T)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(float64, matrix)>
+
+======================================================================
+ERROR: test_potential_output_aliasing_induced_by_updates (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 849, in test_potential_output_aliasing_induced_by_updates
+    f = pfunc([D], [], updates=[(A, D), (B, D)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(float64, matrix)>
+
+======================================================================
+ERROR: test_clone0 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 382, in test_clone0
+    z: (((x * 5) + y) ** z)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(int32, vector)>
+
+======================================================================
+ERROR: test_default_updates_input (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 582, in test_default_updates_input
+    f5 = pfunc([], x, updates={y: (y - 1)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(int32, scalar)>
+
+======================================================================
+ERROR: test_default_updates_multiple (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 497, in test_default_updates_multiple
+    f2 = pfunc([], [x, y], updates=[(x, (x - 2))], no_default_updates=[y])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(int32, scalar)>
+
+======================================================================
+ERROR: test_doc (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 31, in test_doc
+    f2 = pfunc([In(a, value=44)], a + b, updates={b: b + 1})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(int32, scalar)>
+
+======================================================================
+ERROR: test_duplicate_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 355, in test_duplicate_updates
+    updates=[(z, (z + x + y)), (z, (z - x))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 733, in assertRaises
+    return context.handle('assertRaises', args, kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 178, in handle
+    callable_obj(*args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(float64, matrix)>
+
+======================================================================
+ERROR: test_no_default_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 441, in test_no_default_updates
+    g1 = pfunc([], [x], updates=[(x, (x - 1))], no_default_updates=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(int32, scalar)>
+
+======================================================================
+ERROR: test_shared (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 66, in test_shared
+    f3 = pfunc([x], out1, updates=[(w, (w - 1))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: w
+
+======================================================================
+ERROR: test_shared_mutable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 165, in test_shared_mutable
+    f = pfunc([], [b_out], updates=[(b, b_out)], mode='FAST_RUN')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(int32, vector)>
+
+======================================================================
+ERROR: test_update (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 324, in test_update
+    assign = pfunc([], [], updates={x: 3})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: <TensorType(int32, scalar)>
+
+======================================================================
+ERROR: test_update_equiv (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 657, in test_update_equiv
+    f = theano.function([], [], updates=[(a, a), (b, (2 * b - b))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: a
+
+======================================================================
+ERROR: test_update_err_broadcast (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 349, in test_update_err_broadcast
+    updates={output_var: output_var.sum().dimshuffle('x', 'x')})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 733, in assertRaises
+    return context.handle('assertRaises', args, kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 178, in handle
+    callable_obj(*args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: output
+
+======================================================================
+ERROR: test_update_same (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 639, in test_update_same
+    f = theano.function([], [], updates=[(a, a), (b, (2 * b))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 188, in rebuild_collect_shared
+    (store_into, update_d[store_into]))
+KeyError: a
+
+----------------------------------------------------------------------
+Ran 40 tests in 3.609s
+
+FAILED (errors=17)

@@ -1,0 +1,45 @@
+...............E........................
+======================================================================
+ERROR: test_default_updates_chained (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 521, in test_default_updates_chained
+    f1 = pfunc([], [x])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 356, in __import_r__
+    raise MissingInputError("Undeclared input", variable=variable)
+theano.gof.fg.MissingInputError: Undeclared input
+ 
+Backtrace when that variable is created:
+
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 515, in test_default_updates_chained
+    z = shared(-1)
+
+
+----------------------------------------------------------------------
+Ran 40 tests in 4.327s
+
+FAILED (errors=1)

@@ -1,0 +1,43 @@
+...................E.......F............
+======================================================================
+ERROR: test_default_updates_partial_graph (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 595, in test_default_updates_partial_graph
+    f = pfunc([b], b)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: Elemwise{mul,no_inplace}.0.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+FAIL: test_no_shared_as_input (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 81, in test_no_shared_as_input
+    pfunc([w], theano.tensor.sum(w * w))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1057, in make_all
+    fgraph, order, input_storage, output_storage, storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 576, in map_storage
+    "p: ", storage_map[r])
+AssertionError: ('Given input_storage conflicts with storage in given storage_map. Given input_storage: ', [array([[0.52974324, 0.66694923],
+       [0.86616121, 0.87104099]])], 'Storage in storage_map: ', [None])
+
+----------------------------------------------------------------------
+Ran 40 tests in 4.955s
+
+FAILED (failures=1, errors=1)

@@ -1,0 +1,79 @@
+..FFF......F...F.FF.................F.F.
+======================================================================
+FAIL: test_no_aliasing_1 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 912, in test_no_aliasing_1
+    assert np.all(data_of(B) == z)
+AssertionError
+
+======================================================================
+FAIL: test_no_aliasing_2 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 928, in test_no_aliasing_2
+    assert np.all(data_of(A) == -.5)
+AssertionError
+
+======================================================================
+FAIL: test_no_aliasing_2b (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 956, in test_no_aliasing_2b
+    assert np.all(data_of(A) == -.5)
+AssertionError
+
+======================================================================
+FAIL: test_clone0 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 385, in test_clone0
+    assert np.all(x.get_value() == 20)
+AssertionError
+
+======================================================================
+FAIL: test_default_updates_chained (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 523, in test_default_updates_chained
+    assert x.get_value() == 1
+AssertionError
+
+======================================================================
+FAIL: test_default_updates_input (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 584, in test_default_updates_input
+    assert x.get_value() == 3
+AssertionError
+
+======================================================================
+FAIL: test_default_updates_multiple (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 509, in test_default_updates_multiple
+    assert x.get_value() == -6
+AssertionError
+
+======================================================================
+FAIL: test_update_equiv (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 661, in test_update_equiv
+    assert a.get_value(borrow=True).shape == (), a.get_value()
+AssertionError: [[1. 1. 1.]
+ [1. 1. 1.]]
+
+======================================================================
+FAIL: test_update_same (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 643, in test_update_same
+    assert a.get_value(borrow=True).shape == (), a.get_value()
+AssertionError: [[2. 2. 2.]
+ [2. 2. 2.]]
+
+----------------------------------------------------------------------
+Ran 40 tests in 4.671s
+
+FAILED (failures=9)

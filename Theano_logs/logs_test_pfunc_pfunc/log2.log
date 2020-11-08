@@ -1,0 +1,569 @@
+EEEEEEE.EEEEEEEEEEEEE.EEEEEEEEEEEEEEE.EE
+======================================================================
+ERROR: test_input_aliasing_affecting_inplace_operations (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 768, in test_input_aliasing_affecting_inplace_operations
+    theano.dot((x * 2), m1) + theano.dot((y * 3), m2))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_no_aliasing_0 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 895, in test_no_aliasing_0
+    f = pfunc([], [], updates=[(A, B)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 258, in rebuild_collect_shared
+    copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_no_aliasing_1 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 906, in test_no_aliasing_1
+    f = pfunc([C], [], updates=[(A, B), (B, C)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_no_aliasing_2 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 925, in test_no_aliasing_2
+    f = pfunc([], [], updates=[(A, B), (B, A)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 258, in rebuild_collect_shared
+    copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_no_aliasing_2b (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 952, in test_no_aliasing_2b
+    f = pfunc([], [], updates=[(A, B[:, ::-1]), (B, A.T)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 258, in rebuild_collect_shared
+    copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_partial_input_aliasing_affecting_inplace_operations (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 820, in test_partial_input_aliasing_affecting_inplace_operations
+    theano.dot((z * 4), m3)))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_potential_output_aliasing_induced_by_updates (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 849, in test_potential_output_aliasing_induced_by_updates
+    f = pfunc([D], [], updates=[(A, D), (B, D)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_sparse_input_aliasing_affecting_inplace_operations (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 729, in test_sparse_input_aliasing_affecting_inplace_operations
+    (x + y) + (x + y))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_allow_downcast_floatX (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 296, in test_allow_downcast_floatX
+    f = pfunc([a, b], (a + b), allow_input_downcast=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_allow_input_downcast_int (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 265, in test_allow_input_downcast_int
+    f = pfunc([a, b, c], (a + b + c), allow_input_downcast=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_clone0 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 382, in test_clone0
+    z: (((x * 5) + y) ** z)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 258, in rebuild_collect_shared
+    copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_default_container (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 96, in test_default_container
+    f = pfunc([], reg)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 219, in rebuild_collect_shared
+    cloned_v = clone_v_get_shared_updates(v, copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_default_scalar_container (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 107, in test_default_scalar_container
+    f = pfunc([], x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 219, in rebuild_collect_shared
+    cloned_v = clone_v_get_shared_updates(v, copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_default_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 393, in test_default_updates
+    f = pfunc([], [x])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 219, in rebuild_collect_shared
+    cloned_v = clone_v_get_shared_updates(v, copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_default_updates_chained (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 521, in test_default_updates_chained
+    f1 = pfunc([], [x])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 219, in rebuild_collect_shared
+    cloned_v = clone_v_get_shared_updates(v, copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_default_updates_expressions (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 473, in test_default_updates_expressions
+    f1 = pfunc([a], z)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_default_updates_input (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 562, in test_default_updates_input
+    f1 = pfunc([], x, no_default_updates=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 219, in rebuild_collect_shared
+    cloned_v = clone_v_get_shared_updates(v, copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_default_updates_multiple (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 492, in test_default_updates_multiple
+    f1 = pfunc([], [x, y])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 219, in rebuild_collect_shared
+    cloned_v = clone_v_get_shared_updates(v, copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_default_updates_partial_graph (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 595, in test_default_updates_partial_graph
+    f = pfunc([b], b)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_doc (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 30, in test_doc
+    f1 = pfunc([a], (a + b))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_duplicate_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 355, in test_duplicate_updates
+    updates=[(z, (z + x + y)), (z, (z - x))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 733, in assertRaises
+    return context.handle('assertRaises', args, kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 178, in handle
+    callable_obj(*args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_givens (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 359, in test_givens
+    assign = pfunc([], x, givens={x: 3})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 144, in rebuild_collect_shared
+    if v_orig in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_givens_replaces_shared_variable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 605, in test_givens_replaces_shared_variable
+    f = pfunc([b], c, givens={a: b})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 144, in rebuild_collect_shared
+    if v_orig in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_givens_replaces_shared_variable2 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 614, in test_givens_replaces_shared_variable2
+    f = pfunc([], c, givens={a: (a + 10)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 144, in rebuild_collect_shared
+    if v_orig in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_no_default_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 411, in test_no_default_updates
+    f1 = pfunc([], [x], no_default_updates=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 219, in rebuild_collect_shared
+    cloned_v = clone_v_get_shared_updates(v, copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_no_shared_as_input (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 81, in test_no_shared_as_input
+    pfunc([w], theano.tensor.sum(w * w))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_param_allow_downcast_floatX (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 220, in test_param_allow_downcast_floatX
+    (a + b + c))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_param_allow_downcast_int (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 191, in test_param_allow_downcast_int
+    (a + b + c))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_param_allow_downcast_vector_floatX (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 245, in test_param_allow_downcast_vector_floatX
+    (a + b + c))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_param_mutable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 136, in test_param_mutable
+    fip = pfunc([In(a, mutable=True)], [a_out], mode='FAST_RUN')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_param_strict (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 118, in test_param_strict
+    f = pfunc([In(a, strict=False)], [out])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_shared (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 59, in test_shared
+    f1 = pfunc([x], [out1])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in rebuild_collect_shared
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 165, in <listcomp>
+    input_variables = [clone_inputs(i) for i in inputs]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 163, in clone_inputs
+    return clone_d.setdefault(i, i)
+AttributeError: 'NoneType' object has no attribute 'setdefault'
+
+======================================================================
+ERROR: test_shared_mutable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 160, in test_shared_mutable
+    f = pfunc([], [b_out], mode='FAST_RUN')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 219, in rebuild_collect_shared
+    cloned_v = clone_v_get_shared_updates(v, copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_update (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 324, in test_update
+    assign = pfunc([], [], updates={x: 3})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 258, in rebuild_collect_shared
+    copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_update_equiv (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 657, in test_update_equiv
+    f = theano.function([], [], updates=[(a, a), (b, (2 * b - b))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 258, in rebuild_collect_shared
+    copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_update_same (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 639, in test_update_same
+    f = theano.function([], [], updates=[(a, a), (b, (2 * b))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 258, in rebuild_collect_shared
+    copy_inputs_over)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 87, in clone_v_get_shared_updates
+    if v in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test1 (test_pfunc.Test_rebuild_strict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 995, in test1
+    f = theano.function([w, y], z, givens=[(x, w)], rebuild_strict=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 144, in rebuild_collect_shared
+    if v_orig in clone_d:
+TypeError: argument of type 'NoneType' is not iterable
+
+----------------------------------------------------------------------
+Ran 40 tests in 0.078s
+
+FAILED (errors=37)

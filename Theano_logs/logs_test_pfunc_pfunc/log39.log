@@ -1,0 +1,584 @@
+.EEEE......EEEEEEEE.E..E.EE.....EEEEE.E.
+======================================================================
+ERROR: test_no_aliasing_0 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 895, in test_no_aliasing_0
+    f = pfunc([], [], updates=[(A, B)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: <TensorType(float64, matrix)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_no_aliasing_1 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 906, in test_no_aliasing_1
+    f = pfunc([C], [], updates=[(A, B), (B, C)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 356, in __import_r__
+    raise MissingInputError("Undeclared input", variable=variable)
+theano.gof.fg.MissingInputError: Undeclared input
+
+======================================================================
+ERROR: test_no_aliasing_2 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 925, in test_no_aliasing_2
+    f = pfunc([], [], updates=[(A, B), (B, A)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 356, in __import_r__
+    raise MissingInputError("Undeclared input", variable=variable)
+theano.gof.fg.MissingInputError: Undeclared input
+
+======================================================================
+ERROR: test_no_aliasing_2b (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 952, in test_no_aliasing_2b
+    f = pfunc([], [], updates=[(A, B[:, ::-1]), (B, A.T)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 346, in __import_r__
+    self.__import__(variable.owner, reason=reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 391, in __import__
+    raise MissingInputError(error_msg, variable=r)
+theano.gof.fg.MissingInputError: Input 0 of the graph (indices start from 0), used to compute InplaceDimShuffle{1,0}(<TensorType(float64, matrix)>), was not provided and not given a value. Use the Theano flag exception_verbosity='high', for more information on this error.
+
+======================================================================
+ERROR: test_clone0 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 382, in test_clone0
+    z: (((x * 5) + y) ** z)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 346, in __import_r__
+    self.__import__(variable.owner, reason=reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 391, in __import__
+    raise MissingInputError(error_msg, variable=r)
+theano.gof.fg.MissingInputError: Input 0 of the graph (indices start from 0), used to compute Elemwise{mul,no_inplace}(<TensorType(int32, vector)>, InplaceDimShuffle{x}.0), was not provided and not given a value. Use the Theano flag exception_verbosity='high', for more information on this error.
+ 
+Backtrace when that variable is created:
+
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 376, in test_clone0
+    x = shared(np.asarray([4, 4, 4]))
+
+
+======================================================================
+ERROR: test_default_container (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 96, in test_default_container
+    f = pfunc([], reg)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: w.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_default_scalar_container (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 107, in test_default_scalar_container
+    f = pfunc([], x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: x.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_default_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 393, in test_default_updates
+    f = pfunc([], [x])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 356, in __import_r__
+    raise MissingInputError("Undeclared input", variable=variable)
+theano.gof.fg.MissingInputError: Undeclared input
+ 
+Backtrace when that variable is created:
+
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 390, in test_default_updates
+    x = shared(0)
+
+
+======================================================================
+ERROR: test_default_updates_chained (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 521, in test_default_updates_chained
+    f1 = pfunc([], [x])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 356, in __import_r__
+    raise MissingInputError("Undeclared input", variable=variable)
+theano.gof.fg.MissingInputError: Undeclared input
+ 
+Backtrace when that variable is created:
+
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 513, in test_default_updates_chained
+    x = shared(2)
+
+
+======================================================================
+ERROR: test_default_updates_expressions (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 473, in test_default_updates_expressions
+    f1 = pfunc([a], z)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 2 is not part of the computational graph needed to compute the outputs: <TensorType(int32, scalar)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_default_updates_input (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 562, in test_default_updates_input
+    f1 = pfunc([], x, no_default_updates=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: <TensorType(int32, scalar)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_default_updates_multiple (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 492, in test_default_updates_multiple
+    f1 = pfunc([], [x, y])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 356, in __import_r__
+    raise MissingInputError("Undeclared input", variable=variable)
+theano.gof.fg.MissingInputError: Undeclared input
+ 
+Backtrace when that variable is created:
+
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 486, in test_default_updates_multiple
+    x = shared(0)
+
+
+======================================================================
+ERROR: test_doc (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 30, in test_doc
+    f1 = pfunc([a], (a + b))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 1 is not part of the computational graph needed to compute the outputs: <TensorType(int32, scalar)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_givens (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 359, in test_givens
+    assign = pfunc([], x, givens={x: 3})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: <TensorType(int32, scalar)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_givens_replaces_shared_variable2 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 614, in test_givens_replaces_shared_variable2
+    f = pfunc([], c, givens={a: (a + 10)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 346, in __import_r__
+    self.__import__(variable.owner, reason=reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 391, in __import__
+    raise MissingInputError(error_msg, variable=r)
+theano.gof.fg.MissingInputError: Input 0 of the graph (indices start from 0), used to compute Elemwise{add,no_inplace}(a, TensorConstant{10}), was not provided and not given a value. Use the Theano flag exception_verbosity='high', for more information on this error.
+ 
+Backtrace when that variable is created:
+
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 611, in test_givens_replaces_shared_variable2
+    a = shared(1., 'a')
+
+
+======================================================================
+ERROR: test_no_default_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 411, in test_no_default_updates
+    f1 = pfunc([], [x], no_default_updates=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: <TensorType(int32, scalar)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_param_strict (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 118, in test_param_strict
+    f = pfunc([In(a, strict=False)], [out])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 1 is not part of the computational graph needed to compute the outputs: <TensorType(int32, scalar)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_shared (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 59, in test_shared
+    f1 = pfunc([x], [out1])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 1 is not part of the computational graph needed to compute the outputs: w.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_shared_mutable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 160, in test_shared_mutable
+    f = pfunc([], [b_out], mode='FAST_RUN')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: <TensorType(int32, vector)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_update (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 330, in test_update
+    inc = pfunc([], [], updates={x: x + 1})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 346, in __import_r__
+    self.__import__(variable.owner, reason=reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 391, in __import__
+    raise MissingInputError(error_msg, variable=r)
+theano.gof.fg.MissingInputError: Input 0 of the graph (indices start from 0), used to compute Elemwise{add,no_inplace}(<TensorType(int32, scalar)>, TensorConstant{1}), was not provided and not given a value. Use the Theano flag exception_verbosity='high', for more information on this error.
+ 
+Backtrace when that variable is created:
+
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 323, in test_update
+    x = shared(0)
+
+
+======================================================================
+ERROR: test_update_equiv (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 657, in test_update_equiv
+    f = theano.function([], [], updates=[(a, a), (b, (2 * b - b))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 356, in __import_r__
+    raise MissingInputError("Undeclared input", variable=variable)
+theano.gof.fg.MissingInputError: Undeclared input
+ 
+Backtrace when that variable is created:
+
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 652, in test_update_equiv
+    a = shared(1., 'a')
+
+
+======================================================================
+ERROR: test_update_same (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 639, in test_update_same
+    f = theano.function([], [], updates=[(a, a), (b, (2 * b))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 356, in __import_r__
+    raise MissingInputError("Undeclared input", variable=variable)
+theano.gof.fg.MissingInputError: Undeclared input
+ 
+Backtrace when that variable is created:
+
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 627, in test_update_same
+    a = shared(1., 'a')
+
+
+----------------------------------------------------------------------
+Ran 40 tests in 3.921s
+
+FAILED (errors=22)

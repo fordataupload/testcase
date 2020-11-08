@@ -1,0 +1,184 @@
+..EFF.E....F.....EF.F.E...F......FFF.F..
+======================================================================
+ERROR: test_no_aliasing_1 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 906, in test_no_aliasing_1
+    f = pfunc([C], [], updates=[(A, B), (B, C)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: <TensorType(float64, matrix)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_potential_output_aliasing_induced_by_updates (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 849, in test_potential_output_aliasing_induced_by_updates
+    f = pfunc([D], [], updates=[(A, D), (B, D)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: <TensorType(float64, matrix)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_default_updates_input (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 582, in test_default_updates_input
+    f5 = pfunc([], x, updates={y: (y - 1)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1487, in __init__
+    accept_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 181, in std_fgraph
+    update_mapping=update_mapping)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 175, in __init__
+    self.__import_r__(output, reason="init")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 346, in __import_r__
+    self.__import__(variable.owner, reason=reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 391, in __import__
+    raise MissingInputError(error_msg, variable=r)
+theano.gof.fg.MissingInputError: Input 1 of the graph (indices start from 0), used to compute Elemwise{add,no_inplace}(<TensorType(int32, scalar)>, a), was not provided and not given a value. Use the Theano flag exception_verbosity='high', for more information on this error.
+ 
+Backtrace when that variable is created:
+
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 605, in run
+    testMethod()
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 555, in test_default_updates_input
+    a = iscalar('a')
+
+
+======================================================================
+ERROR: test_duplicate_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 355, in test_duplicate_updates
+    updates=[(z, (z + x + y)), (z, (z - x))])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 733, in assertRaises
+    return context.handle('assertRaises', args, kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\unittest\case.py", line 178, in handle
+    callable_obj(*args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: x.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+FAIL: test_no_aliasing_2 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 928, in test_no_aliasing_2
+    assert np.all(data_of(A) == -.5)
+AssertionError
+
+======================================================================
+FAIL: test_no_aliasing_2b (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 956, in test_no_aliasing_2b
+    assert np.all(data_of(A) == -.5)
+AssertionError
+
+======================================================================
+FAIL: test_clone0 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 385, in test_clone0
+    assert np.all(x.get_value() == 20)
+AssertionError
+
+======================================================================
+FAIL: test_default_updates_multiple (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 499, in test_default_updates_multiple
+    assert x.get_value() == -3
+AssertionError
+
+======================================================================
+FAIL: test_doc (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 35, in test_doc
+    self.assertTrue(b.get_value() == 2)
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_no_default_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 443, in test_no_default_updates
+    assert x.get_value() == 5
+AssertionError
+
+======================================================================
+FAIL: test_shared (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 70, in test_shared
+    assert np.all(f1(xval) == xval + (wval - 1))
+AssertionError
+
+======================================================================
+FAIL: test_shared_mutable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 168, in test_shared_mutable
+    assert (b.get_value(borrow=True) == (np.arange(5) * 2)).all()
+AssertionError
+
+======================================================================
+FAIL: test_update (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 326, in test_update
+    self.assertTrue(x.get_value() == 3)
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_update_err_broadcast (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 349, in test_update_err_broadcast
+    updates={output_var: output_var.sum().dimshuffle('x', 'x')})
+AssertionError: TypeError not raised by function
+
+----------------------------------------------------------------------
+Ran 40 tests in 3.827s
+
+FAILED (failures=10, errors=4)

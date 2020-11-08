@@ -1,0 +1,327 @@
+.EEEE.E..EEEEEEEEEEEE..FEFEEEEEEEEEE...E
+======================================================================
+ERROR: test_no_aliasing_0 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 895, in test_no_aliasing_0
+    f = pfunc([], [], updates=[(A, B)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_no_aliasing_1 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 906, in test_no_aliasing_1
+    f = pfunc([C], [], updates=[(A, B), (B, C)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_no_aliasing_2 (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 925, in test_no_aliasing_2
+    f = pfunc([], [], updates=[(A, B), (B, A)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_no_aliasing_2b (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 952, in test_no_aliasing_2b
+    f = pfunc([], [], updates=[(A, B[:, ::-1]), (B, A.T)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_potential_output_aliasing_induced_by_updates (test_pfunc.Test_aliasing_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 849, in test_potential_output_aliasing_induced_by_updates
+    f = pfunc([D], [], updates=[(A, D), (B, D)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_allow_downcast_floatX (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 296, in test_allow_downcast_floatX
+    f = pfunc([a, b], (a + b), allow_input_downcast=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_allow_input_downcast_int (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 265, in test_allow_input_downcast_int
+    f = pfunc([a, b, c], (a + b + c), allow_input_downcast=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_clone0 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 382, in test_clone0
+    z: (((x * 5) + y) ** z)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_default_container (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 96, in test_default_container
+    f = pfunc([], reg)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_default_scalar_container (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 107, in test_default_scalar_container
+    f = pfunc([], x)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_default_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 393, in test_default_updates
+    f = pfunc([], [x])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_default_updates_chained (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 521, in test_default_updates_chained
+    f1 = pfunc([], [x])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_default_updates_expressions (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 473, in test_default_updates_expressions
+    f1 = pfunc([a], z)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_default_updates_input (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 562, in test_default_updates_input
+    f1 = pfunc([], x, no_default_updates=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_default_updates_multiple (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 492, in test_default_updates_multiple
+    f1 = pfunc([], [x, y])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_default_updates_partial_graph (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 595, in test_default_updates_partial_graph
+    f = pfunc([b], b)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_doc (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 30, in test_doc
+    f1 = pfunc([a], (a + b))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_givens_replaces_shared_variable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 605, in test_givens_replaces_shared_variable
+    f = pfunc([b], c, givens={a: b})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: b.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+ERROR: test_no_default_updates (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 411, in test_no_default_updates
+    f1 = pfunc([], [x], no_default_updates=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_no_shared_as_input (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 81, in test_no_shared_as_input
+    pfunc([w], theano.tensor.sum(w * w))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_param_allow_downcast_floatX (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 220, in test_param_allow_downcast_floatX
+    (a + b + c))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_param_allow_downcast_int (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 191, in test_param_allow_downcast_int
+    (a + b + c))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_param_allow_downcast_vector_floatX (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 245, in test_param_allow_downcast_vector_floatX
+    (a + b + c))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_param_mutable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 136, in test_param_mutable
+    fip = pfunc([In(a, mutable=True)], [a_out], mode='FAST_RUN')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_param_strict (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 118, in test_param_strict
+    f = pfunc([In(a, strict=False)], [out])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_shared (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 59, in test_shared
+    f1 = pfunc([x], [out1])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_shared_mutable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 160, in test_shared_mutable
+    f = pfunc([], [b_out], mode='FAST_RUN')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_update (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 324, in test_update
+    assign = pfunc([], [], updates={x: 3})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 417, in pfunc
+    for x, y in givens_pairs:
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test1 (test_pfunc.Test_rebuild_strict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 995, in test1
+    f = theano.function([w, y], z, givens=[(x, w)], rebuild_strict=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1474, in __init__
+    self._check_unused_inputs(inputs, outputs, on_unused_input)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1627, in _check_unused_inputs
+    i.variable, err_msg))
+theano.compile.function_module.UnusedInputError: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 0 is not part of the computational graph needed to compute the outputs: <TensorType(int32, matrix)>.
+To make this error into a warning, you can pass the parameter on_unused_input='warn' to theano.function. To disable it completely, use on_unused_input='ignore'.
+
+======================================================================
+FAIL: test_givens (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 360, in test_givens
+    assert assign() == 3
+AssertionError
+
+======================================================================
+FAIL: test_givens_replaces_shared_variable2 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 616, in test_givens_replaces_shared_variable2
+    assert f() == 21
+AssertionError
+
+----------------------------------------------------------------------
+Ran 40 tests in 2.921s
+
+FAILED (failures=2, errors=29)

@@ -1,0 +1,47 @@
+.......................EEE.............E
+======================================================================
+ERROR: test_givens (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 359, in test_givens
+    assign = pfunc([], x, givens={x: 3})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 418, in pfunc
+    if x in in_var_set:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_givens_replaces_shared_variable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 605, in test_givens_replaces_shared_variable
+    f = pfunc([b], c, givens={a: b})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 418, in pfunc
+    if x in in_var_set:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test_givens_replaces_shared_variable2 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 614, in test_givens_replaces_shared_variable2
+    f = pfunc([], c, givens={a: (a + 10)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 418, in pfunc
+    if x in in_var_set:
+TypeError: argument of type 'NoneType' is not iterable
+
+======================================================================
+ERROR: test1 (test_pfunc.Test_rebuild_strict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 995, in test1
+    f = theano.function([w, y], z, givens=[(x, w)], rebuild_strict=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 418, in pfunc
+    if x in in_var_set:
+TypeError: argument of type 'NoneType' is not iterable
+
+----------------------------------------------------------------------
+Ran 40 tests in 4.407s
+
+FAILED (errors=4)

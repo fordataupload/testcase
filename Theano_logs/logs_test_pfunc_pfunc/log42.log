@@ -1,0 +1,55 @@
+.......................FFF.............F
+======================================================================
+FAIL: test_givens (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 359, in test_givens
+    assign = pfunc([], x, givens={x: 3})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 151, in rebuild_collect_shared
+    "to be replaced by %s." % (v_orig, v_repl))
+AssertionError: When using 'givens' or 'replace' with several (old_v, new_v) replacement pairs, you can not have a new_v variable depend on an old_v one. For instance, givens = {a:b, b:(a+1)} is not allowed. Here, the old_v <TensorType(int32, scalar)> is used to compute other new_v's, but it is scheduled to be replaced by <TensorType(int32, scalar)>.
+
+======================================================================
+FAIL: test_givens_replaces_shared_variable (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 605, in test_givens_replaces_shared_variable
+    f = pfunc([b], c, givens={a: b})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 151, in rebuild_collect_shared
+    "to be replaced by %s." % (v_orig, v_repl))
+AssertionError: When using 'givens' or 'replace' with several (old_v, new_v) replacement pairs, you can not have a new_v variable depend on an old_v one. For instance, givens = {a:b, b:(a+1)} is not allowed. Here, the old_v a is used to compute other new_v's, but it is scheduled to be replaced by b.
+
+======================================================================
+FAIL: test_givens_replaces_shared_variable2 (test_pfunc.Test_pfunc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 614, in test_givens_replaces_shared_variable2
+    f = pfunc([], c, givens={a: (a + 10)})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 151, in rebuild_collect_shared
+    "to be replaced by %s." % (v_orig, v_repl))
+AssertionError: When using 'givens' or 'replace' with several (old_v, new_v) replacement pairs, you can not have a new_v variable depend on an old_v one. For instance, givens = {a:b, b:(a+1)} is not allowed. Here, the old_v a is used to compute other new_v's, but it is scheduled to be replaced by Elemwise{add,no_inplace}.0.
+
+======================================================================
+FAIL: test1 (test_pfunc.Test_rebuild_strict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_pfunc.py", line 995, in test1
+    f = theano.function([w, y], z, givens=[(x, w)], rebuild_strict=False)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 449, in pfunc
+    no_default_updates=no_default_updates)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 151, in rebuild_collect_shared
+    "to be replaced by %s." % (v_orig, v_repl))
+AssertionError: When using 'givens' or 'replace' with several (old_v, new_v) replacement pairs, you can not have a new_v variable depend on an old_v one. For instance, givens = {a:b, b:(a+1)} is not allowed. Here, the old_v x is used to compute other new_v's, but it is scheduled to be replaced by <TensorType(int32, matrix)>.
+
+----------------------------------------------------------------------
+Ran 40 tests in 4.469s
+
+FAILED (failures=4)
