@@ -1,0 +1,33 @@
+...E..................s..................
+======================================================================
+ERROR: test_constant_output (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 478, in test_constant_output
+    f = theano.function([], Out(theano.tensor.constant([4]), borrow=True))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1526, in __init__
+    insert_deepcopy(fgraph, inputs, outputs + additional_outputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1174, in insert_deepcopy
+    reason="insert_deepcopy")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 445, in change_input
+    self.__import_r__(new_r, reason=reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 346, in __import_r__
+    self.__import__(variable.owner, reason=reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 409, in __import__
+    self.execute_callbacks('on_import', node, reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 594, in execute_callbacks
+    fn(self, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\destroyhandler.py", line 527, in on_import
+    i = app.inputs[i_idx_list[0]]
+IndexError: list index out of range
+
+----------------------------------------------------------------------
+Ran 41 tests in 5.358s
+
+FAILED (errors=1, skipped=1)

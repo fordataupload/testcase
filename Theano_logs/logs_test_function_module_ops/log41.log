@@ -1,0 +1,45 @@
+...E..................s..................
+======================================================================
+ERROR: test_constant_output (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 478, in test_constant_output
+    f = theano.function([], Out(theano.tensor.constant([4]), borrow=True))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 69, in c_code
+    fail = sub['XXfailXX']
+KeyError: ('The following error happened while compiling the node', ViewOp(TensorConstant{(1,) of 4}), '\n', 'XXfailXX')
+
+----------------------------------------------------------------------
+Ran 41 tests in 5.280s
+
+FAILED (errors=1, skipped=1)

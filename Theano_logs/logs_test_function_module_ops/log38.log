@@ -1,0 +1,505 @@
+FFF.....F..F...F......s......FF.F...FFF..
+======================================================================
+FAIL: test_borrow_input (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 503, in test_borrow_input
+    f = theano.function([In(a, borrow=False)], Out(a + 1, borrow=True))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_borrow_output (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 514, in test_borrow_output
+    f = function([a], Out(a, borrow=False))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1526, in __init__
+    insert_deepcopy(fgraph, inputs, outputs + additional_outputs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1169, in insert_deepcopy
+    reason="insert_deepcopy")
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 445, in change_input
+    self.__import_r__(new_r, reason=reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 346, in __import_r__
+    self.__import__(variable.owner, reason=reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 409, in __import__
+    self.execute_callbacks('on_import', node, reason)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 594, in execute_callbacks
+    fn(self, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_check_for_aliased_inputs (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 603, in test_check_for_aliased_inputs
+    f = theano.function(**d)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_disconnected_input (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 541, in test_disconnected_input
+    function([a, v], v * 2, on_unused_input='ignore')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_free (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 561, in test_free
+    func = function([x], x + 1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_masked_input (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 548, in test_masked_input
+    function([m, mt], mt * 2, on_unused_input='ignore')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_swap_SharedVariable (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 305, in test_swap_SharedVariable
+    givens={x: x_list[i]})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_swap_SharedVariable_with_given (__main__.T_function)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 357, in test_swap_SharedVariable_with_given
+    updates={train_x: train_x + 0.1})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_broken_pickle_with_shared (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 897, in test_broken_pickle_with_shared
+    f = theano.function([x], theano.tensor.dot(x, y))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_multiple_functions (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 831, in test_multiple_functions
+    f3 = function([x, In(v, value=v_value)], x + v)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_optimizations_preserved (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 768, in test_optimizations_preserved
+    f = function([a, x, s, xm, sm], ((a.T.T) * (tensor.dot(xm, (sm.T.T.T)) + x).T * (x / x) + s))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+======================================================================
+FAIL: test_output_keys (__main__.T_picklefunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_function_module.py", line 692, in test_output_keys
+    f = theano.function([x], {'vec': x**2})
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1839, in orig_function
+    name=name)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1519, in __init__
+    optimizer_profile = optimizer(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 108, in __call__
+    return self.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 93, in optimize
+    self.add_requirements(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1488, in add_requirements
+    fgraph.attach_feature(ShapeFeature())
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 546, in attach_feature
+    attach(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1305, in on_attach
+    self.on_import(fgraph, node, reason='on_attach')
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1322, in on_import
+    self.init_r(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1276, in init_r
+    self.set_shape(r, self.shape_tuple(r))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in shape_tuple
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1031, in <listcomp>
+    return tuple([self.shape_ir(i, r) for i in xrange(r.ndim)])
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\opt.py", line 1019, in shape_ir
+    s = Shape_i(i)(r)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\ops.py", line 345, in __init__
+    assert i != int(i)
+AssertionError
+
+----------------------------------------------------------------------
+Ran 41 tests in 2.406s
+
+FAILED (failures=12, skipped=1)
