@@ -1,0 +1,1143 @@
+..........E..EEEEEEEEEEEEEEEEEEEEEEEEEE.......
+======================================================================
+ERROR: test_gemv (test_blas_c.TestBlasStridesC)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 2173, in test_gemv
+    self.cmp_gemv(3, (3, 5), 5)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 2143, in cmp_gemv
+    mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{inplace}(a, TensorConstant{0.20000000298023224}, b, c, TensorConstant{1.0}), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_gemv1 (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 248, in test_gemv1
+    self.t_gemv1((3, 2))
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 215, in t_gemv1
+    mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float32, vector)>, TensorConstant{1.0}, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, TensorConstant{1.0}), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_gemv_dimensions (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 265, in test_gemv_dimensions
+    mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float64, vector)>, Elemwise{Cast{float64}}.0, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, Elemwise{Cast{float64}}.0), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_multiple_inplace (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 288, in test_multiple_inplace
+    mode=mode_blas_opt)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{inplace}(AllocEmpty{dtype='float64'}.0, TensorConstant{1.0}, x.T, y, TensorConstant{0.0}), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_nan_beta_0 (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 146, in test_nan_beta_0
+    mode=mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float64, vector)>, TensorConstant{1.0}, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, <TensorType(float64, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_optimizations_mv (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 180, in test_optimizations_mv
+    mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{inplace}(AllocEmpty{dtype='float64'}.0, TensorConstant{1.0}, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, TensorConstant{0.0}), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_optimizations_vm (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 158, in test_optimizations_vm
+    mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{inplace}(AllocEmpty{dtype='float64'}.0, TensorConstant{1.0}, InplaceDimShuffle{1,0}.0, <TensorType(float64, vector)>, TensorConstant{0.0}), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_a_strides (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1536, in test_a_strides
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, <TensorType(float32, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_a_strides_transpose (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1557, in test_a_strides_transpose
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float32, vector)>, <TensorType(float32, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_default_beta_y (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1433, in test_default_beta_y
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{inplace}(AllocEmpty{dtype='float32'}.0, TensorConstant{1.0}, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, TensorConstant{0.0}), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_simple (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1413, in test_simple
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, <TensorType(float32, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_simple_transpose (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1450, in test_simple_transpose
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float32, vector)>, <TensorType(float32, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_upcasting_scalar_nogemv (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1582, in test_upcasting_scalar_nogemv
+    f = theano.function([alpha], rval, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{inplace}(AllocEmpty{dtype='float32'}.0, TensorConstant{1.0}, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, TensorConstant{0.0}), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_x_stride (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1466, in test_x_stride
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, <TensorType(float32, matrix)>, Subtensor{::int64}.0, <TensorType(float32, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_x_stride_transpose (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1483, in test_x_stride_transpose
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, InplaceDimShuffle{1,0}.0, Subtensor{::int64}.0, <TensorType(float32, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_y_stride (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1499, in test_y_stride
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(Subtensor{::int64}.0, <TensorType(float32, scalar)>, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, <TensorType(float32, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_y_stride_transpose (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1516, in test_y_stride_transpose
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(Subtensor{::int64}.0, <TensorType(float32, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float32, vector)>, <TensorType(float32, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_a_strides (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1536, in test_a_strides
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, <TensorType(float64, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_a_strides_transpose (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1557, in test_a_strides_transpose
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float64, vector)>, <TensorType(float64, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_default_beta_y (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1433, in test_default_beta_y
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{inplace}(AllocEmpty{dtype='float64'}.0, TensorConstant{1.0}, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, TensorConstant{0.0}), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_simple (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1413, in test_simple
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, <TensorType(float64, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_simple_transpose (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1450, in test_simple_transpose
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float64, vector)>, <TensorType(float64, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_upcasting_scalar_nogemv (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1582, in test_upcasting_scalar_nogemv
+    f = theano.function([alpha], rval, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{inplace}(AllocEmpty{dtype='float32'}.0, TensorConstant{1.0}, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, TensorConstant{0.0}), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_x_stride (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1466, in test_x_stride
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, <TensorType(float64, matrix)>, Subtensor{::int64}.0, <TensorType(float64, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_x_stride_transpose (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1483, in test_x_stride_transpose
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, InplaceDimShuffle{1,0}.0, Subtensor{::int64}.0, <TensorType(float64, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_y_stride (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1499, in test_y_stride
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(Subtensor{::int64}.0, <TensorType(float64, scalar)>, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, <TensorType(float64, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+======================================================================
+ERROR: test_y_stride_transpose (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1516, in test_y_stride_transpose
+    oy_func = theano.function([], oy, mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1624, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cmodule.py", line 1152, in module_from_key
+    src_code = lnk.get_src_code()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1500, in get_src_code
+    mod = self.get_dynamic_module()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1544, in get_dynamic_module
+    self.code_gen()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 840, in code_gen
+    behavior = op.c_code(node, name, isyms, osyms, sub)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 612, in c_code
+    params=sub['params'],
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\blas_c.py", line 596, in gemv_c_code
+    return code % locals()
+TypeError: ('The following error happened while compiling the node', CGemv{no_inplace}(Subtensor{::int64}.0, <TensorType(float64, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float64, vector)>, <TensorType(float64, scalar)>), '\n', '%d format: a number is required, not NoneType')
+
+----------------------------------------------------------------------
+Ran 46 tests in 21.246s
+
+FAILED (errors=27)

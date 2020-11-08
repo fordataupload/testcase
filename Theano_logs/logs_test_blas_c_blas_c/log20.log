@@ -1,0 +1,260 @@
+.............F.ERROR (theano.gof.opt): SeqOptimizer apply <theano.scan_module.scan_opt.ScanInplaceOptimizer object at 0x0000027B5C8AEDD8>
+ERROR (theano.gof.opt): Traceback:
+ERROR (theano.gof.opt): Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 251, in apply
+    sub_prof = optimizer.optimize(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\opt.py", line 97, in optimize
+    ret = self.apply(fgraph, *args, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\scan_module\scan_opt.py", line 1013, in apply
+    nodes = fgraph.toposort()[::-1]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 637, in toposort
+    ords = self.orderings()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 662, in orderings
+    orderings = feature.orderings(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\destroyhandler.py", line 693, in orderings
+    droot, impact, __ignore = self.refresh_droot_impact()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\destroyhandler.py", line 440, in refresh_droot_impact
+    _build_droot_impact(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\destroyhandler.py", line 207, in _build_droot_impact
+    "Multiple destroyers of %s" % input_root)
+theano.gof.fg.InconsistencyError: Multiple destroyers of AllocEmpty{dtype='float64'}.0
+
+E...FF.FF.FFFFFF.FF.FFFF.......
+======================================================================
+ERROR: test_multiple_inplace (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 288, in test_multiple_inplace
+    mode=mode_blas_opt)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1054, in make_all
+    order = self.schedule(fgraph)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 410, in schedule
+    return fgraph.toposort()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 637, in toposort
+    ords = self.orderings()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\fg.py", line 662, in orderings
+    orderings = feature.orderings(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\destroyhandler.py", line 693, in orderings
+    droot, impact, __ignore = self.refresh_droot_impact()
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\destroyhandler.py", line 440, in refresh_droot_impact
+    _build_droot_impact(self)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\destroyhandler.py", line 207, in _build_droot_impact
+    "Multiple destroyers of %s" % input_root)
+theano.gof.fg.InconsistencyError: Multiple destroyers of AllocEmpty{dtype='float64'}.0
+
+======================================================================
+FAIL: test_gemv1 (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 248, in test_gemv1
+    self.t_gemv1((3, 2))
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 221, in t_gemv1
+    assert topo == [CGemv(inplace=False)], topo
+AssertionError: [<theano.tensor.blas_c.CGemv object at 0x0000027B5C5E4CF8>]
+
+======================================================================
+FAIL: test_a_strides (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1538, in test_a_strides
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([CGemv{inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, <TensorType(float32, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_a_strides_transpose (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1559, in test_a_strides_transpose
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([InplaceDimShuffle{1,0}(<TensorType(float32, matrix)>), CGemv{inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float32, vector)>, <TensorType(float32, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_simple (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1416, in test_simple
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([CGemv{inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, <TensorType(float32, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_simple_transpose (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1452, in test_simple_transpose
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([InplaceDimShuffle{1,0}(<TensorType(float32, matrix)>), CGemv{inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float32, vector)>, <TensorType(float32, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_x_stride (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1468, in test_x_stride
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Subtensor{::int64}(<TensorType(float32, vector)>, Constant{2}), CGemv{inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, <TensorType(float32, matrix)>, Subtensor{::int64}.0, <TensorType(float32, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_x_stride_transpose (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1485, in test_x_stride_transpose
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Subtensor{::int64}(<TensorType(float32, vector)>, Constant{2}), InplaceDimShuffle{1,0}(<TensorType(float32, matrix)>), CGemv{inplace}(<TensorType(float32, vector)>, <TensorType(float32, scalar)>, InplaceDimShuffle{1,0}.0, Subtensor{::int64}.0, <TensorType(float32, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_y_stride (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1501, in test_y_stride
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Subtensor{::int64}(<TensorType(float32, vector)>, Constant{2}), CGemv{inplace}(Subtensor{::int64}.0, <TensorType(float32, scalar)>, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, <TensorType(float32, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_y_stride_transpose (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1518, in test_y_stride_transpose
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Subtensor{::int64}(<TensorType(float32, vector)>, Constant{2}), InplaceDimShuffle{1,0}(<TensorType(float32, matrix)>), CGemv{inplace}(Subtensor{::int64}.0, <TensorType(float32, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float32, vector)>, <TensorType(float32, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_a_strides (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1538, in test_a_strides
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([CGemv{inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, <TensorType(float64, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_a_strides_transpose (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1559, in test_a_strides_transpose
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([InplaceDimShuffle{1,0}(<TensorType(float64, matrix)>), CGemv{inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float64, vector)>, <TensorType(float64, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_simple (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1416, in test_simple
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([CGemv{inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, <TensorType(float64, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_simple_transpose (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1452, in test_simple_transpose
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([InplaceDimShuffle{1,0}(<TensorType(float64, matrix)>), CGemv{inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float64, vector)>, <TensorType(float64, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_x_stride (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1468, in test_x_stride
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Subtensor{::int64}(<TensorType(float64, vector)>, Constant{2}), CGemv{inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, <TensorType(float64, matrix)>, Subtensor{::int64}.0, <TensorType(float64, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_x_stride_transpose (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1485, in test_x_stride_transpose
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Subtensor{::int64}(<TensorType(float64, vector)>, Constant{2}), InplaceDimShuffle{1,0}(<TensorType(float64, matrix)>), CGemv{inplace}(<TensorType(float64, vector)>, <TensorType(float64, scalar)>, InplaceDimShuffle{1,0}.0, Subtensor{::int64}.0, <TensorType(float64, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_y_stride (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1501, in test_y_stride
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Subtensor{::int64}(<TensorType(float64, vector)>, Constant{2}), CGemv{inplace}(Subtensor{::int64}.0, <TensorType(float64, scalar)>, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, <TensorType(float64, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_y_stride_transpose (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1518, in test_y_stride_transpose
+    self.assertFunctionContains1(oy_func, self.gemv)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Subtensor{::int64}(<TensorType(float64, vector)>, Constant{2}), InplaceDimShuffle{1,0}(<TensorType(float64, matrix)>), CGemv{inplace}(Subtensor{::int64}.0, <TensorType(float64, scalar)>, InplaceDimShuffle{1,0}.0, <TensorType(float64, vector)>, <TensorType(float64, scalar)>)], [], 'CGemv{no_inplace}', 0, 1, 1)
+
+----------------------------------------------------------------------
+Ran 46 tests in 23.319s
+
+FAILED (failures=17, errors=1)

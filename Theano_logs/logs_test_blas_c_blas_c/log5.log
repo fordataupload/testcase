@@ -1,0 +1,165 @@
+...........E...........................EE...EE
+======================================================================
+ERROR: test_ger_strides (test_blas_c.TestBlasStridesC)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 2230, in test_ger_strides
+    self.cmp_ger((3, 5), 3, 5)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 2200, in cmp_ger
+    mode=self.mode)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1641, in cthunk_factory
+    *(in_storage + out_storage + orphd))
+TypeError: ('The following error happened while compiling the node', CGer{destructive}(a, TensorConstant{0.20000000298023224}, b, c), '\n', 'Wrong number of arguments, expected 7, got 6')
+
+======================================================================
+ERROR: test_A_plus_outer (test_blas_c.TestCGer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 105, in test_A_plus_outer
+    self.A + tensor.outer(self.x, self.y))
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 53, in function
+    mode=self.mode,
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1641, in cthunk_factory
+    *(in_storage + out_storage + orphd))
+TypeError: ('The following error happened while compiling the node', CGer{non-destructive}(<TensorType(float64, matrix)>, TensorConstant{1.0}, <TensorType(float64, vector)>, <TensorType(float64, vector)>), '\n', 'Wrong number of arguments, expected 7, got 6')
+
+======================================================================
+ERROR: test_A_plus_scaled_outer (test_blas_c.TestCGer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 112, in test_A_plus_scaled_outer
+    self.A + 0.1 * tensor.outer(self.x, self.y))
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 53, in function
+    mode=self.mode,
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1641, in cthunk_factory
+    *(in_storage + out_storage + orphd))
+TypeError: ('The following error happened while compiling the node', CGer{non-destructive}(<TensorType(float64, matrix)>, TensorConstant{0.1}, <TensorType(float64, vector)>, <TensorType(float64, vector)>), '\n', 'Wrong number of arguments, expected 7, got 6')
+
+======================================================================
+ERROR: test_optimization_pipeline (test_blas_c.TestCGer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 85, in test_optimization_pipeline
+    f = self.function([self.x, self.y], tensor.outer(self.x, self.y))
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 53, in function
+    mode=self.mode,
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1641, in cthunk_factory
+    *(in_storage + out_storage + orphd))
+TypeError: ('The following error happened while compiling the node', CGer{destructive}(Alloc.0, TensorConstant{1.0}, <TensorType(float64, vector)>, <TensorType(float64, vector)>), '\n', 'Wrong number of arguments, expected 7, got 6')
+
+======================================================================
+ERROR: test_optimization_pipeline_float (test_blas_c.TestCGer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 92, in test_optimization_pipeline_float
+    f = self.function([self.x, self.y], tensor.outer(self.x, self.y))
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 53, in function
+    mode=self.mode,
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function.py", line 317, in function
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\pfunc.py", line 486, in pfunc
+    output_keys=output_keys)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1841, in orig_function
+    fn = m.create(defaults)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\compile\function_module.py", line 1715, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\vm.py", line 1091, in make_all
+    impl=impl))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 955, in make_thunk
+    no_recycling)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\op.py", line 858, in make_c_thunk
+    output_storage=node_output_storage)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1217, in make_thunk
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1157, in __compile__
+    keep_lock=keep_lock)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\gof\cc.py", line 1641, in cthunk_factory
+    *(in_storage + out_storage + orphd))
+TypeError: ('The following error happened while compiling the node', CGer{destructive}(Alloc.0, TensorConstant{1.0}, <TensorType(float32, vector)>, <TensorType(float32, vector)>), '\n', 'Wrong number of arguments, expected 7, got 6')
+
+----------------------------------------------------------------------
+Ran 46 tests in 21.550s
+
+FAILED (errors=5)

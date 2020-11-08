@@ -1,0 +1,25 @@
+............................................FF
+======================================================================
+FAIL: test_optimization_pipeline (test_blas_c.TestCGer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 86, in test_optimization_pipeline
+    self.assertFunctionContains(f, CGer(destructive=True))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Shape_i{0}(<TensorType(float64, vector)>), Shape_i{0}(<TensorType(float64, vector)>), Alloc(TensorConstant{0.0}, Shape_i{0}.0, Shape_i{0}.0), CGer{non-destructive}(Alloc.0, TensorConstant{1.0}, <TensorType(float64, vector)>, <TensorType(float64, vector)>)], [], 'CGer{destructive}', 0, 1, 9223372036854775807)
+
+======================================================================
+FAIL: test_optimization_pipeline_float (test_blas_c.TestCGer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 93, in test_optimization_pipeline_float
+    self.assertFunctionContains(f, CGer(destructive=True))
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Shape_i{0}(<TensorType(float32, vector)>), Shape_i{0}(<TensorType(float32, vector)>), Alloc(TensorConstant{0.0}, Shape_i{0}.0, Shape_i{0}.0), CGer{non-destructive}(Alloc.0, TensorConstant{1.0}, <TensorType(float32, vector)>, <TensorType(float32, vector)>)], [], 'CGer{destructive}', 0, 1, 9223372036854775807)
+
+----------------------------------------------------------------------
+Ran 46 tests in 22.058s
+
+FAILED (failures=2)

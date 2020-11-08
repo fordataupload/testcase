@@ -1,0 +1,87 @@
+.............F.F.FF..F..F......F..F...........
+======================================================================
+FAIL: test_gemv1 (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 248, in test_gemv1
+    self.t_gemv1((3, 2))
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 233, in t_gemv1
+    assert topo == [CGemv(inplace=True)]
+AssertionError
+
+======================================================================
+FAIL: test_multiple_inplace (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 296, in test_multiple_inplace
+    if isinstance(n.op, tensor.AllocEmpty)]) == 2
+AssertionError
+
+======================================================================
+FAIL: test_optimizations_mv (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 186, in test_optimizations_mv
+    CGemv(inplace=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Shape_i{0}(<TensorType(float64, matrix)>), AllocEmpty{dtype='float64'}(Shape_i{0}.0), CGemv{no_inplace}(AllocEmpty{dtype='float64'}.0, TensorConstant{1.0}, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, TensorConstant{0.0})], [], 'CGemv{inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_optimizations_vm (test_blas_c.TestCGemv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\mutation\Desktop\theano-testcase\tests\test_blas_c.py", line 164, in test_optimizations_vm
+    CGemv(inplace=True)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([InplaceDimShuffle{1,0}(<TensorType(float64, matrix)>), Shape_i{1}(<TensorType(float64, matrix)>), AllocEmpty{dtype='float64'}(Shape_i{1}.0), CGemv{no_inplace}(AllocEmpty{dtype='float64'}.0, TensorConstant{1.0}, InplaceDimShuffle{1,0}.0, <TensorType(float64, vector)>, TensorConstant{0.0})], [], 'CGemv{inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_default_beta_y (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1435, in test_default_beta_y
+    self.assertFunctionContains1(oy_func, self.gemv_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Shape_i{0}(<TensorType(float32, matrix)>), AllocEmpty{dtype='float32'}(Shape_i{0}.0), CGemv{no_inplace}(AllocEmpty{dtype='float32'}.0, TensorConstant{1.0}, <TensorType(float32, matrix)>, <TensorType(float32, vector)>, TensorConstant{0.0})], [], 'CGemv{inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_upcasting_scalar_nogemv (test_blas_c.TestCGemvFloat32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1592, in test_upcasting_scalar_nogemv
+    assert n_gemvs == 1, n_gemvs
+AssertionError: 0
+
+======================================================================
+FAIL: test_default_beta_y (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1435, in test_default_beta_y
+    self.assertFunctionContains1(oy_func, self.gemv_inplace)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 138, in assertFunctionContains1
+    return self.assertFunctionContains(f, op, min=1, max=1)
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tests\unittest_tools.py", line 132, in assertFunctionContains
+    str(op), len(matches), min, max)
+AssertionError: ([Shape_i{0}(<TensorType(float64, matrix)>), AllocEmpty{dtype='float64'}(Shape_i{0}.0), CGemv{no_inplace}(AllocEmpty{dtype='float64'}.0, TensorConstant{1.0}, <TensorType(float64, matrix)>, <TensorType(float64, vector)>, TensorConstant{0.0})], [], 'CGemv{inplace}', 0, 1, 1)
+
+======================================================================
+FAIL: test_upcasting_scalar_nogemv (test_blas_c.TestCGemvFloat64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\keras\lib\site-packages\theano\tensor\tests\test_blas.py", line 1592, in test_upcasting_scalar_nogemv
+    assert n_gemvs == 1, n_gemvs
+AssertionError: 0
+
+----------------------------------------------------------------------
+Ran 46 tests in 21.855s
+
+FAILED (failures=8)
