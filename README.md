@@ -14,4 +14,4 @@ In our study, we choose [mutmut](https://github.com/boxed/mutmut) to instrument 
 
 ### Our summaries
 
-The summaries can be found in [Theano_summary](https://github.com/fordataupload/testcase/tree/main/Theano_summary), [TF_summary](https://github.com/fordataupload/testcase/tree/main/TF_summary) and [Keras_summary](https://github.com/fordataupload/testcase/tree/main/Keras_summary) directories, and we store them in json files.
+The summaries can be found in [Theano_summary](https://github.com/fordataupload/testcase/Theano_summary), [TF_summary](https://github.com/fordataupload/testcase/TF_summary) and [Keras_summary](https://github.com/fordataupload/testcase/Keras_summary) directories, and we store them in json files.
